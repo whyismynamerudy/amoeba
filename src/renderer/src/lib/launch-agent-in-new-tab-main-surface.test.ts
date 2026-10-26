@@ -32,7 +32,8 @@ function seedMainWindowOnEditor(): ReturnType<typeof createTestStore> {
   const store = createTestStore()
   storeBox.store = store
   seedStore(store, {
-    settings: getDefaultSettings('/tmp'),
+    // These cases cover the terminal route, which is no longer the default.
+    settings: { ...getDefaultSettings('/tmp'), experimentalNativeChat: false },
     worktreesByRepo: {
       repo1: [makeWorktree({ id: MAIN_WORKTREE_ID, repoId: 'repo1', path: '/path/wt1' })]
     },

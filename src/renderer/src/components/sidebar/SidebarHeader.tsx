@@ -6,7 +6,7 @@ import { SidebarHeaderActions } from './sidebar-header-actions'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverAnchor, PopoverArrow, PopoverContent } from '@/components/ui/popover'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Sparkles, Bell } from 'lucide-react'
+import { Sparkles, Bell, FolderTree, MessagesSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { AgentQuestionIcon } from '@/components/AgentQuestionIcon'
 import { useAgentBucketCounts } from '@/components/dashboard/useAgentBucketCounts'
@@ -27,6 +27,10 @@ const SidebarHeader = React.memo(function SidebarHeader({
   const setSidebarBody = useAppStore((s) => s.setSidebarBody)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const agentsViewActive = sidebarBody === 'agents'
+  const projectTasksSidebar = useAppStore((s) => s.settings?.projectTasksSidebar !== false)
+  const tasksToggleLabel = projectTasksSidebar
+    ? translate('projectTasks.toggle.showWorkspaces', 'Show worktrees')
+    : translate('projectTasks.toggle.showTasks', 'Show tasks')
   const counts = useAgentBucketCounts()
   const activityBadgeId = useId()
   const activityCount = counts.attention || counts.working
@@ -46,10 +50,10 @@ const SidebarHeader = React.memo(function SidebarHeader({
   const acknowledgeIntro = React.useCallback(() => {
     void updateSettings?.({ agentsSidebarIntroShown: true })
   }, [updateSettings])
-  const sidebarTitle =
-    groupBy === 'repo'
-      ? translate('dashboard.sidebar.projects', 'Projects')
-      : translate('dashboard.sidebar.workspaces', 'Workspaces')
+  const showsProjects = groupBy === 'repo' || projectTasksSidebar
+  const sidebarTitle = showsProjects
+    ? translate('dashboard.sidebar.projects', 'Projects')
+    : translate('dashboard.sidebar.workspaces', 'Workspaces')
   const activityLabel = translate(
     agentsViewActive ? 'dashboard.sidebar.closeActivity' : 'dashboard.sidebar.openActivity',
     agentsViewActive ? 'Turn off activity view' : 'View activity'
@@ -61,7 +65,7 @@ const SidebarHeader = React.memo(function SidebarHeader({
         <span
           // Truncate localized titles because fixed-width actions cannot shrink inside the short header row.
           className="min-w-0 truncate select-none pl-2 pr-0.5 text-xs font-semibold text-muted-foreground/80"
-          data-sidebar-section-title={groupBy === 'repo' ? 'projects' : 'workspaces'}
+          data-sidebar-section-title={showsProjects ? 'projects' : 'workspaces'}
         >
           {sidebarTitle}
         </span>
@@ -163,6 +167,29 @@ const SidebarHeader = React.memo(function SidebarHeader({
             </div>
           </PopoverContent>
         </Popover>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              aria-label={tasksToggleLabel}
+              onClick={() => {
+                setSidebarBody?.('workspaces')
+                void updateSettings?.({ projectTasksSidebar: !projectTasksSidebar })
+              }}
+            >
+              {projectTasksSidebar ? (
+                <FolderTree className="size-3.5" />
+              ) : (
+                <MessagesSquare className="size-3.5" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={6}>
+            {tasksToggleLabel}
+          </TooltipContent>
+        </Tooltip>
         {agentsViewActive ? (
           <div ref={activityOptionsTarget} className="flex items-center" />
         ) : null}

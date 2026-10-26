@@ -21278,5 +21278,31 @@
     "restartLocal": "Restart local daemon",
     "killAllLocal": "Kill all local sessions",
     "killFailed": "The terminal could not be ended. Last-observed sessions are retained."
+  },
+  "projectTasks": {
+    "untitled": "Untitled task",
+    "location": {
+      "local": "Local",
+      "worktree": "Worktree"
+    },
+    "header": {
+      "browser": "Open browser",
+      "terminal": "Open terminal",
+      "changes": "Review changes",
+      "showTabs": "Show tabs"
+    },
+    "newTask": {
+      "localFailed": "Could not start a local task.",
+      "label": "New task in {{value0}}",
+      "worktree": "New task in a worktree…",
+      "local": "Start locally with"
+    },
+    "unread": "Unread",
+    "empty": "No tasks yet",
+    "noProjects": "Add a project to start your first task.",
+    "toggle": {
+      "showWorkspaces": "Show worktrees",
+      "showTasks": "Show tasks"
+    }
   }
 }
