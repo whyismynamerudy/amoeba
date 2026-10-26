@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import { useAppStore } from '@/store'
 import { activateAndRevealWorktree } from './worktree-activation'
 import { ensureWebRuntimeWorktreeTerminalAfterWake } from './web-runtime-worktree-terminal-after-wake'
@@ -207,7 +207,7 @@ describe('activateAndRevealWorktree', () => {
         }
       },
       settings: {
-        ...getDefaultSettings(''),
+        ...classicShellSettings(''),
         agentCmdOverrides: {}
       },
       markWorktreeVisited: vi.fn(),
@@ -261,7 +261,7 @@ describe('activateAndRevealWorktree', () => {
       tabBarOrderByWorktree: {},
       pendingStartupByTabId: {},
       settings: {
-        ...getDefaultSettings(''),
+        ...classicShellSettings(''),
         agentCmdOverrides: {}
       },
       markWorktreeVisited: vi.fn(),
@@ -311,7 +311,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings(''),
+        ...classicShellSettings(''),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
@@ -374,7 +374,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings(''),
+        ...classicShellSettings(''),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'focused-runtime'
       },
@@ -437,7 +437,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...classicShellSettings('/workspace/.orca-workspaces'),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
@@ -487,7 +487,7 @@ describe('activateAndRevealWorktree', () => {
       },
       ptyIdsByTabId: { 'tab-1': [] },
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...classicShellSettings('/workspace/.orca-workspaces'),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -586,7 +586,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...classicShellSettings('/workspace/.orca-workspaces'),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
@@ -652,7 +652,7 @@ describe('activateAndRevealWorktree', () => {
       },
       ptyIdsByTabId: { 'tab-1': [] },
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...classicShellSettings('/workspace/.orca-workspaces'),
         activeRuntimeEnvironmentId: 'focused-runtime'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({

@@ -133,12 +133,12 @@ describe('loadLocalBuildCandidate', () => {
       const directory = await mkdtemp(join(tmpdir(), 'orca-local-build-zip-'))
       tempDirectories.push(directory)
       const zipRoot = join(directory, 'zip-root')
-      const resources = join(zipRoot, 'Orca.app', 'Contents', 'Resources')
+      const resources = join(zipRoot, 'Amoeba.app', 'Contents', 'Resources')
       await mkdir(resources, { recursive: true })
       await writeFile(join(resources, 'orca-local-build.json'), JSON.stringify(compatibility()))
       const artifactName = 'orca-macos-arm64.zip'
       const artifactPath = join(directory, artifactName)
-      await execFileAsync('/usr/bin/zip', ['-qry', artifactPath, 'Orca.app'], { cwd: zipRoot })
+      await execFileAsync('/usr/bin/zip', ['-qry', artifactPath, 'Amoeba.app'], { cwd: zipRoot })
       const artifact = await readFile(artifactPath)
       const manifestPath = join(directory, 'latest-mac.yml')
       await writeFile(

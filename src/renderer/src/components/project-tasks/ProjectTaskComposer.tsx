@@ -13,6 +13,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { translate } from '@/i18n/i18n'
 import { useAppStore } from '@/store'
+import { getWorktreeMapFromState } from '@/store/selectors'
 import { selectWorktreesByRepo } from '@/store/workspace-record-selectors'
 import { isTuiAgent } from '../../../../shared/tui-agent-config'
 import type { TuiAgent } from '../../../../shared/tui-agent'
@@ -48,8 +49,13 @@ function NoProjects(): React.JSX.Element {
   )
 }
 
-/** Codex-style home: write the task first, then choose project, agent and where it runs. */
-export default function ProjectTaskComposer(): React.JSX.Element {
+/** Codex-style home: write the task first, then choose project, agent and where it runs.
+ *  With `worktreeId` it stands in for an empty workspace and runs tasks in that checkout. */
+export default function ProjectTaskComposer({
+  worktreeId = null
+}: {
+  worktreeId?: string | null
+}): React.JSX.Element {
   useTranslation()
   const repos = useAppStore((s) => s.repos)
   const worktreesByRepo = useAppStore(selectWorktreesByRepo)
@@ -59,7 +65,10 @@ export default function ProjectTaskComposer(): React.JSX.Element {
   const defaultAgent = useDefaultAgent()
   const [agent, setAgent] = useState<TuiAgent | null>(null)
   const [prompt, setPrompt] = useState('')
-  const [location, setLocation] = useState<ProjectTaskLocation>('worktree')
+  const targetWorktree = useAppStore((s) =>
+    worktreeId ? (getWorktreeMapFromState(s).get(worktreeId) ?? null) : null
+  )
+  const [location, setLocation] = useState<ProjectTaskLocation>(worktreeId ? 'local' : 'worktree')
   const [submitting, setSubmitting] = useState(false)
   const promptRef = useRef<HTMLTextAreaElement>(null)
 
@@ -67,17 +76,27 @@ export default function ProjectTaskComposer(): React.JSX.Element {
     promptRef.current?.focus()
   }, [focusRequest])
 
-  const repo = repos.find((candidate) => candidate.id === requestedProjectId) ?? repos[0]
-  if (!repo) {
+  const repo = targetWorktree
+    ? repos.find((candidate) => candidate.id === targetWorktree.repoId)
+    : worktreeId
+      ? undefined
+      : (repos.find((candidate) => candidate.id === requestedProjectId) ?? repos[0])
+  if (!repo && !worktreeId) {
     return (
       <div className="flex min-h-0 flex-1 items-center justify-center px-6">
         <NoProjects />
       </div>
     )
   }
-  const localWorktreeId = findLocalWorktree(repo, worktreesByRepo[repo.id] ?? [])?.id ?? null
-  // Folder projects have no git, so they can only run in place.
-  const canUseWorktree = repo.kind !== 'folder'
+  const localWorktreeId =
+    worktreeId ??
+    (repo ? (findLocalWorktree(repo, worktreesByRepo[repo.id] ?? [])?.id ?? null) : null)
+  // Folder projects and folder workspaces have no git, so they can only run in place.
+  const canUseWorktree = repo !== undefined && repo.kind !== 'folder'
+  const localLabel =
+    targetWorktree && !targetWorktree.isMainWorktree
+      ? targetWorktree.displayName
+      : translate('projectTasks.location.local', 'Local')
   const effectiveLocation: ProjectTaskLocation = canUseWorktree ? location : 'local'
   const selectedAgent = agent ?? defaultAgent
   const trimmedPrompt = prompt.trim()
@@ -98,7 +117,9 @@ export default function ProjectTaskComposer(): React.JSX.Element {
             agent: selectedAgent,
             prompt: trimmedPrompt
           })
-        : await startWorktreeTask({ repo, agent: selectedAgent, prompt: trimmedPrompt })
+        : repo
+          ? await startWorktreeTask({ repo, agent: selectedAgent, prompt: trimmedPrompt })
+          : { ok: false as const, message: '' }
     setSubmitting(false)
     if (result.ok) {
       setPrompt('')
@@ -114,21 +135,27 @@ export default function ProjectTaskComposer(): React.JSX.Element {
           <h1 className="text-2xl font-semibold text-foreground">
             {translate('projectTasks.composer.title', 'What should we build?')}
           </h1>
-          <Select value={repo.id} onValueChange={setProjectId}>
-            <SelectTrigger
-              size="sm"
-              aria-label={translate('projectTasks.composer.project', 'Project')}
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {repos.map((candidate) => (
-                <SelectItem key={candidate.id} value={candidate.id}>
-                  {candidate.displayName}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {repo && !worktreeId ? (
+            <Select value={repo.id} onValueChange={setProjectId}>
+              <SelectTrigger
+                size="sm"
+                aria-label={translate('projectTasks.composer.project', 'Project')}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {repos.map((candidate) => (
+                  <SelectItem key={candidate.id} value={candidate.id}>
+                    {candidate.displayName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <span className="text-sm text-muted-foreground">
+              {targetWorktree?.displayName ?? repo?.displayName}
+            </span>
+          )}
         </div>
         <form
           className="flex flex-col rounded-xl border border-border bg-card shadow-xs focus-within:border-ring"
@@ -175,7 +202,7 @@ export default function ProjectTaskComposer(): React.JSX.Element {
             >
               <ToggleGroupItem value="local">
                 <Laptop className="size-3.5" />
-                {translate('projectTasks.location.local', 'Local')}
+                {localLabel}
               </ToggleGroupItem>
               <ToggleGroupItem value="worktree" disabled={!canUseWorktree}>
                 <GitBranch className="size-3.5" />
@@ -199,7 +226,12 @@ export default function ProjectTaskComposer(): React.JSX.Element {
                 'projectTasks.composer.worktreeHint',
                 'Runs in a new worktree on its own branch, so parallel tasks never collide.'
               )
-            : translate('projectTasks.composer.localHint', 'Runs directly in your project folder.')}
+            : targetWorktree && !targetWorktree.isMainWorktree
+              ? translate('projectTasks.composer.checkoutHint', 'Runs in this worktree.')
+              : translate(
+                  'projectTasks.composer.localHint',
+                  'Runs directly in your project folder.'
+                )}
         </p>
         <div className="flex flex-col items-center gap-1">
           <Button type="button" variant="ghost" size="sm" onClick={openHomeTerminal}>

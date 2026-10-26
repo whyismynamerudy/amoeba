@@ -14,12 +14,13 @@ function app_realpath() {
 
 APP_PATH="$(app_realpath "${BASH_SOURCE[0]}")"
 if [ -z "$APP_PATH" ]; then
-	echo "Unable to determine Orca.app path from symlink: ${BASH_SOURCE[0]}"
+	echo "Unable to determine the app bundle path from symlink: ${BASH_SOURCE[0]}"
 	exit 1
 fi
 
 CONTENTS="$APP_PATH/Contents"
-ELECTRON="$CONTENTS/MacOS/Orca"
+# The bundle's executable follows its product name (Amoeba), so read it rather than hardcode it.
+ELECTRON="$CONTENTS/MacOS/$(/usr/bin/plutil -extract CFBundleExecutable raw "$CONTENTS/Info.plist")"
 # The unpacked entrypoint runs directly in Electron's Node mode.
 CLI="$CONTENTS/Resources/app.asar.unpacked/out/cli/index.js"
 

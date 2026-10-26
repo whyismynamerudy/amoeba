@@ -172,6 +172,9 @@ export function patchPackagedProcessPath(): void {
   }
 }
 
+// The CLI's runtime metadata lookup reads this folder name (src/cli/runtime/metadata.ts).
+const PACKAGED_PROFILE_DIR_NAME = 'orca'
+
 export function configureDevUserDataPath(isDev: boolean): void {
   const e2eConfig = getMainE2EConfig()
   if (e2eConfig.userDataDir) {
@@ -189,6 +192,10 @@ export function configureDevUserDataPath(isDev: boolean): void {
   }
 
   if (!isDev) {
+    // Amoeba renames the bundle; keep the packaged profile in the folder the orca CLI resolves.
+    if (process.platform !== 'win32' && !app.commandLine.hasSwitch('user-data-dir')) {
+      app.setPath('userData', join(app.getPath('appData'), PACKAGED_PROFILE_DIR_NAME))
+    }
     return
   }
   const overrideUserDataPath = process.env.ORCA_DEV_USER_DATA_PATH

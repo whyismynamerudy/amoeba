@@ -17,6 +17,7 @@ vi.mock('electron', () => {
       disableHardwareAcceleration: vi.fn(),
       commandLine: {
         appendSwitch: vi.fn(),
+        hasSwitch: vi.fn(() => false),
         getSwitchValue: vi.fn(() => '')
       }
     }
@@ -333,14 +334,18 @@ describe('configureDevUserDataPath', () => {
     expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'orca-dev'))
   })
 
-  it('leaves packaged runs on the default userData path', async () => {
+  it('keeps packaged runs in the orca profile the CLI reads unless --user-data-dir is set', async () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
 
     vi.mocked(app.setPath).mockClear()
     configureDevUserDataPath(false)
+    vi.mocked(app.commandLine.hasSwitch).mockReturnValueOnce(true)
+    configureDevUserDataPath(false)
 
-    expect(app.setPath).not.toHaveBeenCalled()
+    expect(vi.mocked(app.setPath).mock.calls).toEqual(
+      process.platform === 'win32' ? [] : [['userData', join('/tmp/app-data', 'orca')]]
+    )
   })
 })
 

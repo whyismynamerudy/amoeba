@@ -1,4 +1,5 @@
 import { Suspense, useCallback, useMemo, useState } from 'react'
+import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { useDroppable } from '@dnd-kit/core'
 import { useAppStore } from '../../store'
@@ -71,7 +72,7 @@ export default function TabGroupPanel({
   const rightSidebarOpen = useAppStore((state) => state.rightSidebarOpen)
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
   const model = useTabGroupWorkspaceModel({ groupId, worktreeId })
-  const projectTasksSidebar = useAppStore((state) => state.settings?.projectTasksSidebar !== false)
+  const projectTasksSidebar = useAppStore((state) => isProjectTaskShellEnabled(state.settings))
   // Remember which chat asked for its tabs, so switching conversations restores the header.
   const [tabsShownForTabId, setTabsShownForTabId] = useState<string | null>(null)
   const {

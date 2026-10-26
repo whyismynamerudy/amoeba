@@ -6,7 +6,7 @@ import { existsSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { getLocalBuildIdentity } from './build-mac-local.mjs'
 
-const INSTALL_PATH = '/Applications/Orca.app'
+const INSTALL_PATH = '/Applications/Amoeba.app'
 
 function run(command, args, env) {
   console.log(`[install:mac:local] ${command} ${args.join(' ')}`)
@@ -30,7 +30,7 @@ if (isInstalledAppRunning()) {
 }
 
 const arch = process.arch === 'arm64' ? 'arm64' : 'x64'
-const builtApp = resolve(`dist/mac${arch === 'arm64' ? '-arm64' : ''}/Orca.app`)
+const builtApp = resolve(`dist/mac${arch === 'arm64' ? '-arm64' : ''}/Amoeba.app`)
 
 // The packaged app embeds the mobile web client, which builds from mobile's own install.
 if (!existsSync(resolve('mobile/node_modules'))) {

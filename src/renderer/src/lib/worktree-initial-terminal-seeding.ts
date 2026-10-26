@@ -28,6 +28,7 @@ import { applyDefaultTerminalTabs } from '@/lib/worktree-default-terminal-tabs'
 import { openDefaultAgentChatInEmptyWorkspace } from '@/lib/empty-workspace-default-agent-chat'
 import { isEmptyWorkspaceDefaultSurfacePending } from '@/lib/empty-workspace-default-surface-claims'
 import { findPendingWorktreeCreationId } from './pending-worktree-creation'
+import { isProjectTaskShellSettled } from '../../../shared/project-tasks-settings'
 
 function getSetupRunnerCommandPlatformForLaunch(setup: WorktreeSetupLaunch): 'windows' | 'posix' {
   return getSetupRunnerCommandPlatformForPath(
@@ -179,6 +180,16 @@ export function ensureWorktreeHasInitialTerminal(
     ownerState.pendingWorktreeCreations,
     worktreeId
   )
+  // Amoeba shows the new-task composer for an empty workspace; only explicit launch work gets a shell.
+  if (
+    renderableTabCount === 0 &&
+    !hasExplicitLaunchWork &&
+    !defaultTabs?.tabs.length &&
+    opts?.createNewTerminalForStartup !== true &&
+    isProjectTaskShellSettled(ownerState.settings)
+  ) {
+    return null
+  }
   // Why: a checkout can become selectable before creation has handed off its chosen surface.
   if (
     pendingCreationId &&

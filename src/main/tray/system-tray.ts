@@ -42,9 +42,9 @@ let nativeThemeUpdatedListener: (() => void) | null = null
 // Per-worktree tooltips distinguish concurrent dev instances.
 function baseTooltip(): string {
   if (!devIndicator) {
-    return 'Orca'
+    return 'Amoeba'
   }
-  return devIndicator.label ? `Orca DEV (${devIndicator.label})` : 'Orca DEV'
+  return devIndicator.label ? `Amoeba DEV (${devIndicator.label})` : 'Amoeba DEV'
 }
 
 // Downscale the app image for Windows' 16px notification-area slot.

@@ -10,6 +10,9 @@ import { isGitRepoKind } from '../../../../shared/repo-kind'
 import { useAppStore } from '../../store'
 import { toggleAgentDashboardFromShortcut } from './agent-dashboard-command'
 import { openNewWorkspaceFromShortcut } from './new-workspace-command'
+import { openProjectTaskComposer } from '@/components/project-tasks/project-task-composer-store'
+import { getWorktreeMapFromState } from '@/store/selectors'
+import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 
 export function registerWorkspaceShortcutIpcBridge(unsubs: (() => void)[]): void {
   unsubs.push(
@@ -30,6 +33,14 @@ export function registerWorkspaceShortcutIpcBridge(unsubs: (() => void)[]): void
   unsubs.push(
     window.api.ui.onOpenNewWorkspace(() => {
       const store = useAppStore.getState()
+      // The task shell's "new" is a task in the current project; the Tasks page keeps its issue-linked composer.
+      if (isProjectTaskShellEnabled(store.settings) && store.activeView !== 'tasks') {
+        const activeWorktree = store.activeWorktreeId
+          ? getWorktreeMapFromState(store).get(store.activeWorktreeId)
+          : undefined
+        openProjectTaskComposer(activeWorktree?.repoId)
+        return
+      }
       openNewWorkspaceFromShortcut(store)
     })
   )

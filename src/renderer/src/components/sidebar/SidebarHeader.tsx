@@ -1,4 +1,5 @@
 import React, { useId } from 'react'
+import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 import { useTranslation } from 'react-i18next'
 import { useAppStore } from '@/store'
 import { translate } from '@/i18n/i18n'
@@ -27,7 +28,7 @@ const SidebarHeader = React.memo(function SidebarHeader({
   const setSidebarBody = useAppStore((s) => s.setSidebarBody)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const agentsViewActive = sidebarBody === 'agents'
-  const projectTasksSidebar = useAppStore((s) => s.settings?.projectTasksSidebar !== false)
+  const projectTasksSidebar = useAppStore((s) => isProjectTaskShellEnabled(s.settings))
   const tasksToggleLabel = projectTasksSidebar
     ? translate('projectTasks.toggle.showWorkspaces', 'Show worktrees')
     : translate('projectTasks.toggle.showTasks', 'Show tasks')

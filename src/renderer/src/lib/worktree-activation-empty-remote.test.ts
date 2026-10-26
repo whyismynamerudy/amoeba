@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import type { Worktree } from '../../../shared/worktree/types'
 import { resetWebRuntimeWakeTerminalRespawnForTests } from '@/runtime/web-runtime-wake-terminal-respawn'
 import { resetWebSessionTabsSnapshotFreshnessForTests } from '@/runtime/web-session-tabs-sync/tracking-lifecycle'
@@ -91,7 +91,7 @@ describe('empty remote worktree activation', () => {
       tabsByWorktree: {},
       ptyIdsByTabId: {},
       settings: {
-        ...getDefaultSettings(ORCA_WORKSPACES_PATH),
+        ...classicShellSettings(ORCA_WORKSPACES_PATH),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -153,7 +153,7 @@ describe('empty remote worktree activation', () => {
       tabsByWorktree: {},
       ptyIdsByTabId: {},
       settings: {
-        ...getDefaultSettings(ORCA_WORKSPACES_PATH),
+        ...classicShellSettings(ORCA_WORKSPACES_PATH),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -194,7 +194,7 @@ describe('empty remote worktree activation', () => {
       tabsByWorktree: { [worktree.id]: [] },
       ptyIdsByTabId: {},
       settings: {
-        ...getDefaultSettings(ORCA_WORKSPACES_PATH),
+        ...classicShellSettings(ORCA_WORKSPACES_PATH),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -244,7 +244,7 @@ describe('empty remote worktree activation', () => {
       },
       ptyIdsByTabId: {},
       settings: {
-        ...getDefaultSettings(ORCA_WORKSPACES_PATH),
+        ...classicShellSettings(ORCA_WORKSPACES_PATH),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -294,7 +294,7 @@ describe('empty remote worktree activation', () => {
       },
       ptyIdsByTabId: {},
       settings: {
-        ...getDefaultSettings(ORCA_WORKSPACES_PATH),
+        ...classicShellSettings(ORCA_WORKSPACES_PATH),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({

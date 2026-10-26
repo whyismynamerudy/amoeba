@@ -1,6 +1,6 @@
 import { afterEach, vi } from 'vitest'
 import type { Mock } from 'vitest'
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import { resetHookCommandDelayedDeliveryForTests } from './hook-command-delayed-delivery'
 import { useAppStore } from '@/store'
 
@@ -16,7 +16,7 @@ export function setLegacySetupScriptLaunchMode(
   mode: 'split-vertical' | 'split-horizontal' | 'new-tab' | null
 ): void {
   useAppStore.setState((state) => ({
-    settings: { ...(state.settings ?? getDefaultSettings('')), setupScriptLaunchMode: mode }
+    settings: { ...(state.settings ?? classicShellSettings('')), setupScriptLaunchMode: mode }
   }))
 }
 

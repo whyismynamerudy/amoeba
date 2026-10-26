@@ -1,4 +1,5 @@
 import { useAppStore } from '../../store'
+import { isProjectTaskShellSettled } from '../../../../shared/project-tasks-settings'
 import { ORCA_LAYOUT_OWNER_IS_MAIN } from '../../../../shared/layout-owner-switch'
 import { isFrameDrawnServerWorkspace } from './frame-drawn-server-workspaces'
 import { isWebRuntimeInitialTerminalBootstrapInFlight } from '../web-runtime-initial-terminal-bootstrap'
@@ -43,6 +44,10 @@ export function createInitialTerminalSeeder(
       return false
     }
     const state = useAppStore.getState()
+    // Amoeba's task composer stands in for an empty remote workspace too.
+    if (isProjectTaskShellSettled(state.settings)) {
+      return false
+    }
     return shouldBootstrapInitialWebRuntimeTerminal({
       event,
       activeWorktreeId: worktreeId,

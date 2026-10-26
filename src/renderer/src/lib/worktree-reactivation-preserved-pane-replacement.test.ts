@@ -1,4 +1,4 @@
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import path from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { useAppStore, type AppState } from '@/store'
@@ -64,7 +64,7 @@ function baseState(worktree: ReturnType<typeof makeWorktree>): Partial<AppState>
     ptyIdsByTabId: {},
     terminalLayoutsByTabId: {},
     settings: {
-      ...getDefaultSettings(''),
+      ...classicShellSettings(''),
       agentCmdOverrides: {}
     },
     markWorktreeVisited: vi.fn(),
