@@ -21292,10 +21292,8 @@
       "showTabs": "Show tabs"
     },
     "newTask": {
-      "localFailed": "Could not start a local task.",
       "label": "New task in {{value0}}",
-      "worktree": "New task in a worktree…",
-      "local": "Start locally with"
+      "button": "New task"
     },
     "unread": "Unread",
     "empty": "No tasks yet",
@@ -21303,6 +21301,22 @@
     "toggle": {
       "showWorkspaces": "Show worktrees",
       "showTasks": "Show tasks"
+    },
+    "composer": {
+      "agent": "Agent: {{value0}}",
+      "noProjectsTitle": "Add a project to get started",
+      "noProjectsBody": "Tasks run in a project folder, either in place or in their own worktree.",
+      "addProject": "Add project",
+      "title": "What should we build?",
+      "project": "Project",
+      "placeholder": "Describe a task, ask a question, or paste an error…",
+      "prompt": "Task prompt",
+      "location": "Where the task runs",
+      "start": "Start task",
+      "worktreeHint": "Runs in a new worktree on its own branch, so parallel tasks never collide.",
+      "localHint": "Runs directly in your project folder.",
+      "localFailed": "Could not start a local task.",
+      "worktreeFailed": "Could not create the worktree."
     }
   }
 }

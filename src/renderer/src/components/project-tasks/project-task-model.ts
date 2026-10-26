@@ -60,7 +60,8 @@ function shortBranchName(branch: string): string | null {
   return trimmed.startsWith('refs/heads/') ? trimmed.slice('refs/heads/'.length) : trimmed
 }
 
-function findLocalWorktree(repo: Repo, worktrees: readonly Worktree[]): Worktree | null {
+/** The checkout Local tasks run in: the git main checkout, or a folder project's only folder. */
+export function findLocalWorktree(repo: Repo, worktrees: readonly Worktree[]): Worktree | null {
   const main = worktrees.find((worktree) => worktree.isMainWorktree)
   if (main) {
     return main

@@ -1,6 +1,7 @@
 import { Suspense, useRef } from 'react'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { translate } from '@/i18n/i18n'
+import { useAppStore } from '@/store'
 import Sidebar from '../components/Sidebar'
 import RightSidebar from '../components/right-sidebar'
 import { RecoverableRenderErrorBoundary } from '../components/error-boundaries/RecoverableRenderErrorBoundary'
@@ -13,6 +14,7 @@ import type { AppChromeLayout } from './use-app-chrome-layout'
 import type { FloatingWorkspacePanelState } from './use-floating-workspace-panel'
 
 const Landing = lazy(() => import('../components/Landing'))
+const ProjectTaskComposer = lazy(() => import('../components/project-tasks/ProjectTaskComposer'))
 const WorktreeCreationPanel = lazy(
   () => import('../components/worktree-creation/WorktreeCreationPanel')
 )
@@ -66,6 +68,7 @@ function WorktreeSidebar({
 
 function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element {
   const { activeView, activeWorktreeId, activePendingCreationId, creationLayoutActive } = layout
+  const projectTasksSidebar = useAppStore((s) => s.settings?.projectTasksSidebar !== false)
   return (
     <>
       {activeView === 'settings' ? <Settings /> : null}
@@ -82,7 +85,13 @@ function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element 
           reserveCollapsedSidebarHeaderSpace={layout.leftTitlebarChromeLayout.isFloating}
         />
       ) : null}
-      {activeView === 'terminal' && !activeWorktreeId && !creationLayoutActive ? <Landing /> : null}
+      {activeView === 'terminal' && !activeWorktreeId && !creationLayoutActive ? (
+        projectTasksSidebar ? (
+          <ProjectTaskComposer />
+        ) : (
+          <Landing />
+        )
+      ) : null}
     </>
   )
 }

@@ -1,6 +1,16 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, FolderClosed, FolderOpen, GitBranch, Laptop } from 'lucide-react'
+import {
+  ChevronRight,
+  FolderClosed,
+  FolderOpen,
+  GitBranch,
+  Laptop,
+  Plus,
+  SquarePen
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { AgentStateDot, type AgentDotState } from '@/components/AgentStateDot'
 import { formatRelativeTime } from '@/components/activity/activity-thread-presentation'
 import { translate } from '@/i18n/i18n'
@@ -10,7 +20,7 @@ import { cn } from '@/lib/utils'
 import { useAppStore } from '@/store'
 import { activateProjectTask } from './project-task-activation'
 import type { ProjectTask, ProjectTaskGroup } from './project-task-model'
-import { ProjectTaskNewMenu } from './ProjectTaskNewMenu'
+import { openProjectTaskComposer } from './project-task-composer-store'
 import { useProjectTaskGroups } from './use-project-task-groups'
 
 // Settled outcomes read from the row's time instead; only live or attention states earn a glyph.
@@ -76,7 +86,7 @@ const ProjectTaskRow = React.memo(function ProjectTaskRow({
         >
           {title}
         </span>
-        <span className="flex min-w-0 items-center gap-1 text-[11px] leading-4 text-muted-foreground">
+        <span className="flex min-w-0 items-center gap-1 text-2xs leading-4 text-muted-foreground">
           {task.location === 'local' ? (
             <Laptop className="size-3 shrink-0" aria-hidden="true" />
           ) : (
@@ -85,7 +95,7 @@ const ProjectTaskRow = React.memo(function ProjectTaskRow({
           <span className="min-w-0 truncate">{where}</span>
         </span>
       </span>
-      <span className="mt-[3px] flex shrink-0 items-center gap-1 text-[11px] leading-4 text-muted-foreground">
+      <span className="mt-[3px] flex shrink-0 items-center gap-1 text-2xs leading-4 text-muted-foreground">
         {task.state && GLYPH_STATES.has(task.state) ? (
           <AgentStateDot state={task.state} />
         ) : (
@@ -103,6 +113,33 @@ const ProjectTaskRow = React.memo(function ProjectTaskRow({
     </button>
   )
 })
+
+function NewProjectTaskButton({ group }: { group: ProjectTaskGroup }): React.JSX.Element {
+  const label = translate('projectTasks.newTask.label', 'New task in {{value0}}', {
+    value0: group.name
+  })
+  return (
+    // Reveal on project hover like other sidebar row actions; keep it reachable by keyboard.
+    <span className="inline-flex opacity-0 group-hover/project:opacity-100 focus-within:opacity-100">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-xs"
+            aria-label={label}
+            onClick={() => openProjectTaskComposer(group.projectId)}
+          >
+            <Plus className="size-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" sideOffset={6}>
+          {label}
+        </TooltipContent>
+      </Tooltip>
+    </span>
+  )
+}
 
 const ProjectTaskGroupSection = React.memo(function ProjectTaskGroupSection({
   group,
@@ -135,12 +172,12 @@ const ProjectTaskGroupSection = React.memo(function ProjectTaskGroupSection({
           <FolderIcon className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
           <span className="min-w-0 truncate">{group.name}</span>
         </button>
-        <ProjectTaskNewMenu group={group} />
+        <NewProjectTaskButton group={group} />
       </div>
       {collapsed ? null : (
         <div role="list" className="flex flex-col gap-px py-0.5 pl-3">
           {group.tasks.length === 0 ? (
-            <div className="px-2 py-1 text-[12px] text-muted-foreground">
+            <div className="px-2 py-1 text-xs text-muted-foreground">
               {translate('projectTasks.empty', 'No tasks yet')}
             </div>
           ) : (
@@ -174,8 +211,16 @@ export default function ProjectTasksList(): React.JSX.Element {
 
   return (
     <div className="scrollbar-sleek min-h-0 flex-1 overflow-y-auto px-2 pt-1 pb-2">
+      <button
+        type="button"
+        onClick={() => openProjectTaskComposer()}
+        className="mb-1.5 flex h-8 w-full items-center gap-2 rounded-lg px-2 text-left text-[13px] font-medium text-foreground outline-none worktree-sidebar-card-hover focus-visible:ring-1 focus-visible:ring-ring"
+      >
+        <SquarePen className="size-3.5 text-muted-foreground" aria-hidden="true" />
+        {translate('projectTasks.newTask.button', 'New task')}
+      </button>
       {groups.length === 0 ? (
-        <div className="px-2 py-3 text-[12px] leading-5 text-muted-foreground">
+        <div className="px-2 py-3 text-xs leading-5 text-muted-foreground">
           {translate('projectTasks.noProjects', 'Add a project to start your first task.')}
         </div>
       ) : (

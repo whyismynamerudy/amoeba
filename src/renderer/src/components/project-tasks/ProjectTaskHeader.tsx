@@ -79,7 +79,7 @@ export function ProjectTaskHeader({
       </span>
       <span className="min-w-0 truncate text-[13px] font-medium text-foreground">{title}</span>
       <span
-        className="inline-flex min-w-0 shrink items-center gap-1 rounded-md border border-border px-1.5 py-px text-[11px] text-muted-foreground"
+        className="inline-flex min-w-0 shrink items-center gap-1 rounded-md border border-border px-1.5 py-px text-2xs text-muted-foreground"
         style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
       >
         {isLocal ? (
