@@ -70,7 +70,7 @@ describe('what a lookup may spawn', () => {
   it('never asks Codex outside the app, reading only what the app learned', async () => {
     const answer = await resolveCodexHookAnswer()
 
-    expect(answer).toEqual({ kind: 'pending', failure: 'Orca has not asked Codex yet' })
+    expect(answer).toEqual({ kind: 'pending', failure: 'Amoeba has not asked Codex yet' })
     expect(mocks.probeCodexVersion).not.toHaveBeenCalled()
 
     allowAsking()
@@ -175,7 +175,7 @@ describe('what a lookup may spawn', () => {
 
     expect(missing).toEqual({
       kind: 'pending',
-      failure: `Orca could not find Codex at ${mocks.codexPath}`,
+      failure: `Amoeba could not find Codex at ${mocks.codexPath}`,
       codexMissing: true
     })
     writeFileSync(mocks.codexPath, 'codex 0.150.1')
@@ -188,7 +188,7 @@ describe('what a lookup may spawn', () => {
     mocks.deriveCodexHookHashes.mockResolvedValue({
       kind: 'refused',
       codexVersion: 'codex-cli 0.150.1',
-      failure: 'Codex 0.150.1 did not recognize Orca status hook'
+      failure: 'Codex 0.150.1 did not recognize Amoeba status hook'
     })
     await resolveCodexHookAnswer()
     // Simulate a restart retaining the persisted answer.
@@ -234,7 +234,7 @@ describe('the answer status reads', () => {
 
     expect(readKnownCodexHookAnswer()).toEqual({
       kind: 'pending',
-      failure: `Orca could not find Codex at ${mocks.codexPath}`,
+      failure: `Amoeba could not find Codex at ${mocks.codexPath}`,
       codexMissing: true
     })
   })

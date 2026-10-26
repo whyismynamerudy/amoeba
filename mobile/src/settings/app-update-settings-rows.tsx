@@ -36,11 +36,11 @@ export function AppUpdateSettingsRows(props: {
   const versionRow = available ? (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`Update to Orca ${available.version}`}
+      accessibilityLabel={`Update to Amoeba ${available.version}`}
       style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
       onPress={() => onUpdate(available.url)}
     >
-      <Text style={styles.rowLabel}>Update to Orca {available.version}</Text>
+      <Text style={styles.rowLabel}>Update to Amoeba {available.version}</Text>
       <Text style={styles.actionValue}>Update</Text>
     </Pressable>
   ) : installedVersion ? (

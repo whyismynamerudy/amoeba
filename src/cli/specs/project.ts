@@ -4,7 +4,7 @@ import { GLOBAL_FLAGS } from '../args'
 export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['project', 'list'],
-    summary: 'List durable projects known to Orca',
+    summary: 'List durable projects known to Amoeba',
     usage: 'orca project list [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     examples: ['orca project list', 'orca project list --json']
@@ -16,7 +16,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     allowedFlags: [...GLOBAL_FLAGS, 'project', 'host'],
     notes: [
       'A setup means a project is available on a host at a concrete filesystem path.',
-      '--host runtime:<environment-id> runs the command on that paired Orca server instead of filtering this runtime; unknown environment ids are rejected rather than answered with an empty list.',
+      '--host runtime:<environment-id> runs the command on that paired Amoeba server instead of filtering this runtime; unknown environment ids are rejected rather than answered with an empty list.',
       'Run `orca environment list` to see the environment ids that runtime:<environment-id> accepts. It matches ids only, never environment names.',
       "A routed --host runtime:<id> also lists that server's own local-stamped setups, because both spellings name the machine the command reached."
     ],
@@ -80,7 +80,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     notes: [
       'Creates setup metadata without registering a repo compatibility record.',
       '--host takes local, ssh:<target-id>, runtime:<environment-id>, or the bare host name `orca host list` prints for any of them.',
-      'Use setup-existing-folder when Orca should import and manage an actual checkout path now.'
+      'Use setup-existing-folder when Amoeba should import and manage an actual checkout path now.'
     ],
     examples: [
       'orca project setup-create --project github:stablyai/orca --host runtime:03ef704c-b180-4b10-998d-e28fbd5de9a3 --state setting-up --method provisioned --json'

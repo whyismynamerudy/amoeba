@@ -39,21 +39,21 @@ export const RuntimeSshTunnelLinkSchema = z.object({
 
 export type RuntimeSshTunnelLink = z.infer<typeof RuntimeSshTunnelLinkSchema>
 
-/** A server Orca deployed and owns over SSH; unlike sshAccess, it grants lifecycle ownership. */
+/** A server Amoeba deployed and owns over SSH; unlike sshAccess, it grants lifecycle ownership. */
 export const OrcadSshDeploymentLinkSchema = RuntimeSshTunnelLinkSchema.extend({
   // Absent on disk: the sidecar persists SSH links without it, so older builds read them unchanged.
   kind: z.literal('ssh').optional()
 })
 export type OrcadSshDeploymentLink = z.infer<typeof OrcadSshDeploymentLinkSchema>
 
-/** A server Orca deployed and owns; the WSL kind is persisted only in wsl-host-deployment-store. */
+/** A server Amoeba deployed and owns; the WSL kind is persisted only in wsl-host-deployment-store. */
 export const OrcadDeploymentLinkSchema = z.union([
   OrcadSshDeploymentLinkSchema,
   OrcadWslDeploymentLinkSchema
 ])
 export type OrcadDeploymentLink = z.infer<typeof OrcadDeploymentLinkSchema>
 
-/** The managed deployment Orca owns over SSH; undefined for none or a WSL one. */
+/** The managed deployment Amoeba owns over SSH; undefined for none or a WSL one. */
 export function getOrcadSshDeployment(environment: {
   orcadDeployment?: OrcadDeploymentLink | null
 }): OrcadSshDeploymentLink | undefined {
@@ -228,14 +228,14 @@ export function isUserManagedRuntimeEnvironment(
   return !isEphemeralVmRuntimeEnvironment(environment)
 }
 
-/** Only the user re-pairs these, with an access link; Orca pairs managed and cloud servers itself. */
+/** Only the user re-pairs these, with an access link; Amoeba pairs managed and cloud servers itself. */
 export function isRepairableWithAccessLink(
   environment: Pick<PublicKnownRuntimeEnvironment, 'source' | 'orcadDeployment'>
 ): boolean {
   return !environment.orcadDeployment && isUserManagedRuntimeEnvironment(environment)
 }
 
-/** Who pairs a server that refused this desktop: the user with a link, Orca over SSH, or Orca on Connect. */
+/** Who pairs a server that refused this desktop: the user with a link, Amoeba over SSH, or Amoeba on Connect. */
 export type RuntimePairingRepairRoute = 'access-link' | 'ssh' | 'connect'
 
 export function runtimePairingRepairRoute(

@@ -1,4 +1,6 @@
-import { Suspense, useCallback, useMemo } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
+import { ConversationWorkspaceNavigation } from './ConversationWorkspaceNavigation'
+import { FLOATING_TERMINAL_WORKTREE_ID } from '../../../../shared/constants'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { useDroppable } from '@dnd-kit/core'
 import { useAppStore } from '../../store'
@@ -70,6 +72,16 @@ export default function TabGroupPanel({
   const rightSidebarOpen = useAppStore((state) => state.rightSidebarOpen)
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
   const model = useTabGroupWorkspaceModel({ groupId, worktreeId })
+  const [showAllTabs, setShowAllTabs] = useState<boolean | null>(null)
+  const conversationNavigation =
+    tabStrip === 'attached' && worktreeId !== FLOATING_TERMINAL_WORKTREE_ID
+  const tabsOpen =
+    showAllTabs ??
+    (!conversationNavigation ||
+      !model.agentSessionItems.length ||
+      hasSplitGroups ||
+      (model.activeTab?.contentType !== 'agent-session' &&
+        model.activeTab?.contentType !== 'browser'))
   const {
     activeTab,
     agentSessionItems,
@@ -287,7 +299,15 @@ export default function TabGroupPanel({
                 }
               />
             ) : null}
-            <div className="min-w-0 flex-1 h-full">{tabBar}</div>
+            <div className="min-w-0 flex-1 h-full">
+              {tabsOpen ? (
+                tabBar
+              ) : (
+                <div className="flex h-full items-center px-3 text-xs text-muted-foreground">
+                  {translate('amoeba.workspace.title', 'Amoeba')}
+                </div>
+              )}
+            </div>
             <div
               className={actionChromeClassName}
               style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
@@ -316,6 +336,16 @@ export default function TabGroupPanel({
           </div>
         </div>
       )}
+
+      {conversationNavigation && isVisible ? (
+        <ConversationWorkspaceNavigation
+          model={model}
+          groupId={groupId}
+          worktreeId={worktreeId}
+          tabsOpen={tabsOpen}
+          onToggleTabs={() => setShowAllTabs(!tabsOpen)}
+        />
+      ) : null}
 
       <div
         ref={setBodyRef}

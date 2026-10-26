@@ -8,7 +8,7 @@ describe('structuredCompactionOutcome', () => {
     })
   })
 
-  it("reads no compaction after Orca's interrupt as the user's cancellation", () => {
+  it("reads no compaction after Amoeba's interrupt as the user's cancellation", () => {
     expect(
       structuredCompactionOutcome({
         compacted: false,

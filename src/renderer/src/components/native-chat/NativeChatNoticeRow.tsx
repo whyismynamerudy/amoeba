@@ -131,7 +131,7 @@ export function NativeChatNoticeRow({
       </Card>
     )
   }
-  // Name Orca and its host as the stop cause; without host context, preserve the original words.
+  // Name Amoeba and its host as the stop cause; without host context, preserve the original words.
   const { orcaStop } = block
   const { hostLabel, remoteHost, continueAvailable } = orcaStopView
   // A paired server with no name to show is still a remote server; its id is not a name.

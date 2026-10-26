@@ -99,7 +99,7 @@ export function openSharedControlSocket(
       }
       callbacks.onSocketClosed(
         remoteRuntimeUnavailableError(
-          'Remote Orca runtime stopped responding; resetting the control connection.'
+          'Remote Amoeba runtime stopped responding; resetting the control connection.'
         ),
         cause
       )

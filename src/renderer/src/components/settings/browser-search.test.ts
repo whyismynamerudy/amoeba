@@ -74,14 +74,14 @@ describe('browser settings search copy', () => {
   // Default-off inversion must preserve existing copy byte-for-byte.
   it('keeps the pre-feature wording while inverting is off', () => {
     expect(getBrowserLinkRoutingDescription({ isMac: true })).toBe(
-      "Open http(s) links in Orca's built-in browser — from the terminal, markdown, and the editor. ⇧⌘-click always uses your system browser."
+      "Open http(s) links in Amoeba's built-in browser — from the terminal, markdown, and the editor. ⇧⌘-click always uses your system browser."
     )
     expect(getBrowserLinkRoutingDescription({ isMac: false })).toContain(
       'Shift+Ctrl+click always uses your system browser.'
     )
   })
 
-  // Once inversion can route to Orca, the parent row cannot claim the chord always uses the system browser.
+  // Once inversion can route to Amoeba, the parent row cannot claim the chord always uses the system browser.
   it('drops the modifier claim once inverting is on', () => {
     const description = getBrowserLinkRoutingDescription({ isMac: true }, true)
     expect(description).not.toContain('click')
@@ -97,7 +97,7 @@ describe('browser link routing modifier copy', () => {
       'Default Search Engine',
       'Default Zoom',
       'Link Routing',
-      'Hold Shift to open in Orca',
+      'Hold Shift to open in Amoeba',
       'Terminal URL clicks',
       'Localhost Worktree Labels',
       'Session & Cookies',
@@ -111,7 +111,7 @@ describe('browser link routing modifier copy', () => {
   })
 
   it('names the destination the modifier actually reaches', () => {
-    expect(getLinkRoutingModifierTitle(false)).toBe('Hold Shift to open in Orca')
+    expect(getLinkRoutingModifierTitle(false)).toBe('Hold Shift to open in Amoeba')
     expect(getLinkRoutingModifierTitle(true)).toBe('Hold Shift to open in your web browser')
   })
 
@@ -124,9 +124,9 @@ describe('browser link routing modifier copy', () => {
     )
   })
 
-  it('points the description at Orca only when links currently open externally', () => {
+  it('points the description at Amoeba only when links currently open externally', () => {
     expect(getLinkRoutingModifierDescription({ openLinksInApp: false, isMac: true })).toContain(
-      "Orca's built-in browser"
+      "Amoeba's built-in browser"
     )
     expect(getLinkRoutingModifierDescription({ openLinksInApp: true, isMac: true })).toContain(
       'system browser'
@@ -134,7 +134,7 @@ describe('browser link routing modifier copy', () => {
   })
 
   // Default-off inversion needs enabled-state wording rather than promising current behavior.
-  it('phrases the Orca branch as enabled-state copy', () => {
+  it('phrases the Amoeba branch as enabled-state copy', () => {
     expect(getLinkRoutingModifierDescription({ openLinksInApp: false, isMac: true })).toContain(
       'When enabled'
     )
@@ -169,7 +169,7 @@ describe('Link Routing description localization', () => {
     const description = getBrowserLinkRoutingDescription({ isMac: true })
     expect(description).toBe(koCopy.replace('{{shortcut}}', '⇧⌘-click'))
     expect(description).not.toMatch(/\{\{.+?\}\}/)
-    expect(description).not.toContain("Orca's built-in browser")
+    expect(description).not.toContain("Amoeba's built-in browser")
 
     // The entry title is localized too, so match on the description instead.
     const entry = getBrowserPaneSearchEntries({ isMac: true }).find(
@@ -178,7 +178,7 @@ describe('Link Routing description localization', () => {
     expect(entry).toBeDefined()
 
     await i18n.changeLanguage('en')
-    expect(getBrowserLinkRoutingDescription({ isMac: true })).toContain("Orca's built-in browser")
+    expect(getBrowserLinkRoutingDescription({ isMac: true })).toContain("Amoeba's built-in browser")
   })
 
   it('renders the Korean copy for the invert-on variant', async () => {
@@ -192,7 +192,7 @@ describe('Link Routing description localization', () => {
 
     const description = getBrowserLinkRoutingDescription({ isMac: true }, true)
     expect(description).toBe(koBase)
-    expect(description).not.toContain("Orca's built-in browser")
+    expect(description).not.toContain("Amoeba's built-in browser")
   })
 
   it('uses the catalog key rather than an inline literal', () => {

@@ -47,7 +47,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     allowedFlags: [...GLOBAL_FLAGS, 'conversation'],
     notes: [
       CONNECTOR_NOTES[0],
-      'An approval or a one-question single choice can be answered here; anything else reads unsupported, to answer in Orca.'
+      'An approval or a one-question single choice can be answered here; anything else reads unsupported, to answer in Amoeba.'
     ]
   },
   {

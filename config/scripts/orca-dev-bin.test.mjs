@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 const projectDir = path.resolve(import.meta.dirname, '../..')
 const wrapperPath = path.join(projectDir, 'config', 'scripts', 'orca-dev.mjs')
 
-describe('orca-dev package bin', () => {
+describe('amoeba-dev package bin', () => {
   it('runs the dev CLI through Node without requiring Bash', () => {
     const root = mkdtempSync(path.join(tmpdir(), 'orca-dev-bin-'))
     const cliEntry = path.join(root, 'cli-entry.cjs')

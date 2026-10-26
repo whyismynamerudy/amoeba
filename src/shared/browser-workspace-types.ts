@@ -156,7 +156,7 @@ export type BrowserSessionProfile = {
   partition: string
   label: string
   source: BrowserSessionProfileSource | null
-  /** Set when Orca manages this profile for one repo or workspace; it goes when its owner is removed. */
+  /** Set when Amoeba manages this profile for one repo or workspace; it goes when its owner is removed. */
   owner?: ManagedBrowserProfileOwner
 }
 

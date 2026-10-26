@@ -139,7 +139,7 @@ describe('orchestration skill agent coverage', () => {
         'claude',
         [
           skill({
-            name: 'Orca Orchestration',
+            name: 'Amoeba Orchestration',
             providers: ['claude'],
             sourceKind: 'home',
             rootPath: '/Users/test/.claude/skills',

@@ -34,33 +34,33 @@ describe('grantDirAcl', () => {
   })
 
   it('replaces the user rule with inheritable full control, by SID, in-process', () => {
-    grantDirAcl('C:\\Users\\alice\\Orca')
+    grantDirAcl('C:\\Users\\alice\\Amoeba')
 
     expect(fake.calls).toMatchObject([
-      { op: 'grant', path: 'C:\\Users\\alice\\Orca', ...USER_DIRECTORY_GRANT }
+      { op: 'grant', path: 'C:\\Users\\alice\\Amoeba', ...USER_DIRECTORY_GRANT }
     ])
   })
 
   it('runs the asynchronous grant on the thread pool rather than the main thread', async () => {
-    await grantDirAclAsync('C:\\Users\\alice\\Orca')
+    await grantDirAclAsync('C:\\Users\\alice\\Amoeba')
 
     expect(fake.calls).toMatchObject([
-      { op: 'grantAsync', path: 'C:\\Users\\alice\\Orca', ...USER_DIRECTORY_GRANT }
+      { op: 'grantAsync', path: 'C:\\Users\\alice\\Amoeba', ...USER_DIRECTORY_GRANT }
     ])
   })
 
   it('throws a failed grant so the caller can surface its original error', async () => {
-    fake.failing.add('C:\\Orca')
+    fake.failing.add('C:\\Amoeba')
 
-    expect(() => grantDirAcl('C:\\Orca')).toThrow(/Win32 error 5/)
-    await expect(grantDirAclAsync('C:\\Orca')).rejects.toThrow(/Win32 error 5/)
+    expect(() => grantDirAcl('C:\\Amoeba')).toThrow(/Win32 error 5/)
+    await expect(grantDirAclAsync('C:\\Amoeba')).rejects.toThrow(/Win32 error 5/)
   })
 
   it('is a silent no-op when the addon cannot load', async () => {
     setWindowsSecurityForTests(null)
 
-    expect(() => grantDirAcl('C:\\Orca')).not.toThrow()
-    await expect(grantDirAclAsync('C:\\Orca')).resolves.toBeUndefined()
+    expect(() => grantDirAcl('C:\\Amoeba')).not.toThrow()
+    await expect(grantDirAclAsync('C:\\Amoeba')).resolves.toBeUndefined()
     expect(fake.calls).toEqual([])
   })
 })

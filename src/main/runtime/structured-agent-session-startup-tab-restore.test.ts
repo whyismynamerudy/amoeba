@@ -236,10 +236,10 @@ async function tabIndexOnDisk(): Promise<string[] | undefined> {
 
 describe('restoring the chat tabs open at quit', () => {
   it.each([
-    { store: 'records a newer Orca wrote', newer: true, writesFail: false },
+    { store: 'records a newer Amoeba wrote', newer: true, writesFail: false },
     { store: 'a store whose writes keep failing', newer: false, writesFail: true }
   ])(
-    'lists every chat from $store and writes nothing; it reads them unless a newer Orca saved them',
+    'lists every chat from $store and writes nothing; it reads them unless a newer Amoeba saved them',
     async ({ newer, writesFail }) => {
       const records = [
         chatRecord(CHAT_A),
@@ -272,7 +272,7 @@ describe('restoring the chat tabs open at quit', () => {
           (tab) => tab.type !== 'agent-session' || tab.replacesSessionId === undefined
         )
       ).toBe(true)
-      // A newer Orca's leases are adjudicated in memory, so nothing fails there; its chats do not open.
+      // A newer Amoeba's leases are adjudicated in memory, so nothing fails there; its chats do not open.
       if (newer) {
         for (const sessionId of [CHAT_A, CHAT_B]) {
           await expect(

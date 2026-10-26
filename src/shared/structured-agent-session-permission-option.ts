@@ -117,7 +117,7 @@ export function legacyHostPermissionDescriptor(): SessionOptionDescriptor {
           value: LEGACY_HOST_PERMISSION_VALUE,
           label: "Host's Agent Permissions",
           description:
-            "This host runs an older Orca that applies its Agent Permissions to every chat and can't ask per chat. Update Orca on the host to choose a mode here."
+            "This host runs an older Amoeba that applies its Agent Permissions to every chat and can't ask per chat. Update Amoeba on the host to choose a mode here."
         }
       ]
     },

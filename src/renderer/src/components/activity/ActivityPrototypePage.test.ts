@@ -191,7 +191,7 @@ import { folderWorkspaceKey } from '../../../../shared/workspace-scope'
         entries: {
           [PANE_KEY]: {
             ...makeWorkingEntryWithoutHistory(),
-            prompt: 'You are working inside Orca, a multi-agent IDE.',
+            prompt: 'You are working inside Amoeba, a multi-agent IDE.',
             orchestration: {
               taskId: 'task-1',
               dispatchId: 'ctx-1',

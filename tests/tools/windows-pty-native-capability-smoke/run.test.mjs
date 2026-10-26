@@ -4,8 +4,8 @@ import { checkoutRunProcessPath, formatProbeFailure, packagedProbeInvocation } f
 
 describe('packaged Windows native smoke runner boundary', () => {
   it('uses one checkout-owned runner for current and affected package paths', () => {
-    const current = packagedProbeInvocation('/ci/current/dist/win-unpacked/Orca.exe')
-    const affected = packagedProbeInvocation('/ci/1.4.158/dist/win-unpacked/Orca.exe')
+    const current = packagedProbeInvocation('/ci/current/dist/win-unpacked/Amoeba.exe')
+    const affected = packagedProbeInvocation('/ci/1.4.158/dist/win-unpacked/Amoeba.exe')
 
     expect(checkoutRunProcessPath()).toBe(
       createRequire(import.meta.url).resolve('@orca/process-host')

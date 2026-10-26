@@ -16,7 +16,7 @@ export function handleCodexSessionExit(input: {
   sessionId: string
   connection: CodexAppServerConnection | null
   error: Error
-  /** Includes root exits reported during or after an Orca close attempt. */
+  /** Includes root exits reported during or after an Amoeba close attempt. */
   closedByOrca?: true
   prompts?: CodexSession['prompts']
   onEvent?: (event: CodexStructuredSessionEvent) => void
@@ -36,7 +36,7 @@ export function handleCodexSessionExit(input: {
     sessionId: input.sessionId,
     // Preserve the initiating close reason when its exit arrives.
     reason: ((input.closedByOrca && session.orcaClose?.reason) || input.error).message,
-    // Orca-initiated closes are host faults, regardless of the exit report.
+    // Amoeba-initiated closes are host faults, regardless of the exit report.
     failure: input.closedByOrca
       ? agentSessionFailureFact('hostFault')
       : agentSessionFailureFact('providerExited', { detail: providerDiagnosticOf(input.error) }),

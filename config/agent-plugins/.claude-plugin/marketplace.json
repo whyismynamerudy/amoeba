@@ -1,7 +1,7 @@
 {
   "name": "orca-agent-plugins",
-  "owner": { "name": "Orca" },
-  "description": "Repository-local plugins for coding agents working in Orca",
+  "owner": { "name": "Amoeba" },
+  "description": "Repository-local plugins for coding agents working in Amoeba",
   "plugins": [
     {
       "name": "orca-typescript",

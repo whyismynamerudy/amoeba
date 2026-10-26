@@ -37,7 +37,7 @@ describe('remote runtime client error classification', () => {
     expect(
       isRecoverableRemoteRuntimeConnectionError({
         code: 'unauthorized',
-        message: 'Remote Orca runtime closed the connection.'
+        message: 'Remote Amoeba runtime closed the connection.'
       })
     ).toBe(false)
   })
@@ -52,10 +52,10 @@ describe('remote runtime client error classification', () => {
   })
 
   it.each([
-    'Could not connect to the remote Orca runtime.',
-    'Remote Orca runtime closed the connection.',
-    'Remote Orca runtime connection closed.',
-    'Remote Orca runtime is not connected.',
+    'Could not connect to the remote Amoeba runtime.',
+    'Remote Amoeba runtime closed the connection.',
+    'Remote Amoeba runtime connection closed.',
+    'Remote Amoeba runtime is not connected.',
     "Error invoking remote method 'runtimeEnvironments:call': RuntimeRpcCallQueueOverloadError: Remote runtime call queue is full; retry after current calls finish.",
     'Remote runtime subscription closed before it started.',
     "Error invoking remote method 'runtimeEnvironments:call': Error: Remote runtime request limit reached; retry after pending requests finish."
@@ -76,9 +76,13 @@ describe('remote runtime client error classification', () => {
     ])
     expect(RECOVERABLE_MESSAGE_FRAGMENTS).toEqual([
       'could not connect to the remote orca runtime',
+      'could not connect to the remote amoeba runtime',
       'remote orca runtime closed the connection',
+      'remote amoeba runtime closed the connection',
       'remote orca runtime connection closed',
+      'remote amoeba runtime connection closed',
       'remote orca runtime is not connected',
+      'remote amoeba runtime is not connected',
       'remote runtime call queue is full',
       'remote runtime connection closed',
       'remote runtime connection wait limit reached',
@@ -87,7 +91,8 @@ describe('remote runtime client error classification', () => {
       'remote runtime subscription memory limit reached',
       'remote runtime subscription closed before it started',
       'remote terminal stream is not connected',
-      'timed out waiting for the remote orca runtime'
+      'timed out waiting for the remote orca runtime',
+      'timed out waiting for the remote amoeba runtime'
     ])
   })
 

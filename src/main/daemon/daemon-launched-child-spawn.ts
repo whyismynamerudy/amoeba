@@ -106,7 +106,7 @@ export function spawnDaemonChildProcess(
       ...childOptions,
       modulePath: forkEntryPath,
       args: scriptArgs,
-      // Keep the byte-identical Orca.exe outside the updater's kill zone.
+      // Keep the byte-identical Amoeba.exe outside the updater's kill zone.
       ...(relocatedExecPath ? { execPath: relocatedExecPath } : {}),
       env: daemonEnv
     })

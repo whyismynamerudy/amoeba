@@ -1,14 +1,14 @@
 ---
 name: orca-chat-visuals
-description: Show a chart, diagram, table, report or mockup inline in this Orca chat as an HTML
+description: Show a chart, diagram, table, report or mockup inline in this Amoeba chat as an HTML
   page. Use when a visual would help the user understand your answer. Only available when the
   ORCA_CHAT_SCRATCH_DIR environment variable is set.
 user-invocable: false
 ---
 
-# Inline visuals in an Orca chat
+# Inline visuals in an Amoeba chat
 
-Orca can show an HTML page inside your reply. Use one whenever a visual would make the answer
+Amoeba can show an HTML page inside your reply. Use one whenever a visual would make the answer
 clearer.
 
 ## Writing the page
@@ -22,8 +22,8 @@ clearer.
 - Inline your styles, scripts and data. Libraries and fonts may load only from cdn.jsdelivr.net,
   unpkg.com, cdnjs.cloudflare.com, esm.sh, fonts.googleapis.com and fonts.gstatic.com. The page
   can't make network requests; use inline SVG or `data:` URLs for images.
-- Don't size anything to the viewport height (`100vh`); Orca fits the frame to your content.
-- Optional: Orca's theme colors are available as CSS variables (`--background`, `--foreground`,
+- Don't size anything to the viewport height (`100vh`); Amoeba fits the frame to your content.
+- Optional: Amoeba's theme colors are available as CSS variables (`--background`, `--foreground`,
   `--muted-foreground`, `--border`, `--primary`, `--chart-1` to `--chart-5`).
 
 ## Showing it

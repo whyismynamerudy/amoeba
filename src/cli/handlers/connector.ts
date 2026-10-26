@@ -39,7 +39,7 @@ export async function callConnector<TResult>(
     if (error instanceof RuntimeClientError && error.code === 'method_not_found') {
       throw new RuntimeClientError(
         'incompatible_runtime',
-        'This Orca host has no connectors. Update Orca on the host and try again.'
+        'This Amoeba host has no connectors. Update Amoeba on the host and try again.'
       )
     }
     throw error
@@ -55,7 +55,7 @@ type ConnectorPrompt = {
   options?: { id: string; label: string }[]
 }
 
-/** A kind this CLI does not know reads as one only Orca can answer, as the contract asks. */
+/** A kind this CLI does not know reads as one only Amoeba can answer, as the contract asks. */
 export function formatPendingPrompt(prompt: ConnectorPrompt | null): string {
   if (!prompt) {
     return 'no pending prompt'
@@ -66,7 +66,7 @@ export function formatPendingPrompt(prompt: ConnectorPrompt | null): string {
       ? `approval ${prompt.tool}${prompt.summary ? `: ${prompt.summary}` : ''}`
       : prompt.kind === 'question'
         ? `question: ${prompt.question}`
-        : 'unsupported (answer in Orca)'
+        : 'unsupported (answer in Amoeba)'
   const options = known ? (prompt.options ?? []) : []
   return [
     head,

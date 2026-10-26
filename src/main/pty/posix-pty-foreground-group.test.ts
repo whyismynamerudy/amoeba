@@ -26,7 +26,7 @@ describe('getPosixPtyForegroundGroup', () => {
   })
 
   it('refuses when this process shares the PTY', () => {
-    // A dev daemon can inherit its launch TTY; group signals must not reach Orca.
+    // A dev daemon can inherit its launch TTY; group signals must not reach Amoeba.
     const shared = ['84644 84985 ttys318', '4242 84985 ttys318'].join('\n')
     expect(getPosixPtyForegroundGroup(shared, 84644, '/dev/ttys318', 4242)).toBeNull()
   })
@@ -170,7 +170,7 @@ describe('process table lookup', () => {
   })
 
   it('forks ps once per pane after the first SIGWINCH of the process', () => {
-    // Reuse Orca's own TTY row: repeated ps forks doubled the per-pane synchronous resize stall.
+    // Reuse Amoeba's own TTY row: repeated ps forks doubled the per-pane synchronous resize stall.
     const execFileSyncMock = vi.mocked(execFileSync)
     const kill = vi.spyOn(process, 'kill').mockImplementation(() => true)
     const panes = [

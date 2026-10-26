@@ -66,7 +66,7 @@ const PATTERN_NAMES: readonly (readonly [RegExp, TerminalAgent])[] = [
   [HERMES_AGENT_NAME_RE, 'hermes']
 ]
 
-/** Catalog labels known to be emitted as terminal titles, not merely presented in Orca's UI. */
+/** Catalog labels known to be emitted as terminal titles, not merely presented in Amoeba's UI. */
 const EMITTED_DISPLAY_LABEL_AGENTS = [
   'claude-agent-teams',
   'mimo-code',
@@ -87,7 +87,7 @@ const DISPLAY_LABELS = [
 const GEMINI_GLYPHS = [GEMINI_WORKING, GEMINI_SILENT_WORKING, GEMINI_IDLE, GEMINI_PERMISSION]
 const ANTIGRAVITY_MODEL_TITLE_RE = /^(?:agy|antigravity)(?:\s*[\u00B7\u2014:-]\s*|\s+)gemini\s+\d/i
 
-/** Orca owns the final - <agent> suffix. Require leading whitespace to avoid treating hyphenated cwd names as ownership. */
+/** Amoeba owns the final - <agent> suffix. Require leading whitespace to avoid treating hyphenated cwd names as ownership. */
 const OWNER_SUFFIX_RE = /\s-\s+([A-Za-z][\w-]*)\s*$/
 const WINDOWS_LAUNCHER_SUFFIX_RE = /\.(?:exe|cmd|bat|ps1)$/i
 const WRAPPER_SEPARATOR = ' | '

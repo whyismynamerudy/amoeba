@@ -183,8 +183,8 @@ describe('the row a quit writes for the reply it cut', () => {
   })
 })
 
-describe('the row a restart writes for a reply its Orca died in', () => {
-  it('says Orca stopped unexpectedly when the Orca before began no quit', async () => {
+describe('the row a restart writes for a reply its Amoeba died in', () => {
+  it('says Amoeba stopped unexpectedly when the Amoeba before began no quit', async () => {
     await runningTurn()
 
     await restartAfterDeath()
@@ -210,7 +210,7 @@ describe('the row a restart writes for a reply its Orca died in', () => {
     expect(stopRows.map((row) => row.body)).toMatchObject([{ orcaStop: { cause: 'update' } }])
   })
 
-  it('names no cause when the Orca before left no record of itself', async () => {
+  it('names no cause when the Amoeba before left no record of itself', async () => {
     await runningTurn()
     await rm(join(hostTestState().root, 'agent-session-runtimes'), { recursive: true, force: true })
 
@@ -222,7 +222,7 @@ describe('the row a restart writes for a reply its Orca died in', () => {
   })
 })
 
-describe('an agent this Orca runs', () => {
+describe('an agent this Amoeba runs', () => {
   it('is recorded as held by this runtime', async () => {
     await runningTurn()
     expect(hostTestState().store.getRecord(SESSION)?.lease.ownerProcess?.runtime).toBe(
@@ -230,7 +230,7 @@ describe('an agent this Orca runs', () => {
     )
   })
 
-  it('names no Orca cause when the agent dies while Orca runs', async () => {
+  it('names no Amoeba cause when the agent dies while Amoeba runs', async () => {
     await runningTurn()
     const child = host.collaboratorsForTests().sessions.get(SESSION)!.child!
 

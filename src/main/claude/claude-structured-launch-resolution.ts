@@ -86,7 +86,7 @@ export function claudeStructuredPermissionOptions(
 }
 
 export type ClaudeStructuredLaunch = {
-  /** Always Orca's resolved user CLI: the SDK's bundled binaries are excluded from the install. */
+  /** Always Amoeba's resolved user CLI: the SDK's bundled binaries are excluded from the install. */
   pathToClaudeCodeExecutable: string
   account?: ClaudeStructuredInvocation['account']
   options: ClaudeStructuredSdkOptions
@@ -252,7 +252,7 @@ export function claudeStructuredLaunchPart(
             ...permission.extraArgs,
             ...thinkingDisplayArgs
           },
-          // Claude owns where a resumed conversation continues; the stored leaf is Orca's bookkeeping.
+          // Claude owns where a resumed conversation continues; the stored leaf is Amoeba's bookkeeping.
           ...(resumesTranscript
             ? { resume: providerSessionId }
             : { sessionId: providerSessionId, ...(fork ? claudeRewindForkOptions(fork) : {}) })
@@ -268,7 +268,7 @@ export function claudeStructuredLaunchPart(
       },
       env,
       inheritedEnvToDelete: [],
-      // The agent runtime follows Orca's CLI directory on PATH so another orca cannot shadow it.
+      // The agent runtime follows Amoeba's CLI directory on PATH so another orca cannot shadow it.
       cliRuntimeCommand: command
     }
   }

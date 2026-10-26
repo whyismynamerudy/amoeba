@@ -113,17 +113,17 @@ export function SkillFreshnessNudge(): null {
       names.size === 1
         ? translate(
             'auto.components.skills.SkillFreshnessNudge.titleOne',
-            'An installed Orca skill is out of date'
+            'An installed Amoeba skill is out of date'
           )
         : translate(
             'auto.components.skills.SkillFreshnessNudge.titleMany',
-            '{{value0}} installed Orca skills are out of date',
+            '{{value0}} installed Amoeba skills are out of date',
             { value0: names.size }
           ),
       {
         description: translate(
           'auto.components.skills.SkillFreshnessNudge.description',
-          'Update {{value0}} so agents follow the current instructions for this version of Orca.',
+          'Update {{value0}} so agents follow the current instructions for this version of Amoeba.',
           { value0: outdatedNames }
         ),
         // Keep the nudge until action; quitting records no dismissal, allowing one prompt next launch.

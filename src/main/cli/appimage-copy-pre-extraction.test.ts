@@ -25,7 +25,7 @@ afterEach(async () => {
 async function makeFixture() {
   const root = await mkdtemp(join(tmpdir(), 'orca-appimage-pre-extract-'))
   created.push(root)
-  const appImagePath = join(root, 'apps', 'Orca.AppImage')
+  const appImagePath = join(root, 'apps', 'Amoeba.AppImage')
   await mkdir(join(root, 'apps'), { recursive: true })
   await writeFile(appImagePath, 'release 1.0.0', { mode: 0o755 })
   return { root, appImagePath, cacheRootPath: join(root, 'cache') }
@@ -172,7 +172,7 @@ describe('startAppImageCopyPreExtraction', () => {
 describe('preExtractDownloadedAppImageUpdate', () => {
   it('unpacks the download into the copy its install will run from', async () => {
     const { root, appImagePath, cacheRootPath } = await makeFixture()
-    const downloadedFile = join(root, 'apps', '.pending-Orca.AppImage')
+    const downloadedFile = join(root, 'apps', '.pending-Amoeba.AppImage')
     await writeFile(downloadedFile, 'release 2.0.0', { mode: 0o755 })
 
     const staged = await preExtraction.preExtractDownloadedAppImageUpdate(
@@ -200,7 +200,7 @@ describe('preExtractDownloadedAppImageUpdate', () => {
 
   it('never runs a file that is not the updater download', async () => {
     const { root, appImagePath, cacheRootPath } = await makeFixture()
-    const planted = join(root, 'Orca-2.0.0.AppImage')
+    const planted = join(root, 'Amoeba-2.0.0.AppImage')
     await writeFile(planted, 'not an update', { mode: 0o755 })
     const runExtract = vi.fn()
 
@@ -227,12 +227,12 @@ describe('preExtractDownloadedAppImageUpdate', () => {
   })
 
   it('follows the updater on where a versioned AppImage name installs', () => {
-    const pending = '/home/u/.cache/orca-updater/pending/Orca-2.0.0.AppImage'
-    expect(preExtraction.predictInstalledAppImagePath('/apps/Orca.AppImage', pending)).toBe(
-      '/apps/Orca.AppImage'
+    const pending = '/home/u/.cache/orca-updater/pending/Amoeba-2.0.0.AppImage'
+    expect(preExtraction.predictInstalledAppImagePath('/apps/Amoeba.AppImage', pending)).toBe(
+      '/apps/Amoeba.AppImage'
     )
-    expect(preExtraction.predictInstalledAppImagePath('/apps/Orca-1.0.0.AppImage', pending)).toBe(
-      '/apps/Orca-2.0.0.AppImage'
+    expect(preExtraction.predictInstalledAppImagePath('/apps/Amoeba-1.0.0.AppImage', pending)).toBe(
+      '/apps/Amoeba-2.0.0.AppImage'
     )
   })
 })

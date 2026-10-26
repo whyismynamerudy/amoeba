@@ -556,16 +556,26 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
 
   it('matches Windows worktree path spelling while preserving the daemon worktree id', async () => {
     const { hydrate, listRegisteredPtys } = await loadFresh()
-    const worktreeId = 'repo-a::C:/Users/Neil/Orca'
+    const worktreeId = 'repo-a::C:/Users/Neil/Amoeba'
     const ptyId = `${worktreeId}@@cafebabe`
     getDaemonProviderMock.mockReturnValue(
       makeProvider([
-        { sessionId: ptyId, pid: 4242, cwd: 'C:/Users/Neil/Orca' } as unknown as SessionInfo
+        {
+          sessionId: ptyId,
+          pid: 4242,
+          cwd: 'C:/Users/Neil/Amoeba',
+          state: 'running',
+          shellState: 'ready',
+          isAlive: true,
+          cols: 80,
+          rows: 24,
+          createdAt: 0
+        }
       ])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {
-        path: 'c:\\users\\neil\\orca',
+        path: 'c:\\users\\neil\\amoeba',
         head: '',
         branch: '',
         isBare: false,
@@ -573,29 +583,39 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
       }
     ])
 
-    await hydrate(makeStore([{ id: 'repo-a', path: 'C:\\Users\\Neil\\Orca' }]))
+    await hydrate(makeStore([{ id: 'repo-a', path: 'C:\\Users\\Neil\\Amoeba' }]))
 
     expect(listRegisteredPtys()).toEqual([expect.objectContaining({ ptyId, worktreeId })])
   })
 
   it('fails closed when live worktrees collide on one normalized key', async () => {
     const { hydrate, listRegisteredPtys } = await loadFresh()
-    const ptyId = 'repo-a::C:/Users/Neil/Orca@@cafebabe'
+    const ptyId = 'repo-a::C:/Users/Neil/Amoeba@@cafebabe'
     getDaemonProviderMock.mockReturnValue(
       makeProvider([
-        { sessionId: ptyId, pid: 4242, cwd: 'C:/Users/Neil/Orca' } as unknown as SessionInfo
+        {
+          sessionId: ptyId,
+          pid: 4242,
+          cwd: 'C:/Users/Neil/Amoeba',
+          state: 'running',
+          shellState: 'ready',
+          isAlive: true,
+          cols: 80,
+          rows: 24,
+          createdAt: 0
+        }
       ])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {
-        path: 'C:/Users/Neil/Orca',
+        path: 'C:/Users/Neil/Amoeba',
         head: '',
         branch: '',
         isBare: false,
         isMainWorktree: true
       },
       {
-        path: 'c:\\users\\neil\\orca',
+        path: 'c:\\users\\neil\\amoeba',
         head: '',
         branch: '',
         isBare: false,
@@ -603,27 +623,33 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
       }
     ])
 
-    await hydrate(makeStore([{ id: 'repo-a', path: 'C:/Users/Neil/Orca' }]))
+    await hydrate(makeStore([{ id: 'repo-a', path: 'C:/Users/Neil/Amoeba' }]))
 
     expect(listRegisteredPtys()).toHaveLength(0)
   })
 
   it('matches local WSL UNC aliases without treating WSL as a remote host', async () => {
     const { hydrate, listRegisteredPtys } = await loadFresh()
-    const worktreeId = 'repo-a::\\\\wsl$\\Ubuntu\\home\\neil\\orca'
+    const worktreeId = 'repo-a::\\\\wsl$\\Ubuntu\\home\\neil\\amoeba'
     const ptyId = `${worktreeId}@@cafebabe`
     getDaemonProviderMock.mockReturnValue(
       makeProvider([
         {
           sessionId: ptyId,
           pid: 4242,
-          cwd: '\\\\wsl$\\Ubuntu\\home\\neil\\orca'
-        } as unknown as SessionInfo
+          cwd: '\\\\wsl$\\Ubuntu\\home\\neil\\amoeba',
+          state: 'running',
+          shellState: 'ready',
+          isAlive: true,
+          cols: 80,
+          rows: 24,
+          createdAt: 0
+        }
       ])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {
-        path: '\\\\wsl.localhost\\ubuntu\\home\\neil\\orca',
+        path: '\\\\wsl.localhost\\ubuntu\\home\\neil\\amoeba',
         head: '',
         branch: '',
         isBare: false,
@@ -631,7 +657,7 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
       }
     ])
 
-    await hydrate(makeStore([{ id: 'repo-a', path: '\\\\wsl$\\Ubuntu\\home\\neil\\orca' }]))
+    await hydrate(makeStore([{ id: 'repo-a', path: '\\\\wsl$\\Ubuntu\\home\\neil\\amoeba' }]))
 
     expect(listRegisteredPtys()).toEqual([expect.objectContaining({ ptyId, worktreeId })])
   })

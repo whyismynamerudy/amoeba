@@ -115,7 +115,7 @@ export function endAcpStructuredSession(
   const stderr = session.connection.stderrTail()
   // Process exit can follow stream loss; final stderr explains the crash.
   const reason = session.closeRequested
-    ? `${session.spec.agent} ACP agent closed by Orca`
+    ? `${session.spec.agent} ACP agent closed by Amoeba`
     : session.journalClosed !== null && !stderr
       ? session.journalClosed
       : `${session.spec.agent} ACP agent exited${stderr ? `: ${stderr}` : ''}`

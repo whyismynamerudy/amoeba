@@ -79,7 +79,7 @@ export function readEnvironmentStoreRecords(
   } catch {
     throw new RuntimeEnvironmentStoreError(
       'runtime_error',
-      `Could not read Orca environments at ${path}; the file is invalid.`
+      `Could not read Amoeba environments at ${path}; the file is invalid.`
     )
   }
   const result: EnvironmentStoreRecords = { environments: [], unreadable: [] }

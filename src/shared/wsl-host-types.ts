@@ -33,7 +33,7 @@ export type WslHostStatus = {
 /** An explicit Update retries a skipped build behind the terminal census; Force also passes it. */
 export type WslHostConnectIntent = 'update' | 'force'
 
-/** A host a newer Orca runs refused this build: only Force (or updating Orca) changes that. */
+/** A host a newer Amoeba runs refused this build: only Force (or updating Amoeba) changes that. */
 export const ORCAD_HOST_NEWER_DEFERRAL_CODE = 'orcad_host_newer'
 
 export type WslHostDeferredUpdate = {

@@ -30,7 +30,7 @@ async function backdate(path: string): Promise<void> {
 async function makeRunningGeneration() {
   const root = await mkdtemp(join(tmpdir(), 'orca-serve-appimage-update-'))
   created.push(root)
-  const appImagePath = join(root, 'Orca.AppImage')
+  const appImagePath = join(root, 'Amoeba.AppImage')
   await writeFile(appImagePath, 'build B', { mode: 0o755 })
   await backdate(appImagePath)
   const namespacePath = join(root, 'cache', appImageNamespaceKey(appImagePath))
@@ -57,7 +57,7 @@ function restartDeps(overrides: Partial<AppImageRestartDeps> = {}): AppImageRest
       ORCA_SERVE_SUPERVISOR_APP_ROOT: '/old/app.asar.unpacked',
       ORCA_NODE_OPTIONS: '--max-old-space-size=4096',
       ORCA_USER_DATA_PATH: '/profiles/b1',
-      APPIMAGE: '/old/Orca.AppImage',
+      APPIMAGE: '/old/Amoeba.AppImage',
       APPDIR: '/tmp/.mount_old'
     },
     execve: vi.fn(),
@@ -94,7 +94,7 @@ describe('supervised serve and a replaced AppImage', () => {
     expect(watch).toEqual({ appImagePath, runningKey: resolveAppImageCacheKey(appImagePath) })
     expect(
       resolveAppImageBuildWatch(
-        '/opt/Orca/orca-ide',
+        '/opt/Amoeba/orca-ide',
         { APPIMAGE: appImagePath, APPDIR: mount },
         'linux'
       )

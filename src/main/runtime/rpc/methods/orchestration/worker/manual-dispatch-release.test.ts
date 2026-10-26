@@ -248,7 +248,7 @@ describe('orchestration.workerAbandon', () => {
     )
   })
 
-  it('records the resolved Orca session as the one who abandoned the worker', async () => {
+  it('records the resolved Amoeba session as the one who abandoned the worker', async () => {
     const dispatchId = readyWorker()
     const orcaSessionId = parseOrcaSessionAddress('orca_session_id:chat_1')!
     const session: OrchestrationSessionCaller = {

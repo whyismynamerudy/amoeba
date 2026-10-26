@@ -65,7 +65,7 @@ describe('inspectDaemonHostImage', () => {
   it('leaves a daemon on the extracted copy alone after the window that started it unmounts', () => {
     const node = '/home/me/.cache/orca/appimage/aaa/bbb/resources/node-runtime/bin/node'
     const copyDaemon = record({
-      entryPath: '/apps/Orca.AppImage/resources/app.asar.unpacked/out/main/daemon-entry.js'
+      entryPath: '/apps/Amoeba.AppImage/resources/app.asar.unpacked/out/main/daemon-entry.js'
     })
     expect(verdict(copyDaemon, proc({ exe: node, existing: [`/proc/${PID}/root${node}`] }))).toBe(
       'not-ephemeral'
@@ -104,12 +104,14 @@ describe('inspectDaemonHostImage', () => {
 
   it('leaves deb, rpm and extracted-cache daemons alone', () => {
     const installed = record({
-      spawnerExecPath: '/opt/Orca/orca-ide',
-      entryPath: '/opt/Orca/resources/app.asar.unpacked/out/main/daemon-entry.js'
+      spawnerExecPath: '/opt/Amoeba/orca-ide',
+      entryPath: '/opt/Amoeba/resources/app.asar.unpacked/out/main/daemon-entry.js'
     })
-    expect(verdict(installed, proc({ exe: '/opt/Orca/orca-ide' }))).toBe('not-ephemeral')
+    expect(verdict(installed, proc({ exe: '/opt/Amoeba/orca-ide' }))).toBe('not-ephemeral')
     // An in-place package upgrade is not an ephemeral image; stale-bundle policy owns it.
-    expect(verdict(installed, proc({ exe: '/opt/Orca/orca-ide (deleted)' }))).toBe('not-ephemeral')
+    expect(verdict(installed, proc({ exe: '/opt/Amoeba/orca-ide (deleted)' }))).toBe(
+      'not-ephemeral'
+    )
   })
 
   it('says nothing when the pid is not the recorded incarnation or cannot be read', () => {

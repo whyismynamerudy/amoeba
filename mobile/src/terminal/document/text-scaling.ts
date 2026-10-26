@@ -41,7 +41,7 @@ export function isIOSWebView() {
 }
 // Lead with ui-monospace because iOS WebKit may resolve SF Mono to a proportional fallback.
 const TERMINAL_FONT_FALLBACKS =
-  '"Menlo", "Monaco", "Cascadia Mono", "Consolas", "DejaVu Sans Mono", "Liberation Mono", "Orca Nerd Font Symbols", "Symbols Nerd Font Mono", monospace'
+  '"Menlo", "Monaco", "Cascadia Mono", "Consolas", "DejaVu Sans Mono", "Liberation Mono", "Amoeba Nerd Font Symbols", "Symbols Nerd Font Mono", monospace'
 
 // Wait one frame after changing fontSize for cell metrics, then fit the new grid before native PTY reflow.
 export function applyTextScale(scope: TerminalDocumentScope, scale: number) {

@@ -123,7 +123,7 @@ describe('an opening message created with a model and effort', () => {
     }
   })
 
-  it('keeps them on the card Orca keeps when it stops before the handover', async () => {
+  it('keeps them on the card Amoeba keeps when it stops before the handover', async () => {
     const rest = await createRestTestRig({ idleSweep: { intervalMs: 60_000 } })
     try {
       const { first } = await createWhileStarting(rest)
@@ -161,7 +161,7 @@ describe('a send carrying its model and effort', () => {
   })
 })
 
-describe('a send kept as a card because Orca stopped before handing it over', () => {
+describe('a send kept as a card because Amoeba stopped before handing it over', () => {
   it('keeps its model and effort on the card', async () => {
     const kept = await createQueuedMessageTestRig({ restartable: true })
     try {

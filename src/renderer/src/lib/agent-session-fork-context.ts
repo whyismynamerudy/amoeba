@@ -148,7 +148,7 @@ export function buildAgentSessionForkPrompt({
   const fence = getMarkdownFenceForTranscript(transcript)
 
   const header = [
-    'This is a fork of an existing Orca agent session.',
+    'This is a fork of an existing Amoeba agent session.',
     '',
     'Use the captured transcript as background context for this new, independent session. Keep file edits and decisions independent from the original terminal unless I explicitly ask you to coordinate with it.',
     '',

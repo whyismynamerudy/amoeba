@@ -243,7 +243,9 @@ describe('server SSH target management RPC', () => {
       ok: true,
       result: { removed: true }
     })
-    mocks.mutations.remove.mockRejectedValueOnce(new Error('This host runs a managed Orca server.'))
+    mocks.mutations.remove.mockRejectedValueOnce(
+      new Error('This host runs a managed Amoeba server.')
+    )
     await expect(dispatch('ssh.removeTarget', { targetId: 'ssh-2' })).resolves.toMatchObject({
       ok: false
     })

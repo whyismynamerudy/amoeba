@@ -6,7 +6,7 @@ cask "orca@rc" do
          intel: "457088c7021f07de1a419197f7b2bd00092741ad4727d4fef3d86af38a6831e7"
 
   url "https://github.com/stablyai/orca/releases/download/v#{version}/orca-macos-#{arch}.dmg"
-  name "Orca RC"
+  name "Amoeba RC"
   desc "IDE for orchestrating AI coding agents across terminals and worktrees"
   homepage "https://onorca.dev/"
 
@@ -26,24 +26,24 @@ cask "orca@rc" do
     end
   end
 
-  # Use Orca’s prerelease-aware updater between frequent RCs.
+  # Use Amoeba’s prerelease-aware updater between frequent RCs.
   auto_updates true
   conflicts_with cask: "orca"
   depends_on macos: :big_sur
 
-  app "Orca.app"
+  app "Amoeba.app"
 
   # Expose the symlink-resolving bundled CLI on PATH so headless hosts can use orca serve without the in-app installer.
-  binary "#{appdir}/Orca.app/Contents/Resources/bin/orca"
+  binary "#{appdir}/Amoeba.app/Contents/Resources/bin/orca"
 
   # Zap app-created ~/.orca and Electron userData for a clean uninstall.
   zap trash: [
     "~/.orca",
-    "~/Library/Application Support/Orca",
-    "~/Library/Caches/com.stablyai.orca",
-    "~/Library/Caches/com.stablyai.orca.ShipIt",
-    "~/Library/HTTPStorages/com.stablyai.orca",
-    "~/Library/Preferences/com.stablyai.orca.plist",
-    "~/Library/Saved Application State/com.stablyai.orca.savedState",
+    "~/Library/Application Support/Amoeba",
+    "~/Library/Caches/com.amoeba.desktop",
+    "~/Library/Caches/com.amoeba.desktop.ShipIt",
+    "~/Library/HTTPStorages/com.amoeba.desktop",
+    "~/Library/Preferences/com.amoeba.desktop.plist",
+    "~/Library/Saved Application State/com.amoeba.desktop.savedState",
   ]
 end

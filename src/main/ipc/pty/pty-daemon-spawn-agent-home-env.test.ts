@@ -211,11 +211,11 @@ describe('registerPtyHandlers', () => {
         try {
           const spawnOptions = await daemonSpawnAndGetOptions(
             {},
-            () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+            () => 'C:\\Users\\test\\AppData\\Roaming\\Amoeba\\codex-runtime-home\\home',
             undefined,
             {
-              CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
-              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home'
+              CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Amoeba\\codex-runtime-home\\home',
+              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Amoeba\\codex-runtime-home\\home'
             },
             {
               cwd: '\\\\wsl.localhost\\Ubuntu\\home\\test\\repo',
@@ -244,11 +244,11 @@ describe('registerPtyHandlers', () => {
         try {
           const spawnOptions = await daemonSpawnAndGetOptions(
             {},
-            () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+            () => 'C:\\Users\\test\\AppData\\Roaming\\Amoeba\\codex-runtime-home\\home',
             undefined,
             {
               CODEX_HOME: 'C:\\Users\\test\\.codex',
-              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home'
+              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Amoeba\\codex-runtime-home\\home'
             },
             { shellOverride: 'wsl.exe' }
           )
@@ -363,7 +363,7 @@ describe('registerPtyHandlers', () => {
           }
         }
       )
-      it('strips the daemon-inherited Orca-owned CODEX_HOME for real-home routing', async () => {
+      it('strips the daemon-inherited Amoeba-owned CODEX_HOME for real-home routing', async () => {
         const spawnOptions = await daemonSpawnAndGetOptions(
           {},
           () => null,
@@ -444,7 +444,7 @@ describe('registerPtyHandlers', () => {
           })
           const entries = env.PATH.split(delimiter)
           const shimDir = join('/tmp/orca-user-data', 'linux-orca-cli-shim')
-          // Orca terminals must resolve this CLI before the GNOME screen reader (#7904).
+          // Amoeba terminals must resolve this CLI before the GNOME screen reader (#7904).
           expect(entries.indexOf(shimDir)).toBeGreaterThanOrEqual(0)
           expect(entries.indexOf(shimDir)).toBeLessThan(entries.indexOf('/usr/bin'))
           expect(env.ORCA_CLI_COMMAND).toBeUndefined()

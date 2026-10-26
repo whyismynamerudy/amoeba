@@ -56,7 +56,7 @@ export const SYNTHETIC_AGENT_TITLE_PROFILES: Record<string, SyntheticAgentTitleP
     permissionLabel: 'OMP - action required',
     idleLabel: 'OMP ready',
     titleIdentityGroup: 'pi-compatible',
-    // Orca’s injected titlebar extension owns OMP working titles (main/pi/titlebar-extension-source.ts).
+    // Amoeba’s injected titlebar extension owns OMP working titles (main/pi/titlebar-extension-source.ts).
     synthesizeWorkingTitle: false
   },
   droid: {

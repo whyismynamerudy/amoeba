@@ -44,7 +44,7 @@ function getManagedScript(target: 'local' | 'posix' = 'local'): string {
     return [
       '@echo off',
       'setlocal',
-      // Refresh endpoint credentials for PTYs that outlive an Orca restart.
+      // Refresh endpoint credentials for PTYs that outlive an Amoeba restart.
       'if defined ORCA_AGENT_HOOK_ENDPOINT if exist "%ORCA_AGENT_HOOK_ENDPOINT%" call "%ORCA_AGENT_HOOK_ENDPOINT%" 2>nul',
       ...buildWindowsHookEnvironmentGuardLines(),
       buildWindowsAgentHookPostCommand('devin'),
@@ -58,7 +58,7 @@ function getManagedScript(target: 'local' | 'posix' = 'local'): string {
     '#!/bin/sh',
     ...buildPosixHookPayloadCapture(),
     ...buildPosixHookSpoolLines('devin'),
-    // Refresh endpoint credentials for PTYs that outlive an Orca restart.
+    // Refresh endpoint credentials for PTYs that outlive an Amoeba restart.
     // Keep endpoint-file races and parse errors out of agent transcripts.
     'if [ -n "$ORCA_AGENT_HOOK_ENDPOINT" ] && [ -r "$ORCA_AGENT_HOOK_ENDPOINT" ]; then',
     '  . "$ORCA_AGENT_HOOK_ENDPOINT" 2>/dev/null || :',

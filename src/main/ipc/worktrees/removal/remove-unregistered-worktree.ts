@@ -109,7 +109,7 @@ export async function removeUnregisteredWorktree(
       // Without persisted ownership, require renderer recovery approval before deleting unregistered state.
       throw new Error(UNREGISTERED_MISSING_WORKTREE_MESSAGE)
     }
-    // Persisted metadata proves an already-missing path was Orca-owned; cleanup needs no force.
+    // Persisted metadata proves an already-missing path was Amoeba-owned; cleanup needs no force.
     await cleanupUnusedWorktreePushTargetRemote(
       repo.path,
       args.worktreeId,

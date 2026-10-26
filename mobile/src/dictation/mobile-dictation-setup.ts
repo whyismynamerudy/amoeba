@@ -17,7 +17,7 @@ export type MobileSpeechModel = MobileSpeechModelReply
 // Map setup errors to the setup sheet instead of leaving the mic entry point at a toast.
 const SETUP_REQUIRED_CODES = new Set(['voice_dictation_disabled', 'voice_model_not_selected'])
 const LEGACY_DESKTOP_SPEECH_SETUP_MESSAGE =
-  'Update the paired desktop Orca app to use mobile voice settings.'
+  'Update the paired desktop Amoeba app to use mobile voice settings.'
 
 // Older runtimes predate models.list; show upgrade guidance. Keep the raw refusal because guidance needs both code and message.
 function isLegacyDesktopSpeechSetupReply(reply: RpcResponse): boolean {
@@ -33,7 +33,7 @@ function isLegacyDesktopSpeechSetupReply(reply: RpcResponse): boolean {
 }
 
 // Headless servers lacked speech from 1.4.229 until #31174; name the required fix.
-export const SPEECHLESS_SERVER_MESSAGE = 'Update Orca on this server to use voice dictation.'
+export const SPEECHLESS_SERVER_MESSAGE = 'Update Amoeba on this server to use voice dictation.'
 
 export function isSpeechlessServerError(message: string): boolean {
   return message.startsWith('speech_unavailable')

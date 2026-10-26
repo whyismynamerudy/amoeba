@@ -11,15 +11,15 @@ vi.mock('electron', () => ({ app: { commandLine: { getSwitchValue: () => '' } } 
 const COMMAND_NAMES = ['project', 'serve', 'status', 'skills', 'worktree']
 
 const linux = {
-  resourcesPath: '/opt/Orca/resources',
-  execPath: '/opt/Orca/orca-ide',
+  resourcesPath: '/opt/Amoeba/resources',
+  execPath: '/opt/Amoeba/orca-ide',
   get cliEntryPath(): string {
     return posix.join(this.resourcesPath, 'app.asar.unpacked', 'out', 'cli', 'index.js')
   }
 }
 const windows = {
-  resourcesPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Orca\\resources',
-  execPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Orca\\Orca.exe',
+  resourcesPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources',
+  execPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\Amoeba.exe',
   get cliEntryPath(): string {
     return win32.join(this.resourcesPath, 'app.asar.unpacked', 'out', 'cli', 'index.js')
   }
@@ -359,7 +359,7 @@ describe('CLI launch redirect: spawning', () => {
         '6792',
         '--no-sandbox'
       ],
-      env: { NODE_OPTIONS: '--inspect', APPIMAGE: '/home/u/Orca.AppImage' },
+      env: { NODE_OPTIONS: '--inspect', APPIMAGE: '/home/u/Amoeba.AppImage' },
       platform: 'linux',
       isPackaged: true,
       resourcesPath: linux.resourcesPath,
@@ -379,7 +379,7 @@ describe('CLI launch redirect: spawning', () => {
         ELECTRON_RUN_AS_NODE: '1',
         ORCA_USER_DATA_PATH: '/home/u/profiles/b1',
         ORCA_NODE_OPTIONS: '--inspect',
-        APPIMAGE: '/home/u/Orca.AppImage'
+        APPIMAGE: '/home/u/Amoeba.AppImage'
       })
     )
     const env = execve.mock.calls[0]?.[2]

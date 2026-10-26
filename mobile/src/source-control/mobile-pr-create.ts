@@ -35,7 +35,7 @@ export function getMobilePrCreateSuccessWarning(
       : `${copy.titleLabel} is already open.`
   }
   if (outcome.linkError) {
-    return `${copy.titleLabel} created, but Orca could not refresh it yet.`
+    return `${copy.titleLabel} created, but Amoeba could not refresh it yet.`
   }
   return undefined
 }
@@ -45,7 +45,7 @@ export function getMobilePrCreateBlockMessage(prefill: MobilePrPrefill): string 
   if (prefill.canCreate !== false || shouldPushBeforeMobileHostedReviewCreate(prefill)) {
     // Only accepted not_found proves no review exists; missing, found or unavailable must block both Create and Push & Create.
     if (prefill.reviewLookupOutcome !== 'not_found') {
-      return `Orca could not confirm whether this branch already has a ${copy.reviewLabel}. Try again in a moment.`
+      return `Amoeba could not confirm whether this branch already has a ${copy.reviewLabel}. Try again in a moment.`
     }
     return null
   }

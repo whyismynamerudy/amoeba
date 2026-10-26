@@ -51,7 +51,7 @@ describe('AddWslHostFormPanel', () => {
   })
 
   it('shows a refusal inline and the setup progress while adding', () => {
-    expect(render({ error: 'Already runs the Orca server for “dev”.' })).toContain('role="alert"')
+    expect(render({ error: 'Already runs the Amoeba server for “dev”.' })).toContain('role="alert"')
     const adding = render({ selectedDistro: 'Ubuntu', adding: true })
     expect(adding).toContain('Setting up…')
     expect(adding).toContain('The first time can take a minute.')
@@ -63,7 +63,7 @@ describe('AddWslHostFormPanel', () => {
 
   it('says this build cannot run WSL hosts and offers nothing to add', () => {
     const html = render({ selectedDistro: 'Ubuntu', serverFilesMissing: true })
-    expect(html).toContain('This build of Orca can’t run WSL hosts (server files missing).')
+    expect(html).toContain('This build of Amoeba can’t run WSL hosts (server files missing).')
     expect(html).toContain('role="alert"')
     expect(html).not.toContain('wsl --install')
     expect(html).toMatch(/<button[^>]*disabled=""[^>]*>Add host<\/button>/)

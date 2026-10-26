@@ -62,7 +62,7 @@ describe('CliInstaller', () => {
         platform: 'darwin',
         isPackaged: false,
         userDataPath: fixture.userDataPath,
-        execPath: '/Applications/Orca.app/Contents/MacOS/Orca',
+        execPath: '/Applications/Amoeba.app/Contents/MacOS/Amoeba',
         appPath: fixture.appPath,
         commandPathOverride: installPath,
         processPathEnv: join(fixture.root, 'bin')
@@ -96,7 +96,7 @@ describe('CliInstaller', () => {
         platform: 'linux',
         isPackaged: false,
         userDataPath: fixture.userDataPath,
-        execPath: '/opt/Orca/orca-ide',
+        execPath: '/opt/Amoeba/orca-ide',
         appPath: fixture.appPath,
         commandPathOverride: installPath,
         processPathEnv: '/usr/bin'
@@ -118,7 +118,7 @@ describe('CliInstaller', () => {
   )
 
   it.skipIf(process.platform === 'win32')(
-    'uses a separate orca-dev command for default development installs',
+    'uses a separate amoeba-dev command for default development installs',
     async () => {
       const fixture = await makeFixture()
       const homePath = join(fixture.root, 'home')
@@ -127,7 +127,7 @@ describe('CliInstaller', () => {
         platform: 'linux',
         isPackaged: false,
         userDataPath: fixture.userDataPath,
-        execPath: '/opt/Orca/orca-ide',
+        execPath: '/opt/Amoeba/orca-ide',
         appPath: fixture.appPath,
         homePath,
         processPathEnv: commandDir
@@ -135,9 +135,9 @@ describe('CliInstaller', () => {
 
       const installed = await installer.install()
       expect(installed.state).toBe('installed')
-      expect(installed.commandName).toBe('orca-dev')
-      expect(installed.commandPath).toBe(join(commandDir, 'orca-dev'))
-      expect(installed.launcherPath).toBe(join(fixture.userDataPath, 'cli', 'bin', 'orca-dev'))
+      expect(installed.commandName).toBe('amoeba-dev')
+      expect(installed.commandPath).toBe(join(commandDir, 'amoeba-dev'))
+      expect(installed.launcherPath).toBe(join(fixture.userDataPath, 'cli', 'bin', 'amoeba-dev'))
       await expect(readlink(installed.commandPath as string)).resolves.toBe(installed.launcherPath)
       await expect(
         readFile(join(fixture.userDataPath, 'cli', 'bin', 'orca'), 'utf8')
@@ -152,7 +152,7 @@ describe('CliInstaller', () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
       const installPath = join(commandDir, 'orca-ide')
-      const appImagePath = join(fixture.root, 'Orca.AppImage')
+      const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', {
         encoding: 'utf8',
@@ -210,7 +210,7 @@ describe('CliInstaller', () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
       const installPath = join(commandDir, 'orca-ide')
-      const appImagePath = join(fixture.root, 'Orca.AppImage')
+      const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', {
         encoding: 'utf8',
@@ -256,7 +256,7 @@ describe('CliInstaller', () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
       const installPath = join(commandDir, 'orca-ide')
-      const appImagePath = join(fixture.root, "Orca's AppImage.AppImage")
+      const appImagePath = join(fixture.root, "Amoeba's AppImage.AppImage")
       const cacheRootPath = join(fixture.root, 'cache')
       await mkdir(commandDir, { recursive: true })
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', { encoding: 'utf8', mode: 0o755 })
@@ -332,7 +332,7 @@ describe('CliInstaller', () => {
       const homePath = join(fixture.root, 'home')
       const commandDir = join(homePath, '.local', 'bin')
       const legacyCommandPath = join(commandDir, 'orca')
-      const appImagePath = join(fixture.root, 'Orca.AppImage')
+      const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await mkdir(commandDir, { recursive: true })
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', {
@@ -367,7 +367,7 @@ describe('CliInstaller', () => {
       const homePath = join(fixture.root, 'home')
       const commandDir = join(homePath, '.local', 'bin')
       const legacyCommandPath = join(commandDir, 'orca')
-      const appImagePath = join(fixture.root, 'Orca.AppImage')
+      const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const foreignAppImagePath = join(fixture.root, 'Other.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await mkdir(commandDir, { recursive: true })
@@ -424,7 +424,7 @@ describe('CliInstaller', () => {
         platform: 'darwin',
         isPackaged: false,
         userDataPath: fixture.userDataPath,
-        execPath: '/Applications/Orca.app/Contents/MacOS/Orca',
+        execPath: '/Applications/Amoeba.app/Contents/MacOS/Amoeba',
         appPath: fixture.appPath,
         commandPathOverride: installPath,
         privilegedRunner: async (command: string) => {

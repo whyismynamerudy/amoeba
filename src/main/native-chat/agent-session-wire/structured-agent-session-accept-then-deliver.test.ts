@@ -362,7 +362,7 @@ describe('a start the chat needed and did not get', () => {
     await eventually(async () => expect((await submission(second))?.dispatchState).toBe('rejected'))
     const rows = await errorRows()
     expect(rows).toHaveLength(1)
-    // Log Orca’s spawn error; absent observed exit must not blame the provider.
+    // Log Amoeba’s spawn error; absent observed exit must not blame the provider.
     expect(rows[0]).toBe("Codex couldn't restart. Send your message to try again.")
     const failure = {
       kind: 'restartFailed',

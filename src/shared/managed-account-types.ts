@@ -92,7 +92,7 @@ export type ClaudeManagedAccountSummary = {
   createdAt: number
   updatedAt: number
   lastAuthenticatedAt: number
-  /** Its folder holds no login yet, e.g. an account saved by an older Orca; it needs a sign-in. */
+  /** Its folder holds no login yet, e.g. an account saved by an older Amoeba; it needs a sign-in. */
   needsSignIn?: true
   /** Its folder holds no login, so its launches run on System default, signed in to it. */
   runsOnSystemDefault?: true
@@ -119,7 +119,7 @@ export type ClaudeRateLimitAccountsState = {
   activeAccountIdsByRuntime?: ClaudeManagedAccountRuntimeSelection
   /** The login System default holds, when the host can read it and accounts exist. */
   systemDefaultEmail?: string
-  /** An older Orca's copy-based switching once wrote an account's login into System default. */
+  /** An older Amoeba's copy-based switching once wrote an account's login into System default. */
   systemDefaultMayBeCopied?: boolean
 }
 

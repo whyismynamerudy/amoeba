@@ -187,7 +187,7 @@ afterEach(() => {
   clearNativeChatComposerDraftsForTests()
 })
 
-describe('Continue on a reply an Orca stop cut off', () => {
+describe('Continue on a reply an Amoeba stop cut off', () => {
   it("asks the chat's own host, paired or local, to continue that cut turn", () => {
     mocks.call.mockResolvedValue({ outcome: 'pending' })
     render(<Harness />)
@@ -264,7 +264,7 @@ describe('Continue on a reply an Orca stop cut off', () => {
     expect(continueButton()).toBeNull()
   })
 
-  it('is not offered for a cut no Orca stop explains', () => {
+  it('is not offered for a cut no Amoeba stop explains', () => {
     render(<Harness journalItems={cutChat.slice(0, 1)} />)
     expect(continueButton()).toBeNull()
   })

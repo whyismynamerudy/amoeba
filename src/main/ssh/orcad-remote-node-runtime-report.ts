@@ -19,7 +19,7 @@ export class RemoteNodeRuntimeSelfTestError extends RelayHostAnsweredError {
     const missing = parseMissingSharedLibrary(output)
     super(
       missing
-        ? `The host is missing ${missing}, which Orca's Node runtime needs. ` +
+        ? `The host is missing ${missing}, which Amoeba's Node runtime needs. ` +
             `${installHint(missing)} Then reconnect. (${exit}: ${output})`
         : `The pinned Node runtime did not run on the host (${exit}): ${output}`
     )
@@ -30,7 +30,7 @@ export class RemoteNodeRuntimeSelfTestError extends RelayHostAnsweredError {
 export class RemoteNodeRuntimeNoexecError extends RelayHostAnsweredError {
   constructor(
     readonly output: string,
-    storeDir = 'Orca’s runtime folder'
+    storeDir = 'Amoeba’s runtime folder'
   ) {
     super(`The host does not allow running programs from ${storeDir}: ${output}`)
     this.name = 'RemoteNodeRuntimeNoexecError'

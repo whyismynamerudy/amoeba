@@ -32,6 +32,27 @@ describe('updater', () => {
     resetUpdaterMocks()
   })
 
+  it('keeps Amoeba off the upstream feed, including manual download and install requests', async () => {
+    Object.assign(appMock, { name: 'Amoeba' })
+    try {
+      const updater = await loadUpdaterModule()
+      updater.setupAutoUpdater(updaterMainWindow(vi.fn()))
+      updater.checkForUpdates()
+      updater.checkForUpdatesFromMenu()
+      updater.downloadUpdate()
+      updater.quitAndInstall()
+      expect(updater.getUpdateStatus()).toMatchObject({
+        state: 'error',
+        message: 'Automatic updates are not configured for Amoeba yet.'
+      })
+      expect(autoUpdaterMock.checkForUpdates).not.toHaveBeenCalled()
+      expect(autoUpdaterMock.downloadUpdate).not.toHaveBeenCalled()
+      expect(autoUpdaterMock.quitAndInstall).not.toHaveBeenCalled()
+    } finally {
+      Reflect.deleteProperty(appMock, 'name')
+    }
+  })
+
   it('keeps the staged target when installation cancels a queued background feed check', async () => {
     vi.useFakeTimers()
     let resolveQueuedTags: (value: { tags: string[]; state: 'ready' }) => void = () => {}

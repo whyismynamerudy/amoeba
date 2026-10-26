@@ -271,7 +271,7 @@ export default function MonacoEditor({
         key={modelUri}
         height={renderedEditorHeight === null ? '100%' : `${renderedEditorHeight}px`}
         language={language}
-        // Use defaultValue because Orca owns later content sync; controlled values would duplicate setValue.
+        // Use defaultValue because Amoeba owns later content sync; controlled values would duplicate setValue.
         defaultValue={content}
         theme={isDark ? 'vs-dark' : 'vs'}
         onChange={contentSync.handleChange}
@@ -306,7 +306,7 @@ export default function MonacoEditor({
         }}
         // Build a model URI because the React wrapper’s Uri.parse treats Windows drive letters as schemes.
         path={modelUri}
-        // Orca owns cursor/scroll restoration; disable the wrapper’s competing view-state map.
+        // Amoeba owns cursor/scroll restoration; disable the wrapper’s competing view-state map.
         saveViewState={false}
         keepCurrentModel
       />

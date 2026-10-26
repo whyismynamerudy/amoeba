@@ -42,7 +42,7 @@ import {
 const DOCUMENT_URL = 'file:///opt/orca/renderer/index.html'
 // Use an install file URL the current crash-report path redactor cannot remove.
 const INSTALL_PATH_LOAD_ERROR =
-  "ERR_FILE_NOT_FOUND (-6) loading 'file:///Users/jane.doe/Applications/Orca.app/Contents/Resources/app.asar/out/renderer/index.html'"
+  "ERR_FILE_NOT_FOUND (-6) loading 'file:///Users/jane.doe/Applications/Amoeba.app/Contents/Resources/app.asar/out/renderer/index.html'"
 const CRASH = { reason: 'crashed', exitCode: 5 } as Electron.RenderProcessGoneDetails
 
 /** Reproduce a recovery load with no document or failure event; renderer-death accounting alone cannot detect its stall. */

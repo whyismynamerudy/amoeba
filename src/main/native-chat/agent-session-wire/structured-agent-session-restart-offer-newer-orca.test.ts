@@ -71,13 +71,13 @@ async function keptWithoutAWord(
   expect(await capsule.listFailed(NOW)).toEqual([])
 }
 
-it('keeps the offer of a chat whose journal a newer Orca wrote, and offers, runs and counts nothing', async () => {
+it('keeps the offer of a chat whose journal a newer Amoeba wrote, and offers, runs and counts nothing', async () => {
   const { host, root, acquire } = await interruptedRestart()
   newerOrcaRow(root)
   await keptWithoutAWord(host, root, acquire)
 })
 
-it('keeps the offer of every chat in a newer Orca database, and offers, runs and counts nothing', async () => {
+it('keeps the offer of every chat in a newer Amoeba database, and offers, runs and counts nothing', async () => {
   const { host, root, acquire } = await interruptedRestart()
   const database = openTestJournalHostDatabase(root)
   Object.defineProperty(database, 'readOnly', { value: true })
@@ -85,11 +85,11 @@ it('keeps the offer of every chat in a newer Orca database, and offers, runs and
   await keptWithoutAWord(host, root, acquire)
 })
 
-it('keeps the offer and files nothing when the send is refused as a newer Orca chat', async () => {
+it('keeps the offer and files nothing when the send is refused as a newer Amoeba chat', async () => {
   const { host, root } = await interruptedRestart()
   await host.restartResume.list()
   vi.spyOn(AgentSessionJournal.prototype, 'appendSubmission').mockRejectedValue(
-    new AgentSessionJournalError('journal_read_only', 'a newer Orca wrote this journal')
+    new AgentSessionJournalError('journal_read_only', 'a newer Amoeba wrote this journal')
   )
 
   const action = await host.restartResume.continueAfterRestart([SESSION], 'modal')
@@ -107,7 +107,7 @@ it('keeps the offer and files nothing when the send is refused as a newer Orca c
   expect(await host.restartResume.listFailures()).toEqual([])
 })
 
-it('keeps a failure already filed for a chat a newer Orca saved since, but does not show it', async () => {
+it('keeps a failure already filed for a chat a newer Amoeba saved since, but does not show it', async () => {
   const { host, root, acquire } = await interruptedRestart()
   await host.restartResume.list()
   acquire.mockRejectedValueOnce(new Error('provider could not reconnect'))
@@ -146,7 +146,7 @@ it.each([
   ['on a host that has not listed them yet', false, undefined],
   ['for a client shown only Codex', false, (agent: string) => agent === 'codex']
 ])(
-  "dismisses every listed offer and leaves a newer Orca's hidden one as it was, %s",
+  "dismisses every listed offer and leaves a newer Amoeba's hidden one as it was, %s",
   async (_when, listFirst, audience) => {
     const NEWER = 'session-newer-orca'
     const created = await hostTestState().host.attach(

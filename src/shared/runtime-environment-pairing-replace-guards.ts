@@ -10,19 +10,19 @@ export function assertNoIndependentSshAccess(environment: KnownRuntimeEnvironmen
   if (environment.orcadDeployment) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      'Orca runs this server on an SSH host for you; its pairing cannot be replaced or removed here. To decommission it, run `orca environment stop --environment <name> --yes` or use Settings > Orca on your SSH hosts; for a host that is gone, run `orca environment forget --environment <name> --yes`.'
+      'Amoeba runs this server on an SSH host for you; its pairing cannot be replaced or removed here. To decommission it, run `orca environment stop --environment <name> --yes` or use Settings > Amoeba on your SSH hosts; for a host that is gone, run `orca environment forget --environment <name> --yes`.'
     )
   }
   if (environment.pendingSshAccessOperation) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      "This server's SSH access change didn't finish. Retry or cancel it under Settings > Remote Orca Servers > SSH access for paired servers before replacing its pairing or removing it."
+      "This server's SSH access change didn't finish. Retry or cancel it under Settings > Remote Amoeba Servers > SSH access for paired servers before replacing its pairing or removing it."
     )
   }
   if (environment.sshAccess) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      "Unlink this server's SSH access under Settings > Remote Orca Servers > SSH access for paired servers before replacing its pairing or removing it."
+      "Unlink this server's SSH access under Settings > Remote Amoeba Servers > SSH access for paired servers before replacing its pairing or removing it."
     )
   }
 }
@@ -50,7 +50,7 @@ export function assertPairingReplaceableByAdd(
   if (environment.orcadDeployment?.kind === 'wsl') {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      `${alreadyPaired} Orca manages it as a WSL host, so its pairing cannot be replaced here.`
+      `${alreadyPaired} Amoeba manages it as a WSL host, so its pairing cannot be replaced here.`
     )
   }
   try {
@@ -64,7 +64,7 @@ export function assertPairingReplaceableByAdd(
   if (!refreshable) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      `${alreadyPaired} To update its connection, add it again under Settings > Remote Orca Servers.`
+      `${alreadyPaired} To update its connection, add it again under Settings > Remote Amoeba Servers.`
     )
   }
 }

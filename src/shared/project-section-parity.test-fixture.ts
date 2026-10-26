@@ -58,7 +58,7 @@ export const PROJECT_SECTION_PARITY_HOSTS: readonly ParityHostAnswer[] = [
       projects: [
         {
           id: 'github:stablyai/orca',
-          displayName: 'Orca',
+          displayName: 'Amoeba',
           badgeColor: '#737373',
           providerIdentity: { provider: 'github', owner: 'stablyai', repo: 'orca' },
           sourceRepoIds: [windowsRepo.id],
@@ -115,7 +115,7 @@ const WORKSPACE = {
   key: 'project:github:stablyai/orca::setup:local-workspace',
   label: 'orca/orca'
 }
-// Why 'orca', not the server's 'Orca': the later host's derived project name wins the merge.
+// Why 'orca', not the server's 'Amoeba': the later host's derived project name wins the merge.
 const WINDOWS = { key: 'project:github:stablyai/orca', label: 'orca' }
 const M4 = { key: 'project:github:stablyai/orca::setup:m4-orca', label: 'orca/orca' }
 const M4_TWO = {

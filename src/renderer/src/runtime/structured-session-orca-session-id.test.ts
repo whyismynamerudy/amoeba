@@ -22,12 +22,12 @@ function failure(code: string, message: string): RuntimeRpcCallError {
   })
 }
 
-describe('the Orca session ID a chat copies', () => {
+describe('the Amoeba session ID a chat copies', () => {
   beforeEach(() => {
     callRuntimeRpc.mockReset()
   })
 
-  it("is the host's Orca session ID for the conversation, not the live session's", async () => {
+  it("is the host's Amoeba session ID for the conversation, not the live session's", async () => {
     callRuntimeRpc.mockResolvedValue({ orcaSessionId: `orca_session_id:${ROOT}` })
 
     await expect(resolveStructuredSessionOrcaSessionId(LOCAL, LIVE)).resolves.toBe(
@@ -52,7 +52,7 @@ describe('the Orca session ID a chat copies', () => {
     await expect(resolveStructuredSessionOrcaSessionId(LOCAL, LIVE)).rejects.toThrow('down')
   })
 
-  it('asks nothing for an id that is not an Orca session id', async () => {
+  it('asks nothing for an id that is not an Amoeba session id', async () => {
     await expect(resolveStructuredSessionOrcaSessionId(LOCAL, 'not an id')).resolves.toBe(null)
     expect(callRuntimeRpc).not.toHaveBeenCalled()
   })

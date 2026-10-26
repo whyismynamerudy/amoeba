@@ -29,17 +29,17 @@ function checkout(kind) {
 const env = { HOME: '/home/dev', XDG_CONFIG_HOME: '/home/dev/.config' }
 
 describe('resolveDevProfile', () => {
-  it('isolates linked worktrees from each other and keeps orca-dev for the main checkout', () => {
+  it('isolates linked worktrees from each other and keeps amoeba-dev for the main checkout', () => {
     const first = resolveDevProfile({ repoRoot: checkout('linked'), env, platform: 'linux' })
     const second = resolveDevProfile({ repoRoot: checkout('linked'), env, platform: 'linux' })
     const main = resolveDevProfile({ repoRoot: checkout('main'), env, platform: 'linux' })
 
     expect(first.kind).toBe('worktree')
-    expect(path.dirname(first.userDataPath)).toBe(path.join('/home/dev/.config', 'orca-dev-wt'))
+    expect(path.dirname(first.userDataPath)).toBe(path.join('/home/dev/.config', 'amoeba-dev-wt'))
     expect(first.userDataPath).not.toBe(second.userDataPath)
     expect(main).toEqual({
       kind: 'shared',
-      userDataPath: path.join('/home/dev/.config', 'orca-dev')
+      userDataPath: path.join('/home/dev/.config', 'amoeba-dev')
     })
   })
 

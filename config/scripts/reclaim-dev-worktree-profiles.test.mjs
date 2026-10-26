@@ -21,7 +21,7 @@ it('removes only idle profiles whose worktree of this repository is gone', async
   mkdirSync(commonDirectory, { recursive: true })
   mkdirSync(otherCommonDirectory, { recursive: true })
   mkdirSync(liveWorktree)
-  const profilesRoot = path.join(root, 'orca-dev-wt')
+  const profilesRoot = path.join(root, 'amoeba-dev-wt')
   const profile = (name, repoRoot, gitCommonDir) => {
     const dir = path.join(profilesRoot, name)
     writeWorktreeProfileMarker(dir, { repoRoot, instanceKey: repoRoot, gitCommonDir })

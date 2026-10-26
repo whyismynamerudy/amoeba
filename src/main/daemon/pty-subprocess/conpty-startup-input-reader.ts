@@ -15,7 +15,7 @@ export type ConptyStartupOutcome = Exclude<ConptyStartupVerdict, 'pending'> | 'e
 export const CONPTY_STARTUP_DECISION_LIMIT_MS = 5_000
 
 export const CONPTY_NO_INPUT_READER_NOTICE =
-  '\r\n\x1b[31m[Orca] Windows could not start keyboard input for this terminal. Close it and open a new one.\x1b[0m\r\n'
+  '\r\n\x1b[31m[Amoeba] Windows could not start keyboard input for this terminal. Close it and open a new one.\x1b[0m\r\n'
 
 export function classifyConptyStartupOutput(output: string): ConptyStartupVerdict {
   let rest = output
@@ -144,7 +144,7 @@ export async function spawnConptyWithInputReader(
   opts: {
     label: string
     signal?: AbortSignal
-    // Only Orca's default interactive argv is safe to respawn; custom argv may repeat a command.
+    // Only Amoeba's default interactive argv is safe to respawn; custom argv may repeat a command.
     respawnSafe: boolean
   }
 ): Promise<{ proc: pty.IPty; claimStartupEvents: () => ConptyStartupEvents }> {

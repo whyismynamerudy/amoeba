@@ -99,13 +99,13 @@ export async function resolveHostFlagEnvironmentId(
     const sshTargets = await selection.listSshTargets()
     throw new RuntimeClientError(
       'invalid_argument',
-      `Unknown Orca server in ${flagSpelling}: no paired Orca server is named or has id ${wanted}.`,
+      `Unknown Amoeba server in ${flagSpelling}: no paired Amoeba server is named or has id ${wanted}.`,
       {
         knownEnvironments: environments,
         knownSshTargets: sshTargets,
         nextSteps: [
           ...crossKindNextSteps(wanted, { environments, sshTargets }, 'environment'),
-          'Run `orca environment list` to see paired Orca servers.',
+          'Run `orca environment list` to see paired Amoeba servers.',
           'Use --host local to target this machine.'
         ]
       }
@@ -115,12 +115,12 @@ export async function resolveHostFlagEnvironmentId(
     if (isLocalHostListName(host.alias)) {
       throw new RuntimeClientError(
         'invalid_argument',
-        `Ambiguous --host ${host.alias}: it names both this machine and a paired Orca server.`,
+        `Ambiguous --host ${host.alias}: it names both this machine and a paired Amoeba server.`,
         {
           knownEnvironments: [environment],
           nextSteps: [
             'Use --host local for this machine.',
-            `Use --host runtime:${environment.id} for the paired Orca server named ${environment.name}.`
+            `Use --host runtime:${environment.id} for the paired Amoeba server named ${environment.name}.`
           ]
         }
       )
@@ -130,7 +130,7 @@ export async function resolveHostFlagEnvironmentId(
   if (selection.pairingCode) {
     throw new RuntimeClientError(
       'invalid_argument',
-      `${flagSpelling} already selects a paired Orca server; use either --host runtime:<id> or --pairing-code, not both.`
+      `${flagSpelling} already selects a paired Amoeba server; use either --host runtime:<id> or --pairing-code, not both.`
     )
   }
   if (selection.environmentSelector) {
@@ -140,7 +140,7 @@ export async function resolveHostFlagEnvironmentId(
     if (selected.id !== environment.id) {
       throw new RuntimeClientError(
         'invalid_argument',
-        `${flagSpelling} and ${selection.environmentSelector.label} ${selection.environmentSelector.value} name different Orca servers.`
+        `${flagSpelling} and ${selection.environmentSelector.label} ${selection.environmentSelector.value} name different Amoeba servers.`
       )
     }
   }
@@ -159,11 +159,11 @@ async function assertAliasNamesOneHost(
   } catch {
     throw new RuntimeClientError(
       'invalid_argument',
-      `Cannot verify --host ${alias}: it names a paired Orca server, but this machine's SSH targets could not be read to rule out one with the same name.`,
+      `Cannot verify --host ${alias}: it names a paired Amoeba server, but this machine's SSH targets could not be read to rule out one with the same name.`,
       {
         knownEnvironments: [environment],
         nextSteps: [
-          `Use --host runtime:${environment.id} for the paired Orca server named ${environment.name}.`
+          `Use --host runtime:${environment.id} for the paired Amoeba server named ${environment.name}.`
         ]
       }
     )
@@ -178,12 +178,12 @@ async function assertAliasNamesOneHost(
     conflicts.length === 1 ? 'an SSH target' : `${conflicts.length} SSH targets sharing that label`
   throw new RuntimeClientError(
     'invalid_argument',
-    `Ambiguous --host ${alias}: it names both a paired Orca server and ${sshCount} on this machine.`,
+    `Ambiguous --host ${alias}: it names both a paired Amoeba server and ${sshCount} on this machine.`,
     {
       knownEnvironments: [environment],
       knownSshTargets: conflicts,
       nextSteps: [
-        `Use --host runtime:${environment.id} for the paired Orca server named ${environment.name}.`,
+        `Use --host runtime:${environment.id} for the paired Amoeba server named ${environment.name}.`,
         ...conflicts.map(
           (target) => `Use --host ssh:${target.id} for the SSH target labeled ${target.label}.`
         )
@@ -275,7 +275,7 @@ function assertEnvironmentNameUnambiguous(
   }
   throw new RuntimeClientError(
     'invalid_argument',
-    `Ambiguous Orca server in ${flag}: ${ambiguous.length} paired servers are named ${name}. Use the environment id.`,
+    `Ambiguous Amoeba server in ${flag}: ${ambiguous.length} paired servers are named ${name}. Use the environment id.`,
     {
       knownEnvironments: ambiguous,
       nextSteps: ambiguous.map(
@@ -306,7 +306,7 @@ export async function resolveEnvironmentSelectorForStore(
   const sshTargets = await listSshTargetsForSuggestion()
   throw new RuntimeClientError(
     'invalid_argument',
-    `Unknown Orca server in --environment ${selector}: no paired Orca server is named or has id ${selector}.`,
+    `Unknown Amoeba server in --environment ${selector}: no paired Amoeba server is named or has id ${selector}.`,
     {
       knownEnvironments: environments,
       knownSshTargets: sshTargets,

@@ -27,7 +27,7 @@ type LinkedLinearWorktreeFields = Pick<Worktree, 'linkedLinearIssue'> &
     >
   >
 
-// Why: Has Workspace is an Orca workspace view, not a Linear API filter.
+// Why: Has Workspace is an Amoeba workspace view, not a Linear API filter.
 export function collectLinkedLinearIssueRefsFromWorktrees(
   worktrees: readonly LinkedLinearWorktreeFields[],
   options?: {

@@ -323,14 +323,14 @@ describe('configureDevUserDataPath', () => {
     expect(app.setPath).toHaveBeenCalledWith('userData', '/tmp/orca-dev-repro')
   })
 
-  it('moves dev runs onto an orca-dev userData path', async () => {
+  it('moves dev runs onto an amoeba-dev userData path', async () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
 
     delete process.env.ORCA_DEV_USER_DATA_PATH
     configureDevUserDataPath(true)
 
-    expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'orca-dev'))
+    expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'amoeba-dev'))
   })
 
   it('leaves packaged runs on the default userData path', async () => {
@@ -375,7 +375,7 @@ describe('configureOrcaUserDataPathEnv', () => {
     expect(configuredUserDataPath).toBe('/tmp/current-orca-user-data')
   })
 
-  it('drops a runtime source inherited from the Orca terminal that started this Orca', async () => {
+  it('drops a runtime source inherited from the Amoeba terminal that started this Amoeba', async () => {
     const { app } = await import('electron')
     const { configureOrcaUserDataPathEnv } = await import('./configure-process')
     const saved = { ...process.env }

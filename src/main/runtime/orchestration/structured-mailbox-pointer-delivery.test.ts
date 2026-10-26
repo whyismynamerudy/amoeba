@@ -85,7 +85,7 @@ function harness(options: {
     getMessageWaiters: (handle) => options.waiters?.get(handle),
     resolveStructuredTarget: (mailboxHandle) =>
       mailboxHandle === mailbox ? { sessionId: IDENTITY.sessionId, dispatchId } : null,
-    getCliCommand: () => 'orca-dev',
+    getCliCommand: () => 'amoeba-dev',
     senderName: (party) => (party.address === 'term_coord' ? 'Coordinator' : null),
     host: {
       readSessionFacts: async () => (attached ? { submissions } : null),
@@ -242,7 +242,7 @@ describe('structured mailbox pointer delivery', () => {
     await flush()
     expect(send).toHaveBeenCalledTimes(1)
     expect(send.mock.calls[0]![0].body.blocks[0]).toMatchObject({
-      text: expect.stringContaining('orca-dev orchestration check')
+      text: expect.stringContaining('amoeba-dev orchestration check')
     })
     expect(send.mock.calls[0]![0].body.from).toMatchObject({
       kind: 'agent',
@@ -623,7 +623,7 @@ describe('a mailbox a /clear moves while its nudge is in flight', () => {
       getDb: () => db as never,
       getMessageWaiters: () => undefined,
       resolveStructuredTarget: () => ({ sessionId: target, dispatchId: 'd1' }),
-      getCliCommand: () => 'orca-dev',
+      getCliCommand: () => 'amoeba-dev',
       senderName: () => null,
       host: {
         readSessionFacts: async () => ({ submissions: [] }),

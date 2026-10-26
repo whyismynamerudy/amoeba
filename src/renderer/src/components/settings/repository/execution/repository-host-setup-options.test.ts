@@ -21,11 +21,11 @@ function runtimeHost(
   return {
     id: 'runtime:env-1',
     kind: 'runtime',
-    label: 'Remote Orca',
-    detail: 'Orca server',
+    label: 'Remote Amoeba',
+    detail: 'Amoeba server',
     health: 'available',
     ...overrides
-  } as ExecutionHostRegistryEntry
+  }
 }
 
 function sshHost(health: ExecutionHostRegistryEntry['health']): ExecutionHostRegistryEntry {
@@ -92,7 +92,7 @@ describe('buildSetupHostOptions', () => {
       })[0]
     ).toMatchObject({
       isAvailable: true,
-      detail: 'Orca server'
+      detail: 'Amoeba server'
     })
   })
 
@@ -108,7 +108,7 @@ describe('buildSetupHostOptions', () => {
       })[0]
     ).toMatchObject({
       isAvailable: false,
-      detail: 'Update Orca on this host to set up projects'
+      detail: 'Update Amoeba on this host to set up projects'
     })
   })
 })

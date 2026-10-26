@@ -16,7 +16,7 @@ const PID_REUSE_HORIZON_MS = 24 * 60 * 60_000
 const REF_LOCK_SCAN_CEILING = 4096
 
 /**
- * Recover locks attributed by an Orca marker only after an age and owner-liveness check.
+ * Recover locks attributed by an Amoeba marker only after an age and owner-liveness check.
  * Markers can outlive their locks; the age gate avoids removing a newly created foreign lock.
  * Beyond the PID-reuse horizon, the recorded PID no longer prevents packed-refs recovery.
  */

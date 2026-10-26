@@ -189,7 +189,7 @@ export async function installBrowserSessionPartitionPolicies(
           () => resolvePermissionNoticeUrl(webContents, details) || null
         )
       ) {
-        // Orca launches approved apps itself; deny Chromium's duplicate launch.
+        // Amoeba launches approved apps itself; deny Chromium's duplicate launch.
         callback(false)
         return
       }

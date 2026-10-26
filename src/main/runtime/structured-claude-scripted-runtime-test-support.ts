@@ -21,7 +21,7 @@ import {
 } from './structured-agent-session-runtime'
 import { createStructuredAgentSessionLogger } from '../native-chat/agent-session-wire/structured-agent-session-logger'
 
-/** The error a real CLI's exit reaches the adapter as: Orca's message, the stderr as a log detail. */
+/** The error a real CLI's exit reaches the adapter as: Amoeba's message, the stderr as a log detail. */
 export function scriptedClaudeExitError(diagnostic: string): Error {
   return withProviderDiagnostic(new Error(diagnostic), providerDiagnostic(diagnostic, 'log'))
 }

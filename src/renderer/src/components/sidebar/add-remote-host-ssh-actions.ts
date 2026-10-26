@@ -104,7 +104,7 @@ export async function saveNewSshHostFromForm<T extends SavedSshHost>({
       toast.error(
         translate(
           'auto.components.sidebar.AddRemoteHostDialog.sshAlreadyExists',
-          'That SSH host is already in Orca.'
+          'That SSH host is already in Amoeba.'
         )
       )
       return 'validation-failed'
@@ -142,7 +142,7 @@ export async function prefillFormFromSshConfigHost(
     throw new Error(
       translate(
         'auto.components.sidebar.AddRemoteHostDialog.sshConfigPickerRestartRequired',
-        'Restart Orca to finish applying the SSH config picker update.'
+        'Restart Amoeba to finish applying the SSH config picker update.'
       )
     )
   }
@@ -186,7 +186,7 @@ export async function addAllSshConfigHostsToOrca({
     toast.success(
       translate(
         'auto.components.sidebar.AddRemoteHostDialog.sshImportSynced',
-        'Added {{value0}} host{{value1}} to Orca.',
+        'Added {{value0}} host{{value1}} to Amoeba.',
         { value0: result.targets.length, value1: result.targets.length > 1 ? 's' : '' }
       )
     )

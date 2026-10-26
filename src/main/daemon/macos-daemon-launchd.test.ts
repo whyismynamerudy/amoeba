@@ -46,7 +46,7 @@ vi.mock('@orca/process-host', () => ({ runProcess: runProcessMock }))
 vi.mock('../../shared/app-environment', () => ({
   hasAppEnvironment: () => true,
   getAppEnvironment: () => ({
-    getAppPath: () => '/Applications/Orca.app/Contents/Resources/app.asar',
+    getAppPath: () => '/Applications/Amoeba.app/Contents/Resources/app.asar',
     getPath: () => state.root,
     getVersion: () => '1.2.3',
     isPackaged: () => state.packaged
@@ -144,8 +144,8 @@ beforeEach(async () => {
   copyDir = join(state.root, 'daemon-host', 'macos', 'terminal-host-abc')
   await mkdir(copyDir, { recursive: true })
   options = {
-    entryPath: '/Applications/Orca.app/Contents/Resources/daemon-entry.js',
-    forkEntryPath: '/Applications/Orca.app/Contents/Resources/daemon-entry.js',
+    entryPath: '/Applications/Amoeba.app/Contents/Resources/daemon-entry.js',
+    forkEntryPath: '/Applications/Amoeba.app/Contents/Resources/daemon-entry.js',
     userDataPath: state.root,
     runtimeDir: join(state.root, 'daemon'),
     socketPath: join(state.root, 'daemon.sock'),
@@ -217,7 +217,7 @@ it('launches the copied helper on plain Node and leaves no inherited credentials
   expect(job).toMatchObject({
     Label: macDaemonJobLabel(state.root),
     KeepAlive: false,
-    AssociatedBundleIdentifiers: ['com.stablyai.orca'],
+    AssociatedBundleIdentifiers: ['com.amoeba.desktop'],
     EnvironmentVariables: { ORCA_TEST_SECRET: 'test-value' }
   })
   expect(JSON.stringify(job)).not.toContain('NODE_CHANNEL_FD')
@@ -245,10 +245,10 @@ it('uses one launchd label per profile and protocol', () => {
     macDaemonJobLabel('/Users/a/Library/Application Support/orca/')
   )
   expect(macDaemonJobLabel('/Users/a/Library/Application Support/orca')).not.toBe(
-    macDaemonJobLabel('/Users/a/Library/Application Support/orca-dev')
+    macDaemonJobLabel('/Users/a/Library/Application Support/amoeba-dev')
   )
   expect(macDaemonJobLabel('/p')).toMatch(
-    new RegExp(`^com\\.stablyai\\.orca\\.terminal\\.[0-9a-f]{16}\\.v${PROTOCOL_VERSION}$`)
+    new RegExp(`^com\\.amoeba\\.desktop\\.terminal\\.[0-9a-f]{16}\\.v${PROTOCOL_VERSION}$`)
   )
 })
 

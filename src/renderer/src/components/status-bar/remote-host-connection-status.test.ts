@@ -28,7 +28,7 @@ describe('blocked runtime hosts', () => {
       requiredServerProtocolVersion: 4
     })
     expect(update.label).toBe('Update required')
-    expect(update.detail).toContain('Update Orca on the server')
+    expect(update.detail).toContain('Update Amoeba on the server')
     expect(runtimeHostBlockedCopy('incompatible').detail).toBeUndefined()
   })
 })

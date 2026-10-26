@@ -16,7 +16,7 @@ function makeCliStatus(overrides: Partial<CliInstallStatus> = {}): CliInstallSta
     commandPath: '/usr/local/bin/orca',
     pathDirectory: '/usr/local/bin',
     pathConfigured: true,
-    launcherPath: '/opt/Orca/orca',
+    launcherPath: '/opt/Amoeba/orca',
     installMethod: 'symlink',
     supported: true,
     state: 'installed',

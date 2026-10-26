@@ -294,7 +294,7 @@ export function wrapShellSpawnForMacosTccAttribution(
   }
 
   const shellEnvValue = env?.SHELL || file
-  // Login argv[0] disables Bash --rcfile; the Orca rcfile already implements login startup.
+  // Login argv[0] disables Bash --rcfile; the Amoeba rcfile already implements login startup.
   const trampoline =
     basename(file).toLowerCase() === 'bash' && args.includes('--rcfile')
       ? DIRECT_SHELL_TRAMPOLINE

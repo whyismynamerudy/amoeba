@@ -1,5 +1,5 @@
 import { installRealWorkerThreadChildProcesses } from '../worker-thread-child-process/worker-thread-child-process-real.test-fixtures'
-// Real Git may unregister before file deletion fails; retain leftovers as retryable Orca rows.
+// Real Git may unregister before file deletion fails; retain leftovers as retryable Amoeba rows.
 // macOS chflags uchg makes owner files undeletable; worktree-failed-removal.test.ts covers the same rules with mocked Git.
 import { execFile } from 'node:child_process'
 import { existsSync } from 'node:fs'
@@ -87,7 +87,7 @@ function storeStub(pushTarget?: GitPushTarget) {
   }
 }
 
-/** A remote Orca added for a fork PR's push target, as worktree create does. */
+/** A remote Amoeba added for a fork PR's push target, as worktree create does. */
 async function addOrcaPushTargetRemote(): Promise<GitPushTarget> {
   const pushTarget = {
     remoteName: 'pr-contributor',
@@ -230,7 +230,7 @@ describe.skipIf(process.platform !== 'darwin')('a worktree delete Git fails part
     const error = await failStartupFinish()
 
     expect(String(error)).toMatch(/Operation not permitted/)
-    // Git removed registration and merged branch but left checkout files and Orca metadata.
+    // Git removed registration and merged branch but left checkout files and Amoeba metadata.
     expect(await isRegistered(worktreePath)).toBe(false)
     expect(existsSync(lockedFile)).toBe(true)
     expect(await git(['branch', '--list', 'feature'])).toBe('')
@@ -344,7 +344,7 @@ describe.skipIf(process.platform !== 'darwin')('a worktree delete Git fails part
     expect(await git(['status', '--porcelain'], other)).toBe('?? wip.txt\n')
   })
 
-  it('removes the push-target remote Orca added when a runtime delete fails', async () => {
+  it('removes the push-target remote Amoeba added when a runtime delete fails', async () => {
     const pushTarget = await addOrcaPushTargetRemote()
     const worktree = (await listWorktreesStrict(repoPath)).find((row) =>
       areWorktreePathsEqual(row.path, worktreePath)
@@ -385,7 +385,7 @@ describe.skipIf(process.platform !== 'darwin')('a worktree delete Git fails part
     expect(existsSync(lockedFile)).toBe(true)
   })
 
-  it('removes the push-target remote Orca added when the startup finish fails', async () => {
+  it('removes the push-target remote Amoeba added when the startup finish fails', async () => {
     const pushTarget = await addOrcaPushTargetRemote()
 
     expect(String(await finishAtStartup([], pushTarget))).toMatch(/Operation not permitted/)

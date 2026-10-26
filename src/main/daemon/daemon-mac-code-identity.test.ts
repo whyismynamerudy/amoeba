@@ -10,9 +10,9 @@ import {
 } from './daemon-mac-code-identity'
 
 const HELPER_PATH =
-  '/Applications/Orca.app/Contents/Frameworks/Orca Helper.app/Contents/MacOS/Orca Helper'
+  '/Applications/Amoeba.app/Contents/Frameworks/Amoeba Helper.app/Contents/MacOS/Amoeba Helper'
 const PARKED_PATH =
-  '/private/var/folders/x/T/com.stablyai.orca.ShipIt.abc/Orca.app/Contents/MacOS/Orca'
+  '/private/var/folders/x/T/com.amoeba.desktop.ShipIt.abc/Amoeba.app/Contents/MacOS/Amoeba'
 
 function codesignReturns(stderr: string, code: number | null, timedOut = false): void {
   runProcessMock.mockResolvedValue({ code, stdout: '', stderr, timedOut })
@@ -31,7 +31,7 @@ describe('classifyCodesignDisplayOutput', () => {
   it('resolves the executable path codesign reports for a live process', () => {
     expect(
       classifyCodesignDisplayOutput(
-        `Executable=${HELPER_PATH}\nIdentifier=com.stablyai.orca.helper\nFormat=pid diskrep\n`,
+        `Executable=${HELPER_PATH}\nIdentifier=com.amoeba.desktop.helper\nFormat=pid diskrep\n`,
         0
       )
     ).toBe('resolved')
@@ -41,7 +41,7 @@ describe('classifyCodesignDisplayOutput', () => {
     expect(classifyCodesignDisplayOutput(`Executable=${PARKED_PATH}\n`, 0)).toBe('parked')
     expect(
       classifyCodesignDisplayOutput(
-        'Executable=/Users/a/Library/Caches/com.stablyai.orca.ShipIt/u/Orca.app/Contents/MacOS/Orca\n',
+        'Executable=/Users/a/Library/Caches/com.amoeba.desktop.ShipIt/u/Amoeba.app/Contents/MacOS/Amoeba\n',
         0
       )
     ).toBe('parked')

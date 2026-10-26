@@ -6,7 +6,7 @@ import {
 // Why: older runtimes strip mutation owner fields, so clients must fence writes before RPC.
 export const FILE_MUTATION_OWNERSHIP_RUNTIME_CAPABILITY = 'files.mutation-ownership.v1' as const
 export const FILE_MUTATION_OWNERSHIP_UPDATE_REQUIRED_MESSAGE =
-  'Remote file changes require a newer Orca server. Update the HUB and try again.'
+  'Remote file changes require a newer Amoeba server. Update the HUB and try again.'
 
 export const FILE_DOC_PREVIEW_RUNTIME_CAPABILITY = 'files.readDocPreview' as const
 

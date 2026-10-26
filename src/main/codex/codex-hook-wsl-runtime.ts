@@ -118,7 +118,7 @@ async function installManagedHooksIntoWslRuntimeExclusively(
       removeSelfComputedTrustBeforeGrant(grantPlan)
     )
     if (grant.lane === 'fallback') {
-      // Upsert only Orca's entries to preserve user approvals not rebuilt here.
+      // Upsert only Amoeba's entries to preserve user approvals not rebuilt here.
       upsertHookTrustEntries(plan.tomlPath, trustEntries)
     }
   } catch (error) {

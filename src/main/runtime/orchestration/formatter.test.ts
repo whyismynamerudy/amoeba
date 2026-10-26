@@ -181,8 +181,8 @@ describe('formatMessagePointer', () => {
     expect(formatMessagePointer(1, 'run:run_wsl', 'orca-ide')).toContain(
       '`orca-ide orchestration check --run run_wsl`'
     )
-    expect(formatMessagePointer(1, 'run:run_dev', 'orca-dev')).toContain(
-      '`orca-dev orchestration check --run run_dev`'
+    expect(formatMessagePointer(1, 'run:run_dev', 'amoeba-dev')).toContain(
+      '`amoeba-dev orchestration check --run run_dev`'
     )
   })
 })

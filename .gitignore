@@ -102,6 +102,7 @@ docs/**
 !docs/reference/git-workflow.md
 !docs/reference/test-antipatterns.md
 !docs/reference/component-fixtures.md
+!docs/reference/amoeba-fork.md
 !docs/agent-skill-sharing-implementation-checklist.md
 !docs/mobile-terminal-shortcut-bar.md
 

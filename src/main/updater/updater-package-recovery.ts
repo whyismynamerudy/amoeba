@@ -21,16 +21,16 @@ const LINUX_PACKAGE_RECOVERY_MESSAGES: Record<LinuxPackageRecoveryUnavailableRea
   'not-regular':
     'The downloaded package is no longer a valid file in the update cache. Download the update again, or get it from the official release page.',
   'hash-mismatch':
-    'The downloaded package no longer matches the verified release, so Orca will not hand it to a package manager. Download the update again, or get it from the official release page.',
+    'The downloaded package no longer matches the verified release, so Amoeba will not hand it to a package manager. Download the update again, or get it from the official release page.',
   'read-failed':
-    'Orca could not read the downloaded package. Download the update again, or get it from the official release page.',
+    'Amoeba could not read the downloaded package. Download the update again, or get it from the official release page.',
   'no-sudo':
-    'No sudo command was found in the system directories, so Orca cannot build a safe install command. Show the package and install it with your package manager.',
+    'No sudo command was found in the system directories, so Amoeba cannot build a safe install command. Show the package and install it with your package manager.',
   'no-package-manager':
-    'No supported package manager was found in the system directories, so Orca cannot build a safe install command. Show the package and install it with your package manager.',
+    'No supported package manager was found in the system directories, so Amoeba cannot build a safe install command. Show the package and install it with your package manager.',
   // Capture tracks absolute cache paths; invalid paths indicate a bug.
   'invalid-package-path':
-    'The downloaded package is not at a usable path, so Orca cannot build a safe install command. Show the package and install it with your package manager.'
+    'The downloaded package is not at a usable path, so Amoeba cannot build a safe install command. Show the package and install it with your package manager.'
 }
 
 // Clear status recovery with the artifact or renderer actions stay enabled.

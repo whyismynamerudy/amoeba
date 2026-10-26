@@ -99,7 +99,7 @@ describe('AppImage generation leases', () => {
     ).resolves.toBeNull()
     await expect(
       leaseAppImageGenerationForCurrentProcess({
-        execPath: '/opt/Orca/orca-ide',
+        execPath: '/opt/Amoeba/orca-ide',
         pid: 10,
         platform: 'linux',
         reader: live

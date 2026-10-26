@@ -78,7 +78,7 @@ describe('a Claude CLI that refuses the thinking-display flag', () => {
     expect(probe).toHaveBeenCalledTimes(1)
   })
 
-  it('hands the session whether its close was the one Orca began', async () => {
+  it('hands the session whether its close was the one Amoeba began', async () => {
     const claude = fakeClaude()
     const support = createClaudeCliFlagSupport({
       probe: async () => '2.1.280',

@@ -114,7 +114,7 @@ describe('who may call agent.launch', () => {
 })
 
 describe('what agent.launch accepts', () => {
-  it('rejects an agent Orca cannot launch', () => {
+  it('rejects an agent Amoeba cannot launch', () => {
     expect(parseLaunch({ ...CREATE_LAUNCH, agent: 'not-an-agent' }).success).toBe(false)
   })
 

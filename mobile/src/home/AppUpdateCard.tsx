@@ -7,7 +7,7 @@ export function AppUpdateCard(props: {
   onPress: () => void
   onDismiss: () => void
 }) {
-  const title = `Orca ${props.version} is available`
+  const title = `Amoeba ${props.version} is available`
   return (
     <View style={styles.card}>
       <Pressable
@@ -30,7 +30,7 @@ export function AppUpdateCard(props: {
       </Pressable>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Dismiss Orca ${props.version} update`}
+        accessibilityLabel={`Dismiss Amoeba ${props.version} update`}
         hitSlop={8}
         style={({ pressed }) => [styles.dismissButton, pressed && styles.dismissPressed]}
         onPress={props.onDismiss}

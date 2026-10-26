@@ -239,7 +239,7 @@ jobs:
 
           **Unlanded and unvetted.** This is somebody's branch, not main. No tests
           ran. The macOS build is signed and notarized like a release, so it installs
-          through Orca's in-app updater and opens without a Gatekeeper prompt — but the
+          through Amoeba's in-app updater and opens without a Gatekeeper prompt — but the
           branch may never merge, and this build is deleted after $ADHOC_RETAIN_DAYS days.
 
           **Windows builds are unsigned.** They install and update normally once you
@@ -444,8 +444,8 @@ jobs:
           set -euo pipefail
           app_dir=dist/mac
           if [[ "$MAC_ARCH" == arm64 ]]; then app_dir=dist/mac-arm64; fi
-          codesign --verify --deep --strict "$app_dir/Orca.app"
-          xcrun stapler validate "$app_dir/Orca.app"
+          codesign --verify --deep --strict "$app_dir/Amoeba.app"
+          xcrun stapler validate "$app_dir/Amoeba.app"
 
       - name: Verify this architecture's updater files
         env:

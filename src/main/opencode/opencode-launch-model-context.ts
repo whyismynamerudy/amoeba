@@ -116,7 +116,7 @@ export async function probeOpenCodeLaunchModelContext(options: {
       OPENCODE_SERVER_PASSWORD: password
     },
     process.platform,
-    // opencode serve ignores stdin EOF; POSIX supervision must stop it with Orca.
+    // opencode serve ignores stdin EOF; POSIX supervision must stop it with Amoeba.
     { lifetime: 'one-shot' }
   )
   const child = spawnProcess({

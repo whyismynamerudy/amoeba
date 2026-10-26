@@ -151,7 +151,7 @@ export function registerSshHandlers(
   registerSshConnectionHandlers()
   registerSshPortForwardHandlers()
   registerPlainSshTerminalHandlers()
-  // COMPAT(legacy-relay-bridge): terminals an older Orca's relay still runs.
+  // COMPAT(legacy-relay-bridge): terminals an older Amoeba's relay still runs.
   registerLegacyRelayBridgeIpc({
     store,
     getMainWindow: getCurrentMainWindow,

@@ -1,12 +1,12 @@
-# Orca Relay
+# Amoeba Relay
 
-The relay that connects the Orca mobile app to a desktop host. Phones and
+The relay that connects the Amoeba mobile app to a desktop host. Phones and
 desktops never talk to each other directly: each opens an outbound WebSocket
 to a relay cell, the relay pairs the two sessions, and it splices frames
 between them. A director assigns hosts to cells and coordinates migrations;
 cells carry the user connections.
 
-This directory is an independent pnpm workspace inside the Orca monorepo. Run
+This directory is an independent pnpm workspace inside the Amoeba monorepo. Run
 its commands from `cloud/`, not the repository root. The source is covered by
 the repository's root [MIT license](../LICENSE).
 
@@ -32,7 +32,7 @@ the validation required before rolling out the updated images and host pins.
 ## Mobile push gateway
 
 `apps/push` is a separate Cloud Run service from the relay. Phones never hold an
-Orca credential for it: the desktop host authenticates with the same X25519
+Amoeba credential for it: the desktop host authenticates with the same X25519
 key it uses for the relay, answering an encrypted challenge to mint a 24 hour
 session, then registers each paired phone's native push token and asks the
 gateway to push. The gateway queues each event as its own notification,

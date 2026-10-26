@@ -102,7 +102,7 @@ export async function recoverFailedSsh2Attempt(
   if (isSystemSshFallbackError(err)) {
     host.killProxyIfCurrent()
     try {
-      // Why: on macOS, per-app network policy can block Orca's direct TCP socket while the system OpenSSH binary is still allowed.
+      // Why: on macOS, per-app network policy can block Amoeba's direct TCP socket while the system OpenSSH binary is still allowed.
       await host.probeSystemSsh(resolved)
       return
     } catch {

@@ -253,7 +253,7 @@ export async function startLocalWorker(args: {
         )
       }
     }
-    // A chat has no pane or process; its Dispatch names it by its Orca session ID alone.
+    // A chat has no pane or process; its Dispatch names it by its Amoeba session ID alone.
     const terminalAuthority = chat
       ? CHAT_WORKER_AUTHORITY
       : requireWorkerAuthority(runtime, terminalHandle)

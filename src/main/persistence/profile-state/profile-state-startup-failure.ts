@@ -67,20 +67,20 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
     if (damagedSections !== undefined && typeof error.profileId === 'string') {
       return [
         `Part of this profile's saved state is damaged: ${profileStateSectionLabels(damagedSections).join(', ')}. Everything else is intact.`,
-        `Stop Orca, then run \`orca profile state rollback --repair --profile-id ${error.profileId}\` to replace only the damaged parts from backups and keep everything else. Orca keeps a copy of the damaged file.`,
+        `Stop Amoeba, then run \`orca profile state rollback --repair --profile-id ${error.profileId}\` to replace only the damaged parts from backups and keep everything else. Amoeba keeps a copy of the damaged file.`,
         `SQLite path: ${error.databaseFile}`,
         'To restore a whole backup instead, run `orca profile state exports`, then `orca profile state rollback --backup <id>`.'
       ].join('\n')
     }
     return [
-      'Orca cannot safely open the active profile because its SQLite state is unreadable.',
+      'Amoeba cannot safely open the active profile because its SQLite state is unreadable.',
       `Legacy JSON path: ${error.dataFile}`,
       `SQLite path: ${error.databaseFile}`,
       'Retained SQLite backups:',
       retainedBackups,
       'Retained JSON exports:',
       retainedExports,
-      'Stop Orca, then run `orca profile state exports` and choose a known-good recovery artifact.',
+      'Stop Amoeba, then run `orca profile state exports` and choose a known-good recovery artifact.',
       'Restore SQLite with `orca profile state rollback --backup <id>`, or restore a JSON export with',
       '`orca profile state rollback --revision <revision>`.'
     ].join('\n')
@@ -88,9 +88,9 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
 
   if (isProfileStateAuthorityFailure(error)) {
     return [
-      `Orca cannot safely choose a profile-state authority: ${error.message}`,
+      `Amoeba cannot safely choose a profile-state authority: ${error.message}`,
       'An older build may have changed the JSON file. Both copies are preserved; neither is selected automatically.',
-      'Stop Orca and copy the profile directory before choosing which state to keep.',
+      'Stop Amoeba and copy the profile directory before choosing which state to keep.',
       'To keep the current JSON, including edits from an older build, run `orca profile state rollback --current-json`. This archives both copies and does not merge their contents.',
       'Run `orca profile state exports` to inspect retained recovery points.',
       'Use `orca profile state rollback --backup <id>` or `orca profile state rollback --revision <revision>` only after selecting the state you want to restore.'
@@ -106,13 +106,13 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
     return error.message
   }
   if (failureClass === 'newer-schema') {
-    return 'This profile was saved by a newer version of Orca. Open it with that version or a newer release. Your profile has not been changed.'
+    return 'This profile was saved by a newer version of Amoeba. Open it with that version or a newer release. Your profile has not been changed.'
   }
   if (failureClass === 'revision-conflict') {
-    return 'The active profile changed while Orca was starting. Close other Orca processes using this profile, then restart Orca.'
+    return 'The active profile changed while Amoeba was starting. Close other Amoeba processes using this profile, then restart Amoeba.'
   }
   if (failureClass === 'writer-unavailable') {
-    return 'Orca could not start profile persistence. Restart Orca; if the problem continues, repair or reinstall this build.'
+    return 'Amoeba could not start profile persistence. Restart Amoeba; if the problem continues, repair or reinstall this build.'
   }
 
   return undefined

@@ -46,7 +46,7 @@ function serveFeed(tags: readonly string[]): void {
         status: 200,
         text: () =>
           Promise.resolve(
-            `version: ${version}\npath: Orca-${version}.zip\nfiles:\n  - url: Orca-${version}.zip\n`
+            `version: ${version}\npath: Amoeba-${version}.zip\nfiles:\n  - url: Amoeba-${version}.zip\n`
           )
       })
     }

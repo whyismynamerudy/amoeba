@@ -56,8 +56,8 @@ function buildFixture(options: { aliasCodex?: boolean } = {}): Fixture {
     throw new Error('Windows has a bundled launcher path')
   }
   writeStub(launcherPath, intendedMarker)
-  // Model hostile binaries under every Orca CLI spelling.
-  for (const name of ['orca', 'orca-ide', 'orca-dev']) {
+  // Model hostile binaries under every Amoeba CLI spelling.
+  for (const name of ['orca', 'orca-ide', 'amoeba-dev']) {
     writeStub(join(hijackDir, name), hijackMarker)
   }
   writeStub(join(codexDir, 'codex'), codexMarker)

@@ -32,7 +32,7 @@ async function makeFixture(): Promise<{
 }> {
   const root = await mkdtemp(join(tmpdir(), 'orca-appimage-extract-'))
   created.push(root)
-  const appImagePath = join(root, 'Orca.AppImage')
+  const appImagePath = join(root, 'Amoeba.AppImage')
   await writeFile(appImagePath, '#!/usr/bin/env bash\n', { encoding: 'utf8', mode: 0o755 })
   return { root, appImagePath, cacheRootPath: join(root, 'cache') }
 }
@@ -103,7 +103,7 @@ describe('appimage extracted root', () => {
     const namespaceKey = namespacePath.slice(namespacePath.lastIndexOf('/') + 1)
 
     expect(readAppImageSourceOfNamespace(cacheRootPath, namespaceKey)).toBe(appImagePath)
-    await writeFile(join(namespacePath, 'source-appimage'), '/elsewhere/Orca.AppImage')
+    await writeFile(join(namespacePath, 'source-appimage'), '/elsewhere/Amoeba.AppImage')
     expect(readAppImageSourceOfNamespace(cacheRootPath, namespaceKey)).toBeNull()
   })
 

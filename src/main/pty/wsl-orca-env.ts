@@ -116,7 +116,7 @@ export function addOrcaWslInteropEnv(env: Record<string, string>): void {
     ...(env.ORCA_PI_SOURCE_AGENT_DIR?.startsWith('/') ? ['ORCA_PI_SOURCE_AGENT_DIR/u'] : []),
     `${ORCA_IMAGE_PROTOCOL_ENV}/u`,
     'CLAUDE_CODE_FORCE_TERMINAL_IMAGES/u',
-    // Forward only Orca's clipboard marker; a host SSH session must not leak into bare guest shells.
+    // Forward only Amoeba's clipboard marker; a host SSH session must not leak into bare guest shells.
     ...(env.SSH_CONNECTION === CODEX_REMOTE_VIEWER_SSH_CONNECTION ? ['SSH_CONNECTION/u'] : []),
     'ORCA_OMP_FRESH_CONFIG/p',
     ...worktreeSetupWslenvEntries(env)

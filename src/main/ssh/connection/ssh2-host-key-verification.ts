@@ -115,7 +115,7 @@ export async function installSsh2HostKeyVerification(
   config.hostVerifier = createHostKeyVerifier({
     host: hostKeyLookupHost,
     port: config.port ?? 22,
-    // Print the lookup host in ssh-keygen -R guidance; the Orca label would remove no trusted entry.
+    // Print the lookup host in ssh-keygen -R guidance; the Amoeba label would remove no trusted entry.
     displayHost: hostKeyLookupHost,
     hostKeyStoreFile: boundSshHostKeyStoreFile() ?? undefined,
     strictHostKeyChecking: hostKeyResolved?.strictHostKeyChecking ?? 'ask',

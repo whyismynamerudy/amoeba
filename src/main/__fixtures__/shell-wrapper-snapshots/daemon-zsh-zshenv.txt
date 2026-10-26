@@ -1,4 +1,4 @@
-# Orca daemon zsh shell-ready wrapper
+# Amoeba daemon zsh shell-ready wrapper
 __orca_usable_zdotdir() {
   [[ -n "${1:-}" ]] || return 1
   [[ "$1" != */shell-ready/zsh ]] || return 1
@@ -119,7 +119,7 @@ __orca_deferred_init() {
       fi
     fi
     [[ -n "${ORCA_MIMOCODE_HOME:-}" ]] && export MIMOCODE_HOME="${ORCA_MIMOCODE_HOME}"
-    # Why: OMP does not auto-load Orca's managed status extension; wrap only
+    # Why: OMP does not auto-load Amoeba's managed status extension; wrap only
     # interactive launch invocations so subcommands such as `omp config` keep
     # their normal argv shape.
     __orca_omp_should_skip_extension() {
@@ -162,11 +162,11 @@ __orca_deferred_init() {
         # Why: a restored shell can retain the deleted directory inode after its path is recreated.
         (
           if [[ -z "$__orca_logical_cwd" ]]; then
-            printf 'Orca: OMP cannot start because no terminal working directory is available. Open a new terminal in an existing directory.\n' >&2
+            printf 'Amoeba: OMP cannot start because no terminal working directory is available. Open a new terminal in an existing directory.\n' >&2
             return 1
           fi
           if ! builtin cd -P -- "$__orca_logical_cwd" 2>/dev/null; then
-            printf 'Orca: OMP cannot access the terminal working directory "%s". Open a new terminal in an existing directory.\n' "$__orca_logical_cwd" >&2
+            printf 'Amoeba: OMP cannot access the terminal working directory "%s". Open a new terminal in an existing directory.\n' "$__orca_logical_cwd" >&2
             return 1
           fi
           __orca_omp_invoke "$__orca_use_extension" "$@"
@@ -231,7 +231,7 @@ __orca_deferred_init() {
         { [ -z "${ORCA_CLAUDE_USER_CONFIG_DIR:-}" ] || [ "${CLAUDE_CONFIG_DIR%/}" != "${ORCA_CLAUDE_USER_CONFIG_DIR%/}" ]; }; then
         command claude "$@"; return
       fi
-      # Why: Orca's value replaced the user's own at spawn, so System default restores theirs.
+      # Why: Amoeba's value replaced the user's own at spawn, so System default restores theirs.
       if [ -z "$__orca_claude_home" ] && [ -n "${CLAUDE_CONFIG_DIR:-}" ] && [ -n "${ORCA_CLAUDE_USER_CONFIG_DIR:-}" ]; then
         ( unset ORCA_CLAUDE_INJECTED_CONFIG_DIR; export CLAUDE_CONFIG_DIR="$ORCA_CLAUDE_USER_CONFIG_DIR"; command claude "$@" ); return
       fi
@@ -239,7 +239,7 @@ __orca_deferred_init() {
         ( unset CLAUDE_CONFIG_DIR ORCA_CLAUDE_INJECTED_CONFIG_DIR; command claude "$@" ); return
       fi
       case "$__orca_claude_home" in /*|[A-Za-z]:*) ;; *) return 1 ;; esac
-      # Why -m 700: matches the folder Orca's setup creates; a credentials folder stays private.
+      # Why -m 700: matches the folder Amoeba's setup creates; a credentials folder stays private.
       [ -d "$__orca_claude_home" ] || mkdir -p -m 700 -- "$__orca_claude_home" 2>/dev/null
       ( export CLAUDE_CONFIG_DIR="$__orca_claude_home" ORCA_CLAUDE_INJECTED_CONFIG_DIR="$__orca_claude_home"; command claude "$@" )
     }

@@ -111,13 +111,13 @@ it.each([
   expect(deps.note).toHaveBeenCalledExactlyOnceWith(...note)
 })
 
-it('reports a newer-Orca send refusal with its reason', async () => {
+it('reports a newer-Amoeba send refusal with its reason', async () => {
   const deps = dependencies('accepted')
   const refusal = {
     code: 'agent_session_journal_unreadable',
     details: { reason: 'journalWrittenByNewerOrca' }
   } as const
-  deps.send.mockResolvedValue({ ok: false, refusal: { ...refusal, message: 'Update Orca.' } })
+  deps.send.mockResolvedValue({ ok: false, refusal: { ...refusal, message: 'Update Amoeba.' } })
 
   await expect(
     continueStructuredAgentSessionAfterRestart(deps, SESSION, marker(), 'operation-1')

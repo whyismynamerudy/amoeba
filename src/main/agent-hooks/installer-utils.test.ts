@@ -242,13 +242,13 @@ describe('createManagedCommandMatcher', () => {
 
   it('matches commands containing the agent-hooks/<scriptFileName> path', () => {
     expect(
-      match('/bin/sh "/Users/alice/Library/Application Support/Orca/agent-hooks/claude-hook.sh"')
+      match('/bin/sh "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh"')
     ).toBe(true)
     expect(match('/bin/sh "/some/other/location/agent-hooks/claude-hook.sh"')).toBe(true)
   })
 
   it('normalizes Windows backslashes so cmd-style paths still match', () => {
-    expect(match('C:\\Users\\alice\\AppData\\Roaming\\Orca\\agent-hooks\\claude-hook.sh')).toBe(
+    expect(match('C:\\Users\\alice\\AppData\\Roaming\\Amoeba\\agent-hooks\\claude-hook.sh')).toBe(
       true
     )
   })
@@ -268,7 +268,7 @@ describe('createManagedCommandMatcher', () => {
   it('matches the guarded launcher form so wrapped commands sweep correctly', () => {
     expect(
       match(
-        'if [ -x "/Users/alice/Library/Application Support/Orca/agent-hooks/claude-hook.sh" ]; then /bin/sh "/Users/alice/Library/Application Support/Orca/agent-hooks/claude-hook.sh"; fi'
+        'if [ -x "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh" ]; then /bin/sh "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh"; fi'
       )
     ).toBe(true)
   })
@@ -306,12 +306,12 @@ describe('removeManagedCommands', () => {
       [
         {
           type: 'command',
-          bash: '/bin/sh "/Users/alice/Orca/agent-hooks/copilot-hook.sh"',
+          bash: '/bin/sh "/Users/alice/Amoeba/agent-hooks/copilot-hook.sh"',
           timeoutSec: 5
         },
         {
           type: 'command',
-          powershell: "& 'C:\\Users\\alice\\Orca\\agent-hooks\\copilot-hook.sh'",
+          powershell: "& 'C:\\Users\\alice\\Amoeba\\agent-hooks\\copilot-hook.sh'",
           timeoutSec: 5
         },
         {
@@ -399,7 +399,7 @@ describe('hookDefinitionHasManagedCommand', () => {
 
     expect(
       hookDefinitionHasManagedCommand(
-        { bash: '/bin/sh "/Users/alice/Orca/agent-hooks/copilot-hook.sh"' },
+        { bash: '/bin/sh "/Users/alice/Amoeba/agent-hooks/copilot-hook.sh"' },
         match
       )
     ).toBe(true)

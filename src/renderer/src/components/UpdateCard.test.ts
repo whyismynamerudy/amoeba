@@ -450,7 +450,7 @@ describe('UpdateCard visibility gates', () => {
       computeVisibility({
         status: {
           state: 'error',
-          message: 'Quit Orca before running the system package install command.',
+          message: 'Quit Amoeba before running the system package install command.',
           recovery: {
             kind: 'linux-package-install',
             packageType: 'deb',

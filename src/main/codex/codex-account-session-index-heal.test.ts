@@ -130,7 +130,7 @@ describe('healCodexAccountSessionIndex', () => {
     expect(runSession).not.toHaveBeenCalled()
   })
 
-  it('stops retrying a thread Codex refuses to index until Orca restarts', async () => {
+  it('stops retrying a thread Codex refuses to index until Amoeba restarts', async () => {
     const { runSession, readThreadIds } = fakeAppServer((threadId) => {
       if (threadId === 'broken') {
         throw new Error('codex app-server thread/read failed: invalid rollout')

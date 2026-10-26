@@ -12,7 +12,7 @@ import type { RuntimeHostStatusSnapshot } from '../../../shared/runtime-host-sta
 const WEB_CONNECTION_FAILURE_FRAGMENTS = [
   'timed out while connecting to the remote orca runtime',
   'remote orca runtime connection interrupted'
-]
+].flatMap((fragment) => [fragment, fragment.replaceAll('orca', 'amoeba')])
 
 function isConnectionFailure(error: unknown): boolean {
   const like = toRemoteRuntimeClientErrorLike(error)
@@ -45,18 +45,21 @@ export function announceWebHostUnreachableAtStartup(signal: AbortSignal): void {
   const reload = (): void => {
     void window.api.app.relaunch()
   }
-  toast.error(translate('auto.startup.webHostUnreachable.title', "Couldn't reach your Orca host"), {
-    description: translate(
-      'auto.startup.webHostUnreachable.description',
-      "Nothing was lost. Orca will reload when the host answers, and won't save changes until then."
-    ),
-    duration: Infinity,
-    dismissible: true,
-    action: {
-      label: translate('auto.startup.webHostUnreachable.retry', 'Retry now'),
-      onClick: reload
+  toast.error(
+    translate('auto.startup.webHostUnreachable.title', "Couldn't reach your Amoeba host"),
+    {
+      description: translate(
+        'auto.startup.webHostUnreachable.description',
+        "Nothing was lost. Amoeba will reload when the host answers, and won't save changes until then."
+      ),
+      duration: Infinity,
+      dismissible: true,
+      action: {
+        label: translate('auto.startup.webHostUnreachable.retry', 'Retry now'),
+        onClick: reload
+      }
     }
-  })
+  )
   let reloading = false
   let unsubscribe: (() => void) | undefined
   const reloadOnce = (snapshots: readonly RuntimeHostStatusSnapshot[]): void => {

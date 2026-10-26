@@ -21,8 +21,8 @@ describe('checkServeUserDataPath', () => {
     expect(
       checkServeUserDataPath({
         isServeMode: true,
-        userDataPath: 'C:\\Users\\Me\\Orca',
-        env: { ORCA_SERVE_USER_DATA_PATH: 'c:\\users\\me\\orca' },
+        userDataPath: 'C:\\Users\\Me\\Amoeba',
+        env: { ORCA_SERVE_USER_DATA_PATH: 'c:\\users\\me\\amoeba' },
         platform: 'win32'
       })
     ).toBeNull()

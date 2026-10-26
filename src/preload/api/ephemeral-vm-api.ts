@@ -45,7 +45,7 @@ export type EphemeralVmApi = {
         connectionType: 'ssh'
         runtime: EphemeralVmRuntimeRecord
         sshTargetId: string
-        /** The managed Orca server the host runs; its workspace lives there. */
+        /** The managed Amoeba server the host runs; its workspace lives there. */
         environmentId?: string
         expectedRefHead?: string
         stderr: string

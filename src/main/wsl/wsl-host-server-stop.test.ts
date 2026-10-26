@@ -78,7 +78,7 @@ describe('stopWslHostServer', () => {
     expect(result).toEqual({
       stopped: false,
       reason:
-        'Terminals that refused to close: term_1 (gone::/home/me/old): selector_not_found 1 terminal session kept running. Orca’s server kept running: 1 terminal is still running on this host.'
+        'Terminals that refused to close: term_1 (gone::/home/me/old): selector_not_found 1 terminal session kept running. Amoeba’s server kept running: 1 terminal is still running on this host.'
     })
   })
 
@@ -103,7 +103,7 @@ describe('stopWslHostServer', () => {
     })
     await expect(stopWslHostServer(all)).resolves.toEqual({
       stopped: false,
-      reason: 'Orca’s server stopped, but its terminal daemon is still running.'
+      reason: 'Amoeba’s server stopped, but its terminal daemon is still running.'
     })
   })
 })

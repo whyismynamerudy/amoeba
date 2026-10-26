@@ -5,8 +5,8 @@ import { RuntimeRpcCallError } from './runtime-rpc-result'
 import type { RuntimeClientTarget } from '../../../shared/runtime-client-target'
 
 /**
- * A chat's Orca session ID: its `/clear` root's, which the host derives from the session records.
- * Null for an id that is not an Orca session id.
+ * A chat's Amoeba session ID: its `/clear` root's, which the host derives from the session records.
+ * Null for an id that is not an Amoeba session id.
  */
 export async function resolveStructuredSessionOrcaSessionId(
   target: RuntimeClientTarget,

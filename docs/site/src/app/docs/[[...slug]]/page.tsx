@@ -25,29 +25,29 @@ export async function generateMetadata({
   const { title, description, keywords } = page.data
   const ogImagePath = slug && slug.length > 0 ? `/docs/og/${slug.join('/')}` : '/docs/og'
   return {
-    title: `${title} — Orca Docs`,
-    description: description ?? `${title} — Orca documentation.`,
+    title: `${title} — Amoeba Docs`,
+    description: description ?? `${title} — Amoeba documentation.`,
     keywords,
     alternates: { canonical: `${siteUrl}${page.url}` },
     openGraph: {
       type: 'article',
-      title: `${title} — Orca Docs`,
-      description: description ?? `${title} — Orca documentation.`,
+      title: `${title} — Amoeba Docs`,
+      description: description ?? `${title} — Amoeba documentation.`,
       url: `${siteUrl}${page.url}`,
-      siteName: 'Orca',
+      siteName: 'Amoeba',
       images: [
         {
           url: ogImagePath,
           width: 1200,
           height: 630,
-          alt: `${title} — Orca Docs`
+          alt: `${title} — Amoeba Docs`
         }
       ]
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} — Orca Docs`,
-      description: description ?? `${title} — Orca documentation.`,
+      title: `${title} — Amoeba Docs`,
+      description: description ?? `${title} — Amoeba documentation.`,
       images: [ogImagePath]
     }
   }

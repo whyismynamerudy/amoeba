@@ -31,7 +31,7 @@ const FAILURE_REASONS: Partial<Record<UsageRateLimitFailureKind, string>> = {
 }
 
 const UNSUPPORTED_USAGE_COMMAND_REASON =
-  'Antigravity usage is not available. This version of the Antigravity CLI answers `/usage` as a prompt instead of a command, so Orca stopped asking rather than spend quota on it. Update `agy` and restart Orca.'
+  'Antigravity usage is not available. This version of the Antigravity CLI answers `/usage` as a prompt instead of a command, so Amoeba stopped asking rather than spend quota on it. Update `agy` and restart Amoeba.'
 
 // Latch unsupported after any model-turn response: discovering unsupported /usage spends quota, so never retry it for process lifetime.
 let usageCommandUnsupported = false
@@ -117,7 +117,7 @@ export async function fetchAntigravityRateLimits(
     )
   }
 
-  // Recheck each read: the CLI can be replaced while Orca runs; unsupported reads spend quota.
+  // Recheck each read: the CLI can be replaced while Amoeba runs; unsupported reads spend quota.
   let versionRun: Awaited<ReturnType<typeof runProcess>>
   try {
     versionRun = await run({
@@ -169,7 +169,7 @@ export async function fetchAntigravityRateLimits(
     const at = now()
     return {
       ...unavailable(
-        'Antigravity usage is not available. Sign in with `agy`; Orca checks again within an hour, or when you refresh.',
+        'Antigravity usage is not available. Sign in with `agy`; Amoeba checks again within an hour, or when you refresh.',
         'missing-credentials',
         at
       ),

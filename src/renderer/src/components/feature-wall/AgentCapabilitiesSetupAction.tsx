@@ -210,7 +210,7 @@ const AGENT_CAPABILITY_SETUP_ROWS: readonly AgentCapabilitySetupRow[] = [
     get description() {
       return translate(
         'auto.components.feature.wall.AgentCapabilitiesSetupAction.c61c91e642',
-        'Let agents coordinate through Orca to keep large, multi-step tasks moving to completion.'
+        'Let agents coordinate through Amoeba to keep large, multi-step tasks moving to completion.'
       )
     },
     icon: <Workflow className="size-4" />
@@ -226,7 +226,7 @@ const AGENT_CAPABILITY_SETUP_ROWS: readonly AgentCapabilitySetupRow[] = [
     get description() {
       return translate(
         'auto.components.feature.wall.AgentCapabilitiesSetupAction.5e8fe5a72d',
-        "Give agents direct access to Orca's browser so they can test pages, capture screenshots, and act on what they see."
+        "Give agents direct access to Amoeba's browser so they can test pages, capture screenshots, and act on what they see."
       )
     },
     icon: <Globe2 className="size-4" />
@@ -306,7 +306,7 @@ function AgentCapabilitySetupControls(props: {
               (props.installAction?.kind === 'replace'
                 ? translate(
                     'auto.components.settings.AgentSkillSetupPanel.replaceWithOrcaCopy',
-                    "Replace with Orca's copy"
+                    "Replace with Amoeba's copy"
                   )
                 : props.installAction?.kind === 'run' && props.installAction.changes
                   ? bundledSkillSetupActionLabel(props.installAction.changes)

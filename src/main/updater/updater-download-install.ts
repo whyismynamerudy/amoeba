@@ -1,3 +1,5 @@
+import { app } from 'electron'
+import { canUseUpstreamReleaseFeed } from '../../shared/upstream-release-feed-policy'
 import {
   beginMacUpdateDownload,
   deferMacQuitUntilInstallerReady,
@@ -13,6 +15,10 @@ import { prepareThisProcessShipItStaging } from './shipit-leftover-recovery'
 
 export abstract class UpdaterDownloadInstall extends UpdaterRemoteStatus {
   protected quitAndInstall(): void {
+    if (!canUseUpstreamReleaseFeed(app.name)) {
+      this.sendErrorStatus('Automatic updates are not configured for Amoeba yet.', true)
+      return
+    }
     if (
       this.localBuildSelectionInProgress ||
       this.pinnedBuildSelectionInProgress ||
@@ -51,6 +57,10 @@ export abstract class UpdaterDownloadInstall extends UpdaterRemoteStatus {
   }
 
   protected downloadUpdate(): void {
+    if (!canUseUpstreamReleaseFeed(app.name)) {
+      this.sendErrorStatus('Automatic updates are not configured for Amoeba yet.', true)
+      return
+    }
     if (
       this.localBuildSelectionInProgress ||
       this.pinnedBuildSelectionInProgress ||

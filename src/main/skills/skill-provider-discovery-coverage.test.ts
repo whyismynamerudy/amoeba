@@ -84,7 +84,7 @@ describe('skill install provider table drives discovery', () => {
     }
   })
 
-  it('gives every Orca agent an entry or a recorded reason it has none', () => {
+  it('gives every Amoeba agent an entry or a recorded reason it has none', () => {
     const covered = new Set<string>(SKILL_INSTALL_PROVIDERS.map((provider) => provider.id))
     for (const agent of Object.keys(TUI_AGENT_CONFIG)) {
       expect(

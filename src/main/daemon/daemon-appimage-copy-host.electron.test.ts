@@ -61,7 +61,7 @@ function cacheRootOf(install: AppImageInstall): string {
 async function installAppImage(name: string): Promise<AppImageInstall> {
   const base = join(root, name)
   const install = {
-    appImagePath: join(base, 'Orca.AppImage'),
+    appImagePath: join(base, 'Amoeba.AppImage'),
     mountPath: join(base, 'mount'),
     cacheHome: join(base, 'cache')
   }

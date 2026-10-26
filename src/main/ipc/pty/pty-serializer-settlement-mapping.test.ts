@@ -271,7 +271,7 @@ describe('registerPtyHandlers', () => {
     expect(env.ORCA_WSL_CLI_DIR).toBeUndefined()
     expect(runtime.preAllocateHandleForPty).toHaveBeenCalledWith(expect.any(String))
   })
-  it('forwards the trusted Orca terminal handle into managed WSL terminals', async () => {
+  it('forwards the trusted Amoeba terminal handle into managed WSL terminals', async () => {
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')
     Object.defineProperty(process, 'platform', {
       configurable: true,

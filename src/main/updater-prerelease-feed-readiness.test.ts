@@ -27,9 +27,9 @@ function buildManifest(tag: string): string {
   return [
     `version: ${version}`,
     'files:',
-    `  - url: Orca-${version}-arm64-mac.zip`,
+    `  - url: Amoeba-${version}-arm64-mac.zip`,
     '    sha512: test',
-    `path: Orca-${version}-arm64-mac.zip`
+    `path: Amoeba-${version}-arm64-mac.zip`
   ].join('\n')
 }
 
@@ -384,9 +384,9 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
                 'files:',
                 '  - url: orca-windows-setup.exe',
                 '    sha512: test',
-                `  - url: Orca-${version}-mac.zip`,
+                `  - url: Amoeba-${version}-mac.zip`,
                 '    sha512: test',
-                `path: Orca-${version}-mac.zip`
+                `path: Amoeba-${version}-mac.zip`
               ].join('\n')
             )
         })
@@ -394,7 +394,7 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
 
       if (init?.method === 'HEAD') {
         const latest = url.includes('/v1.4.28/')
-        const unavailable = latest && url.endsWith('/Orca-1.4.28-mac.zip')
+        const unavailable = latest && url.endsWith('/Amoeba-1.4.28-mac.zip')
         const missing = latest && url.endsWith('/orca-windows-setup.exe')
         return Promise.resolve({
           ok: !missing && !unavailable,
@@ -437,7 +437,7 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
                 'files:',
                 '  - url: orca-windows-setup.exe',
                 '    sha512: test',
-                '  - url: Orca-1.4.28-mac.zip',
+                '  - url: Amoeba-1.4.28-mac.zip',
                 '    sha512: test'
               ].join('\n')
             )

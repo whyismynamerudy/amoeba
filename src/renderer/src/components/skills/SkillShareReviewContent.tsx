@@ -83,7 +83,7 @@ function SkillShareAccessSummary({
           )
         : translate(
             'auto.components.skills.SkillShareReviewContent.c15d90c10b',
-            'A connected Orca Cloud account is required.'
+            'A connected Amoeba Cloud account is required.'
           )}
     </p>
   )

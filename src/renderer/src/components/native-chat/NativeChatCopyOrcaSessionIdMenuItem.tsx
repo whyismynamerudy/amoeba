@@ -4,7 +4,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { translate } from '@/i18n/i18n'
 
-/** Copies the chat's Orca session ID from the host: `orca_session_id:<root>`, which `/clear` keeps. */
+/** Copies the chat's Amoeba session ID from the host: `orca_session_id:<root>`, which `/clear` keeps. */
 export function NativeChatCopyOrcaSessionIdMenuItem({
   resolveOrcaSessionId
 }: {
@@ -14,20 +14,20 @@ export function NativeChatCopyOrcaSessionIdMenuItem({
     try {
       const orcaSessionId = await resolveOrcaSessionId()
       if (!orcaSessionId) {
-        throw new Error('no Orca session ID')
+        throw new Error('no Amoeba session ID')
       }
       await window.api.ui.writeClipboardText(orcaSessionId)
       toast.success(
         translate(
           'components.native-chat.contextMenu.orcaSessionIdCopied',
-          'Orca session ID copied'
+          'Amoeba session ID copied'
         )
       )
     } catch {
       toast.error(
         translate(
           'components.native-chat.contextMenu.orcaSessionIdCopyFailed',
-          'Unable to copy Orca session ID'
+          'Unable to copy Amoeba session ID'
         )
       )
     }
@@ -39,14 +39,14 @@ export function NativeChatCopyOrcaSessionIdMenuItem({
           <Copy />
           {translate(
             'components.native-chat.contextMenu.copyOrcaSessionId',
-            'Copy Orca Session ID'
+            'Copy Amoeba Session ID'
           )}
         </DropdownMenuItem>
       </TooltipTrigger>
       <TooltipContent side="right" sideOffset={8} className="max-w-[220px]">
         {translate(
           'components.native-chat.contextMenu.orcaSessionIdTooltip',
-          "Orca's ID for this chat, separate from the agent CLI's own session ID. Agents use it to refer to each other through Orca."
+          "Amoeba's ID for this chat, separate from the agent CLI's own session ID. Agents use it to refer to each other through Amoeba."
         )}
       </TooltipContent>
     </Tooltip>

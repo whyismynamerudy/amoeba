@@ -102,7 +102,7 @@ function hasManagedDefinition(
   )
 }
 
-/** Preserve user hooks while converging to one Orca hook per event. */
+/** Preserve user hooks while converging to one Amoeba hook per event. */
 export function applyManagedKiroHooks(
   config: Record<string, unknown>,
   command: string,

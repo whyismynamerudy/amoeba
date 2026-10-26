@@ -196,7 +196,7 @@ export function openDetectedFilePath(
       refuseExplicitNonEditorRoute()
       return
     }
-    // Remote hints promise Orca before resolution; explicit group requests must reach HTML branch to be refused.
+    // Remote hints promise Amoeba before resolution; explicit group requests must reach HTML branch to be refused.
     const pageDestination =
       canOpenWithSystemDefault &&
       !clientLocal &&
@@ -230,14 +230,14 @@ export function openDetectedFilePath(
       return
     }
 
-    // Why: a granted file is readable only through its grant, so it opens in Orca, never as a download.
+    // Why: a granted file is readable only through its grant, so it opens in Amoeba, never as a download.
     if (openWithSystemDefault && !canOpenWithSystemDefault && hostGrantId === null) {
       // Shift+Cmd/Ctrl must match popover’s Download & open with default app; OS cannot directly launch remote paths.
       await downloadAndOpenRemoteTerminalFile(fileContext, mappedFilePath)
       return
     }
 
-    // Route local HTML to Orca browser, including system-browser opens OS could not launch.
+    // Route local HTML to Amoeba browser, including system-browser opens OS could not launch.
     if (isHtmlFilePath(mappedFilePath) && hostGrantId === null) {
       if (deps.openInSourceGroup) {
         refuseExplicitNonEditorRoute()

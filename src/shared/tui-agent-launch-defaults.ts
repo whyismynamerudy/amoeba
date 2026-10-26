@@ -168,7 +168,7 @@ export function resolveTuiAgentLaunchArgs(
   return user ? `${flag} ${user}` : flag
 }
 
-/** Legacy missing Arguments use Orca’s bypass default; Manual stores an explicit empty value that overrides it. */
+/** Legacy missing Arguments use Amoeba’s bypass default; Manual stores an explicit empty value that overrides it. */
 export function resolvedTuiAgentArgsBypassPermissions(
   agent: TuiAgent,
   settings:
@@ -188,7 +188,7 @@ export function resolvedTuiAgentArgsBypassPermissions(
   return tuiAgentArgsBypassPermissions(agent, resolveTuiAgentLaunchArgs(agent, settings), shell)
 }
 
-/** The env a terminal launch of this agent gets; the user's own entries win over Orca's. */
+/** The env a terminal launch of this agent gets; the user's own entries win over Amoeba's. */
 export function resolveTuiAgentLaunchEnv(
   agent: string,
   settings: AgentLaunchProfileSettings | null | undefined,

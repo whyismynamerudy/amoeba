@@ -83,7 +83,7 @@ function releaseListError(
     return new Error(
       signedIn
         ? `GitHub rate limit reached. Try again ${retry}.`
-        : `GitHub rate limit reached. Try again ${retry}, or run \`gh auth login\` so Orca can use your account's higher limit.`
+        : `GitHub rate limit reached. Try again ${retry}, or run \`gh auth login\` so Amoeba can use your account's higher limit.`
     )
   }
   return new Error(`Could not list ${channel} builds (HTTP ${res.status}).`)

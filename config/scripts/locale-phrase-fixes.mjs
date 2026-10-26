@@ -140,7 +140,7 @@ export const LOCALE_PHRASE_FIXES = {
     {
       pattern: /代理/g,
       replacement: '智能体',
-      // Why: Orca names the Agent concept 智能体; 代理 stays for proxy and user-agent copy.
+      // Why: Amoeba names the Agent concept 智能体; 代理 stays for proxy and user-agent copy.
       whenEnMatches: /(?<!user[ -])(?:sub)?agents?\b/i
     },
     { pattern: /分支机构/g, replacement: '分支', whenEnIncludes: 'ranch' },
@@ -174,11 +174,11 @@ export const LOCALE_PHRASE_FIXES = {
       whenEnIncludes: 'Listening for shortcut'
     },
     { pattern: /寻找捷径/g, replacement: '搜索快捷键', whenEnIncludes: 'Find shortcuts' },
-    { pattern: /连接到Orca/g, replacement: '连接到 Orca', whenEnIncludes: 'Connect to Orca' },
+    { pattern: /连接到Amoeba/g, replacement: '连接到 Amoeba', whenEnIncludes: 'Connect to Amoeba' },
     {
-      pattern: /开始使用Orca/g,
-      replacement: '开始使用 Orca',
-      whenEnIncludes: 'get started with Orca'
+      pattern: /开始使用Amoeba/g,
+      replacement: '开始使用 Amoeba',
+      whenEnIncludes: 'get started with Amoeba'
     },
     { pattern: /本机桌面/g, replacement: '原生桌面', whenEnIncludes: 'Native desktop' },
     { pattern: /当前的/g, replacement: '当前', whenEnIncludes: 'Current' },

@@ -313,7 +313,7 @@ describe('browser address bar suggestions', () => {
           historyEntry({
             url: 'https://github.com/stablyai/orca',
             normalizedUrl: 'https://github.com/stablyai/orca',
-            title: 'Orca',
+            title: 'Amoeba',
             lastVisitedAt: now,
             visitCount: 2
           })

@@ -61,7 +61,7 @@ export async function main(
   if (argv.length === 1 && (argv[0] === '--version' || argv[0] === '-v')) {
     const version = readOrcaCliVersion()
     if (!version) {
-      process.stderr.write('Could not determine the Orca version for this build.\n')
+      process.stderr.write('Could not determine the Amoeba version for this build.\n')
       process.exitCode = 1
       return
     }
@@ -183,7 +183,7 @@ export async function main(
 
 async function runClaudeTeams(argv: string[], cwd: string): Promise<void> {
   try {
-    // Forward Claude Code arguments verbatim so new flags work without Orca changes.
+    // Forward Claude Code arguments verbatim so new flags work without Amoeba changes.
     const client = new (await loadRuntimeClientClass())(undefined, undefined, null, null)
     await dispatch(['claude-teams'], {
       flags: new Map(),

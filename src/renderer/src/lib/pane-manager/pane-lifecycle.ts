@@ -92,7 +92,7 @@ export function openTerminal(
   if (ligatures) {
     attachLigatures(pane)
   }
-  // Deferred attachment restores Orca's DA1 handler after the addon registers its own.
+  // Deferred attachment restores Amoeba's DA1 handler after the addon registers its own.
   if (inlineImages) {
     attachInlineImages(pane)
   }

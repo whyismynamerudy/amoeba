@@ -61,7 +61,7 @@ export function createFakeWslHostConnector(
     connect: async (distro) => {
       // Same guard as the real connector: nothing starts for a host that is gone.
       if (!options.isKnownDistro(distro)) {
-        throw new Error(`${distro} is no longer a WSL host; Orca will not start anything for it.`)
+        throw new Error(`${distro} is no longer a WSL host; Amoeba will not start anything for it.`)
       }
       if (config.connectLogFile) {
         appendFileSync(config.connectLogFile, `${distro}\n`)

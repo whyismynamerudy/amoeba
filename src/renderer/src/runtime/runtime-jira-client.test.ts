@@ -99,7 +99,7 @@ describe('current sprint runtime compatibility', () => {
       jiraListIssues({ kind: 'environment', environmentId: 'sprint-old' }, 'all', 50, 'site-a', {
         currentSprint: true
       })
-    ).rejects.toThrow('Update the remote Orca server')
+    ).rejects.toThrow('Update the remote Amoeba server')
     expect(runtimeCall.mock.calls.some(([args]) => args.method === 'jira.listIssues')).toBe(false)
   })
 })
@@ -542,7 +542,7 @@ describe('required transition fields on mixed remote versions', () => {
         transitionId: '31',
         transitionFields: { resolution: { id: '1' } }
       })
-    ).rejects.toThrow('Update the remote Orca server')
+    ).rejects.toThrow('Update the remote Amoeba server')
     expect(runtimeCall.mock.calls.some(([args]) => args.method === 'jira.updateIssue')).toBe(false)
     await expect(jiraUpdateIssue(settings, 'APP-1', { transitionId: '11' })).resolves.toEqual({
       ok: true

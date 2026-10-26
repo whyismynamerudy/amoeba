@@ -37,10 +37,10 @@ describe('getRequiredReleaseAssetNames', () => {
   it('includes both mac updater ZIP names for the tag version', () => {
     expect(getRequiredReleaseAssetNames('v1.4.27')).toEqual(
       expect.arrayContaining([
-        'Orca-1.4.27-mac.zip',
-        'Orca-1.4.27-mac.zip.blockmap',
-        'Orca-1.4.27-arm64-mac.zip',
-        'Orca-1.4.27-arm64-mac.zip.blockmap'
+        'Amoeba-1.4.27-mac.zip',
+        'Amoeba-1.4.27-mac.zip.blockmap',
+        'Amoeba-1.4.27-arm64-mac.zip',
+        'Amoeba-1.4.27-arm64-mac.zip.blockmap'
       ])
     )
   })
@@ -66,12 +66,12 @@ describe('extractManifestAssetNames', () => {
       extractManifestAssetNames(
         [
           'files:',
-          '  - url: Orca-1.4.27-arm64-mac.zip',
+          '  - url: Amoeba-1.4.27-arm64-mac.zip',
           '  - url: https://example.com/downloads/orca-windows-setup.exe',
           'path: orca-linux.AppImage'
         ].join('\n')
       )
-    ).toEqual(['Orca-1.4.27-arm64-mac.zip', 'orca-windows-setup.exe', 'orca-linux.AppImage'])
+    ).toEqual(['Amoeba-1.4.27-arm64-mac.zip', 'orca-windows-setup.exe', 'orca-linux.AppImage'])
   })
 })
 

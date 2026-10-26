@@ -26,7 +26,7 @@ beforeEach(async () => {
 
 afterEach(() => rig.dispose())
 
-/** Codex goal turns have no ordinary Orca submission as their opener. */
+/** Codex goal turns have no ordinary Amoeba submission as their opener. */
 async function startGoalTurn(
   firstChoices?: Readonly<Record<string, string>>,
   beforeGoal?: () => Promise<void>

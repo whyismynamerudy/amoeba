@@ -290,7 +290,7 @@ export abstract class AgentHookServerLifecycle extends AgentHookServerStatusHook
     this.legacyPaneKeyAliases.clear()
     this.paneKeyAliasPersistenceListener = null
     this.ownerStateInitialized = false
-    // Leave the endpoint: stale files fail open, and unlinking can race another Orca instance.
+    // Leave the endpoint: stale files fail open, and unlinking can race another Amoeba instance.
     clearAllListenerCaches(this.state)
     if (!options?.keepStatus) {
       this.resetCanonicalStatus()

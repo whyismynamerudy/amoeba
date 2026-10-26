@@ -42,7 +42,7 @@ export const CheckParams = z
     ack: OptionalString,
     compatibilityAck: OptionalString,
     compatibilityQuestionAck: OptionalString,
-    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'orca-dev']).optional(),
+    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'amoeba-dev']).optional(),
     run: OptionalString,
     wait: OptionalBoolean,
     timeoutMs: OptionalFiniteNumber
@@ -106,7 +106,7 @@ export const DispatchParams = z.object({
   run: OptionalString
 })
 
-/** An Orca agent session id; the answer is its conversation's Orca session ID. */
+/** An Amoeba agent session id; the answer is its conversation's Amoeba session ID. */
 export const SessionAddressParams = z.object({
   sessionId: requiredString('Missing sessionId')
 })
@@ -133,7 +133,7 @@ export const AskParams = z
     timeoutMs: OptionalFiniteNumber,
     from: OptionalString,
     run: OptionalString,
-    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'orca-dev']).optional(),
+    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'amoeba-dev']).optional(),
     compatibilityWindowsCommand: z.enum(['orca', 'orca-ide']).optional()
   })
   .superRefine((params, ctx) => {

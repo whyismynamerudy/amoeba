@@ -98,7 +98,7 @@ export function WorktreeCardIssueDetailSection({
                       <Globe className="size-3.5" />
                       {translate(
                         'auto.components.sidebar.WorktreeCardMeta.openInOrcaBrowser',
-                        'Open in Orca browser'
+                        'Open in Amoeba browser'
                       )}
                     </DropdownMenuItem>
                   )}
@@ -126,7 +126,7 @@ export function WorktreeCardIssueDetailSection({
               <MetadataActionIcon
                 label={translate(
                   'auto.components.sidebar.WorktreeCardMeta.2c67730e07',
-                  'Open in Orca'
+                  'Open in Amoeba'
                 )}
                 onClick={onOpenGitHubIssueInOrca}
               >

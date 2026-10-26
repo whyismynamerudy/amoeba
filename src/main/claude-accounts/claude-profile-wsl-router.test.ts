@@ -78,7 +78,7 @@ function fixture() {
   const setup = { calls: 0, fail: false, gate: Promise.resolve() }
   const router = new ClaudeWslProfileRouter({
     getSettings: () => settings,
-    dataRoot: join(root, 'orca-dev'),
+    dataRoot: join(root, 'amoeba-dev'),
     runSetup: async () => {
       setup.calls += 1
       await setup.gate
@@ -90,7 +90,7 @@ function fixture() {
     }
   })
   const profileHome = join(guest.home, '.local/share/orca/claude-profiles/a/home')
-  const pointer = join(guest.home, '.local/share/orca/claude-profiles/selected-wsl-orca-dev')
+  const pointer = join(guest.home, '.local/share/orca/claude-profiles/selected-wsl-amoeba-dev')
   return { settings, wsl, setup, router, profileHome, pointer, account }
 }
 
@@ -147,7 +147,7 @@ describe.skipIf(!posixHost)('ClaudeWslProfileRouter', () => {
       wslDistro: 'Ubuntu',
       wslLinuxConfigDir: f.profileHome,
       envPatch: {
-        ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/orca/claude-profiles/selected-wsl-orca-dev',
+        ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/orca/claude-profiles/selected-wsl-amoeba-dev',
         CLAUDE_CONFIG_DIR: f.profileHome,
         ORCA_CLAUDE_INJECTED_CONFIG_DIR: f.profileHome
       }
@@ -172,7 +172,7 @@ describe.skipIf(!posixHost)('ClaudeWslProfileRouter', () => {
     mkdirSync(f.profileHome, { recursive: true })
     const cutOff = new ClaudeWslProfileRouter({
       getSettings: () => f.settings,
-      dataRoot: join(guest.home, '..', 'orca-dev'),
+      dataRoot: join(guest.home, '..', 'amoeba-dev'),
       runSetup: async (distro, home, accountId) => {
         const { dataRoot, profile } = wslClaudeProfile(home, distro, accountId)
         prepareClaudeProfileDirectory(dataRoot, profile, home)
@@ -343,7 +343,7 @@ describe.skipIf(!posixHost)('ClaudeWslProfileRouter', () => {
     const prepared = await f.router.preparation('Ubuntu')
     expect(prepared.wslLinuxConfigDir).toBe(join(guest.home, '.claude'))
     expect(prepared.envPatch).toEqual({
-      ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/orca/claude-profiles/selected-wsl-orca-dev'
+      ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/orca/claude-profiles/selected-wsl-amoeba-dev'
     })
     expect(await f.router.runningDistros()).toEqual(['Ubuntu'])
   })

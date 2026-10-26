@@ -131,7 +131,7 @@ it('reconciles the chat on its next send once the store can be written again', a
   await host.flushAllStreamedEvents()
 })
 
-it('adjudicates records a newer Orca wrote in memory only, and writes nothing', async () => {
+it('adjudicates records a newer Amoeba wrote in memory only, and writes nothing', async () => {
   const { host, store, stateDirectory, leaseReconcileLogged } = await relaunch(true)
   expect(store.readOnly).toBe(true)
   const path = journalDatabasePath(stateDirectory)
@@ -162,11 +162,11 @@ it('restores a chat for reading while the reconcile keeps failing, and reports i
   expect(leaseReconcileLogged).toHaveBeenCalledWith(IO_ERROR)
 })
 
-it('refuses a send over records a newer Orca wrote with the update words', async () => {
+it('refuses a send over records a newer Amoeba wrote with the update words', async () => {
   const { host } = await relaunch(true)
   await host.reconcileRestartLeases()
 
-  const body = hostTestMessage('sent to a chat a newer Orca saved')
+  const body = hostTestMessage('sent to a chat a newer Amoeba saved')
   await expect(
     host.send(CALLER, { envelope: envelope('agentSession.send', { body }), body })
   ).resolves.toMatchObject({
@@ -179,7 +179,7 @@ it('refuses a send over records a newer Orca wrote with the update words', async
   })
 })
 
-it('opens no chat from records a newer Orca wrote, and writes nothing trying', async () => {
+it('opens no chat from records a newer Amoeba wrote, and writes nothing trying', async () => {
   const { host, stateDirectory, leaseReconcileLogged } = await relaunch(true)
   const path = journalDatabasePath(stateDirectory)
   const bytes = await readFile(path)

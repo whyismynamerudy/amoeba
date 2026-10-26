@@ -210,7 +210,7 @@ export async function adoptUnrecordedWslOrcad(
     },
     () => {
       throw new WslOrcadUnrecordedInstanceError(
-        'Another Orca is changing this distro’s server, so an unrecorded orcad cannot be adopted now.'
+        'Another Amoeba is changing this distro’s server, so an unrecorded orcad cannot be adopted now.'
       )
     }
   )

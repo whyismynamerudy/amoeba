@@ -189,7 +189,7 @@ describe('HeroFlow height', () => {
     expect(notice).toHaveTextContent('Use LAN')
     expect(screen.getByText('No pairing code available')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Generate code' })).not.toBeInTheDocument()
-    expect(screen.getByText('Orca Relay is in beta.')).toBeInTheDocument()
+    expect(screen.getByText('Amoeba Relay is in beta.')).toBeInTheDocument()
   })
 
   it('explains an empty QR frame when no code has been generated yet', () => {
@@ -225,11 +225,11 @@ describe('HeroFlow height', () => {
       relayMintFailure: {
         code: 'relay_provider_unavailable',
         stage: 'provider_missing',
-        message: 'Orca Relay is not available on this desktop'
+        message: 'Amoeba Relay is not available on this desktop'
       }
     })
     expect(screen.getByRole('alert')).toHaveTextContent(
-      'Orca Relay isn’t available on this desktop'
+      'Amoeba Relay isn’t available on this desktop'
     )
     expect(screen.getByRole('button', { name: 'Retry Relay' })).toBeEnabled()
     expect(screen.getByRole('button', { name: 'Use LAN' })).toBeEnabled()
@@ -243,7 +243,7 @@ describe('HeroFlow height', () => {
         message: 'Relay pairing invite request failed'
       }
     })
-    expect(screen.getByRole('alert')).toHaveTextContent('Sign in again to use Orca Relay')
+    expect(screen.getByRole('alert')).toHaveTextContent('Sign in again to use Amoeba Relay')
     expect(screen.queryByRole('button', { name: 'Retry Relay' })).toBeNull()
     cleanup()
     renderFlow(1, {
@@ -253,7 +253,7 @@ describe('HeroFlow height', () => {
         message: 'Relay pairing invite request failed'
       }
     })
-    expect(screen.getByRole('alert')).toHaveTextContent('isn’t included with this Orca account')
+    expect(screen.getByRole('alert')).toHaveTextContent('isn’t included with this Amoeba account')
     expect(screen.queryByRole('button', { name: 'Retry Relay' })).toBeNull()
   })
 
@@ -404,7 +404,7 @@ describe('HeroFlow height', () => {
     expect(field).toHaveClass('mp-pairing-machine')
   })
 
-  it('demotes the network address picker to a disclosure on Orca Relay', async () => {
+  it('demotes the network address picker to a disclosure on Amoeba Relay', async () => {
     const props: React.ComponentProps<typeof MobileHeroPairingStep> = {
       pairQrDataUrl: null,
       pairingUrl: null,
@@ -447,7 +447,7 @@ describe('HeroFlow height', () => {
     expect(screen.getByRole('button', { name: 'Refresh network interfaces' })).toBeVisible()
   })
 
-  it('keeps a custom address visible on Orca Relay', () => {
+  it('keeps a custom address visible on Amoeba Relay', () => {
     const address = 'host.example:6768'
     const props: React.ComponentProps<typeof MobileHeroPairingStep> = {
       pairQrDataUrl: null,

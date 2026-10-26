@@ -57,14 +57,14 @@ describe('dev CLI terminal wrappers', () => {
       platform: 'linux'
     })
 
-    const wrapper = readFileSync(path.join(userDataPath, 'cli', 'bin', 'orca-dev'), 'utf8')
+    const wrapper = readFileSync(path.join(userDataPath, 'cli', 'bin', 'amoeba-dev'), 'utf8')
     expect(wrapper).toContain(`export ORCA_USER_DATA_PATH=${JSON.stringify(userDataPath)}`)
     expect(wrapper).toContain('export ORCA_DEV_CLI_INVOCATION=1')
     expect(wrapper).toContain(
       `exec node ${JSON.stringify(path.join(root, 'out', 'cli', 'index.js'))}`
     )
     expect(readFileSync(path.join(userDataPath, 'cli', 'bin', 'orca'), 'utf8')).toBe(wrapper)
-    expect(readFileSync(path.join(root, 'out', 'bin', 'orca-dev'), 'utf8')).toBe(wrapper)
+    expect(readFileSync(path.join(root, 'out', 'bin', 'amoeba-dev'), 'utf8')).toBe(wrapper)
     expect(readFileSync(path.join(root, 'out', 'bin', 'orca'), 'utf8')).toBe(wrapper)
   })
 })

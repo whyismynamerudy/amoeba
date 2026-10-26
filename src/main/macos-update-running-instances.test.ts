@@ -7,7 +7,7 @@ import {
 const { runProcessMock } = vi.hoisted(() => ({ runProcessMock: vi.fn() }))
 vi.mock('@orca/process-host', () => ({ runProcess: runProcessMock }))
 
-const executable = '/Applications/Orca Test.app/Contents/MacOS/Orca Test'
+const executable = '/Applications/Amoeba Test.app/Contents/MacOS/Amoeba Test'
 
 describe('macOS update running instances', () => {
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('macOS update running instances', () => {
   it.runIf(process.platform === 'darwin')(
     'passes the bundle path as an argument rather than executable script',
     async () => {
-      const unusualExecutable = '/Applications/Orca "Test" $HOME.app/Contents/MacOS/Orca Test'
+      const unusualExecutable = '/Applications/Amoeba "Test" $HOME.app/Contents/MacOS/Amoeba Test'
       runProcessMock.mockResolvedValue({ code: 0, stdout: '[]', timedOut: false })
       await expect(getMacUpdateRunningInstances(unusualExecutable)).resolves.toEqual([])
       expect(runProcessMock).toHaveBeenCalledWith(
@@ -47,7 +47,7 @@ describe('macOS update running instances', () => {
             'JavaScript',
             '-e',
             expect.not.stringContaining('$HOME'),
-            '/Applications/Orca "Test" $HOME.app'
+            '/Applications/Amoeba "Test" $HOME.app'
           ]
         })
       )
@@ -86,7 +86,7 @@ describe('macOS update running instances', () => {
             'JavaScript',
             '-e',
             expect.stringContaining('runningApplicationsWithBundleIdentifier'),
-            '/Applications/Orca Test.app'
+            '/Applications/Amoeba Test.app'
           ],
           timeoutMs: 5000,
           killOnOutputLimit: true

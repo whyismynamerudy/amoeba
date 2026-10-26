@@ -63,7 +63,7 @@ export type AgentSessionProcessIdentity = {
   pid: number
   processStartTimeMs: number | null
   spawnToken: string
-  /** The Orca runtime that started this process and holds its transport, stamped when the owner is
+  /** The Amoeba runtime that started this process and holds its transport, stamped when the owner is
    *  recorded; absent on owners older builds recorded. */
   runtime?: string
 }
@@ -125,11 +125,11 @@ export type AgentSessionRecord = {
   launchDirectory?: string
   /** Provider options the user chose, replayed whenever a new owner starts the session. */
   options?: Record<string, string>
-  /** The permission mode the user chose; Orca's, so a provider's options answer never replaces it. */
+  /** The permission mode the user chose; Amoeba's, so a provider's options answer never replaces it. */
   permissionMode?: string
   rewind?: AgentSessionRewindRecord
   conversationCommand?: AgentSessionConversationCommandRecord
-  /** The name Orca gave this conversation, so a later acquisition need not name it again. */
+  /** The name Amoeba gave this conversation, so a later acquisition need not name it again. */
   conversationName?: string
   /** When the user's Sleep stopped this chat; the next admitted send clears it. */
   sleptAt?: number

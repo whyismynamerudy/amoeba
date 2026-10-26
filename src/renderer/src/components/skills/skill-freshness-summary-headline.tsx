@@ -11,7 +11,7 @@ export function SummaryHeadline({ plan }: { plan: BundledSkillPlan | null }): Re
         <Loader2 className="size-4 animate-spin" />
         {translate(
           'auto.components.skills.SkillFreshnessUpdateDialog.checking',
-          'Checking installed Orca skills…'
+          'Checking installed Amoeba skills…'
         )}
       </div>
     )
@@ -21,7 +21,7 @@ export function SummaryHeadline({ plan }: { plan: BundledSkillPlan | null }): Re
       <p className="text-xs text-muted-foreground">
         {translate(
           'auto.components.skills.SkillFreshnessUpdateDialog.none',
-          'No installed Orca skills found.'
+          'No installed Amoeba skills found.'
         )}
       </p>
     )
@@ -85,7 +85,7 @@ export function SummaryHeadline({ plan }: { plan: BundledSkillPlan | null }): Re
       <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
       {translate(
         'auto.components.skills.SkillFreshnessUpdateDialog.success',
-        'All installed Orca skills are up to date.'
+        'All installed Amoeba skills are up to date.'
       )}
     </div>
   )

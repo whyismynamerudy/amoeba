@@ -16,7 +16,7 @@ export async function resolveOrcadRuntimeTarget(options: {
   if (!target) {
     const glibc = facts.glibc ? `${facts.glibc.major}.${facts.glibc.minor}` : 'unknown'
     throw new OrcadHostUnsupportedError(
-      `No Orca runtime supports ${facts.target} with glibc ${glibc}.`
+      `No Amoeba runtime supports ${facts.target} with glibc ${glibc}.`
     )
   }
   return target

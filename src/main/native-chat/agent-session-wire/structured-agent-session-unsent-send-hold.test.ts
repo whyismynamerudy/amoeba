@@ -122,7 +122,7 @@ function dispatchedTexts(): string[] {
   )
 }
 
-describe('a message accepted while the agent starts, then Orca stops', () => {
+describe('a message accepted while the agent starts, then Amoeba stops', () => {
   it.each([
     { how: 'quit', restart: () => quitRestart() },
     { how: 'crash', restart: async () => rig.crashRestartHostProcess() }
@@ -313,7 +313,7 @@ describe('the next accepted turn releases a kept card', () => {
   })
 })
 
-describe('cards queued behind a working turn, then Orca stops', () => {
+describe('cards queued behind a working turn, then Amoeba stops', () => {
   it.each(['quit', 'crash'] as const)(
     'after a %s they wait under the restart hold, not kept, with no hand-off made',
     async (how) => {

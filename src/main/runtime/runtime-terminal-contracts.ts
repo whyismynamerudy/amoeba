@@ -54,7 +54,7 @@ export type TerminalCreateOptions = {
   onStartupPromptCarry?: (carried: boolean) => void
   /** Override Settings arguments for this agent (null means none); plan input is not a caller-supplied command and does not take launch ownership. */
   agentArgs?: string | null
-  /** Main-internal: Orca, not a user, types into this `startupAgent` once it starts. */
+  /** Main-internal: Amoeba, not a user, types into this `startupAgent` once it starts. */
   suppressStartupUpdatePrompt?: boolean
   /** Host-only runtime fact used to quote this launch; spawn must take its shell from that same fact, never client input. */
   launchRuntime?: AgentLaunchRuntime

@@ -53,7 +53,7 @@ export function getManagedScript(target: 'local' | 'posix' = 'local'): string {
       'setlocal',
       // Cursor permission hooks reject empty or invalid stdout (#15462).
       `if defined ${CURSOR_HOOK_RESPONSE_ENV} (echo %${CURSOR_HOOK_RESPONSE_ENV}%) else (echo {})`,
-      // Refresh endpoints for PTYs that survived an Orca restart.
+      // Refresh endpoints for PTYs that survived an Amoeba restart.
       'if defined ORCA_AGENT_HOOK_ENDPOINT if exist "%ORCA_AGENT_HOOK_ENDPOINT%" call "%ORCA_AGENT_HOOK_ENDPOINT%" 2>nul',
       ...buildWindowsHookEnvironmentGuardLines(),
       ...buildWindowsGrokReplayGuardLines(),
@@ -75,7 +75,7 @@ export function getManagedScript(target: 'local' | 'posix' = 'local'): string {
     ...buildPosixHookPayloadCapture(),
     ...buildPosixGrokReplayGuardLines(),
     ...buildPosixHookSpoolLines('cursor'),
-    // Refresh endpoints for PTYs that survived an Orca restart.
+    // Refresh endpoints for PTYs that survived an Amoeba restart.
     'if [ -n "$ORCA_AGENT_HOOK_ENDPOINT" ] && [ -r "$ORCA_AGENT_HOOK_ENDPOINT" ]; then',
     '  . "$ORCA_AGENT_HOOK_ENDPOINT" 2>/dev/null || :',
     'fi',

@@ -33,7 +33,7 @@ describe('hasInstalledAgentSkill', () => {
       hasInstalledAgentSkill(
         [
           skill({
-            name: 'Orca CLI',
+            name: 'Amoeba CLI',
             directoryPath: 'C:\\Users\\test\\.agents\\skills\\orca-cli'
           })
         ],

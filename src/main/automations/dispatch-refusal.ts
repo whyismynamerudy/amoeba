@@ -10,18 +10,18 @@ import { resolveAutomationRunTarget, type AutomationRunTargetResult } from './ru
 import type { AutomationRunWriter } from './automation-run-writer'
 import { wslMoveRepoBackoff } from '../persistence/moving-wsl-projects/wsl-move-background-backoff'
 
-export const NO_DISPATCH_HOST = 'No Orca window was available to launch the automation.'
+export const NO_DISPATCH_HOST = 'No Amoeba window was available to launch the automation.'
 
 export const UNEVALUABLE_SCHEDULE =
-  'Orca could not evaluate this automation and skipped the occurrence.'
+  'Amoeba could not evaluate this automation and skipped the occurrence.'
 
 export const NO_RUNNABLE_HOST = 'This automation has no host to run on.'
 
 export const WSL_MOVE_IN_PROGRESS =
-  "This automation's project is moving to its WSL host, so Orca skipped this run. Runs resume when the move finishes."
+  "This automation's project is moving to its WSL host, so Amoeba skipped this run. Runs resume when the move finishes."
 
 export const WSL_MOVE_OWNED_BY_HOST =
-  "This automation's project now runs on its WSL host, which runs this automation there. Orca no longer runs this local copy."
+  "This automation's project now runs on its WSL host, which runs this automation there. Amoeba no longer runs this local copy."
 
 /** Decide refusals before creating rows so repeated skips can coalesce. */
 export function describeScheduledRefusal(input: {
@@ -136,6 +136,6 @@ export async function recordMissedRun(input: {
     runId: missed.id,
     status: 'skipped_missed',
     workspaceId: input.automation.workspaceId,
-    error: 'This run was past its missed-run grace window when Orca next checked.'
+    error: 'This run was past its missed-run grace window when Amoeba next checked.'
   })
 }

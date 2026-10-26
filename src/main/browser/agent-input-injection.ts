@@ -1,7 +1,7 @@
 import type { WebContents } from 'electron'
 import { assertRemoteCliPageAccess } from './remote-cli-page-admission'
 
-// Agent keys must bypass Orca shortcuts, grab handlers, and app menus (#20595).
+// Agent keys must bypass Amoeba shortcuts, grab handlers, and app menus (#20595).
 const injectionDepth = new WeakMap<WebContents, number>()
 
 export function isAgentInjectingInput(webContents: WebContents): boolean {

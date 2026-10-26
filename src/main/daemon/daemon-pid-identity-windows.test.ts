@@ -22,10 +22,10 @@ function table(
   command: string,
   creationTimeMs = STARTED_AT_MS
 ): () => Promise<WindowsProcessRow[]> {
-  return async () => [{ pid, ppid: 1, name: 'Orca.exe', command, creationTimeMs }]
+  return async () => [{ pid, ppid: 1, name: 'Amoeba.exe', command, creationTimeMs }]
 }
 
-const daemon = `"C:\\Orca\\Orca.exe" daemon-entry.js --socket ${socketPath} --token ${tokenPath}`
+const daemon = `"C:\\Amoeba\\Amoeba.exe" daemon-entry.js --socket ${socketPath} --token ${tokenPath}`
 const platform = Object.getOwnPropertyDescriptor(process, 'platform')!
 
 describe('inspectDaemonProcessIdentity on Windows', () => {

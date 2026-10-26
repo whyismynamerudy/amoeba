@@ -140,7 +140,7 @@ function subscribeLikeOrca(dir) {
       (err, events) => {
         if (err) {
           stats.watchErrors++
-          // Orca's error path: unsubscribe from inside the error callback.
+          // Amoeba's error path: unsubscribe from inside the error callback.
           if (subRef.current) {
             stats.unsubscribes++
             subRef.current.unsubscribe().catch(() => {})

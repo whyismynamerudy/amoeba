@@ -287,7 +287,7 @@ describe('ClaudeHookService.install', () => {
     }
   })
 
-  it('keeps newer Orca events and reports installed when a later probe cannot resolve the version', () => {
+  it('keeps newer Amoeba events and reports installed when a later probe cannot resolve the version', () => {
     const tmpHome = mkdtempSync(join(tmpdir(), 'orca-claude-unknown-version-'))
     vi.stubEnv('HOME', tmpHome)
     vi.stubEnv('USERPROFILE', tmpHome)
@@ -666,7 +666,7 @@ describe('backgrounded-session pane guard (#9236)', () => {
     }
   })
 
-  it('exits rather than draining stdin on Windows, where a worker has no Orca pane', () => {
+  it('exits rather than draining stdin on Windows, where a worker has no Amoeba pane', () => {
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')!
     const tmpHome = mkdtempSync(join(tmpdir(), 'orca-claude-bg-'))
     Object.defineProperty(process, 'platform', { value: 'win32', configurable: true })

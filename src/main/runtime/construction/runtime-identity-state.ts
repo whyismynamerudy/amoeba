@@ -272,7 +272,7 @@ export abstract class OrcaRuntimeWithRuntimeId extends RuntimeConstructionServic
   protected pendingMobileSessionPtyAggregateInventoryRefresh: Promise<PtyControllerInventory | null> | null =
     null
 
-  /** Rank launch authority first, then foreground evidence for agents Orca did not launch. */
+  /** Rank launch authority first, then foreground evidence for agents Amoeba did not launch. */
   protected getPaneAgentForTuiIdle(ptyId: string | null | undefined): TuiAgent | null {
     if (!ptyId) {
       return null

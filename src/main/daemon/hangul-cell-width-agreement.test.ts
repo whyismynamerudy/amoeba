@@ -73,14 +73,14 @@ function summarize(entries: { codepoint: number; detail: string }[]): string[] {
 }
 
 describe('Hangul cell width agreement (#15192)', () => {
-  it('reaches the Orca provider, not the v11 fallback, on a live terminal', () => {
+  it('reaches the Amoeba provider, not the v11 fallback, on a live terminal', () => {
     const { terminal, unicode } = openWithUnicode11AddonLoaded()
     expect(unicode.versions).toContain(ORCA_UNICODE_VERSION)
     expect(unicode.activeVersion).toBe(ORCA_UNICODE_VERSION)
     terminal.dispose()
   })
 
-  it('budgets every precomposed syllable at two cells under v6, v11 and Orca', () => {
+  it('budgets every precomposed syllable at two cells under v6, v11 and Amoeba', () => {
     const { terminal, unicode } = openWithUnicode11AddonLoaded()
     const disagreeing: { codepoint: number; detail: string }[] = []
     for (const version of ['6', '11', ORCA_UNICODE_VERSION]) {

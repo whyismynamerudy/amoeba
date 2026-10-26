@@ -106,7 +106,7 @@ describe('sealStructuredSessionChild identity', () => {
     }
   )
 
-  it('replaces an id inherited from an Orca launched inside another session', () => {
+  it('replaces an id inherited from an Amoeba launched inside another session', () => {
     installFakeAppEnvironment({ isPackaged: () => false, getPath: () => USER_DATA })
     const env = sealedChildEnv(SESSION_ID, {
       ORCA_AGENT_SESSION_ID: 'a0b1c2d3-0000-4000-8000-00000000abcd',
@@ -188,7 +188,7 @@ describe('sealStructuredSessionChild identity', () => {
       installFakeAppEnvironment({ isPackaged: () => false, getPath: () => USER_DATA })
       const env = sealedChildEnv(SESSION_ID, { PATH: '/usr/bin' })
       expect(env.PATH).toBe(`${join(USER_DATA, 'cli', 'bin')}:/usr/bin`)
-      expect(env.ORCA_CLI_COMMAND).toBe(join(USER_DATA, 'cli', 'bin', 'orca-dev'))
+      expect(env.ORCA_CLI_COMMAND).toBe(join(USER_DATA, 'cli', 'bin', 'amoeba-dev'))
     })
   })
 
@@ -200,7 +200,7 @@ describe('sealStructuredSessionChild identity', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {})
     const env = sealedChildEnv(SESSION_ID, {
       PATH: '/usr/bin',
-      ORCA_CLI_COMMAND: '/Applications/Other Orca.app/Contents/Resources/bin/orca',
+      ORCA_CLI_COMMAND: '/Applications/Other Amoeba.app/Contents/Resources/bin/orca',
       ORCA_USER_DATA_PATH: '/data/other-orca'
     })
     expect(env).not.toHaveProperty('ORCA_CLI_COMMAND')

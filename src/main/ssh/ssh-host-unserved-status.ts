@@ -23,21 +23,21 @@ export function unservedServerStatus(
 }
 
 const HELD_MOVE_MESSAGE =
-  'Orca paused moving this host’s projects to its Orca server because it couldn’t confirm the server’s copy. Nothing is lost: the host keeps its projects and stays locked until the move finishes. Connect again to resume. If the server can’t come back, stop or forget it in Settings > Orca on your SSH hosts.'
+  'Amoeba paused moving this host’s projects to its Amoeba server because it couldn’t confirm the server’s copy. Nothing is lost: the host keeps its projects and stays locked until the move finishes. Connect again to resume. If the server can’t come back, stop or forget it in Settings > Amoeba on your SSH hosts.'
 
 const NOEXEC_MESSAGE =
-  'This host doesn’t allow running programs from ~/.orca-remote, so Orca can’t start its server there. This usually means the home folder is mounted with noexec. Ask the host’s administrator to allow running programs there, then connect again.'
+  'This host doesn’t allow running programs from ~/.orca-remote, so Amoeba can’t start its server there. This usually means the home folder is mounted with noexec. Ask the host’s administrator to allow running programs there, then connect again.'
 
 const CONTACT_LOST_MESSAGE =
-  'Orca lost contact with this host while setting up its server. Nothing on the host was stopped. Connect again to continue.'
+  'Amoeba lost contact with this host while setting up its server. Nothing on the host was stopped. Connect again to continue.'
 
 const NODE_DOWNLOAD_BLOCKED_MESSAGES: Record<NodeDistMirrorAttempt, string> = {
   unset:
-    'Neither this computer nor this host could download Node.js, which Orca’s server needs. Set a Node.js download mirror in Settings > Advanced > Network, or check the network on both machines, then connect again.',
+    'Neither this computer nor this host could download Node.js, which Amoeba’s server needs. Set a Node.js download mirror in Settings > Advanced > Network, or check the network on both machines, then connect again.',
   tried:
     'Neither this computer nor this host could download Node.js, including from the Node.js download mirror. Check the mirror in Settings > Advanced > Network, then connect again.',
   unsupported:
-    'Neither this computer nor this host could download Node.js, which Orca’s server needs. Check the network or proxy on both machines, then connect again.'
+    'Neither this computer nor this host could download Node.js, which Amoeba’s server needs. Check the network or proxy on both machines, then connect again.'
 }
 
 /** Reuse untranslated status wording for logs/clients without the catalog. */
@@ -49,14 +49,14 @@ export function unservedHostServerMessage(decision: UnservedDecision): string {
     case 'orcad_unavailable':
       return decision.detail === 'runtime_noexec'
         ? NOEXEC_MESSAGE
-        : 'This SSH host isn’t supported by this version of Orca. To keep using it, install an older version of Orca.'
+        : 'This SSH host isn’t supported by this version of Amoeba. To keep using it, install an older version of Amoeba.'
     case 'relay_terminals_live':
     case 'relay_terminals_unverifiable':
-      return 'Terminals started by an older version of Orca are still running on this host, and they don’t stop on their own. Close them in that version of Orca or end them on the host, then reconnect.'
+      return 'Terminals started by an older version of Amoeba are still running on this host, and they don’t stop on their own. Close them in that version of Amoeba or end them on the host, then reconnect.'
     case 'refused':
-      return decision.detail ?? 'Orca couldn’t set up its server on this host.'
+      return decision.detail ?? 'Amoeba couldn’t set up its server on this host.'
     case 'source_changed':
-      return 'This computer has projects or folders for this host that its Orca server doesn’t have yet, often added by an older version of Orca. Move them to this host’s Orca server in SSH Hosts settings to continue.'
+      return 'This computer has projects or folders for this host that its Amoeba server doesn’t have yet, often added by an older version of Amoeba. Move them to this host’s Amoeba server in SSH Hosts settings to continue.'
     case 'deferred':
     case 'failed':
       if (decision.contactLost) {
@@ -64,6 +64,6 @@ export function unservedHostServerMessage(decision: UnservedDecision): string {
       }
       return decision.nodeDownloadBlocked
         ? NODE_DOWNLOAD_BLOCKED_MESSAGES[decision.nodeDownloadBlocked.mirror]
-        : 'Orca couldn’t start its server on this host. Try connecting again.'
+        : 'Amoeba couldn’t start its server on this host. Try connecting again.'
   }
 }

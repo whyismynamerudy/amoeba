@@ -2,14 +2,14 @@ import type { CommandSpec } from '../args'
 import { GLOBAL_FLAGS } from '../args'
 
 const SELECTOR_NOTE =
-  '--environment names a managed Orca server this machine deployed over SSH (see `orca environment list`); it is a selector here, not a routing flag.'
+  '--environment names a managed Amoeba server this machine deployed over SSH (see `orca environment list`); it is a selector here, not a routing flag.'
 const DESKTOP_NOTE =
-  'Runs on this machine’s Orca desktop app, the same action as Settings > Orca on your SSH hosts. A runtime without the SSH registry (headless `orca serve`) refuses it.'
+  'Runs on this machine’s Amoeba desktop app, the same action as Settings > Amoeba on your SSH hosts. A runtime without the SSH registry (headless `orca serve`) refuses it.'
 
 export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['environment', 'status'],
-    summary: 'Show a managed Orca server’s active version, terminals and pending work',
+    summary: 'Show a managed Amoeba server’s active version, terminals and pending work',
     usage: 'orca environment status --environment <selector> [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [SELECTOR_NOTE, DESKTOP_NOTE],
@@ -17,7 +17,7 @@ export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['environment', 'update'],
-    summary: 'Update a managed Orca server to this build’s version',
+    summary: 'Update a managed Amoeba server to this build’s version',
     usage: 'orca environment update --environment <selector> [--force] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'force'],
     notes: [
@@ -30,19 +30,19 @@ export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['environment', 'rollback'],
     destructive: true,
-    summary: 'Roll a managed Orca server back to its previous version',
+    summary: 'Roll a managed Amoeba server back to its previous version',
     usage: 'orca environment rollback --environment <selector> [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [SELECTOR_NOTE, DESKTOP_NOTE]
   },
   {
     path: ['environment', 'recover'],
-    summary: 'Finish or undo a managed Orca server’s interrupted update, rollback or stop',
+    summary: 'Finish or undo a managed Amoeba server’s interrupted update, rollback or stop',
     usage:
       'orca environment recover --environment <selector> [--accept-changed-state --yes] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'accept-changed-state', 'yes'],
     notes: [
-      'When a rejected build changed profile state, recover refuses rather than restart the previous build over it. --accept-changed-state --yes restores the prelaunch snapshot instead, the same as Restore in Settings > Orca on your SSH hosts; what the rejected build changed is discarded.',
+      'When a rejected build changed profile state, recover refuses rather than restart the previous build over it. --accept-changed-state --yes restores the prelaunch snapshot instead, the same as Restore in Settings > Amoeba on your SSH hosts; what the rejected build changed is discarded.',
       SELECTOR_NOTE,
       DESKTOP_NOTE
     ],
@@ -54,7 +54,7 @@ export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['environment', 'stop'],
     destructive: true,
-    summary: 'Stop a managed Orca server and unlink it from this machine (decommission)',
+    summary: 'Stop a managed Amoeba server and unlink it from this machine (decommission)',
     usage: 'orca environment stop --environment <selector> --yes [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'yes'],
     notes: [
@@ -69,7 +69,7 @@ export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['environment', 'forget'],
     destructive: true,
-    summary: 'Unlink a managed Orca server whose SSH host is gone, without stopping it',
+    summary: 'Unlink a managed Amoeba server whose SSH host is gone, without stopping it',
     usage: 'orca environment forget --environment <selector> --yes [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'yes'],
     notes: [
@@ -82,7 +82,7 @@ export const MANAGED_SERVER_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['environment', 'cancel-stop'],
-    summary: 'Withdraw a managed Orca server stop that orcad has not acted on yet',
+    summary: 'Withdraw a managed Amoeba server stop that orcad has not acted on yet',
     usage: 'orca environment cancel-stop --environment <selector> [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [SELECTOR_NOTE, DESKTOP_NOTE]

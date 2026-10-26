@@ -334,7 +334,7 @@ describe('onboarding language request', () => {
     expect(
       screen.getByText('System language: de-DE. This language is not supported yet.')
     ).toBeTruthy()
-    expect(screen.queryByText(/Orca uses English/)).toBeNull()
+    expect(screen.queryByText(/Amoeba uses English/)).toBeNull()
     expect(screen.getByRole('radio', { name: 'Français' }).getAttribute('data-state')).toBe(
       'checked'
     )

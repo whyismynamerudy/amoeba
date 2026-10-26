@@ -73,7 +73,7 @@ function encodeModifyOtherKeysEnter(
   return (getModifyOtherKeys?.() ?? 0) > 0 ? `\x1b[27;${modifier};13~` : null
 }
 
-/** Resolve platform-aware Orca shortcuts and byte fallbacks before xterm encoding. */
+/** Resolve platform-aware Amoeba shortcuts and byte fallbacks before xterm encoding. */
 export function resolveTerminalShortcutAction(
   event: TerminalShortcutEvent,
   isMac: boolean,

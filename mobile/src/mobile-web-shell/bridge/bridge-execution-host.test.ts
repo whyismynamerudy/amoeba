@@ -65,9 +65,9 @@ describe('a server workspace call across the shell bridge', () => {
     expect(page.client.carriesRpcEnvelope?.()).toBe(false)
 
     const server = scopeRpcClientToExecutionHost(page.client, SERVER)
-    await expect(server.sendRequest('worktree.ps', {})).rejects.toThrow(/update the Orca app/)
+    await expect(server.sendRequest('worktree.ps', {})).rejects.toThrow(/update the Amoeba app/)
     expect(() => server.subscribe('terminal.subscribe', { terminal: 't1' }, () => {})).toThrow(
-      /update the Orca app/
+      /update the Amoeba app/
     )
     expect(page.frames().filter((frame) => frame.type !== 'ready')).toEqual([])
     page.client.close()

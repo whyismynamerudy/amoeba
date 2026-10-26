@@ -17,7 +17,7 @@ describe('resolveLaunchUserDataPath', () => {
 
   it("falls back to the dev app's own profile for a dev executable", () => {
     expect(resolveLaunchUserDataPath({ ORCA_APP_EXECUTABLE_NEEDS_APP_ROOT: '1' })).toBe(
-      resolve(join(getPlatformUserDataPath(), '..', 'orca-dev'))
+      resolve(join(getPlatformUserDataPath(), '..', 'amoeba-dev'))
     )
   })
 
@@ -42,15 +42,15 @@ describe('pinLaunchUserDataPath', () => {
 
 describe('getMacOpenArgs', () => {
   it('reopens the bundle as before on the default profile', () => {
-    expect(getMacOpenArgs('/Applications/Orca.app', getPlatformUserDataPath())).toEqual([
-      '/Applications/Orca.app'
+    expect(getMacOpenArgs('/Applications/Amoeba.app', getPlatformUserDataPath())).toEqual([
+      '/Applications/Amoeba.app'
     ])
   })
 
   it('starts a new instance on another profile instead of activating the running app', () => {
-    expect(getMacOpenArgs('/Applications/Orca.app', '/isolated/p')).toEqual([
+    expect(getMacOpenArgs('/Applications/Amoeba.app', '/isolated/p')).toEqual([
       '-n',
-      '/Applications/Orca.app',
+      '/Applications/Amoeba.app',
       '--args',
       '--user-data-dir=/isolated/p'
     ])

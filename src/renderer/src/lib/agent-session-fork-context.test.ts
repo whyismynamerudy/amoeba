@@ -21,7 +21,7 @@ describe('agent session fork context', () => {
       agentLabel: 'codex'
     })
 
-    expect(prompt).toContain('fork of an existing Orca agent session')
+    expect(prompt).toContain('fork of an existing Amoeba agent session')
     expect(prompt).toContain('Source: tab-1:leaf-1')
     expect(prompt).toContain('Original agent: codex')
     expect(prompt).toContain('User: implement auth')
@@ -74,7 +74,7 @@ describe('agent session fork context', () => {
 
     // Copy Context must return raw transcript without fork instructions a paste target could execute.
     expect(transcript).toBe('User: ship it\nAssistant: done')
-    expect(transcript).not.toContain('fork of an existing Orca agent session')
+    expect(transcript).not.toContain('fork of an existing Amoeba agent session')
     expect(transcript).not.toContain('wait for my next instruction')
   })
 

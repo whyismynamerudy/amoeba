@@ -96,7 +96,7 @@ describe('createWslWatcher', () => {
       expect.objectContaining({
         stdio: ['pipe', 'pipe', 'pipe'],
         windowsHide: true,
-        // Explicit cwd survives deletion of Orca's inherited worktree (#16463).
+        // Explicit cwd survives deletion of Amoeba's inherited worktree (#16463).
         cwd: expect.any(String)
       })
     )

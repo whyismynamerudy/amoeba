@@ -325,7 +325,7 @@ describe('WslHostService', () => {
     await expect(service.add({ distro: 'Debian' })).resolves.toEqual({
       ok: false,
       kind: 'server-files-missing',
-      message: 'This build of Orca can’t run WSL hosts (server files missing).'
+      message: 'This build of Amoeba can’t run WSL hosts (server files missing).'
     })
     expect(connector.listDistros).not.toHaveBeenCalled()
     await expect(service.connect('wsl:ubuntu')).rejects.toThrow('server files missing')
@@ -535,8 +535,8 @@ describe('WslHostService', () => {
   it.each([
     [
       'unsupported-wsl1',
-      () => new OrcadHostUnsupportedError('WSL 1 cannot run the Orca server.'),
-      'WSL 1 cannot run the Orca server.'
+      () => new OrcadHostUnsupportedError('WSL 1 cannot run the Amoeba server.'),
+      'WSL 1 cannot run the Amoeba server.'
     ],
     ['failed', () => new Error('bridge refused'), 'bridge refused']
   ])(

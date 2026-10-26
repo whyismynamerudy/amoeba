@@ -336,7 +336,7 @@ describe('QuickLaunchAgentMenuItems launches', () => {
 
     await vi.waitFor(() => expect(toastError).toHaveBeenCalledOnce())
     expect(toastError).toHaveBeenCalledWith(expect.stringContaining("Couldn't send to"), {
-      description: expect.stringContaining("Orca couldn't confirm your message reached the agent")
+      description: expect.stringContaining("Amoeba couldn't confirm your message reached the agent")
     })
   })
 

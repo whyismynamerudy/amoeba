@@ -139,7 +139,7 @@ describe('mobile create form gating parity', () => {
         blockedReason: null
       })
     ).toBe(
-      'Orca could not confirm whether this branch already has a pull request. Try again in a moment.'
+      'Amoeba could not confirm whether this branch already has a pull request. Try again in a moment.'
     )
     expect(
       getMobilePrCreateBlockMessage({
@@ -151,7 +151,7 @@ describe('mobile create form gating parity', () => {
         blockedReason: 'needs_push'
       })
     ).toBe(
-      'Orca could not confirm whether this branch already has a pull request. Try again in a moment.'
+      'Amoeba could not confirm whether this branch already has a pull request. Try again in a moment.'
     )
   })
 
@@ -167,7 +167,7 @@ describe('mobile create form gating parity', () => {
         reviewLookupOutcome: 'unavailable'
       })
     ).toBe(
-      'Orca could not confirm whether this branch already has a pull request. Try again in a moment.'
+      'Amoeba could not confirm whether this branch already has a pull request. Try again in a moment.'
     )
   })
 
@@ -315,7 +315,7 @@ describe('resolveMobilePrPrefill', () => {
 
   // Use unavailable copy when eligibility cannot resolve; blocked copy requires an explicit canCreate: false.
   const UNCONFIRMED =
-    'Orca could not confirm whether this branch already has a pull request. Try again in a moment.'
+    'Amoeba could not confirm whether this branch already has a pull request. Try again in a moment.'
 
   it.each([
     { name: 'a malformed reply', responses: [ok({ provider: 7 })] },

@@ -39,17 +39,17 @@ export function plainSshOpenFailureText(
     case 'unknown-target':
       return translate(
         'auto.components.plainSshTerminal.unknownTarget',
-        'This SSH host is no longer saved in Orca.'
+        'This SSH host is no longer saved in Amoeba.'
       )
     case 'not-blocked':
       return translate(
         'auto.components.plainSshTerminal.notBlocked',
-        'Orca can reach this host again, so use its terminals instead. Plain SSH is only for while Orca can’t set up on the host.'
+        'Amoeba can reach this host again, so use its terminals instead. Plain SSH is only for while Amoeba can’t set up on the host.'
       )
     case 'already-open':
       return translate(
         'auto.components.plainSshTerminal.alreadyOpen',
-        'Another Orca window already has a plain SSH terminal open to this host.'
+        'Another Amoeba window already has a plain SSH terminal open to this host.'
       )
     case 'cancelled':
       return translate(
@@ -79,7 +79,7 @@ function resolveThemeColors(
   }
 }
 
-/** One plain SSH session on Orca's standalone terminal; it starts on mount and hangs up on unmount. */
+/** One plain SSH session on Amoeba's standalone terminal; it starts on mount and hangs up on unmount. */
 export function PlainSshTerminalView({
   targetId,
   hidden,
@@ -149,7 +149,7 @@ export function PlainSshTerminalView({
         kind: 'failed',
         message: translate(
           'auto.components.plainSshTerminal.terminalUnavailable',
-          'Orca couldn’t open a terminal here.'
+          'Amoeba couldn’t open a terminal here.'
         )
       })
       return

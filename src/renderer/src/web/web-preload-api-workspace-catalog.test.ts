@@ -341,7 +341,7 @@ describe('web worktree preload API', () => {
     resolveServerA?.(detectedList('repo-a', '/srv/a'))
 
     await expect(serverAStatus).rejects.toThrow(
-      'The paired Orca server changed while the request was in progress.'
+      'The paired Amoeba server changed while the request was in progress.'
     )
     await expect(globals.window.api.shell.pathExists('/srv/a/file.ts')).resolves.toBe(false)
     await expect(globals.window.api.shell.pathExists('/srv/b/file.ts')).resolves.toBe(true)
@@ -506,7 +506,7 @@ describe('web worktree preload API', () => {
     })
 
     await expect(detected).rejects.toThrow(
-      'The paired Orca server changed while the request was in progress.'
+      'The paired Amoeba server changed while the request was in progress.'
     )
     expect(runtimeCalls).toEqual(['worktree.detectedList'])
   })

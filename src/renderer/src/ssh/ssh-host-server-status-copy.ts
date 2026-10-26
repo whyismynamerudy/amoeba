@@ -34,7 +34,7 @@ export function sshHostServerStatusLine(
       tone: 'warning',
       text: translate(
         'auto.components.settings.sshHostServer.notServing',
-        'Orca couldn’t confirm that its server on {{host}} is answering.',
+        'Amoeba couldn’t confirm that its server on {{host}} is answering.',
         { host: target.label }
       ),
       detail: status.serving.detail
@@ -103,7 +103,7 @@ function sourceChangedLine(): SshHostServerStatusLine {
     tone: 'warning',
     text: translate(
       'auto.components.settings.sshHostServer.sourceChanged',
-      'This computer has projects or folders for this host that its Orca server doesn’t have yet, often added by an older version of Orca. Move them to this host’s Orca server, or keep the server’s version, to connect again.'
+      'This computer has projects or folders for this host that its Amoeba server doesn’t have yet, often added by an older version of Amoeba. Move them to this host’s Amoeba server, or keep the server’s version, to connect again.'
     )
   }
 }
@@ -118,7 +118,7 @@ function unavailableLine(reason: string | undefined): SshHostServerStatusLine {
       tone: 'destructive',
       text: translate(
         'auto.components.settings.sshHostServer.runtimeNoexec',
-        'This host doesn’t allow running programs from ~/.orca-remote, so Orca can’t start its server there. This usually means the home folder is mounted with noexec. Ask the host’s administrator to allow running programs there, then connect again.'
+        'This host doesn’t allow running programs from ~/.orca-remote, so Amoeba can’t start its server there. This usually means the home folder is mounted with noexec. Ask the host’s administrator to allow running programs there, then connect again.'
       )
     }
   }
@@ -128,7 +128,7 @@ function unavailableLine(reason: string | undefined): SshHostServerStatusLine {
       tone: 'destructive',
       text: translate(
         'auto.components.settings.sshHostServer.unsupported',
-        'This host isn’t supported by this version of Orca ({{reason}}). To keep using it, install an older version of Orca.',
+        'This host isn’t supported by this version of Amoeba ({{reason}}). To keep using it, install an older version of Amoeba.',
         { reason: cause }
       )
     }
@@ -137,7 +137,7 @@ function unavailableLine(reason: string | undefined): SshHostServerStatusLine {
     tone: 'destructive',
     text: translate(
       'auto.components.settings.sshHostServer.unsupportedUnknown',
-      'This host isn’t supported by this version of Orca. To keep using it, install an older version of Orca.'
+      'This host isn’t supported by this version of Amoeba. To keep using it, install an older version of Amoeba.'
     ),
     ...(reason ? { detail: reason } : {})
   }
@@ -148,17 +148,17 @@ function unavailableCause(reason: string): string | null {
     case 'unsupported_host':
       return translate(
         'auto.components.settings.sshHostServer.cause.unsupportedHost',
-        'Orca has no server build for this system'
+        'Amoeba has no server build for this system'
       )
     case 'artifacts_unavailable':
       return translate(
         'auto.components.settings.sshHostServer.cause.artifactsUnavailable',
-        'this Orca build doesn’t include the server'
+        'this Amoeba build doesn’t include the server'
       )
     case 'libc_unidentified':
       return translate(
         'auto.components.settings.sshHostServer.cause.libcUnidentified',
-        'Orca couldn’t identify the host’s system libraries'
+        'Amoeba couldn’t identify the host’s system libraries'
       )
     case 'runtime_self_test':
       return translate(
@@ -185,7 +185,7 @@ function tunnelUnavailableLine(): SshHostServerStatusLine {
     tone: 'destructive',
     text: translate(
       'auto.components.settings.sshHostServer.tunnelUnsupported',
-      'This host isn’t supported by this version of Orca: its SSH server doesn’t allow port forwarding, and Orca couldn’t reach its server through the SSH session either. To keep using it, install an older version of Orca.'
+      'This host isn’t supported by this version of Amoeba: its SSH server doesn’t allow port forwarding, and Amoeba couldn’t reach its server through the SSH session either. To keep using it, install an older version of Amoeba.'
     )
   }
 }
@@ -195,7 +195,7 @@ function retryLine(): SshHostServerStatusLine {
     tone: 'warning',
     text: translate(
       'auto.components.settings.sshHostServer.setupRetry',
-      'Orca couldn’t start its server on this host. Try connecting again.'
+      'Amoeba couldn’t start its server on this host. Try connecting again.'
     )
   }
 }
@@ -205,7 +205,7 @@ function contactLostLine(): SshHostServerStatusLine {
     tone: 'warning',
     text: translate(
       'auto.components.settings.sshHostServer.setupContactLost',
-      'Orca lost contact with this host while setting up its server. Nothing on the host was stopped. Connect again to continue.'
+      'Amoeba lost contact with this host while setting up its server. Nothing on the host was stopped. Connect again to continue.'
     )
   }
 }
@@ -215,7 +215,7 @@ function heldMoveLine(): SshHostServerStatusLine {
     tone: 'warning',
     text: translate(
       'auto.components.settings.sshHostServer.moveHeld',
-      'Orca paused moving this host’s projects to its Orca server because it couldn’t confirm the server’s copy. Nothing is lost: the host keeps its projects and stays locked until the move finishes. Connect again to resume. If the server can’t come back, stop or forget it in Settings > Orca on your SSH hosts.'
+      'Amoeba paused moving this host’s projects to its Amoeba server because it couldn’t confirm the server’s copy. Nothing is lost: the host keeps its projects and stays locked until the move finishes. Connect again to resume. If the server can’t come back, stop or forget it in Settings > Amoeba on your SSH hosts.'
     )
   }
 }
@@ -232,12 +232,12 @@ function linkedProjectsLine(
       count > 0
         ? translate(
             'auto.components.settings.sshHostServer.linkedProjects',
-            'This host’s Orca server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs and {{count}} automations there were not moved, and worktrees it created there show as external worktrees.',
+            'This host’s Amoeba server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs and {{count}} automations there were not moved, and worktrees it created there show as external worktrees.',
             { paths, count }
           )
         : translate(
             'auto.components.settings.sshHostServer.linkedProjectsNoAutomations',
-            'This host’s Orca server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs there were not moved, and worktrees it created there show as external worktrees.',
+            'This host’s Amoeba server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs there were not moved, and worktrees it created there show as external worktrees.',
             { paths }
           )
   }
@@ -254,7 +254,7 @@ function refusedLine(detail: string | undefined, inlineChars: number): SshHostSe
       tone: 'destructive',
       text: translate(
         'auto.components.settings.sshHostServer.refusedBlocked',
-        'Orca isn’t set up on this host yet: something on the host stops the move.'
+        'Amoeba isn’t set up on this host yet: something on the host stops the move.'
       )
     }
   }
@@ -263,7 +263,7 @@ function refusedLine(detail: string | undefined, inlineChars: number): SshHostSe
     tone: 'destructive',
     text: translate(
       'auto.components.settings.sshHostServer.refusedBlockedReason',
-      'Orca isn’t set up on this host yet. {{reason}}',
+      'Amoeba isn’t set up on this host yet. {{reason}}',
       { reason: inline }
     ),
     detail: reason
@@ -282,12 +282,12 @@ function unservedLine(
         text: status.terminals
           ? translate(
               'auto.components.settings.sshHostServer.olderTerminals',
-              '{{count}} terminals started by an older version of Orca are still running on this host, and they don’t stop on their own. Close them in that version of Orca or end them on the host, then reconnect.',
+              '{{count}} terminals started by an older version of Amoeba are still running on this host, and they don’t stop on their own. Close them in that version of Amoeba or end them on the host, then reconnect.',
               { count: status.terminals }
             )
           : translate(
               'auto.components.settings.sshHostServer.olderTerminalsUncounted',
-              'Terminals started by an older version of Orca are still running on this host, and they don’t stop on their own. Close them in that version of Orca or end them on the host, then reconnect.'
+              'Terminals started by an older version of Amoeba are still running on this host, and they don’t stop on their own. Close them in that version of Amoeba or end them on the host, then reconnect.'
             )
       }
     case 'relay_terminals_unverifiable':
@@ -295,7 +295,7 @@ function unservedLine(
         tone: 'warning',
         text: translate(
           'auto.components.settings.sshHostServer.olderTerminalsUnverifiable',
-          'Orca couldn’t confirm that terminals started by an older version of Orca have exited. Reconnect to try again.'
+          'Amoeba couldn’t confirm that terminals started by an older version of Amoeba have exited. Reconnect to try again.'
         )
       }
     case 'orcad_unavailable':

@@ -6,7 +6,7 @@ import { OrchestrationDb } from '../../orchestration/db'
 import { ORCHESTRATION_METHODS } from './orchestration'
 
 const STRUCTURED_HANDLE = 'structworker_abc'
-// A real Orca session ID: a minted worker's preamble names it by this, not its handle.
+// A real Amoeba session ID: a minted worker's preamble names it by this, not its handle.
 const STRUCTURED_SESSION_ID = '9c2e4b7a-1d3f-4a6e-8b5c-7f0a2d9e6c41'
 const TERMINAL_HANDLE = 'term_worker'
 
@@ -158,7 +158,9 @@ describe('worker-start honours the settings default', () => {
     expect(createStructuredWorkerSessionForWorktree).toHaveBeenCalledTimes(1)
     expect(createExistingWorktreeWorkerTerminal).not.toHaveBeenCalled()
     const preamble = sendStructuredWorkerPreamble.mock.calls[0]![0].preamble
-    expect(preamble).toContain(`Your Orca session ID is: orca_session_id:${STRUCTURED_SESSION_ID}`)
+    expect(preamble).toContain(
+      `Your Amoeba session ID is: orca_session_id:${STRUCTURED_SESSION_ID}`
+    )
     expect(preamble).toContain('The coordinator cannot see this chat')
     expect(preamble).toContain('it will send this chat a fresh')
     expect(preamble).not.toContain('this terminal')

@@ -230,7 +230,7 @@ describe('tui agent startup plans', () => {
     expect(tokens.ok && tokens.tokens.at(-1)).toMatch(/\\0[0-7]{3}/)
   })
 
-  it('does not launch Codex with the Orca profile when agent status hooks are enabled', () => {
+  it('does not launch Codex with the Amoeba profile when agent status hooks are enabled', () => {
     const plan = buildAgentStartupPlan({
       agent: 'codex',
       prompt: 'fix it',
@@ -260,7 +260,7 @@ describe('tui agent startup plans', () => {
     })
   })
 
-  it('launches Claude without Orca settings injection', () => {
+  it('launches Claude without Amoeba settings injection', () => {
     const plan = buildAgentStartupPlan({
       agent: 'claude',
       prompt: 'fix it',
@@ -272,7 +272,7 @@ describe('tui agent startup plans', () => {
     expect(plan?.launchCommand).not.toContain('--settings')
   })
 
-  it('uses the Linux Orca CLI command for Claude Agent Teams launches', () => {
+  it('uses the Linux Amoeba CLI command for Claude Agent Teams launches', () => {
     const plan = buildAgentStartupPlan({
       agent: 'claude-agent-teams',
       prompt: '',

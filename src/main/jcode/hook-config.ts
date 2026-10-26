@@ -1,4 +1,4 @@
-// Reuse byte-preserving TOML scanning; scalar hook commands stay user-owned unless they target Orca.
+// Reuse byte-preserving TOML scanning; scalar hook commands stay user-owned unless they target Amoeba.
 import {
   createTomlLineScanState,
   getTomlTableHeader,

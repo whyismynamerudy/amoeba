@@ -60,7 +60,7 @@ export class AcpStructuredOptions {
   // Only new sessions resolve configured defaults; loaded sessions retain their saved choices.
   private resolvesConfig = false
   readonly picked = new Set<string>()
-  /** Last successful Orca writes, distinct from agent-reported values. */
+  /** Last successful Amoeba writes, distinct from agent-reported values. */
   readonly applied = new Map<string, string>()
   private initialChoice: Readonly<Record<string, string>> = {}
   currentProof = new Set<string>()

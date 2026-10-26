@@ -128,7 +128,7 @@ export async function getProjectViewTable(
       error: {
         type: 'unsupported_layout',
         // Unchecked runtime layout values can reach this branch despite the closed type union.
-        message: `Orca renders table, board, and roadmap views. This is a ${String(selectedView.layout).replace('_LAYOUT', '').toLowerCase()} view.`
+        message: `Amoeba renders table, board, and roadmap views. This is a ${String(selectedView.layout).replace('_LAYOUT', '').toLowerCase()} view.`
       },
       ...(typeof count === 'number' ? { totalCount: count } : {})
     }

@@ -154,7 +154,7 @@ function buildMenuSections({
       item(
         translate(
           'auto.components.browser.pane.BrowserPane.b5b87d6cbb',
-          'Open Link In Orca Browser'
+          'Open Link In Amoeba Browser'
         ),
         () => openInNewTab(linkUrl, false)
       ),

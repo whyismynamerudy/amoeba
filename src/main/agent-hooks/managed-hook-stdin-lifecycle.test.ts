@@ -187,7 +187,7 @@ function runHookProcess(
   executable: string,
   args: string[],
   env: NodeJS.ProcessEnv,
-  // An open, unwritten pipe exposes read-to-EOF hangs outside an Orca pane.
+  // An open, unwritten pipe exposes read-to-EOF hangs outside an Amoeba pane.
   stdin: 'close' | 'abandon' = 'close'
 ): Promise<HookRun> {
   return new Promise((resolve, reject) => {
@@ -373,7 +373,7 @@ describe('Windows managed hook stdin structure', () => {
   })
 
   it.skipIf(process.platform !== 'win32')(
-    'exits 0 for every local script and missing-script launcher, dropping stdin only without Orca env',
+    'exits 0 for every local script and missing-script launcher, dropping stdin only without Amoeba env',
     async () => {
       const home = mkdtempSync(join(tmpdir(), 'orca-hook-stdin-windows-live-'))
       homedirMock.mockReturnValue(home)
@@ -521,9 +521,9 @@ describe('Windows managed hook stdin structure', () => {
           { name: 'Git Bash', executable: gitBash, args: ['-c', entry.command] }
         ]
         const environments = [
-          { name: 'no Orca env', env: hookEnvironment({ USERPROFILE: home }) },
+          { name: 'no Amoeba env', env: hookEnvironment({ USERPROFILE: home }) },
           {
-            name: 'Orca env with dead listener',
+            name: 'Amoeba env with dead listener',
             env: hookEnvironment({
               USERPROFILE: home,
               ORCA_AGENT_HOOK_PORT: '59999',

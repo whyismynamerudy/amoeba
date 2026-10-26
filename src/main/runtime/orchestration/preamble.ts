@@ -36,15 +36,15 @@ function isSessionHandle(handle: string): boolean {
   return handle.startsWith(ORCA_SESSION_ADDRESS_PREFIX)
 }
 
-/** Terminal agents keep their handle's wording; only a session is named by its Orca session ID. */
+/** Terminal agents keep their handle's wording; only a session is named by its Amoeba session ID. */
 function dispatchIdentityLines(params: PreambleParams): string {
   return [
     isSessionHandle(params.coordinatorHandle)
-      ? `Your coordinator's Orca session ID is: ${params.coordinatorHandle}`
+      ? `Your coordinator's Amoeba session ID is: ${params.coordinatorHandle}`
       : `Your coordinator's terminal handle is: ${params.coordinatorHandle}`,
     `Your task ID is: ${params.taskId}`,
     ...(isSessionHandle(params.workerHandle)
-      ? [`Your Orca session ID is: ${params.workerHandle}`]
+      ? [`Your Amoeba session ID is: ${params.workerHandle}`]
       : [])
   ].join('\n')
 }
@@ -52,7 +52,7 @@ function dispatchIdentityLines(params: PreambleParams): string {
 // Place behavior rules beside CLI examples, where agent readers use them.
 export function buildDispatchPreamble(params: PreambleParams): string {
   // Dev agents must reach the dev socket through orca-dev.
-  const cli = params.devMode ? 'orca-dev' : (params.cliCommand ?? 'orca')
+  const cli = params.devMode ? 'amoeba-dev' : (params.cliCommand ?? 'orca')
   const chat = isSessionHandle(params.workerHandle)
   const surface = chat ? 'chat' : 'terminal'
   const postDoneInstructions = buildPostWorkerDoneInstructions({
@@ -62,7 +62,7 @@ export function buildDispatchPreamble(params: PreambleParams): string {
   })
 
   // Use one-line recipes across POSIX/PowerShell/cmd; fence comments and use plain reasons to avoid misleading Chat rendering (STA-8200).
-  const header = `You are working inside Orca, a multi-agent IDE. You are a dispatched worker.
+  const header = `You are working inside Amoeba, a multi-agent IDE. You are a dispatched worker.
 ${dispatchIdentityLines(params)}
 
 The coordinator cannot see this ${surface}, so reach it with the \`${cli} orchestration\`
@@ -186,7 +186,7 @@ do NOT run a sleep/poll loop, and do NOT keep calling
 completion and expects no further output.
 
 Exit the shell after completion. Bare-shell workers have no idle agent
-prompt for Orca to reuse; if the coordinator has more for you it will
+prompt for Amoeba to reuse; if the coordinator has more for you it will
 dispatch or prompt another worker with a fresh TASK block.`
   }
 

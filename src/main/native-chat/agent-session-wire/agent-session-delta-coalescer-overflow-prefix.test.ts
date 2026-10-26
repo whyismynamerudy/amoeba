@@ -73,15 +73,19 @@ describe('streamed output overflow prefix', () => {
   it.each([
     { cap: 0, chunks: ['abcdef'], text: '' },
     { cap: 1, chunks: ['abcdef'], text: '\n' },
-    { cap: 33, chunks: ['x'.repeat(40)], text: marker.slice(0, 33) },
-    { cap: 34, chunks: ['x'.repeat(40)], text: marker },
-    { cap: 35, chunks: ['é', 'x'.repeat(40)], text: marker },
-    { cap: 36, chunks: ['a€', 'x'.repeat(40)], text: `a${marker}` },
-    { cap: 37, chunks: ['a€', 'x'.repeat(40)], text: `a${marker}` },
-    { cap: 38, chunks: ['a€', 'x'.repeat(40)], text: `a€${marker}` },
-    { cap: 40, chunks: ['\ud800', '', '\udc00', 'x'.repeat(40)], text: `\ufffd\ufffd${marker}` },
-    { cap: 39, chunks: ['a😀', 'x'.repeat(40)], text: `a😀${marker}` },
-    { cap: 38, chunks: ['a😀', 'x'.repeat(40)], text: `a${marker}` }
+    { cap: marker.length - 1, chunks: ['x'.repeat(40)], text: marker.slice(0, -1) },
+    { cap: marker.length + 0, chunks: ['x'.repeat(40)], text: marker },
+    { cap: marker.length + 1, chunks: ['é', 'x'.repeat(40)], text: marker },
+    { cap: marker.length + 2, chunks: ['a€', 'x'.repeat(40)], text: `a${marker}` },
+    { cap: marker.length + 3, chunks: ['a€', 'x'.repeat(40)], text: `a${marker}` },
+    { cap: marker.length + 4, chunks: ['a€', 'x'.repeat(40)], text: `a€${marker}` },
+    {
+      cap: marker.length + 6,
+      chunks: ['\ud800', '', '\udc00', 'x'.repeat(40)],
+      text: `\ufffd\ufffd${marker}`
+    },
+    { cap: marker.length + 5, chunks: ['a😀', 'x'.repeat(40)], text: `a😀${marker}` },
+    { cap: marker.length + 4, chunks: ['a😀', 'x'.repeat(40)], text: `a${marker}` }
   ])('preserves chunk encoding and UTF-8 clipping at a $cap byte cap', ({ cap, chunks, text }) => {
     const instance = createAgentSessionDeltaCoalescer({
       maxRetainedBytes: cap,
@@ -104,8 +108,8 @@ describe('streamed output overflow prefix', () => {
     { cap: Number.NEGATIVE_INFINITY, text: '' },
     { cap: -1, text: marker.slice(0, -1) },
     { cap: 0.1, text: '' },
-    { cap: 35.5, text: `a${marker}` },
-    { cap: 40.5, text: `abcdef${marker}` }
+    { cap: marker.length + 1.5, text: `a${marker}` },
+    { cap: marker.length + 6.5, text: `abcdef${marker}` }
   ])('preserves the legacy injected budget outcome for $cap', ({ cap, text }) => {
     const delta = 'abcdefghijklmnopqrstuvwxyz'.repeat(2)
     const instance = createAgentSessionDeltaCoalescer({

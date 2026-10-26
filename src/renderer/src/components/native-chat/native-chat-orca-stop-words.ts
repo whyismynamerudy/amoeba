@@ -6,19 +6,19 @@ const STOPPED: Record<AgentSessionOrcaStopCause, (machine: string) => string> = 
   update: (machine) =>
     translate(
       'components.native-chat.notices.orcaStopUpdate',
-      'Orca on {{machine}} restarted for an update while this response was in progress.',
+      'Amoeba on {{machine}} restarted for an update while this response was in progress.',
       { machine }
     ),
   quit: (machine) =>
     translate(
       'components.native-chat.notices.orcaStopQuit',
-      'Orca on {{machine}} was closed while this response was in progress.',
+      'Amoeba on {{machine}} was closed while this response was in progress.',
       { machine }
     ),
   crash: (machine) =>
     translate(
       'components.native-chat.notices.orcaStopCrash',
-      'Orca on {{machine}} stopped unexpectedly while this response was in progress.',
+      'Amoeba on {{machine}} stopped unexpectedly while this response was in progress.',
       { machine }
     )
 }
@@ -27,7 +27,7 @@ const STOPPED: Record<AgentSessionOrcaStopCause, (machine: string) => string> = 
 const remoteQuit = (machine: string): string =>
   translate(
     'components.native-chat.notices.orcaStopRemote',
-    'Orca on {{machine}} stopped while this response was in progress.',
+    'Amoeba on {{machine}} stopped while this response was in progress.',
     { machine }
   )
 

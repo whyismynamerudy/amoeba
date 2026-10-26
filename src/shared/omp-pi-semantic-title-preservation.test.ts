@@ -1,6 +1,6 @@
 /** OMP/Pi titles use π, never OMP/Pi. Verified oh-my-pi utils/title-generator.ts DEFAULT_TERMINAL_TITLE/buildTerminalTitleWithState
- * (native π frame label); Orca’s injected pi/titlebar-extension-source.ts instead emits π - session - cwd with 80ms braille frames.
- * Orca manufactured OMP/Pi flicker via synthetic profile labels and normalization that discarded session/cwd (#16093).
+ * (native π frame label); Amoeba’s injected pi/titlebar-extension-source.ts instead emits π - session - cwd with 80ms braille frames.
+ * Amoeba manufactured OMP/Pi flicker via synthetic profile labels and normalization that discarded session/cwd (#16093).
  * Disable synthesizeWorkingTitle only: terminal-state synthesis still publishes pane identity. Normalize rotating braille while preserving labels. */
 import { describe, expect, it } from 'vitest'
 import { detectAgentStatusFromTitle, normalizeTerminalTitle } from './agent-title-status'
@@ -19,7 +19,7 @@ const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '
 
 describe('normalizeTerminalTitle keeps the OMP/Pi session label', () => {
   it.each([
-    ['Orca extension (spinner leads)', ORCA_EXTENSION_WORKING],
+    ['Amoeba extension (spinner leads)', ORCA_EXTENSION_WORKING],
     ['OMP native (spinner is medial)', OMP_NATIVE_WORKING]
   ])('collapses every %s frame to one value without losing the label', (_name, build) => {
     const normalized = new Set(FRAMES.map((frame) => normalizeTerminalTitle(build(frame))))
@@ -97,7 +97,7 @@ describe('the churn is gone at the suppressor', () => {
   })
 })
 
-describe('Orca stops writing over the working title it does not own', () => {
+describe('Amoeba stops writing over the working title it does not own', () => {
   // Agent-owned 80ms title animation must not compete with synthetic working labels.
   it.each(['omp', 'pi'] as const)('synthesizes no working title for %s', (agent) => {
     expect(shouldDriveSyntheticAgentTitleFromHook(agent, 'working')).toBe(false)

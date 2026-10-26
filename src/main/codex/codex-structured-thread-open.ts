@@ -29,7 +29,7 @@ function isCodexNoRolloutError(error: unknown, threadId: string): boolean {
   )
 }
 
-/** Set keys merge after Codex's inheritance filter, preserving Orca identity under inherit = core. */
+/** Set keys merge after Codex's inheritance filter, preserving Amoeba identity under inherit = core. */
 function shellEnvironmentSetConfig(
   env: Record<string, string> | undefined
 ): Record<string, string> {

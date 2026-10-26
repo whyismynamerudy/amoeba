@@ -351,7 +351,7 @@ export type ClaudeAcquireCallbacks = {
     event: ClaudeStructuredSessionEvent
   ) => void
   handleExit: (sessionId: string, attempt: ClaudeAcquisitionAttempt, error: Error) => void
-  /** The root exited during a close Orca began: finishes that close for this exact child. */
+  /** The root exited during a close Amoeba began: finishes that close for this exact child. */
   finishClose: (sessionId: string, attempt: ClaudeAcquisitionAttempt) => void
   settleExit: (sessionId: string, exit: ClaudeSessionExit) => Promise<void>
 }

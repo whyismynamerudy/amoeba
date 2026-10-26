@@ -16,7 +16,7 @@ export type WorktreeForceDeleteReason =
   | 'running-agent-session'
   | 'submodules'
 
-// Only text after this boundary is Orca’s verdict; the worktree ID is a user-chosen path.
+// Only text after this boundary is Amoeba’s verdict; the worktree ID is a user-chosen path.
 export const UNSTOPPED_PTY_DETAIL_SEPARATOR = ' — '
 
 // Keep proven-live and unverifiable stops distinct in delete toasts. Both PTY and structured-session sweeps re-observe after stopping.

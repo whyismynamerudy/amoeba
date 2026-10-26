@@ -9,7 +9,7 @@ import {
 const { run } = vi.hoisted(() => ({ run: vi.fn() }))
 vi.mock('@orca/process-host', () => ({ runProcess: run }))
 
-const executable = '/Applications/Orca Test.app/Contents/MacOS/Orca Test'
+const executable = '/Applications/Amoeba Test.app/Contents/MacOS/Amoeba Test'
 const command = `${
   executable
 } --serve --serve-port 5000 --serve-json --serve-no-pairing --user-data-dir=/tmp/orcad-browser-test`

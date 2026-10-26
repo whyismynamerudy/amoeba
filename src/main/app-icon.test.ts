@@ -114,7 +114,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('watercolor', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -126,7 +126,7 @@ describe('app icon selection', () => {
       expect.arrayContaining(['-e', expect.stringContaining('setIcon:image forFile:appPath')]),
       expect.objectContaining({
         env: expect.objectContaining({
-          ORCA_APP_BUNDLE_PATH: '/Applications/Orca.app',
+          ORCA_APP_BUNDLE_PATH: '/Applications/Amoeba.app',
           ORCA_APP_ICON_PATH: 'watercolor-icon-unpacked'
         })
       }),
@@ -151,7 +151,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('classic', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -167,7 +167,7 @@ describe('app icon selection', () => {
       ]),
       expect.objectContaining({
         env: expect.objectContaining({
-          ORCA_APP_BUNDLE_PATH: '/Applications/Orca.app'
+          ORCA_APP_BUNDLE_PATH: '/Applications/Amoeba.app'
         }),
         timeout: 10_000
       }),
@@ -175,7 +175,7 @@ describe('app icon selection', () => {
     )
     expect(execFile).toHaveBeenCalledWith(
       '/usr/bin/xattr',
-      ['-d', 'com.apple.FinderInfo', '/Applications/Orca.app'],
+      ['-d', 'com.apple.FinderInfo', '/Applications/Amoeba.app'],
       expect.objectContaining({
         timeout: 10_000
       }),
@@ -183,7 +183,7 @@ describe('app icon selection', () => {
     )
     expect(execFile).toHaveBeenCalledWith(
       '/usr/bin/xattr',
-      ['-d', 'com.apple.ResourceFork', '/Applications/Orca.app'],
+      ['-d', 'com.apple.ResourceFork', '/Applications/Amoeba.app'],
       expect.objectContaining({
         timeout: 10_000
       }),
@@ -213,7 +213,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('classic', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -247,7 +247,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('classic', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -280,7 +280,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('watercolor', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -288,13 +288,13 @@ describe('app icon selection', () => {
     await waitForQueuedPersistence()
 
     persistMacDockIcon('blue', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
     })
     persistMacDockIcon('classic', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -335,7 +335,7 @@ describe('app icon selection', () => {
       ]),
       expect.objectContaining({
         env: expect.objectContaining({
-          ORCA_APP_BUNDLE_PATH: '/Applications/Orca.app'
+          ORCA_APP_BUNDLE_PATH: '/Applications/Amoeba.app'
         }),
         timeout: 10_000
       }),
@@ -348,7 +348,7 @@ describe('app icon selection', () => {
     expect(execFile).toHaveBeenNthCalledWith(
       3,
       '/usr/bin/xattr',
-      ['-d', 'com.apple.FinderInfo', '/Applications/Orca.app'],
+      ['-d', 'com.apple.FinderInfo', '/Applications/Amoeba.app'],
       expect.objectContaining({
         timeout: 10_000
       }),
@@ -357,7 +357,7 @@ describe('app icon selection', () => {
     expect(execFile).toHaveBeenNthCalledWith(
       4,
       '/usr/bin/xattr',
-      ['-d', 'com.apple.ResourceFork', '/Applications/Orca.app'],
+      ['-d', 'com.apple.ResourceFork', '/Applications/Amoeba.app'],
       expect.objectContaining({
         timeout: 10_000
       }),
@@ -394,7 +394,7 @@ describe('app icon selection', () => {
     )
 
     persistMacDockIcon('watercolor', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'
@@ -402,7 +402,7 @@ describe('app icon selection', () => {
     await waitForQueuedPersistenceMicrotasks()
 
     persistMacDockIcon('blue', {
-      appBundlePath: '/Applications/Orca.app',
+      appBundlePath: '/Applications/Amoeba.app',
       execFile,
       isDevApp: false,
       platform: 'darwin'

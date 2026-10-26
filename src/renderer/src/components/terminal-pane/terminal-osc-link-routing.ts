@@ -124,7 +124,7 @@ export function handleOscLink(
   }
 
   if (parsed.protocol === 'file:') {
-    // Route file URIs through Orca’s file opener; reject foreign hosts except standard Windows UNC file://server/share paths.
+    // Route file URIs through Amoeba’s file opener; reject foreign hosts except standard Windows UNC file://server/share paths.
     const allowUncHost =
       navigator.userAgent.includes('Windows') &&
       isWindowsAbsolutePathLike(deps.worktreePath) &&

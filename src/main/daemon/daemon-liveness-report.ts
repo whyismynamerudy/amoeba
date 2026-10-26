@@ -68,7 +68,7 @@ export async function readTerminalDaemonLiveness(
     ? {
         verdict: 'exited',
         pid,
-        detail: `pid ${record.pid} is gone; Orca starts a new daemon with the next terminal`,
+        detail: `pid ${record.pid} is gone; Amoeba starts a new daemon with the next terminal`,
         processCeiling: null
       }
     : {

@@ -43,7 +43,7 @@ async function expectWrapperFiles(transport: string, root: string): Promise<void
   }
 }
 
-// Non-Orca globals allowed by the shell or agent-overlay contracts.
+// Non-Amoeba globals allowed by the shell or agent-overlay contracts.
 const CONTRACT_GLOBALS = new Set([
   'BUFFER',
   'CODEX_HOME',
@@ -120,7 +120,7 @@ describePosix('generated shell wrapper files', () => {
     await expectWrapperFiles('daemon', getDaemonShellReadyWrapperRoot())
   })
 
-  // User configs may constrain shell globals such as readonly REPLY; use Orca-owned scratch names.
+  // User configs may constrain shell globals such as readonly REPLY; use Amoeba-owned scratch names.
   it.each([
     ['local', (): void => void ensureShellReadyWrappersAt(root), (): string => root],
     [
@@ -131,14 +131,17 @@ describePosix('generated shell wrapper files', () => {
       },
       (): string => getDaemonShellReadyWrapperRoot()
     ]
-  ])('%s wrappers write no shell global outside Orca’s namespace', (_transport, generate, dir) => {
-    generate()
+  ])(
+    '%s wrappers write no shell global outside Amoeba’s namespace',
+    (_transport, generate, dir) => {
+      generate()
 
-    for (const [, relativePath] of WRAPPER_FILES) {
-      const content = readFileSync(join(dir(), relativePath), 'utf8')
-      expect({ [relativePath]: foreignGlobalsWritten(content) }).toEqual({ [relativePath]: [] })
+      for (const [, relativePath] of WRAPPER_FILES) {
+        const content = readFileSync(join(dir(), relativePath), 'utf8')
+        expect({ [relativePath]: foreignGlobalsWritten(content) }).toEqual({ [relativePath]: [] })
+      }
     }
-  })
+  )
 
   it('fish shell-ready init commands', async () => {
     process.env.ORCA_USER_DATA_PATH = root

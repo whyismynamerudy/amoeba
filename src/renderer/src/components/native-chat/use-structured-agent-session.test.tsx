@@ -253,7 +253,7 @@ describe('useStructuredAgentSession options', () => {
 
     // Show one uncertainty notice without raw transport text or an unproved outcome.
     expect(mocks.toastError).toHaveBeenCalledWith(
-      "Orca couldn't confirm what happened. Check the chat."
+      "Amoeba couldn't confirm what happened. Check the chat."
     )
     expect(result.current.error).toBeNull()
     expect(result.current.optionSnapshot.find((entry) => entry.id === 'model')).toMatchObject({

@@ -50,7 +50,7 @@ test('Quick Open finds a file in a monorepo-sized managed workspace', async (// 
     await input.fill('module-with-a-long-descriptive-name-00042')
     await expect(dialog.getByRole('option').first()).toBeVisible({ timeout: 60_000 })
     await expect(dialog.getByText('Loading files...')).toHaveCount(0)
-    await expect(dialog).not.toContainText('Remote Orca runtime closed the connection')
+    await expect(dialog).not.toContainText('Remote Amoeba runtime closed the connection')
     await page.screenshot({ path: testInfo.outputPath('managed-quick-open.png') })
   })
 })
@@ -137,7 +137,7 @@ test('a saved forward whose local port is taken after a restart shows why, and c
     )
     await fixture.session.close(launched.app)
     fixture.app = null
-    // Another process takes the port while Orca is closed, so the restore can't bind it.
+    // Another process takes the port while Amoeba is closed, so the restore can't bind it.
     const holder = createServer()
     await new Promise<void>((resolve) => holder.listen(localPort, '127.0.0.1', resolve))
     try {

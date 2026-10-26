@@ -155,7 +155,7 @@ describe('packaged runtime resources', () => {
     }
   })
 
-  it('ignores member calls onto Orca methods that are themselves named require', async () => {
+  it('ignores member calls onto Amoeba methods that are themselves named require', async () => {
     const resourcesDir = await mkdtemp(join(tmpdir(), 'orca-runtime-member-require-'))
     try {
       await writeFile(join(resourcesDir, 'app.asar'), '', 'utf8')

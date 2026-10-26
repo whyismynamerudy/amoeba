@@ -36,7 +36,7 @@ export function SkillShareLinkInputForm({
       <Label htmlFor="skill-share-link">
         {translate(
           'auto.components.skills.SkillInstallReviewContent.93eb0fe8c7',
-          'Orca skill link'
+          'Amoeba skill link'
         )}
       </Label>
       <Input
@@ -180,7 +180,10 @@ export function SkillInstallReview({
             )}
           </div>
           <p className="text-xs leading-5 text-muted-foreground">
-            {translate('auto.components.skills.SkillInstallReviewContent.2a31912f14', 'Orca found')}{' '}
+            {translate(
+              'auto.components.skills.SkillInstallReviewContent.2a31912f14',
+              'Amoeba found'
+            )}{' '}
             {result?.conflict?.kind ||
               destinationPreview?.currentState ||
               translate(

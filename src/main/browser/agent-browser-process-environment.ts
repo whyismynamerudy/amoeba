@@ -4,12 +4,12 @@ import { join } from 'node:path'
 
 const AGENT_BROWSER_SOCKET_DIRECTORY_PREFIX = 'orca-ab-'
 
-/** Per-tab daemon expiry survives Orca crashes and exceeds the bridge command timeout. */
+/** Per-tab daemon expiry survives Amoeba crashes and exceeds the bridge command timeout. */
 export const AGENT_BROWSER_IDLE_TIMEOUT_MS = 10 * 60 * 1000
 
 export type AgentBrowserProcessEnvironment = {
   env: NodeJS.ProcessEnv
-  /** Only an Orca-derived directory proves sessions belong to this profile; inherited paths may be shared. */
+  /** Only an Amoeba-derived directory proves sessions belong to this profile; inherited paths may be shared. */
   ownsSocketDirectory: boolean
 }
 

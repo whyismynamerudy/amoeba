@@ -1,13 +1,13 @@
-# Orca Emulator
+# Amoeba Emulator
 
-This discovery stub loads the version-matched guide from the Orca executable used for this session.
+This discovery stub loads the version-matched guide from the Amoeba executable used for this session.
 
-Prefer Orca over raw `serve-sim` or direct `simctl` for simulator control inside Orca; it
+Prefer Amoeba over raw `serve-sim` or direct `simctl` for simulator control inside Amoeba; it
 handles device scoping, helper lifecycle, and worktree context.
 
 <!-- shared: resolver -->
 
-## Load the version-matched guide before running Orca commands
+## Load the version-matched guide before running Amoeba commands
 
 ```text
 ORCA skills get orca-emulator

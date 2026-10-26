@@ -38,7 +38,7 @@ describe('the generic remote-server list', () => {
 })
 
 describe('who pairs a server that refused this desktop', () => {
-  it('is SSH only for a server Orca manages over SSH, never WSL or a cloud VM', () => {
+  it('is SSH only for a server Amoeba manages over SSH, never WSL or a cloud VM', () => {
     expect(
       runtimePairingRepairRoute({
         orcadDeployment: {

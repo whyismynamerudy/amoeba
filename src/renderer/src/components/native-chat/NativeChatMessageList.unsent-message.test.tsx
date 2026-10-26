@@ -205,7 +205,7 @@ describe('a message the host rejected after a crash, with no outbox entry left',
       'WORKING',
       'ACTIVITY'
     ])
-    expect(container.textContent).toContain('Orca restarted before this message was sent.')
+    expect(container.textContent).toContain('Amoeba restarted before this message was sent.')
     expect(container.querySelector('button[aria-label="Retry"]')).toBeNull()
     expect(
       [...container.querySelectorAll('button')].map((button) => button.textContent)

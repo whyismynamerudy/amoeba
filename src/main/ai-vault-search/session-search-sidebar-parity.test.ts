@@ -37,7 +37,7 @@ const SESSIONS: Fixture[] = [
   },
   {
     id: 4,
-    cwd: 'C:\\Work\\Orca\\App',
+    cwd: 'C:\\Work\\Amoeba\\App',
     filePath: 'C:\\Users\\Ada\\.claude\\four.jsonl',
     text: 'harbor windows lane'
   },
@@ -55,7 +55,7 @@ const QUERIES = [
   'harbor path:CAFÉ',
   'harbor path:/Users/Ada/orca',
   'harbor repo:app',
-  'harbor repo:Orca/App',
+  'harbor repo:Amoeba/App',
   'harbor path:.codex',
   'harbor path:/srv repo:other/service',
   'harbor repo:session-search path:jsonl',

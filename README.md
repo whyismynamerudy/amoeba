@@ -1,13 +1,15 @@
 <h1 align="center">
-  <a href="https://onOrca.dev"><img src="resources/build/icon.png" alt="Orca" width="64" valign="middle" /></a> Orca
+  <a href="https://onOrca.dev"><img src="resources/build/icon.png" alt="Amoeba" width="64" valign="middle" /></a> Amoeba
 </h1>
+
+Amoeba is a personal fork focused on project navigation, agent conversations, and an integrated browser. Website, community, and download links below still point to the upstream project. See [fork implementation notes](docs/reference/amoeba-fork.md) for the current scope and compatibility details.
 
 <p align="center">
   <a href="https://github.com/stablyai/orca"><img src="https://img.shields.io/github/stars/stablyai/orca?style=flat&amp;label=%E2%98%85&amp;color=08C" alt="GitHub stars" /></a>
   <a href="https://github.com/stablyai/orca/releases"><img src="docs/assets/readme-downloads.svg" alt="Total downloads across all releases" /></a>
   <img src="https://img.shields.io/badge/license-MIT-08C?style=flat" alt="License: MIT" />
-  <a href="https://discord.gg/fzjDKHxv8Q"><img src="https://img.shields.io/badge/Discord-5865F2?logo=discord&logoColor=white" alt="Join the Orca Discord" /></a>
-  <a href="https://x.com/orca_build"><img src="https://img.shields.io/badge/X-000000?logo=x&logoColor=white" alt="Follow Orca on X" /></a>
+  <a href="https://discord.gg/fzjDKHxv8Q"><img src="https://img.shields.io/badge/Discord-5865F2?logo=discord&logoColor=white" alt="Join the Amoeba Discord" /></a>
+  <a href="https://x.com/orca_build"><img src="https://img.shields.io/badge/X-000000?logo=x&logoColor=white" alt="Follow Amoeba on X" /></a>
   <img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux-4493F8?style=flat-square" alt="Supported platforms: macOS, Windows, and Linux" />
 </p>
 
@@ -20,10 +22,10 @@
   Run Codex, ClaudeCode, OpenCode or Pi side-by-side — each in its own worktree, tracked in one place.
 </p>
 
-<h3 align="center"><a href="https://onorca.dev/download"><ins>Download Orca</ins></a></h3>
+<h3 align="center"><a href="https://onorca.dev/download"><ins>Download Amoeba</ins></a></h3>
 
 <p align="center">
-  <img src="docs/assets/readme-hero.jpg" alt="Orca desktop app running agents in parallel worktrees, with the Orca mobile companion app in the corner" width="960" />
+  <img src="docs/assets/readme-hero.jpg" alt="Amoeba desktop app running agents in parallel worktrees, with the Amoeba mobile companion app in the corner" width="960" />
 </p>
 
 ## Features
@@ -40,7 +42,7 @@ Monitor and steer your agents from your phone — get notified when an agent fin
 
 </td>
 <td width="50%">
-  <a href="https://www.onorca.dev/docs/mobile"><picture><source srcset="docs/assets/feature-wall/mobile-companion-app-showcase.gif" type="image/gif"><img src="docs/assets/feature-wall/mobile-companion-app-showcase.jpg" alt="Orca desktop with the mobile companion app" width="100%" /></picture></a>
+  <a href="https://www.onorca.dev/docs/mobile"><picture><source srcset="docs/assets/feature-wall/mobile-companion-app-showcase.gif" type="image/gif"><img src="docs/assets/feature-wall/mobile-companion-app-showcase.jpg" alt="Amoeba desktop with the mobile companion app" width="100%" /></picture></a>
 </td>
 </tr>
 <tr>
@@ -96,7 +98,7 @@ Browse PRs, issues, and project boards in-app — open a worktree from any task 
 
 </td>
 <td width="50%">
-  <a href="https://www.onorca.dev/docs/review/linear"><picture><source srcset="resources/onboarding/feature-wall/tile-03.webp" type="image/webp"><img src="resources/onboarding/feature-wall/tile-03.poster.jpg" alt="GitHub and Linear task workflows in Orca" width="100%" /></picture></a>
+  <a href="https://www.onorca.dev/docs/review/linear"><picture><source srcset="resources/onboarding/feature-wall/tile-03.webp" type="image/webp"><img src="resources/onboarding/feature-wall/tile-03.poster.jpg" alt="GitHub and Linear task workflows in Amoeba" width="100%" /></picture></a>
 </td>
 </tr>
 <tr>
@@ -118,7 +120,7 @@ Run agents on a beefy remote box with full file editing, git, and terminals — 
 
 ### Annotate AI Diffs
 
-Drop comments on any diff line and ship them back to the agent — review, edit, and commit without leaving Orca.
+Drop comments on any diff line and ship them back to the agent — review, edit, and commit without leaving Amoeba.
 
 [Docs →](https://www.onorca.dev/docs/review/annotate-ai-diff)
 
@@ -144,15 +146,15 @@ VS Code's editor with autosave everywhere — drag files or images straight into
 <tr>
 <td width="50%" valign="middle">
 
-### Orca CLI
+### Amoeba CLI
 
-Agents drive Orca too — script every workflow with `orca worktree create`, `snapshot`, `click`, and `fill`.
+Agents drive Amoeba too — script every workflow with `orca worktree create`, `snapshot`, `click`, and `fill`.
 
 [Docs →](https://www.onorca.dev/docs/cli/overview)
 
 </td>
 <td width="50%">
-  <a href="https://www.onorca.dev/docs/cli/overview"><picture><source srcset="resources/onboarding/feature-wall/tile-09.webp" type="image/webp"><img src="resources/onboarding/feature-wall/tile-09.poster.jpg" alt="Script Orca from the CLI" width="100%" /></picture></a>
+  <a href="https://www.onorca.dev/docs/cli/overview"><picture><source srcset="resources/onboarding/feature-wall/tile-09.webp" type="image/webp"><img src="resources/onboarding/feature-wall/tile-09.poster.jpg" alt="Script Amoeba from the CLI" width="100%" /></picture></a>
 </td>
 </tr>
 </table>
@@ -170,7 +172,7 @@ Agents drive Orca too — script every workflow with `orca worktree create`, `sn
 
 ## Supported Agents
 
-Works with **any CLI agent** — if it runs in a terminal, it runs in Orca.
+Works with **any CLI agent** — if it runs in a terminal, it runs in Amoeba.
 
 <p>
   <a href="https://docs.anthropic.com/claude/docs/claude-code"><kbd><img src="docs/assets/claude-logo.svg" alt="Claude Code logo" width="16" valign="middle" /> Claude Code</kbd></a> &nbsp;
@@ -242,12 +244,12 @@ Pair with your desktop app to monitor and steer your agents from your phone.
 
 - **Discord:** Join the community on **[Discord](https://discord.gg/fzjDKHxv8Q)**.
 - **Twitter / X:** Follow **[@orca_build](https://x.com/orca_build)** for updates and announcements.
-- **WeChat:** Group 12 is full. Scan to join the Orca community WeChat group 13.
+- **WeChat:** Group 12 is full. Scan to join the Amoeba community WeChat group 13.
 
-  <img src="docs/assets/wechat-qr-group13.jpg" alt="WeChat group 13 QR code for the Orca community" width="160" />
+  <img src="docs/assets/wechat-qr-group13.jpg" alt="WeChat group 13 QR code for the Amoeba community" width="160" />
 
 - **Feedback &amp; Ideas:** We ship fast. Missing something? [Request a new feature](https://github.com/stablyai/orca/issues).
-- **Privacy:** See the [privacy &amp; telemetry docs](https://www.onorca.dev/docs/telemetry) for what anonymous usage data Orca collects and how to opt out.
+- **Privacy:** See the [privacy &amp; telemetry docs](https://www.onorca.dev/docs/telemetry) for what anonymous usage data Amoeba collects and how to opt out.
 - **Show Support:** [Star](https://github.com/stablyai/orca) this repo to follow along with our daily ships.
 
 ---
@@ -260,7 +262,7 @@ The relay that pairs the mobile app with a desktop host is also in this reposito
 [`cloud/`](cloud/README.md), with a separate pnpm workspace and setup guide.
 
 <a href="https://github.com/stablyai/orca/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=stablyai/orca" alt="Orca contributors" />
+  <img src="https://contrib.rocks/image?repo=stablyai/orca" alt="Amoeba contributors" />
 </a>
 
 <p align="center">
@@ -273,4 +275,4 @@ Windows code signing sponored/provided by [SignPath.io](https://signpath.io), ce
 
 ## License
 
-Orca is free and open source under the [MIT License](LICENSE).
+Amoeba is free and open source under the [MIT License](LICENSE).

@@ -10,7 +10,7 @@ description: >-
   keep worktree comments current.
 ---
 
-# Orca CLI
+# Amoeba CLI
 `)
 
     expect(summary).toEqual({

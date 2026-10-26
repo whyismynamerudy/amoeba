@@ -59,7 +59,9 @@ Object.assign(childEnv, {
 })
 
 console.error(`[headless-pairing] userData=${profileDir}`)
-console.error(`[headless-pairing] starting: orca-dev serve --json${formatForwardedArgs(serveArgs)}`)
+console.error(
+  `[headless-pairing] starting: amoeba-dev serve --json${formatForwardedArgs(serveArgs)}`
+)
 
 child = spawn(process.execPath, [orcaDevScript, 'serve', '--json', ...serveArgs], {
   cwd: repoRoot,
@@ -118,7 +120,7 @@ function parseArgs(args) {
 function printHelp() {
   console.log(`Usage: node config/scripts/serve-headless-fresh-profile-pairing.mjs [--keep] [orca serve flags]
 
-Starts orca-dev serve --json with a fresh isolated userData profile, ensures Electron's dev runtime is usable, and prints the pairing URL.
+Starts amoeba-dev serve --json with a fresh isolated userData profile, ensures Electron's dev runtime is usable, and prints the pairing URL.
 
 Wrapper flags:
   --keep        Keep the fresh profile after the server exits.
@@ -226,7 +228,7 @@ function printReadyLine(line) {
   if (!payload || payload.type !== 'orca_server_ready') {
     return false
   }
-  console.log(`Orca server ready: ${payload.boundEndpoint ?? 'websocket unavailable'}`)
+  console.log(`Amoeba server ready: ${payload.boundEndpoint ?? 'websocket unavailable'}`)
   if (payload.pairing?.endpoint) {
     console.log(`Pairing endpoint: ${payload.pairing.endpoint}`)
   }
@@ -251,7 +253,7 @@ function stopChild(signal) {
   stopAttempts += 1
   const targetSignal = stopAttempts > 1 ? 'SIGKILL' : signal
   if (process.platform === 'win32' && child.pid) {
-    // Windows child.kill targets only orca-dev; taskkill reaches CLI/Electron descendants holding fresh profile open.
+    // Windows child.kill targets only amoeba-dev; taskkill reaches CLI/Electron descendants holding fresh profile open.
     const killer = spawn('taskkill', ['/pid', String(child.pid), '/t', '/f'], {
       stdio: 'ignore',
       windowsHide: true
@@ -260,7 +262,7 @@ function stopChild(signal) {
     return
   }
   if (process.platform !== 'win32' && child.pid) {
-    // Kill POSIX group spanning synchronous orca-dev/CLI/Electron ownership to avoid orphan serve.
+    // Kill POSIX group spanning synchronous amoeba-dev/CLI/Electron ownership to avoid orphan serve.
     try {
       process.kill(-child.pid, targetSignal)
       return

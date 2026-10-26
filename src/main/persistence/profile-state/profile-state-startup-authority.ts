@@ -41,6 +41,6 @@ export async function createProfileStateStoreForStartup(
     onFailure:
       options.onPersistenceFailure ??
       ((error) =>
-        console.error('[persistence] Saving has stopped. Restart Orca before continuing.', error))
+        console.error('[persistence] Saving has stopped. Restart Amoeba before continuing.', error))
   })
 }

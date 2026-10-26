@@ -85,7 +85,7 @@ describe('host pane identity', () => {
     expect(resolveMobileTerminalTabOwnedAgentId(tab, 'cursor')).toBe('cursor')
   })
 
-  it('does not replace a launch identity Orca chose', () => {
+  it('does not replace a launch identity Amoeba chose', () => {
     expect(
       resolveMobileTerminalTabAgentId(terminalTab('Terminal', { launchAgent: 'claude' }), 'cursor')
     ).toBe('claude')

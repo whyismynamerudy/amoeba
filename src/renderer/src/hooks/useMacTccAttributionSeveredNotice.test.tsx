@@ -142,7 +142,7 @@ describe('useMacTccAttributionSeveredNotice', () => {
     const options = call?.[1] as
       | { description?: string; action?: { onClick?: () => void } }
       | undefined
-    expect(title).toMatch(/macOS permissions may not reach Orca terminals/i)
+    expect(title).toMatch(/macOS permissions may not reach Amoeba terminals/i)
     expect(String(options?.description ?? '')).toMatch(/Manage Sessions/i)
     options?.action?.onClick?.()
     expect(setSettingsSearchQuery).toHaveBeenCalledWith('')

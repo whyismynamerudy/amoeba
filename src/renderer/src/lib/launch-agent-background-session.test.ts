@@ -426,7 +426,7 @@ describe('launchAgentBackgroundSession', () => {
         state: 'working',
         prompt: 'check the status spinner',
         agentType: 'command-code',
-        // Why: Orca launched this hidden session, so the seed predates any provider signal (STA-4293).
+        // Why: Amoeba launched this hidden session, so the seed predates any provider signal (STA-4293).
         observation: expect.objectContaining({ origin: 'launch', kind: 'transition' })
       },
       undefined,
@@ -621,7 +621,7 @@ describe('launchAgentBackgroundSession', () => {
     )
   })
 
-  it("keeps this client's Git Bash setting off a Windows Orca server's launch", async () => {
+  it("keeps this client's Git Bash setting off a Windows Amoeba server's launch", async () => {
     mockGetAgentLaunchPlatformForRepo.mockReturnValue('win32')
     mockHostKind.mockReturnValueOnce('runtime')
     Object.assign(state.settings, { terminalWindowsShell: 'bash.exe' })

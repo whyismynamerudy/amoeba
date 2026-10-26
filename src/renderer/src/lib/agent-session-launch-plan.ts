@@ -132,7 +132,7 @@ function beginStructuredPlanLaunch(
     toast.error(
       translate(
         'auto.store.slices.workspace.cleanup.hostUnresolved',
-        'Orca cannot tell which host owns this workspace. Refresh projects and review it again.'
+        'Amoeba cannot tell which host owns this workspace. Refresh projects and review it again.'
       )
     )
     return null

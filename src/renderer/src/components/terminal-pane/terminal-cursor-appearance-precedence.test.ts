@@ -110,7 +110,7 @@ describe('#12729 — DECSCUSR from the program outranks the preference', () => {
     })
     expect(cursorClasses(container)).toContain('xterm-cursor-block')
 
-    // Orca sends this reset on replay and on the agent-idle path (RESET_TERMINAL_CURSOR_STYLE).
+    // Amoeba sends this reset on replay and on the agent-idle path (RESET_TERMINAL_CURSOR_STYLE).
     await actAndAwaitRender(terminal, () => write(terminal, '\x1b[0 q'))
     expect(decPrivateCursorStyle(terminal)).toBeUndefined()
     expect(cursorClasses(container)).toContain('xterm-cursor-underline')

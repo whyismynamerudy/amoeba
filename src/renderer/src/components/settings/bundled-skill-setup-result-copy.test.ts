@@ -33,12 +33,12 @@ describe('setup result details', () => {
   })
 
   it.each([
-    ['edited', 'Skill edited outside Orca'],
+    ['edited', 'Skill edited outside Amoeba'],
     ['other', 'A different skill uses this name'],
-    ['unwritable', "Orca can't write to this folder"],
-    ['unreadable', "Orca can't read every file"],
+    ['unwritable', "Amoeba can't write to this folder"],
+    ['unreadable', "Amoeba can't read every file"],
     ['busy', 'Another install is still running'],
-    ['shared-not-current', "The shared copy isn't Orca's"],
+    ['shared-not-current', "The shared copy isn't Amoeba's"],
     [undefined, 'This copy was kept as it is']
   ] as const)('names the agent for a %s copy', (reason, text) => {
     const plan = planOf([
@@ -59,7 +59,7 @@ describe('setup result details', () => {
       ])
     ])
     expect(resultLine(plan)).toBe(
-      'Installed · Update skipped in 2 places: Skill edited outside Orca'
+      'Installed · Update skipped in 2 places: Skill edited outside Amoeba'
     )
   })
 
@@ -72,7 +72,7 @@ describe('setup result details', () => {
       ])
     ])
     expect(resultLine(plan)).toBe(
-      'Installed · Update skipped in 2 places: Skill edited outside Orca; A different skill uses this name'
+      'Installed · Update skipped in 2 places: Skill edited outside Amoeba; A different skill uses this name'
     )
   })
 
@@ -101,12 +101,12 @@ describe('setup result details', () => {
 
 describe('setup attention details', () => {
   it.each([
-    ['unwritable', "Needs attention · Orca can't write to ~/.claude/skills"],
+    ['unwritable', "Needs attention · Amoeba can't write to ~/.claude/skills"],
     ['busy', 'Needs attention · Another skill install is still finishing here'],
-    ['unreadable', "Needs attention · Orca can't read every file in this copy"],
+    ['unreadable', "Needs attention · Amoeba can't read every file in this copy"],
     ['edited', 'Needs attention · You edited this copy'],
     ['other', 'Needs attention · A different skill already uses this name'],
-    ['shared-not-current', 'Needs attention · The shared copy this folder uses is not Orca’s'],
+    ['shared-not-current', 'Needs attention · The shared copy this folder uses is not Amoeba’s'],
     [undefined, 'Needs attention']
   ] as const)('explains a %s blocker', (reason, message) => {
     const plan = planOf([
@@ -123,7 +123,7 @@ describe('setup attention details', () => {
     ])
     plan.homeDirectory = 'c:\\users\\agent'
     expect(bundledSkillSetupAttentionMessage(plan)).toBe(
-      "Needs attention · Orca can't write to ~\\.claude\\skills"
+      "Needs attention · Amoeba can't write to ~\\.claude\\skills"
     )
   })
 

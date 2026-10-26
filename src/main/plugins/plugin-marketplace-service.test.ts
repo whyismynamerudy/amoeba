@@ -149,7 +149,7 @@ describe('PluginMarketplaceService', () => {
 
   it('derives the Official badge only from the canonical marketplace and source organization', async () => {
     const officialMarketplace: PluginMarketplace = {
-      name: 'Orca Plugins',
+      name: 'Amoeba Plugins',
       owner: 'stablyai',
       plugins: [
         {
@@ -213,7 +213,7 @@ describe('PluginMarketplaceService', () => {
   it('seeds the official marketplace once and keeps it configured across restarts', async () => {
     const root = await tempRoot()
     const officialMarketplace = marketplace(
-      'Orca Plugins',
+      'Amoeba Plugins',
       'stablyai.orca-notes',
       'https://github.com/stablyai/orca-notes.git'
     )
@@ -223,7 +223,7 @@ describe('PluginMarketplaceService', () => {
 
     await expect(first.seedOfficialSource()).resolves.toMatchObject({
       official: true,
-      marketplace: { name: 'Orca Plugins' }
+      marketplace: { name: 'Amoeba Plugins' }
     })
     await expect(first.seedOfficialSource()).resolves.toMatchObject({ official: true })
     expect(fetcher).toHaveBeenCalledTimes(1)
@@ -256,7 +256,7 @@ describe('PluginMarketplaceService', () => {
       addedAt: 1
     }
     const officialMarketplace = marketplace(
-      'Orca Plugins',
+      'Amoeba Plugins',
       'stablyai.orca-notes',
       'https://github.com/stablyai/orca-notes.git'
     )
@@ -287,7 +287,7 @@ describe('PluginMarketplaceService', () => {
       expect.objectContaining({ id: registered.id, official: true })
     ])
     await expect(service.seedOfficialSource()).resolves.toMatchObject({
-      marketplace: { name: 'Orca Plugins' },
+      marketplace: { name: 'Amoeba Plugins' },
       official: true
     })
   })
@@ -301,7 +301,7 @@ describe('PluginMarketplaceService', () => {
       )
     )
     const officialMarketplace = marketplace(
-      'Orca Plugins',
+      'Amoeba Plugins',
       'stablyai.orca-notes',
       'https://github.com/stablyai/orca-notes.git'
     )

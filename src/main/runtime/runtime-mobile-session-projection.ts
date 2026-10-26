@@ -103,7 +103,7 @@ export function projectRuntimeMobileSessionTabs(
         ...tab,
         title: liveTab.title || tab.title,
         url: liveTab.url || tab.url,
-        // Bridge active means BrowserView/webContents, not Orca tab; retain renderer session focus.
+        // Bridge active means BrowserView/webContents, not Amoeba tab; retain renderer session focus.
         isActive: tab.isActive
       })
       continue

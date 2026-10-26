@@ -10,7 +10,7 @@ test('global Auto syncs native defaults only for supporting agents and persists'
   await orcaPage.evaluate(() => {
     const store = window.__store
     if (!store) {
-      throw new Error('Orca store is unavailable')
+      throw new Error('Amoeba store is unavailable')
     }
     return store.getState().updateSettingsOrThrow({ nativeChatPermissionMode: 'accept-edits' })
   })

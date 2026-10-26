@@ -22,7 +22,7 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
     allowedFlags: [...GLOBAL_FLAGS, 'skill', 'bundle-name', 'release-notes'],
     notes: [
       'Requires the default-off permission in Settings → Share Skills.',
-      'The bundle name may be human-readable; Orca converts it to a portable lowercase package name.',
+      'The bundle name may be human-readable; Amoeba converts it to a portable lowercase package name.',
       'Selectors are exact discovery IDs or unambiguous names from `orca skills installed`.',
       'Only discovered skill directories can be selected; arbitrary paths and --all are not supported.',
       'The resulting link is unlisted. Anyone with it can inspect and install the bundle.'
@@ -34,11 +34,11 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['skills', 'list'],
-    summary: 'List version-matched skill guides bundled with this Orca CLI',
+    summary: 'List version-matched skill guides bundled with this Amoeba CLI',
     usage: 'orca skills list [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [
-      'Reads bundled guide metadata locally without contacting the Orca runtime.',
+      'Reads bundled guide metadata locally without contacting the Amoeba runtime.',
       'With --json, prints a topics array of canonical names and one-line descriptions.',
       'Use `orca skills get <name>` for the compact guide, `--full` for its full reference package, or `orca skills install` to install skills.'
     ]
@@ -51,7 +51,7 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
     allowedFlags: [...GLOBAL_FLAGS, 'topic', 'full', 'reference', 'references'],
     positionalArgs: ['topic'],
     notes: [
-      'Reads bundled guide content locally without contacting the Orca runtime.',
+      'Reads bundled guide content locally without contacting the Amoeba runtime.',
       'Prints the compact guide by default. Use --full to print the full guide with bundled references when provided.',
       'Use --reference <name> to print one bundled reference alone, which is what an action gate in the compact guide needs; --references lists the available names.',
       'A reference name may be given bare (recovery-and-cleanup) or as the guide spells it (references/recovery-and-cleanup.md).',
@@ -66,23 +66,23 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['skills', 'install'],
-    summary: 'Install bundled Orca skills on this machine',
+    summary: 'Install bundled Amoeba skills on this machine',
     usage:
       'orca skills install [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
       '[--local] [--force] [--dry-run] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'skill', 'all', 'agent', 'local', 'force', 'dry-run'],
     notes: [
-      'Reads the bundled skill registry locally without contacting the Orca runtime, ' +
+      'Reads the bundled skill registry locally without contacting the Amoeba runtime, ' +
         'and needs no network, Node, Git or npx.',
-      'Writes the copy this Orca build ships into the shared .agents/skills folder and ' +
+      'Writes the copy this Amoeba build ships into the shared .agents/skills folder and ' +
         'links it into each detected agent\u2019s skills folder, the same way the app\u2019s ' +
         'Update skills does.',
-      'Only copies Orca wrote and nobody changed are updated. A copy you changed, or a ' +
+      'Only copies Amoeba wrote and nobody changed are updated. A copy you changed, or a ' +
         'different skill with the same name, is skipped and is reported; --force replaces ' +
         'it after moving it to a backup under ~/.agents/.orca-skill-backups.',
       'Installs globally (all projects) by default. Use --local to install into the ' +
         'current project; it links only into agent folders the project already has.',
-      'Targets the coding agents Orca detects on this host. Use --agent <name>[,<name>...] ' +
+      'Targets the coding agents Amoeba detects on this host. Use --agent <name>[,<name>...] ' +
         'to choose them yourself, or --agent universal for the shared folder alone.',
       'Use --dry-run to print what would change and the plan digest without writing; a ' +
         'real run plans again and writes only if the plan still matches.',
@@ -98,7 +98,7 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['skills', 'update'],
-    summary: 'Update Orca skills to the version this Orca build ships',
+    summary: 'Update Amoeba skills to the version this Amoeba build ships',
     usage:
       'orca skills update [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
       '[--local] [--force] [--dry-run] [--json]',

@@ -50,7 +50,7 @@ beforeEach(() => {
 })
 
 describe('the managed tunnel’s port reservation', () => {
-  it('lets a system-SSH host clear an `ssh -L` an earlier Orca left on the port', async () => {
+  it('lets a system-SSH host clear an `ssh -L` an earlier Amoeba left on the port', async () => {
     await reserveManagedTunnelLocalPort(connection(true), options)
     const orphanArgs = reserveLocalForwardPort.mock.calls[0]?.[1]
     expect(orphanArgs).toEqual(expect.arrayContaining(['-L', '127.0.0.1:47123:127.0.0.1:6768']))

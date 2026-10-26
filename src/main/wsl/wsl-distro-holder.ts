@@ -55,7 +55,7 @@ export type WslDistroHolderDependencies = {
 export type WslDistroHolder = {
   /** User-initiated only: the one path allowed to boot a stopped distro. */
   ensureHeld(distro: string): Promise<WslDistroHolderEnsureResult>
-  /** Startup: keep holders a previous Orca left running, drop records that are provably stale. */
+  /** Startup: keep holders a previous Amoeba left running, drop records that are provably stale. */
   adoptHolders(): Promise<WslDistroHolderAdoption[]>
   /** Explicit stop only; the distro then idles out on WSL's own schedule. */
   release(distro: string): Promise<WslDistroHolderState>
@@ -69,7 +69,7 @@ const RELEASE_EXIT_TIMEOUT_MS = 5_000
 export const WSL_HOLDER_UNVERIFIABLE_REPLACE_AFTER_MS = 5 * 60_000
 
 function spawnDetachedHolder(distro: string): WslDistroHolderChild {
-  // Detached holders outlive Orca's libuv kill-on-close job; explicit taskkill /T still reaches descendants.
+  // Detached holders outlive Amoeba's libuv kill-on-close job; explicit taskkill /T still reaches descendants.
   return spawnProcess({
     program: resolveWslExecutablePath(),
     args: buildWslDistroHolderArgs(distro),
@@ -196,7 +196,7 @@ export function createWslDistroHolder(dependencies: WslDistroHolderDependencies)
         child.once('spawn', resolve)
         child.once('error', reject)
       })
-      // Unref so the surviving holder cannot keep Orca alive.
+      // Unref so the surviving holder cannot keep Amoeba alive.
       child.unref()
       const pid = child.pid
       if (pid === undefined) {

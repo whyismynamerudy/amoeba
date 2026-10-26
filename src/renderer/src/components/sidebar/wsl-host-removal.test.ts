@@ -73,10 +73,13 @@ describe('removeWslHost', () => {
   })
 
   it('says what is still running in the distro, and keeps saying it until dismissed', async () => {
-    stubApi({ stopped: false, reason: '1 terminal kept running, so Orca left the server running.' })
+    stubApi({
+      stopped: false,
+      reason: '1 terminal kept running, so Amoeba left the server running.'
+    })
     await removeWslHost('wsl:ubuntu')
     expect(mocks.warning).toHaveBeenCalledWith(
-      'The host was removed, but something in the distro is still running: 1 terminal kept running, so Orca left the server running.',
+      'The host was removed, but something in the distro is still running: 1 terminal kept running, so Amoeba left the server running.',
       { duration: Infinity }
     )
   })

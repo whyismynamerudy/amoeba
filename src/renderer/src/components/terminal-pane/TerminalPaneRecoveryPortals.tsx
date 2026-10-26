@@ -26,7 +26,7 @@ export function createPaneRecoveryReconnect(
     const retry = (): void => {
       getTransport()?.retryRecovery?.()
     }
-    // Why connect first: it asks Orca to pair again, which a pane retry alone does not.
+    // Why connect first: it asks Amoeba to pair again, which a pane retry alone does not.
     if (pairingRefusedEnvironmentId) {
       void window.api.runtimeEnvironments
         .connect({ selector: pairingRefusedEnvironmentId })

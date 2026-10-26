@@ -53,11 +53,11 @@ describe('dev-electron-bundle-identity', () => {
 
   it('produces byte-identical patches on two different branches', () => {
     // Compare full patches across branches: any signed Info.plist drift changes cdhash/Keychain ACL; substring denylists miss ordinary branch names.
-    expect(patchesUnder('Orca: fix-login-crash', 'fix-login-crash')).toEqual(
-      patchesUnder('Orca: perf-2', 'perf-2')
+    expect(patchesUnder('Amoeba: fix-login-crash', 'fix-login-crash')).toEqual(
+      patchesUnder('Amoeba: perf-2', 'perf-2')
     )
-    expect(patchesUnder('Orca: dev', 'main')).toEqual(
-      patchesUnder('Orca: some-worktree @ feature/x', 'feature/x')
+    expect(patchesUnder('Amoeba: dev', 'main')).toEqual(
+      patchesUnder('Amoeba: some-worktree @ feature/x', 'feature/x')
     )
   })
 })

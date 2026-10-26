@@ -27,8 +27,8 @@ export function buildNotificationOptions(
 
   if (args.source === 'test') {
     return {
-      title: 'Orca notifications are on',
-      body: 'This is a test notification from Orca.'
+      title: 'Amoeba notifications are on',
+      body: 'This is a test notification from Amoeba.'
     }
   }
 

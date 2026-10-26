@@ -260,7 +260,7 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
       pending,
       parentSelector
         ? [
-            `Orca could not find the worktree selector "${worktree}" or the parent selector "${parentSelector}". The server did not identify which selector failed.`,
+            `Amoeba could not find the worktree selector "${worktree}" or the parent selector "${parentSelector}". The server did not identify which selector failed.`,
             'Check both selectors with orca worktree show --worktree <selector> --json.'
           ]
         : []
@@ -281,7 +281,7 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
     if (!hostId) {
       throw new RuntimeClientError(
         'worktree_host_unresolved',
-        'Orca cannot tell which host owns this workspace. Refresh projects and try again.'
+        'Amoeba cannot tell which host owns this workspace. Refresh projects and try again.'
       )
     }
     if (flags.get('allow-failed-archive-hook') === true && flags.get('run-hooks') !== true) {
@@ -304,7 +304,7 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
     printPreservedBranchWarning(result.result, json)
     printResult(result, json, (value) =>
       value.removing
-        ? `removed: ${value.removed}\nOrca is still deleting the checkout in the background.`
+        ? `removed: ${value.removed}\nAmoeba is still deleting the checkout in the background.`
         : `removed: ${value.removed}`
     )
   }

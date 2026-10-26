@@ -9,13 +9,13 @@ export function isNativeChatImageAttachmentPath(path: string): boolean {
   return isImageDropPath(path)
 }
 
-/** Use friendly UI labels for Orca clipboard-image temp filenames. */
+/** Use friendly UI labels for Amoeba clipboard-image temp filenames. */
 export function isNativeChatPastedImagePath(path: string): boolean {
   const base = path.split(/[\\/]/).findLast(Boolean) ?? path
   return /^orca-paste-.+\.png$/i.test(base)
 }
 
-/** True for a long text paste Orca saved as a file (`orca-paste-<ts>-<uuid>.txt`). */
+/** True for a long text paste Amoeba saved as a file (`orca-paste-<ts>-<uuid>.txt`). */
 export function isNativeChatPastedTextPath(path: string): boolean {
   const base = path.split(/[\\/]/).findLast(Boolean) ?? path
   return /^orca-paste-.+\.txt$/i.test(base)

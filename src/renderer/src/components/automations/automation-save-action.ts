@@ -11,7 +11,7 @@ import {
 import { saveOrcaAutomation } from './automation-orca-save'
 import type { AutomationSaveContext } from './automation-save-context'
 
-/** Validates editor input then runs the Orca save transaction. */
+/** Validates editor input then runs the Amoeba save transaction. */
 export function createAutomationSaveAction(context: AutomationSaveContext) {
   return async function saveAutomation(now = Date.now()): Promise<void> {
     const { store, local, destinationForm, destination } = context

@@ -199,7 +199,7 @@ export function getPosixPtyProcessGroups(
   if (!root || !hasControllingTty(root.tty)) {
     return null
   }
-  // A dev daemon may share the PTY; never group-signal Orca itself.
+  // A dev daemon may share the PTY; never group-signal Amoeba itself.
   if (rows.some((row) => row.pid === currentPid && row.tty === root.tty)) {
     return null
   }

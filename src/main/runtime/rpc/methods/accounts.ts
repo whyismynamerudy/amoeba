@@ -54,7 +54,7 @@ export const ACCOUNT_METHODS = [
     params: HostAccountLaunchEnvParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind === 'mobile') {
-        throw new Error('Only the Orca desktop that owns this host can set its accounts.')
+        throw new Error('Only the Amoeba desktop that owns this host can set its accounts.')
       }
       runtime.setHostAccountLaunchEnv(params)
       return {}
@@ -67,7 +67,7 @@ export const ACCOUNT_METHODS = [
     params: BeginClaudeSignInParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind !== undefined) {
-        throw new Error('Sign in on the Orca execution host.')
+        throw new Error('Sign in on the Amoeba execution host.')
       }
       return runtime.beginClaudeSignIn(params)
     }
@@ -78,7 +78,7 @@ export const ACCOUNT_METHODS = [
     params: FinishClaudeSignInParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind !== undefined) {
-        throw new Error('Sign in on the Orca execution host.')
+        throw new Error('Sign in on the Amoeba execution host.')
       }
       return runtime.finishClaudeSignIn(params)
     }
@@ -89,7 +89,7 @@ export const ACCOUNT_METHODS = [
     params: FinishClaudeSignInParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind !== undefined) {
-        throw new Error('Sign in on the Orca execution host.')
+        throw new Error('Sign in on the Amoeba execution host.')
       }
       await runtime.cancelClaudeSignIn(params)
       return {}
@@ -107,7 +107,7 @@ export const ACCOUNT_METHODS = [
     params: AddDataAccountParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind !== undefined) {
-        throw new Error('Adding accounts is only available on the Orca host runtime.')
+        throw new Error('Adding accounts is only available on the Amoeba host runtime.')
       }
       return runtime.addDataAccountFromHome(params.provider, params.sourceDataHome, params.label)
     }
@@ -183,7 +183,7 @@ export const ACCOUNT_METHODS = [
     params: AddClaudeFromConfigDirParams,
     handler: async () => {
       throw new Error(
-        'Update the Orca CLI to add accounts. Importing Claude logins is no longer supported.'
+        'Update the Amoeba CLI to add accounts. Importing Claude logins is no longer supported.'
       )
     }
   }),
@@ -193,7 +193,7 @@ export const ACCOUNT_METHODS = [
     params: AddCodexFromHomeParams,
     handler: async (params, { runtime, clientKind }) => {
       if (clientKind !== undefined) {
-        throw new Error('Adding Codex accounts is only available on the Orca host runtime.')
+        throw new Error('Adding Codex accounts is only available on the Amoeba host runtime.')
       }
       return runtime.addCodexAccountFromHome(params.sourceHome, {
         runtime: params.runtime,

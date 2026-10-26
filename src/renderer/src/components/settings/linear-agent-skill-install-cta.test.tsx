@@ -131,7 +131,7 @@ describe('LinearAgentSkillInstallCta', () => {
     })
 
     expect(mocks.plan).toHaveBeenCalledWith({ kind: 'local' }, { names: ['orca-linear'] })
-    expect(rendered.textContent).toContain('Update Orca on the server to install its skills.')
+    expect(rendered.textContent).toContain('Update Amoeba on the server to install its skills.')
   })
 
   it('shows a subtle confirmation and Update when installed', async () => {

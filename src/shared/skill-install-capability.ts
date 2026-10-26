@@ -9,19 +9,19 @@ export const SKILL_INSTALL_PROGRESS_CAPABILITY = 'skills.install-progress.v1' as
 export const SKILL_INSTALL_PROVIDERS_CAPABILITY = 'skills.install-providers.v1' as const
 
 export const SKILL_INSTALL_UPDATE_REQUIRED_MESSAGE =
-  'Update Orca on the selected machine to install shared skills.'
+  'Update Amoeba on the selected machine to install shared skills.'
 
 /** Gate the new method so old hosts show a disabled action rather than a method-not-found failure. */
 export const SKILL_DELETE_CAPABILITY = 'skills.delete.v1' as const
 
 export const SKILL_DELETE_UPDATE_REQUIRED_MESSAGE =
-  'Update Orca on the selected machine to delete skills.'
+  'Update Amoeba on the selected machine to delete skills.'
 
 /** skills.planBundledOrca/executeBundledOrca v1 freezes op/reason enums; unknown values render “Needs attention”. */
 export const BUNDLED_ORCA_SKILL_CAPABILITY = 'skills.bundled-orca.v1' as const
 
 export const BUNDLED_ORCA_SKILL_UPDATE_REQUIRED_MESSAGE =
-  'Update Orca on the server to update its Orca skills.'
+  'Update Amoeba on the server to update its Amoeba skills.'
 
 export const SKILL_RUNTIME_CAPABILITIES = [
   SKILL_INSTALL_CAPABILITY,

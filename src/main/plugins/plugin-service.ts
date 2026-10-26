@@ -224,7 +224,7 @@ export class PluginService {
   activationError(pluginKey: string): string | null {
     const blocked = this.options.getPluginKillListEntry?.(pluginKey)
     return (
-      (blocked ? `Blocked by Orca's plugin safety list: ${blocked.reason}` : null) ??
+      (blocked ? `Blocked by Amoeba's plugin safety list: ${blocked.reason}` : null) ??
       this.contentPacks.error(pluginKey) ??
       this.workerController.activationError(pluginKey)
     )

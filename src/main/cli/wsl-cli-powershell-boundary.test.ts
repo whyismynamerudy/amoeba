@@ -40,7 +40,7 @@ describe('WSL CLI PowerShell boundary', () => {
       try {
         const launcherPath = join(root, 'launcher.sh')
         const expectedCwd = await realpath(root)
-        await writeFile(launcherPath, buildWslLauncher('C:\\Orca\\orca.exe', '/bridge.ps1'))
+        await writeFile(launcherPath, buildWslLauncher('C:\\Amoeba\\orca.exe', '/bridge.ps1'))
         await writeFile(join(root, 'wslpath'), '#!/bin/bash\nprintf "%s" "$2"\n', {
           mode: 0o700
         })
@@ -69,7 +69,7 @@ describe('WSL CLI PowerShell boundary', () => {
             'Bypass',
             '-File',
             '/bridge.ps1',
-            'C:\\Orca\\orca.exe',
+            'C:\\Amoeba\\orca.exe',
             '-WslCwd',
             expectedCwd,
             ...(distro ? ['-WslDistro', distro] : []),
@@ -86,7 +86,7 @@ describe('WSL CLI PowerShell boundary', () => {
   )
 
   it('keeps forwarded argv outside PowerShell parsing', () => {
-    const launcher = buildWslLauncher('C:\\Program Files\\Orca\\orca.exe')
+    const launcher = buildWslLauncher('C:\\Program Files\\Amoeba\\orca.exe')
     const bridge = buildWslBridgeScript()
 
     expect(launcher).toContain('"$ORCA_WIN_LAUNCHER" -WslCwd "$ORCA_WSL_CWD_WIN" "$@"')
@@ -197,7 +197,7 @@ describe('WSL CLI PowerShell boundary', () => {
     'pins a non-ASCII app identity and the dev launcher env through Windows PowerShell 5.1',
     async () => {
       const root = await mkdtemp(join(tmpdir(), 'orca-wsl-managed-bridge-'))
-      const userDataPath = join(root, "张三's O\u2019Brien Orca")
+      const userDataPath = join(root, "张三's O\u2019Brien Amoeba")
       const cliEntryPath = join(root, 'cli \u2018entry\u2019.cjs')
       const bridgePath = join(root, 'orca-wsl-bridge.ps1')
       try {

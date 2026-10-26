@@ -72,7 +72,7 @@ type AgentPermissionProfile = Required<
   >
 >
 
-/** Migrate exact Orca permission recipes once, preserving unrelated text on own; absent flags also mean own because those launches passed none. */
+/** Migrate exact Amoeba permission recipes once, preserving unrelated text on own; absent flags also mean own because those launches passed none. */
 export function migrateAgentPermissionChoice(
   settings: Partial<AgentPermissionProfile>,
   platform: NodeJS.Platform | null | undefined = agentPermissionHostPlatform()

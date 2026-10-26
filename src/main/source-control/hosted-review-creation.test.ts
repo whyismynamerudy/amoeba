@@ -410,7 +410,7 @@ describe('createHostedReview', () => {
         repoPath: '/repo',
         branch: 'feature',
         localGitExecOptions: { wslDistro: 'Ubuntu' },
-        // Use active pacing so reviews opened outside Orca promptly disable Create.
+        // Use active pacing so reviews opened outside Amoeba promptly disable Create.
         active: true
       })
     )

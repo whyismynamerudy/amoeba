@@ -166,7 +166,7 @@ describe('orca cli agent launch', () => {
     callMock.mockRejectedValueOnce(
       new RuntimeClientError(
         'runtime_unavailable',
-        'The Orca runtime closed the connection before responding. Restart Orca and try again.'
+        'The Amoeba runtime closed the connection before responding. Restart Amoeba and try again.'
       )
     )
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
@@ -191,7 +191,7 @@ describe('orca cli agent launch', () => {
       '--retry-launch',
       error.data.operationId
     ])
-    expect(JSON.stringify(error)).not.toContain('Restart Orca and try again')
+    expect(JSON.stringify(error)).not.toContain('Restart Amoeba and try again')
     expect(launchCalls()).toEqual([
       ['agent.launchReplay', expect.objectContaining({ operationId: error.data.operationId })]
     ])

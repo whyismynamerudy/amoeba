@@ -43,7 +43,7 @@ export function useNativeChatComposerSubmit(args: {
   disabled: boolean
   sendPty: () => void
   sendStructured: (text: string, attachments: readonly NativeChatComposerImageAttachment[]) => void
-  /** Runs a command Orca owns, like `/resume`; true means the draft never reaches the agent. */
+  /** Runs a command Amoeba owns, like `/resume`; true means the draft never reaches the agent. */
   consumeOrcaCommand?: (draft: string) => boolean
   setDraft: (value: string) => void
   setCaret: (caret: number) => void

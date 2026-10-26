@@ -146,7 +146,7 @@ export function createSystemTrayDeferred(
 }
 
 function resolveMenuTargetRenderer(targetWindow?: BrowserWindow | null): WebContents | undefined {
-  // Native browser popups host web pages rather than Orca renderer actions.
+  // Native browser popups host web pages rather than Amoeba renderer actions.
   return targetWindow && !targetWindow.isDestroyed() && !isNativeBrowserPopupWindow(targetWindow)
     ? targetWindow.webContents
     : state.mainWindow?.webContents

@@ -22,7 +22,7 @@ afterEach(async () => {
 })
 
 describe('claude agent teams shim env', () => {
-  it('writes a private tmux shim that calls the Orca shim command', async () => {
+  it('writes a private tmux shim that calls the Amoeba shim command', async () => {
     const root = await mkdtemp(join(tmpdir(), 'orca-agent-teams-shim-'))
     roots.push(root)
 
@@ -36,7 +36,7 @@ describe('claude agent teams shim env', () => {
     roots.push(root)
     vi.stubEnv('HOME', root)
     vi.stubEnv('USERPROFILE', root)
-    const cliName = process.platform === 'win32' ? 'orca-dev.cmd' : 'orca-dev'
+    const cliName = process.platform === 'win32' ? 'orca-dev.cmd' : 'amoeba-dev'
     const cliPath = join(root, cliName)
     await writeFile(cliPath, '#!/usr/bin/env sh\n', 'utf8')
     if (process.platform !== 'win32') {
@@ -87,7 +87,7 @@ describe('claude agent teams shim env', () => {
   it('resolves the dev CLI wrapper for the tmux callback binary', async () => {
     const root = await mkdtemp(join(tmpdir(), 'orca-agent-teams-cli-'))
     roots.push(root)
-    const cliName = process.platform === 'win32' ? 'orca-dev.cmd' : 'orca-dev'
+    const cliName = process.platform === 'win32' ? 'orca-dev.cmd' : 'amoeba-dev'
     const cliPath = join(root, cliName)
     await writeFile(cliPath, '#!/usr/bin/env sh\n', 'utf8')
     if (process.platform !== 'win32') {

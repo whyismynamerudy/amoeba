@@ -45,7 +45,7 @@ export function findSecureDaclViolation(
     return 'DACL is not protected; the parent still propagates into it'
   }
   const inheritsToChildren = OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE
-  // An inherit-only rule grants the directory itself nothing, so Orca could not write into it.
+  // An inherit-only rule grants the directory itself nothing, so Amoeba could not write into it.
   const usable = dacl.aces.some(
     (ace) =>
       ace.type === ACCESS_ALLOWED_ACE_TYPE &&

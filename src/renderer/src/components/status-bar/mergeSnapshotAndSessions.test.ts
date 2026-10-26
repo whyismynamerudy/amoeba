@@ -72,10 +72,10 @@ describe('mergeSnapshotAndSessions', () => {
       repoId: 'orca',
       displayName: 'browser-only'
     } as Worktree
-    const browser = {
+    const browser: BrowserWorkspace = {
       id: 'browser-1',
       worktreeId: worktree.id,
-      title: 'Orca docs',
+      title: 'Amoeba docs',
       url: 'https://docs.orca.dev',
       loading: false,
       faviconUrl: null,
@@ -83,7 +83,7 @@ describe('mergeSnapshotAndSessions', () => {
       canGoForward: false,
       loadError: null,
       createdAt: 1
-    } as BrowserWorkspace
+    }
     const out = mergeSnapshotAndSessions(
       null,
       [],

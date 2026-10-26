@@ -245,7 +245,7 @@ describe('superviseServeService', () => {
       runOnce: async () => {
         runs++
         if (runs === 1) {
-          throw new Error('Orca serve exited via SIGKILL.')
+          throw new Error('Amoeba serve exited via SIGKILL.')
         }
         h.stop()
         return 0
@@ -253,7 +253,7 @@ describe('superviseServeService', () => {
     })
     await expect(superviseServeService(h.options)).resolves.toBe(0)
     expect(runs).toBe(2)
-    expect(h.logs).toContain('[serve] Orca serve exited via SIGKILL; restarting in 1s.')
+    expect(h.logs).toContain('[serve] Amoeba serve exited via SIGKILL; restarting in 1s.')
   })
 
   it('restarts from a replaced AppImage before starting a child, not after it', async () => {

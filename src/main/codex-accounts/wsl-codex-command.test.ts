@@ -27,7 +27,7 @@ describe('WSL Codex commands', () => {
     expect(command).not.toContain('BROWSER')
   })
 
-  it('stops the distro opening a second tab only when Orca opens the link', () => {
+  it('stops the distro opening a second tab only when Amoeba opens the link', () => {
     const command = buildWslCodexLoginArgs('Ubuntu', '/home/alice/managed-home', {
       orcaOpensSignInLink: true
     }).at(-1)

@@ -19,7 +19,7 @@ let cacheRootPath = ''
 
 beforeEach(() => {
   root = mkdtempSync(join(tmpdir(), 'orca-generation-launch-'))
-  appImagePath = join(root, 'Orca.AppImage')
+  appImagePath = join(root, 'Amoeba.AppImage')
   cacheRootPath = join(root, 'cache')
   writeFileSync(appImagePath, 'appimage')
   resolveIdentity.mockReturnValue({ appImagePath })
@@ -110,11 +110,11 @@ describe('buildAppImageGenerationDaemonCommand', () => {
         generationRoot: '/cache/ns/gen',
         nodePath: '/cache/ns/gen/resources/node-runtime/bin/node',
         entryPath: `/cache/ns/gen/${ENTRY_IN_APPDIR}`,
-        identityPath: `/apps/Orca.AppImage/${ENTRY_IN_APPDIR}`
+        identityPath: `/apps/Amoeba.AppImage/${ENTRY_IN_APPDIR}`
       }
       const command = buildAppImageGenerationDaemonCommand(launch, ['--socket', '/s'], {
         APPDIR,
-        APPIMAGE: '/apps/Orca.AppImage',
+        APPIMAGE: '/apps/Amoeba.AppImage',
         ELECTRON_RUN_AS_NODE: '1',
         PATH: `${APPDIR}/usr/bin:/usr/bin`,
         HOME: '/home/me'

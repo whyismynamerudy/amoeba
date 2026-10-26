@@ -202,7 +202,7 @@ describe('useHostedReviewActions', () => {
     expect(runtimeRpcMocks.assertRuntimeEnvironmentCapability).toHaveBeenCalledWith(
       'env-1',
       'github.markPRReadyForReview',
-      expect.stringContaining('newer Orca server')
+      expect.stringContaining('newer Amoeba server')
     )
     expect(runtimeRpcMocks.callRuntimeRpc).toHaveBeenCalledWith(
       { kind: 'environment', environmentId: 'env-1' },

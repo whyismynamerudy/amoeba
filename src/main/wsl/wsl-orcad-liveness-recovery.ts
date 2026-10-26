@@ -36,7 +36,7 @@ export async function recoverWslOrcad(
     if (decision.kind === 'give-up') {
       context.publish({
         state: 'failed',
-        reason: `Could not restart the Orca server in ${context.distro} after ${decision.attempts} attempts`,
+        reason: `Could not restart the Amoeba server in ${context.distro} after ${decision.attempts} attempts`,
         terminals
       })
       return null

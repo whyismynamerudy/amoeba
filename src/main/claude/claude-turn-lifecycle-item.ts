@@ -13,7 +13,7 @@ export type ClaudeCurrentTurn = {
   sessionId: string
   turnId: string
   startedAt: number
-  /** Host submission time; absent when the provider resumes without an Orca send. */
+  /** Host submission time; absent when the provider resumes without an Amoeba send. */
   requestedAt?: number
   /** Anchor to the user echo, an unechoed started submission, or the provider-resumed lifecycle row. */
   userItemId: string

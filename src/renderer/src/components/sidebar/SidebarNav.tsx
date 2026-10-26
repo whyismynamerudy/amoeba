@@ -1,5 +1,6 @@
 import React from 'react'
-import { BookOpen, CalendarClock, EyeOff, Files, Search, Smartphone } from 'lucide-react'
+import { BookOpen, CalendarClock, EyeOff, Files, Search, Smartphone, SquarePen } from 'lucide-react'
+import { openWorkspaceCreationComposerWithTourHandoff } from '../contextual-tours/workspace-creation-tour-handoff'
 import { useTranslation } from 'react-i18next'
 import { useAppStore } from '@/store'
 import { cn } from '@/lib/utils'
@@ -117,6 +118,15 @@ const SidebarNav = React.memo(function SidebarNav() {
         </span>
       </button>
       <SetupGuideSidebarEntry />
+      <Button
+        variant="ghost"
+        size="sm"
+        className="w-full justify-start"
+        onClick={openWorkspaceCreationComposerWithTourHandoff}
+      >
+        <SquarePen className="size-4" />
+        {translate('amoeba.sidebar.newTask', 'New task')}
+      </Button>
       <SidebarTaskNavButton />
       {showArtifactsButton ? (
         <ContextMenu>
@@ -238,7 +248,7 @@ const SidebarNav = React.memo(function SidebarNav() {
                   strokeWidth={mobileActive ? 2.25 : 1.75}
                 />
                 <span className="min-w-0 flex-1 truncate">
-                  {translate('auto.components.sidebar.SidebarNav.1b5c41caee', 'Orca Mobile')}
+                  {translate('auto.components.sidebar.SidebarNav.1b5c41caee', 'Amoeba Mobile')}
                 </span>
                 {mobileOnboardingBadge.visible ? (
                   <span className="shrink-0 rounded-full bg-primary px-1.5 py-px text-[10px] font-semibold text-primary-foreground">

@@ -45,7 +45,7 @@ describe('relaunchApp', () => {
   it('does not replay native administrator restart arguments before or after consumption', async () => {
     vi.spyOn(process, 'platform', 'get').mockReturnValue('win32')
     const flag = '--orca-restart-local-terminals-as-administrator'
-    const nativeArgv = ['Orca.exe', '--user-data-dir=C:\\Orca profile', flag]
+    const nativeArgv = ['Amoeba.exe', '--user-data-dir=C:\\Amoeba profile', flag]
     process.argv = [...nativeArgv]
     hasSwitchMock.mockImplementation((name: string) => nativeArgv.includes(`--${name}`))
     let nextArgs: string[] | undefined
@@ -54,12 +54,12 @@ describe('relaunchApp', () => {
     })
 
     relaunchApp('renderer-request')
-    expect(nextArgs).toEqual(['--user-data-dir=C:\\Orca profile'])
+    expect(nextArgs).toEqual(['--user-data-dir=C:\\Amoeba profile'])
     await restartLocalTerminalsAfterElevation(new AbortController().signal)
     expect(process.argv).not.toContain(flag)
     expect(nativeArgv).toContain(flag)
     relaunchApp('profile-switch')
-    expect(nextArgs).toEqual(['--user-data-dir=C:\\Orca profile'])
+    expect(nextArgs).toEqual(['--user-data-dir=C:\\Amoeba profile'])
 
     const custom = { execPath: 'administrator-launcher.exe', args: ['restart', flag] }
     relaunchApp('windows-administrator', undefined, custom)
@@ -75,7 +75,7 @@ describe('relaunchApp', () => {
     }
   )
   it('passes the native restart target to Electron after recording the reason', () => {
-    const options = { execPath: 'C:\\Orca\\resources\\bin\\orca.exe', args: ['restart'] }
+    const options = { execPath: 'C:\\Amoeba\\resources\\bin\\orca.exe', args: ['restart'] }
     relaunchApp('windows-administrator', undefined, options)
     expect(appRelaunchMock).toHaveBeenCalledWith(options)
     expect(recordDurableCrashBreadcrumbMock.mock.invocationCallOrder[0]).toBeLessThan(
@@ -97,7 +97,7 @@ describe('relaunchApp', () => {
     )
   })
 
-  it('does not carry Orca PATH seeds into the replacement process', () => {
+  it('does not carry Amoeba PATH seeds into the replacement process', () => {
     process.env.PATH = '/seeded/newest-nvm/bin:/usr/bin'
     _setLaunchPathForTests('/usr/bin')
     let inheritedPath: string | undefined

@@ -1,18 +1,18 @@
 ---
 name: orchestration
 description: >-
-  Coordinate supervised Orca workers: threaded messages, blocking ask/reply,
+  Coordinate supervised Amoeba workers: threaded messages, blocking ask/reply,
   task dispatch, worker_done/escalation waits, task DAGs, decision gates,
   coordinator loops, and decomposing work across agents. Use `orca-cli` for full
   ownership handoffs — "hand off", "handoff", "handover", "give this to another
   agent", "another worktree" — unless asked to supervise, monitor, or coordinate
   a DAG, and for terminal control, lightweight terminal prompts, shell commands,
-  Orca worktree management, and reading or waiting on terminals.
+  Amoeba worktree management, and reading or waiting on terminals.
 ---
 
-# Orca orchestration
+# Amoeba orchestration
 
-Orchestration is Orca's structured coordination layer. It records who owns work,
+Orchestration is Amoeba's structured coordination layer. It records who owns work,
 which attempt is authoritative, and when supervised work has settled.
 
 ## Outcome
@@ -43,7 +43,7 @@ absence included, is a checkpoint.
 Model or effort selection does not make a handoff supervised: `orca-cli`'s
 `worktree create --agent` and `agent launch` take `--model` and `--effort`, and
 open a chat or a terminal per the user's Chat UI setting, as `worker-start` does.
-Never substitute a non-Orca subagent tool when Orca orchestration provenance was
+Never substitute a non-Amoeba subagent tool when Amoeba orchestration provenance was
 requested.
 
 ## Authority and safety floor
@@ -69,7 +69,7 @@ requested.
 - Use the executable you used to run `skills get` for the entire run. In the
   examples below, replace `ORCA` with it; do not create a shell variable or run
   `ORCA` literally. If it fails, report that exact error instead of switching.
-- `ORCA status --json` shows your Orca session ID as `caller.orcaSessionId` when you have one.
+- `ORCA status --json` shows your Amoeba session ID as `caller.orcaSessionId` when you have one.
 - A successful `orchestration send` proves durable enqueue; its wake or nudge is
   best-effort attention only and does not prove the recipient read or accepted it.
 
@@ -120,7 +120,7 @@ A dispatched worker starts its own helpers with `worker-start --spec` on the Run
 it works for, without `run-create`; the helpers report to that worker.
 
 A consuming `check` names its caller with `--terminal <handle>`, never `--from`;
-omit it inside the coordinator's own Orca terminal. It returns the bound Run's
+omit it inside the coordinator's own Amoeba terminal. It returns the bound Run's
 oldest FIFO Delivery and replays that batch until acknowledged. Process every
 message: reply to questions, validate each `worker_done` against the expected
 active Dispatch, and decide each settled terminal's next owner before the ack:

@@ -10,7 +10,7 @@ import {
 } from './serve-pairing-redaction'
 
 const READY = [
-  'Orca server ready',
+  'Amoeba server ready',
   'Bound endpoint: ws://0.0.0.0:6768',
   'Web client URL: https://host/web#pairing=secret',
   'Mobile pairing QR:',
@@ -27,7 +27,7 @@ describe('supervised pairing redaction', () => {
     const redact = createPairingRedactor()
     const kept = READY.map(redact).filter((line) => line !== null)
     expect(kept).toEqual([
-      'Orca server ready',
+      'Amoeba server ready',
       'Bound endpoint: ws://0.0.0.0:6768',
       PAIRING_HIDDEN_LINE,
       '[serve] later log line'

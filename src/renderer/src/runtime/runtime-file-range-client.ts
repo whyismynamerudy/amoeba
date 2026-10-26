@@ -108,7 +108,7 @@ export async function readRuntimeFileRange(
   } catch (error) {
     if (error instanceof RuntimeRpcCallError && error.code === 'method_not_found') {
       throw new Error(
-        'Large CSV previews require a newer Orca server. Update the server and retry.'
+        'Large CSV previews require a newer Amoeba server. Update the server and retry.'
       )
     }
     throw error

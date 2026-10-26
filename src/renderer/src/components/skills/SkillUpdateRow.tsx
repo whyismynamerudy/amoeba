@@ -47,7 +47,7 @@ function ChoiceLine({
           />
           {translate(
             'auto.components.skills.SkillUpdateRow.replaceWithOrca',
-            "Replace with Orca's copy (keeps a backup)"
+            "Replace with Amoeba's copy (keeps a backup)"
           )}
         </label>
       ) : null}

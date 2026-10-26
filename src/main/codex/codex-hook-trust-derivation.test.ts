@@ -101,7 +101,7 @@ afterEach(() => {
 })
 
 describe('deriveCodexHookHashes', () => {
-  it("asks Codex in a throwaway home and trusted project holding Orca's entry, then removes both", async () => {
+  it("asks Codex in a throwaway home and trusted project holding Amoeba's entry, then removes both", async () => {
     const scratches = answerHooksList((scratch) => {
       const home = JSON.parse(readFileSync(join(scratch.home, 'hooks.json'), 'utf-8'))
       expect(Object.keys(home.hooks).sort()).toEqual([...CODEX_EVENTS].sort())
@@ -143,7 +143,7 @@ describe('deriveCodexHookHashes', () => {
       kind: 'refused',
       codexVersion: 'codex-cli 0.170.0',
       failure:
-        "Codex 0.170.0 hashes Orca's status hook differently by its file or position, so Orca does not approve it"
+        "Codex 0.170.0 hashes Amoeba's status hook differently by its file or position, so Amoeba does not approve it"
     })
   })
 
@@ -196,7 +196,7 @@ describe('deriveCodexHookHashes', () => {
     expect(derived).toEqual({
       kind: 'refused',
       codexVersion: 'codex-cli 0.127.0',
-      failure: 'Codex 0.127.0 is too old for Orca status; update Codex'
+      failure: 'Codex 0.127.0 is too old for Amoeba status; update Codex'
     })
   })
 
@@ -224,7 +224,7 @@ describe('deriveCodexHookHashes', () => {
     }
   )
 
-  it("refuses a version that loaded the scratch home and did not list Orca's entry", async () => {
+  it("refuses a version that loaded the scratch home and did not list Amoeba's entry", async () => {
     answerHooksList((scratch) => [
       { ...listed(join(scratch.home, 'hooks.json'), 'stop', 1), command: 'exit 0' }
     ])
@@ -234,7 +234,7 @@ describe('deriveCodexHookHashes', () => {
     expect(derived).toEqual({
       kind: 'refused',
       codexVersion: 'codex-cli 0.150.1',
-      failure: "Codex 0.150.1 did not recognize Orca's status hook"
+      failure: "Codex 0.150.1 did not recognize Amoeba's status hook"
     })
   })
 
@@ -291,7 +291,7 @@ describe('readCodexHookHashes', () => {
     expect(hashes).toEqual({ stop: 'sha256:stop' })
   })
 
-  it("drops hash-less events when Codex hashes Orca's entry in others", () => {
+  it("drops hash-less events when Codex hashes Amoeba's entry in others", () => {
     const hashes = readCodexHookHashes(
       {
         ...scratch,
@@ -312,7 +312,7 @@ describe('readCodexHookHashes', () => {
     expect(hashes).toEqual({ stop: 'sha256:stop' })
   })
 
-  it("is null when Codex loaded the scratch home, listing its dummy hook but none of Orca's", () => {
+  it("is null when Codex loaded the scratch home, listing its dummy hook but none of Amoeba's", () => {
     const dummy = { ...listed('/s/home/hooks.json', 'stop', 1), command: 'exit 0' }
     expect(readCodexHookHashes({ ...scratch, listings: [dummy] }, COMMAND)).toBeNull()
   })

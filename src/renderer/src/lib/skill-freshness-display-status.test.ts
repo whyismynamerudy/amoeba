@@ -20,7 +20,7 @@ function planWith(...ops: BundledSkillOp[]) {
 }
 
 describe('getSkillFreshnessDisplayStatus', () => {
-  it('reports presence only without a plan or without a copy of Orca’s', () => {
+  it('reports presence only without a plan or without a copy of Amoeba’s', () => {
     expect(getSkillFreshnessDisplayStatus(null, SKILL_NAME)).toBe('installed')
     expect(getSkillFreshnessDisplayStatus(planOf([]), SKILL_NAME)).toBe('installed')
     expect(skillPlanHasDetails(null, SKILL_NAME)).toBe(false)

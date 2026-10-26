@@ -93,7 +93,7 @@ const sections: SettingsNavSection[] = [
     icon: Settings,
     searchEntries: [
       {
-        title: 'Orca CLI',
+        title: 'Amoeba CLI',
         description: 'Register or remove the orca shell command.',
         keywords: ['cli', 'path', 'terminal', 'command', 'shell command'],
         cmdJKeywords: ['cli', 'path', 'command', 'shell command'],
@@ -120,10 +120,10 @@ const sections: SettingsNavSection[] = [
   },
   {
     id: 'servers',
-    title: 'Remote Orca Servers',
-    description: 'Pair remote Orca runtimes.',
+    title: 'Remote Amoeba Servers',
+    description: 'Pair remote Amoeba runtimes.',
     icon: Settings,
-    searchEntries: [{ title: 'Remote Orca Servers' }],
+    searchEntries: [{ title: 'Remote Amoeba Servers' }],
     group: 'remote'
   },
   {
@@ -249,7 +249,7 @@ describe('Cmd+J palette middle-band ranking', () => {
     ['browser', 'settings:browser'],
     ['quick commands', 'settings:quick-commands'],
     ['add quick command', 'add-quick-command'],
-    ['orca cli', 'settings:general:cli'],
+    ['amoeba cli', 'settings:general:cli'],
     ['shell command', 'settings:general:cli']
   ])('ranks %s first', (query, expectedId) => {
     expect(top(query)).toBe(expectedId)
@@ -261,7 +261,7 @@ describe('Cmd+J palette middle-band ranking', () => {
     )
 
     expect(cliResult).toMatchObject({
-      title: 'Orca CLI',
+      title: 'Amoeba CLI',
       description: 'Register or remove the orca shell command.',
       sectionId: 'general',
       targetSectionId: 'cli'
@@ -274,7 +274,7 @@ describe('Cmd+J palette middle-band ranking', () => {
       {
         id: 'linear',
         title: 'Linear',
-        description: 'How Linear works in Orca.',
+        description: 'How Linear works in Amoeba.',
         icon: Settings,
         searchEntries: [],
         group: 'capabilities'

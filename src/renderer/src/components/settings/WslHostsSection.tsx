@@ -67,7 +67,7 @@ function getWslHostRowStatus(
   }
 }
 
-/** Settings → Orca servers: the WSL distros added as hosts (Windows, experimental). */
+/** Settings → Amoeba servers: the WSL distros added as hosts (Windows, experimental). */
 export function WslHostsSection({
   onChanged
 }: {
@@ -124,7 +124,7 @@ export function WslHostsSection({
             {unavailableLabel ??
               translate(
                 'auto.components.settings.wslHosts.description',
-                'Orca runs a server inside each distro. A stopped distro starts only when you open one of its projects or connect it here.'
+                'Amoeba runs a server inside each distro. A stopped distro starts only when you open one of its projects or connect it here.'
               )}
           </p>
         </div>
@@ -184,7 +184,7 @@ export function WslHostsSection({
                 }
                 status={getWslHostRowStatus(status, unavailableLabel !== null)}
                 primaryAction={
-                  // A newer Orca's host refuses Update; Force stays in the menu.
+                  // A newer Amoeba's host refuses Update; Force stays in the menu.
                   deferred && deferred.code !== ORCAD_HOST_NEWER_DEFERRAL_CODE ? (
                     <Button
                       type="button"

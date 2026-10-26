@@ -162,7 +162,7 @@ export function ForgetSshWorkspaceDialog(): React.JSX.Element | null {
     }
   }
 
-  // Forget only Orca’s records; remote files, worktrees and branches survive.
+  // Forget only Amoeba’s records; remote files, worktrees and branches survive.
   const handleForget = async (): Promise<void> => {
     if (!isSelectedWorkspaceCurrent()) {
       refuseReplacedSelection()
@@ -192,7 +192,7 @@ export function ForgetSshWorkspaceDialog(): React.JSX.Element | null {
 
   const forgetDescription = translate(
     'auto.components.sidebar.ForgetSshWorkspaceDialog.forgetBody',
-    'Removes this workspace from Orca only. Files, the Git worktree, and branches on {{host}} are left untouched.',
+    'Removes this workspace from Amoeba only. Files, the Git worktree, and branches on {{host}} are left untouched.',
     { host: hostLabel }
   )
 
@@ -214,11 +214,11 @@ export function ForgetSshWorkspaceDialog(): React.JSX.Element | null {
             {canReconnect
               ? translate(
                   'auto.components.sidebar.ForgetSshWorkspaceDialog.disconnectedBody',
-                  'The SSH host for this workspace is not connected. Reconnect to delete it on the remote too, or remove it from Orca only.'
+                  'The SSH host for this workspace is not connected. Reconnect to delete it on the remote too, or remove it from Amoeba only.'
                 )
               : translate(
                   'auto.components.sidebar.ForgetSshWorkspaceDialog.ghostBody',
-                  '{{host}} is no longer a saved SSH host, so this workspace is no longer connected to a live host. It can only be removed from Orca — files and branches on the remote are left untouched.',
+                  '{{host}} is no longer a saved SSH host, so this workspace is no longer connected to a live host. It can only be removed from Amoeba — files and branches on the remote are left untouched.',
                   { host: hostLabel }
                 )}
           </DialogDescription>
@@ -249,7 +249,7 @@ export function ForgetSshWorkspaceDialog(): React.JSX.Element | null {
             {busy === 'forget' ? <Loader2 className="size-3.5 animate-spin" /> : null}
             {translate(
               'auto.components.sidebar.ForgetSshWorkspaceDialog.forget',
-              'Remove from Orca'
+              'Remove from Amoeba'
             )}
           </Button>
           {canReconnect ? (

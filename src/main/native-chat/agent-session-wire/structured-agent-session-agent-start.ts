@@ -46,7 +46,7 @@ export type StructuredAgentSessionResumeOutcome =
       diagnostic?: ProviderDiagnostic
       /** Host cancellation must not fail work the start was serving. */
       aborted?: true
-      /** Startup silence/ceiling expiry means Orca stopped the start. */
+      /** Startup silence/ceiling expiry means Amoeba stopped the start. */
       expired?: true
       argumentProblem?: AgentSessionArgumentProblem
     }

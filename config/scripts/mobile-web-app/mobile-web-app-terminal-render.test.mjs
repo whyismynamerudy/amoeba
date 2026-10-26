@@ -89,7 +89,7 @@ describeRender(
       expect(fontUrl.origin).toBe(new URL(page.url()).origin)
       expect(fontUrl.pathname).toMatch(/^\/assets\/[^/]+\.woff2$/)
       expect(
-        await page.evaluate(() => document.fonts.check('13px "Orca Nerd Font Symbols"', '\ue0b0'))
+        await page.evaluate(() => document.fonts.check('13px "Amoeba Nerd Font Symbols"', '\ue0b0'))
       ).toBe(true)
       const applied = await page.evaluate((data) => {
         globalThis.__orcaTerminalProbe.write(data)

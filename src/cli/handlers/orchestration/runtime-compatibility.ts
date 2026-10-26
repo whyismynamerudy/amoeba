@@ -1,8 +1,8 @@
 import { RuntimeClientError } from '../../runtime-client'
 
-export function resolveCompatibilityCliCommand(): 'orca' | 'orca-ide' | 'orca-dev' {
+export function resolveCompatibilityCliCommand(): 'orca' | 'orca-ide' | 'amoeba-dev' {
   const configured = process.env.ORCA_CLI_COMMAND
-  if (configured === 'orca' || configured === 'orca-ide' || configured === 'orca-dev') {
+  if (configured === 'orca' || configured === 'orca-ide' || configured === 'amoeba-dev') {
     return configured
   }
   return process.platform === 'linux' ? 'orca-ide' : 'orca'
@@ -18,7 +18,7 @@ export function resolvePackagedWindowsCompatibilityCommand(): 'orca' | 'orca-ide
   }
   throw new RuntimeClientError(
     'invalid_argument',
-    'The packaged Orca launcher did not provide a valid resume command. No question was created.'
+    'The packaged Amoeba launcher did not provide a valid resume command. No question was created.'
   )
 }
 
@@ -37,6 +37,6 @@ export async function flushOrchestrationStdout(): Promise<void> {
 export function isDevCliInvocation(): boolean {
   return (
     process.env.ORCA_DEV_CLI_INVOCATION === '1' ||
-    (process.env.ORCA_USER_DATA_PATH?.includes('orca-dev') ?? false)
+    (process.env.ORCA_USER_DATA_PATH?.includes('amoeba-dev') ?? false)
   )
 }

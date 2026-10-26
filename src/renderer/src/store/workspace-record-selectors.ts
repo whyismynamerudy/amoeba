@@ -27,7 +27,7 @@ export function selectFolderWorkspaces(
   return state.folderWorkspaces
 }
 
-/** Checkouts git reports that Orca does not track, per repo id. */
+/** Checkouts git reports that Amoeba does not track, per repo id. */
 export function selectDetectedWorktreesByRepo(
   state: Pick<AppState, 'detectedWorktreesByRepo'>
 ): AppState['detectedWorktreesByRepo'] {

@@ -33,7 +33,7 @@ export function MobileSettingsPane(): React.JSX.Element {
           <p>
             {translate(
               'auto.components.settings.MobileSettingsPane.installIntro',
-              'Install Orca Mobile from the'
+              'Install Amoeba Mobile from the'
             )}{' '}
             <button
               type="button"
@@ -66,11 +66,11 @@ export function MobileSettingsPane(): React.JSX.Element {
       <SearchableSetting
         title={translate(
           'auto.components.settings.MobileSettingsPane.1de96ec8a6',
-          'Show Orca Mobile Button'
+          'Show Amoeba Mobile Button'
         )}
         description={translate(
           'auto.components.settings.MobileSettingsPane.682293cadf',
-          'Show the Orca Mobile button at the top of the left sidebar.'
+          'Show the Amoeba Mobile button at the top of the left sidebar.'
         )}
         keywords={getMobileSidebarShortcutSearchEntry().keywords}
       >
@@ -78,11 +78,11 @@ export function MobileSettingsPane(): React.JSX.Element {
         <SettingsSwitchRow
           label={translate(
             'auto.components.settings.MobileSettingsPane.1de96ec8a6',
-            'Show Orca Mobile Button'
+            'Show Amoeba Mobile Button'
           )}
           description={translate(
             'auto.components.settings.MobileSettingsPane.d4f2b65f30',
-            'Show the Orca Mobile shortcut in the sidebar.'
+            'Show the Amoeba Mobile shortcut in the sidebar.'
           )}
           checked={showMobileButton}
           onChange={() => updateSettings({ showMobileButton: !showMobileButton })}

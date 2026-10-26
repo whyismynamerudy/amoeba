@@ -26,7 +26,7 @@ export type WorktreeStatus =
 type WorktreeStatusHeuristicOptions = {
   liveAgentStatus?: LiveAgentWorktreeStatus
   agentStatusPaneIdsByTabId?: Record<string, ReadonlySet<string>>
-  /** Stale rows suppress Orca's generated permission labels; native title fallback stays live. */
+  /** Stale rows suppress Amoeba's generated permission labels; native title fallback stays live. */
   stalePaneIdsByTabId?: Record<string, ReadonlySet<string>>
   terminalLayoutsByTabId?: Record<string, TerminalLayoutSnapshot | undefined>
   terminalLayoutRootsByTabId?: Record<string, TerminalPaneLayoutNode | null | undefined>
@@ -224,7 +224,7 @@ export function resolveWorktreeStatus(args: {
   if (args.hasRetainedFailed) {
     return 'failed'
   }
-  // Why: an end Orca cannot prove is not a finish, and unlike a user's Stop it is news.
+  // Why: an end Amoeba cannot prove is not a finish, and unlike a user's Stop it is news.
   if (args.hasUnconfirmed) {
     return 'unconfirmed'
   }

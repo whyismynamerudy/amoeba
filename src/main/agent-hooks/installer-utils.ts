@@ -108,7 +108,7 @@ function decodePowerShellEncodedCommand(command: string): string | null {
   }
 }
 
-// Parallel Orca instances must share one user-wide script path.
+// Parallel Amoeba instances must share one user-wide script path.
 export function getSharedManagedScriptPath(scriptFileName: string): string {
   return join(homedir(), '.orca', 'agent-hooks', scriptFileName)
 }

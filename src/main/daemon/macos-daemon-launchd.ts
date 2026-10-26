@@ -73,7 +73,7 @@ function buildMacDaemonLaunchJob(
     RunAtLoad: true,
     KeepAlive: false,
     AbandonProcessGroup: true,
-    // Associate plist-launched jobs with Orca for Local Network access.
+    // Associate plist-launched jobs with Amoeba for Local Network access.
     AssociatedBundleIdentifiers: [LOCAL_BUILD_COMPATIBILITY_CONTRACT.appId],
     ProcessType: 'Interactive',
     StandardOutPath: '/dev/null',

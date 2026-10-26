@@ -21,7 +21,7 @@ type Props = {
 }
 
 const DESKTOP_TOO_OLD_BODY =
-  'This paired desktop app is too old for your current Orca Mobile app. Update Orca on your computer, then try this host again.'
+  'This paired desktop app is too old for your current Amoeba Mobile app. Update Amoeba on your computer, then try this host again.'
 
 // refresh-bundle fixes cached workspace older than host floor; store app update cannot replace that cache.
 type BlockRemedy = 'update-mobile' | 'update-desktop' | 'refresh-bundle'
@@ -44,9 +44,9 @@ function blockRemedy(verdict: BlockedVerdict): BlockRemedy {
 function blockTitle(remedy: BlockRemedy): string {
   switch (remedy) {
     case 'update-mobile':
-      return 'Update Orca Mobile'
+      return 'Update Amoeba Mobile'
     case 'update-desktop':
-      return 'Update Orca on your computer'
+      return 'Update Amoeba on your computer'
     case 'refresh-bundle':
       return 'Refresh the mobile workspace'
   }
@@ -57,10 +57,10 @@ function blockBody(verdict: BlockedVerdict, remedy: BlockRemedy, storeName: stri
     return 'The workspace cached for this host is older than the desktop expects. Reconnect to this host to download the current one.'
   }
   if (verdict.reason === 'mobile-too-old') {
-    return `This desktop needs a newer Orca Mobile app. Update Orca Mobile from ${storeName}, then try this host again.`
+    return `This desktop needs a newer Amoeba Mobile app. Update Amoeba Mobile from ${storeName}, then try this host again.`
   }
   if (remedy === 'update-mobile') {
-    return `This desktop's mobile workspace needs a newer Orca Mobile app. Update Orca Mobile from ${storeName}, then try this host again.`
+    return `This desktop's mobile workspace needs a newer Amoeba Mobile app. Update Amoeba Mobile from ${storeName}, then try this host again.`
   }
   return DESKTOP_TOO_OLD_BODY
 }
@@ -75,7 +75,7 @@ export function ProtocolBlockScreen({ verdict }: Props) {
       ? { label: 'Open App Store', url: IOS_APP_STORE_URL, storeName: 'the App Store' }
       : { label: 'Open GitHub Releases', url: RELEASES_URL, storeName: 'GitHub Releases' }
   const mobileAction = mobileUpdate
-    ? { label: `Get Orca ${mobileUpdate.version}`, url: mobileUpdate.url }
+    ? { label: `Get Amoeba ${mobileUpdate.version}`, url: mobileUpdate.url }
     : { label: mobileUpdateTarget.label, url: mobileUpdateTarget.url }
   // No download to offer when the fix is a refetch: reconnecting is what this screen leaves you to do.
   const primaryAction =

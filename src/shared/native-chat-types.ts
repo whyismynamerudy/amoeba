@@ -56,7 +56,7 @@ export type NativeChatTextBlock = {
   }
   /** On a status line that reports a failure: what failed, typed. */
   failure?: AgentSessionFailureFact
-  /** On the line about a reply Orca's own stop cut off: why, and the turn it cut. */
+  /** On the line about a reply Amoeba's own stop cut off: why, and the turn it cut. */
   orcaStop?: AgentSessionOrcaStop & { turnItemId?: string }
   /** On a usage-limit line: the turn the limit ended, which its Continue picks up. */
   usageLimitTurnItemId?: string
@@ -231,7 +231,7 @@ export type NativeChatMessage = AgentJournalProducerLinkage & {
   completedAt?: number
   /** On a conversation command the user sent, such as `/compact`: the command it names. */
   command?: { name: string }
-  /** On a user-role message another agent sent through Orca: who, as the journal recorded it. */
+  /** On a user-role message another agent sent through Amoeba: who, as the journal recorded it. */
   from?: AgentMessageSource
   /** Accepted but not yet handed to the agent: drawn after everything the agent has done. */
   queued?: true

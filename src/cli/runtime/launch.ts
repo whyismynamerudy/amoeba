@@ -103,7 +103,7 @@ export function launchOrcaApp(): void {
 
   throw new RuntimeClientError(
     'runtime_open_failed',
-    'Could not determine how to launch Orca. Start Orca manually and try again.'
+    'Could not determine how to launch Amoeba. Start Amoeba manually and try again.'
   )
 }
 

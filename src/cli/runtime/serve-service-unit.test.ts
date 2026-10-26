@@ -13,8 +13,8 @@ const base: ServeServiceInput = {
 describe('renderServeService', () => {
   it('writes a LaunchAgent that supervises, never pairs, and stops after a give-up', () => {
     const spec = renderServeService({ ...base, port: '6768' })
-    expect(spec.name).toBe('com.stablyai.orca.serve')
-    expect(spec.unitPath).toBe('/Users/me/Library/LaunchAgents/com.stablyai.orca.serve.plist')
+    expect(spec.name).toBe('com.amoeba.desktop.serve')
+    expect(spec.unitPath).toBe('/Users/me/Library/LaunchAgents/com.amoeba.desktop.serve.plist')
     expect(spec.content).toContain('<string>--supervise</string>')
     expect(spec.content).toContain('<string>--no-pairing</string>')
     expect(spec.content).toContain('<string>6768</string>')
@@ -25,7 +25,7 @@ describe('renderServeService', () => {
 
   it('gives another profile its own label and pins its userData', () => {
     const spec = renderServeService({ ...base, userDataPath: '/tmp/profile & co' })
-    expect(spec.name).toMatch(/^com\.stablyai\.orca\.serve\.[0-9a-f]{8}$/)
+    expect(spec.name).toMatch(/^com\.amoeba\.desktop\.serve\.[0-9a-f]{8}$/)
     expect(spec.content).toContain('<string>/tmp/profile &amp; co</string>')
   })
 

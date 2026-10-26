@@ -20,7 +20,7 @@ describe('isNsisUninstallerArtifact', () => {
   it('matches only electron-builder intermediate uninstallers', () => {
     expect(isNsisUninstallerArtifact('C:\\dist\\orca-windows-setup.__uninstaller.exe')).toBe(true)
     expect(isNsisUninstallerArtifact('/dist/orca-windows-setup.__uninstaller.exe')).toBe(true)
-    expect(isNsisUninstallerArtifact('C:\\dist\\win-unpacked\\Orca.exe')).toBe(false)
+    expect(isNsisUninstallerArtifact('C:\\dist\\win-unpacked\\Amoeba.exe')).toBe(false)
     expect(isNsisUninstallerArtifact('C:\\dist\\orca-windows-setup.exe')).toBe(false)
     expect(isNsisUninstallerArtifact(undefined)).toBe(false)
   })
@@ -35,7 +35,7 @@ describe('relayNsisUninstaller', () => {
 
   it('ignores every file that is not the uninstaller', () => {
     const dir = makeDir()
-    const filePath = join(dir, 'Orca.exe')
+    const filePath = join(dir, 'Amoeba.exe')
     writeFileSync(filePath, 'app')
     expect(relayNsisUninstaller({ filePath, exportPath: join(dir, 'out', 'x.exe') })).toBe(
       'not-uninstaller'
@@ -168,7 +168,7 @@ describe('signWindowsUninstallerViaSignPath', () => {
   it.each([
     ['a missing configuration', undefined],
     ['a configuration with no path', {}],
-    ['a non-uninstaller path', { path: 'C:\\dist\\win-unpacked\\Orca.exe' }]
+    ['a non-uninstaller path', { path: 'C:\\dist\\win-unpacked\\Amoeba.exe' }]
   ])('never throws on %s', (_label, configuration) => {
     withEnv({ ORCA_WIN_UNINSTALLER_EXPORT_PATH: join(makeDir(), 'out', 'x.exe') }, () => {
       expect(() => signWindowsUninstallerViaSignPath(configuration)).not.toThrow()

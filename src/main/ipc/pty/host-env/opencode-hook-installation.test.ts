@@ -446,7 +446,7 @@ it.each([true, false])(
 it.each([true, false])(
   'drops host config for disabled WSL variants with explicit primary %s',
   (explicit) => {
-    const overlay = 'C:\\Users\\fixture\\Orca\\opencode-overlays\\old'
+    const overlay = 'C:\\Users\\fixture\\Amoeba\\opencode-overlays\\old'
     const source = 'C:\\Users\\fixture\\config\\opencode'
     vi.stubEnv('ORCA_OPENCODE_CONFIG_DIR', overlay)
     vi.stubEnv('ORCA_OPENCODE_SOURCE_CONFIG_DIR', source)

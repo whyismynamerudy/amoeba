@@ -34,7 +34,7 @@ export const ENVIRONMENT_HANDLERS: Record<string, CommandHandler> = {
       if (current.result.machineName === undefined) {
         throw new RuntimeClientError(
           'incompatible_runtime',
-          'This Orca runtime does not support machine names. Update Orca on that host and try again.'
+          'This Amoeba runtime does not support machine names. Update Amoeba on that host and try again.'
         )
       }
       await client.call('settings.update', { machineName: requestedName })

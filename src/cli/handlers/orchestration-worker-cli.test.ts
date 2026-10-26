@@ -221,7 +221,7 @@ describe('orchestration worker-start CLI contract', () => {
   })
 
   it.each([
-    ['JSON', 'orca-dev', true],
+    ['JSON', 'amoeba-dev', true],
     ['plain', 'orca-ide', false]
   ] as const)(
     'renders %s recovery commands through the resolved %s executable',

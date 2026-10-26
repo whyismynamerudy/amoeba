@@ -99,7 +99,7 @@ export type AcpLaunchSpec = {
   args(input: { fullAccess: boolean; pluginDir: string | null }): string[]
   /** Applied after the account and user environment. */
   env: Readonly<Record<string, string>>
-  /** Scrubs inherited Orca plumbing and returns keys to omit entirely. */
+  /** Scrubs inherited Amoeba plumbing and returns keys to omit entirely. */
   scrubEnvironment?(env: Record<string, string>, inherited: NodeJS.ProcessEnv): string[]
   dialect: AcpDialect
   loginCommand: readonly string[]
@@ -117,7 +117,7 @@ export type AcpLaunchSpec = {
   installDirectories(input: { env: Readonly<Record<string, string>>; homePath: string }): string[]
   /** Installed only on request; takes precedence over PATH and excludes `minimumVersions`. */
   managedRuntime?: ManagedRuntime
-  /** Agent-enforced modes; Orca does not answer its permission requests. */
+  /** Agent-enforced modes; Amoeba does not answer its permission requests. */
   permissionModeConfig?: {
     values: { ask: string } & Partial<Record<AgentChatPermissionMode, string>>
   }

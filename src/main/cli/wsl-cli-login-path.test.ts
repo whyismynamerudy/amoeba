@@ -10,14 +10,14 @@ vi.mock('../wsl/wsl-runner', () => ({
 import { WslCliInstaller, _internals } from './wsl-cli-installer'
 import { WslCliUnreachableError } from './wsl-cli-status'
 
-const launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Orca\\resources\\bin\\orca.exe'
+const launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
 
 function makeHostStatus(): CliInstallStatus {
   return {
     platform: 'win32',
     commandName: 'orca',
     commandPath: launcherPath,
-    pathDirectory: 'C:\\Users\\me\\AppData\\Local\\Programs\\Orca\\resources\\bin',
+    pathDirectory: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin',
     pathConfigured: true,
     launcherPath,
     installMethod: 'wrapper',

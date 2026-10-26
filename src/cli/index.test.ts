@@ -128,7 +128,7 @@ describe('command aliases dispatch to the canonical handler', () => {
     await main(['worktree', 'rm', '--worktree', 'id:wt-1'], '/tmp/repo')
 
     expect(logSpy).toHaveBeenCalledWith(
-      'removed: true\nOrca is still deleting the checkout in the background.'
+      'removed: true\nAmoeba is still deleting the checkout in the background.'
     )
   })
 
@@ -404,7 +404,7 @@ describe('unknown command surfaces a suggestion', () => {
       'orchestration.workerStart',
       expect.objectContaining({ worktree: 'repo-1', from: 'term-caller' })
     )
-    expect(stderr).toContain('No Orca workspace matched the worktree selector "repo-1"')
+    expect(stderr).toContain('No Amoeba workspace matched the worktree selector "repo-1"')
     expect(stderr).toContain('id:repo-1::<absolute-path>')
     expect(stderr).toContain('Valid selector forms:')
   })

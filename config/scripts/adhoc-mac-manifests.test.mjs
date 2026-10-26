@@ -11,7 +11,7 @@ const content = Buffer.from('signed and stapled archive')
 const sha512 = createHash('sha512').update(content).digest('base64')
 function record(arch) {
   const names = [
-    `Orca-${version}${arch === 'arm64' ? '-arm64' : ''}-mac.zip`,
+    `Amoeba-${version}${arch === 'arm64' ? '-arm64' : ''}-mac.zip`,
     `orca-macos-${arch}.dmg`
   ]
   return {

@@ -1,5 +1,5 @@
 /**
- * A structured agent session as a mail address: `orca_session_id:<id>`, the Orca-minted id every agent is
+ * A structured agent session as a mail address: `orca_session_id:<id>`, the Amoeba-minted id every agent is
  * told is its public address. Recipient routing and pointer delivery both read these rules off the
  * durable session record, so the two can never disagree about which sessions mail can reach.
  *
@@ -23,7 +23,7 @@ import {
 
 export type OrcaAgentSessionLookup =
   | { kind: 'found'; record: AgentSessionRecord }
-  /** The id is a provider's own session id, which rotates on `/clear`; this names the Orca id. */
+  /** The id is a provider's own session id, which rotates on `/clear`; this names the Amoeba id. */
   | { kind: 'provider-id'; orcaSessionId: string }
   | { kind: 'unknown' }
 

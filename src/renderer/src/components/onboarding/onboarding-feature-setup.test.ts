@@ -32,7 +32,7 @@ const ALL_SKILL_NAMES = [
 
 const GRANTED_COMPUTER_USE_STATUS: ComputerUsePermissionStatusResult = {
   platform: 'darwin',
-  helperAppPath: '/Applications/Orca Computer Use.app',
+  helperAppPath: '/Applications/Amoeba Computer Use.app',
   helperUnavailableReason: null,
   permissions: [
     { id: 'accessibility', status: 'granted' },
@@ -42,7 +42,7 @@ const GRANTED_COMPUTER_USE_STATUS: ComputerUsePermissionStatusResult = {
 
 const OPENED_COMPUTER_USE_SETUP: ComputerUsePermissionSetupResult = {
   platform: 'darwin',
-  helperAppPath: '/Applications/Orca.app',
+  helperAppPath: '/Applications/Amoeba.app',
   openedSettings: true,
   launchedHelper: true
 }
@@ -110,7 +110,7 @@ describe('onboarding feature setup runner', () => {
       getComputerUsePermissionStatus: vi.fn(
         async (): Promise<ComputerUsePermissionStatusResult> => ({
           platform: 'darwin',
-          helperAppPath: '/Applications/Orca Computer Use.app',
+          helperAppPath: '/Applications/Amoeba Computer Use.app',
           helperUnavailableReason: null,
           permissions: [
             { id: 'accessibility', status: 'not-granted' },
@@ -183,7 +183,7 @@ describe('onboarding feature setup runner', () => {
     const unavailableStatus: ComputerUsePermissionStatusResult = {
       platform: 'darwin',
       helperAppPath: null,
-      helperUnavailableReason: 'Orca Computer Use.app was not found',
+      helperUnavailableReason: 'Amoeba Computer Use.app was not found',
       permissions: [
         { id: 'accessibility', status: 'not-granted' },
         { id: 'screenshots', status: 'not-granted' }
@@ -205,7 +205,7 @@ describe('onboarding feature setup runner', () => {
     expect(openComputerUsePermissionSetup).not.toHaveBeenCalled()
     expect(result.warnings).toContainEqual({
       featureId: 'computerUse',
-      message: 'Orca Computer Use.app was not found'
+      message: 'Amoeba Computer Use.app was not found'
     })
   })
 })

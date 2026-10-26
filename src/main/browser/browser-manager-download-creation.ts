@@ -135,7 +135,7 @@ export abstract class BrowserManagerDownloadCreation extends BrowserManagerQueri
     const updatedHandler = (_event: Electron.Event, state: 'progressing' | 'interrupted'): void => {
       download.receivedBytes = this.getDownloadReceivedBytes(download.item)
       if (state === 'interrupted' && this.isAwaitingManualResume(download.item)) {
-        // Orca offers no manual resume; defer cancellation to avoid nested native observer updates.
+        // Amoeba offers no manual resume; defer cancellation to avoid nested native observer updates.
         setImmediate(() => {
           if (
             this.downloadsById.get(downloadId) === download &&

@@ -41,7 +41,7 @@ model to inherit its configuration; unsupported or unknown hosts refuse the
 override explicitly.
 
 `--effort` requires `--model`; neither option combines with `--terminal`. A
-connected worker server must advertise launch-preference support before Orca
+connected worker server must advertise launch-preference support before Amoeba
 forwards either field. Compare `launch.requested` with `launch.effective`; never
 claim a model or effort from requested arguments alone.
 

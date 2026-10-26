@@ -16,7 +16,7 @@ import type { WslOrcadHostTarget } from './wsl-orcad-host-target'
 const CENSUS_ATTEMPTS = 20
 const CENSUS_INTERVAL_MS = 250
 
-/** A terminal Orca asked to close but that may still run, named so the user can find it. */
+/** A terminal Amoeba asked to close but that may still run, named so the user can find it. */
 export type WslHostTerminalLeftover = { handle: string; worktreeId: string; reason: string }
 
 export type WslHostServerStopSteps = {
@@ -47,7 +47,7 @@ export async function stopWslHostServer(steps: WslHostServerStopSteps): Promise<
   try {
     leftovers = await steps.endTerminals()
   } catch (error) {
-    problems.push(`Orca couldn’t list the host’s terminals: ${errorMessage(error)}`)
+    problems.push(`Amoeba couldn’t list the host’s terminals: ${errorMessage(error)}`)
   }
   // PTY close is not shell-exit proof; wait for zero-session census.
   let census = await steps.census()
@@ -70,9 +70,9 @@ export async function stopWslHostServer(steps: WslHostServerStopSteps): Promise<
   // Decommission still verifies/refuses live sessions; retain its evidence.
   const result = await steps.decommission(census, servingRuntimeId)
   if (result.outcome === 'refused') {
-    problems.push(`Orca’s server kept running: ${result.reason}`)
+    problems.push(`Amoeba’s server kept running: ${result.reason}`)
   } else if (result.retirement !== 'retired') {
-    problems.push('Orca’s server stopped, but its terminal daemon is still running.')
+    problems.push('Amoeba’s server stopped, but its terminal daemon is still running.')
   }
   return problems.length === 0 ? { stopped: true } : { stopped: false, reason: problems.join(' ') }
 }
@@ -138,7 +138,7 @@ export function decommissionWslHostOrcad(
           verdict: 'unverifiable',
           code: 'orcad_wsl_host_serving_instance_unproven',
           reason:
-            'the orcad this computer was connected to is not the one the distro records as active, so Orca could not prove it stopped.'
+            'the orcad this computer was connected to is not the one the distro records as active, so Amoeba could not prove it stopped.'
         }
       }
     }

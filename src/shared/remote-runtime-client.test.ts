@@ -51,7 +51,7 @@ describe('subscribeRemoteRuntimeRequest', () => {
         onError: vi.fn()
       })
     ).rejects.toThrow(
-      'Remote Orca runtime closed the connection (1013: Maximum connections reached).'
+      'Remote Amoeba runtime closed the connection (1013: Maximum connections reached).'
     )
   })
 
@@ -352,11 +352,11 @@ describe('sendRemoteRuntimeRequest', () => {
     const server = await createClosingServer(1013, 'Maximum connections reached')
 
     await expect(sendRemoteRuntimeRequest(server.pairing, 'status.get', {}, 1000)).rejects.toThrow(
-      'Remote Orca runtime closed the connection (1013: Maximum connections reached).'
+      'Remote Amoeba runtime closed the connection (1013: Maximum connections reached).'
     )
   })
 
-  it('classifies a non-Orca handshake as a host identity mismatch', async () => {
+  it('classifies a non-Amoeba handshake as a host identity mismatch', async () => {
     const server = await createInvalidHandshakeServer()
 
     await expect(

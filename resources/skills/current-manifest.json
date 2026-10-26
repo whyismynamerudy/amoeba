@@ -4,160 +4,160 @@
     {
       "name": "computer-use",
       "sourcePath": "skills/computer-use",
-      "packageDigest": "425634e3ebf27690cc613eaf17b6337b36769153ec6bca85dc4ebf65d4d6b8b4",
+      "packageDigest": "f1a3d39fc5f661941ae0657da82808cb8ac9e1ba68d4ffc863c9043d5f62235d",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2211,
+          "size": 2233,
           "executable": false,
           "classification": "text",
-          "exactSha256": "2839933fd35216845461466403e6061488005f6df57126d0cd0f769ea45753f3",
-          "textNormalizedSha256": "2839933fd35216845461466403e6061488005f6df57126d0cd0f769ea45753f3",
-          "identitySha256": "2839933fd35216845461466403e6061488005f6df57126d0cd0f769ea45753f3"
+          "exactSha256": "7960e776796ad45dadcc024a2fd2d8c86a063028eeec597f81df466d04a296f2",
+          "textNormalizedSha256": "7960e776796ad45dadcc024a2fd2d8c86a063028eeec597f81df466d04a296f2",
+          "identitySha256": "7960e776796ad45dadcc024a2fd2d8c86a063028eeec597f81df466d04a296f2"
         }
       ]
     },
     {
       "name": "jira-tickets",
       "sourcePath": "skills/jira-tickets",
-      "packageDigest": "48ca2a93818e17bf1e942452e835800e8f967a935d3082e1e9c03fff9ddb3d19",
+      "packageDigest": "04099415c8cd3115823617eb057e957e9cd736126f2bef54a4ce64a77dd53ebd",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2129,
+          "size": 2147,
           "executable": false,
           "classification": "text",
-          "exactSha256": "5534da4000f4f4c87f7dbb263345a213068c0099a1440186adea865e17d90dfe",
-          "textNormalizedSha256": "5534da4000f4f4c87f7dbb263345a213068c0099a1440186adea865e17d90dfe",
-          "identitySha256": "5534da4000f4f4c87f7dbb263345a213068c0099a1440186adea865e17d90dfe"
+          "exactSha256": "bf66a4b8e6da84fdf55c95ac9c980815893e93e6bfacf9b81303821b0be970be",
+          "textNormalizedSha256": "bf66a4b8e6da84fdf55c95ac9c980815893e93e6bfacf9b81303821b0be970be",
+          "identitySha256": "bf66a4b8e6da84fdf55c95ac9c980815893e93e6bfacf9b81303821b0be970be"
         }
       ]
     },
     {
       "name": "linear-tickets",
       "sourcePath": "skills/linear-tickets",
-      "packageDigest": "1eab442d048b79ab0b836adf57663ac384988dd79172ec5f14193eb05e037715",
+      "packageDigest": "87fa7e5b18f29c30a56a499eb1deeb981ed72a6fbb80c58c1fc5688844d618e2",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2231,
+          "size": 2251,
           "executable": false,
           "classification": "text",
-          "exactSha256": "e181f86073da65c492361469d504fe15e7ae61bc99990bc41bea47aa13455619",
-          "textNormalizedSha256": "e181f86073da65c492361469d504fe15e7ae61bc99990bc41bea47aa13455619",
-          "identitySha256": "e181f86073da65c492361469d504fe15e7ae61bc99990bc41bea47aa13455619"
+          "exactSha256": "a1bb29a037a694c7e72820537898167a97456b7ec334c858a3a92d493bd8ee36",
+          "textNormalizedSha256": "a1bb29a037a694c7e72820537898167a97456b7ec334c858a3a92d493bd8ee36",
+          "identitySha256": "a1bb29a037a694c7e72820537898167a97456b7ec334c858a3a92d493bd8ee36"
         }
       ]
     },
     {
       "name": "orca-cli",
       "sourcePath": "skills/orca-cli",
-      "packageDigest": "0736bcbbb69ed18f9a36a58ad2eda47b6db55b30509953cf5ba5f0032058c535",
+      "packageDigest": "091c4debc127e8a5c6c82dfee353db0470a6ee6cc739809898869bc4200b00a4",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2372,
+          "size": 2406,
           "executable": false,
           "classification": "text",
-          "exactSha256": "aa76f86505010096e8ea9edda1705a78aae7af45e54485f3fe0460664c1d9e4a",
-          "textNormalizedSha256": "aa76f86505010096e8ea9edda1705a78aae7af45e54485f3fe0460664c1d9e4a",
-          "identitySha256": "aa76f86505010096e8ea9edda1705a78aae7af45e54485f3fe0460664c1d9e4a"
+          "exactSha256": "2270f40e80507e2791f556a8c3decb2c557b4b7979b6700c145f91c8ff2cf75e",
+          "textNormalizedSha256": "2270f40e80507e2791f556a8c3decb2c557b4b7979b6700c145f91c8ff2cf75e",
+          "identitySha256": "2270f40e80507e2791f556a8c3decb2c557b4b7979b6700c145f91c8ff2cf75e"
         }
       ]
     },
     {
       "name": "orca-emulator",
       "sourcePath": "skills/orca-emulator",
-      "packageDigest": "1dc42e5addc613abd85eba639d4ac36d9c7b3bc6f7186f0a2d54d10dae3f06d3",
+      "packageDigest": "386f207d321040c059a06ae173e9d444e4a91449c3dad0c2d15bb7b1837a11cd",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2337,
+          "size": 2367,
           "executable": false,
           "classification": "text",
-          "exactSha256": "3da7191179e46cb0e1a6a936f1eb54254f6e98ec38849e1c95f0e11073076b48",
-          "textNormalizedSha256": "3da7191179e46cb0e1a6a936f1eb54254f6e98ec38849e1c95f0e11073076b48",
-          "identitySha256": "3da7191179e46cb0e1a6a936f1eb54254f6e98ec38849e1c95f0e11073076b48"
+          "exactSha256": "1ce72b14efe3e24b0ddce4cad7e07d17c7d3178a8851ae03904b42f5f0993c1e",
+          "textNormalizedSha256": "1ce72b14efe3e24b0ddce4cad7e07d17c7d3178a8851ae03904b42f5f0993c1e",
+          "identitySha256": "1ce72b14efe3e24b0ddce4cad7e07d17c7d3178a8851ae03904b42f5f0993c1e"
         }
       ]
     },
     {
       "name": "orca-emulator-android",
       "sourcePath": "skills/orca-emulator-android",
-      "packageDigest": "c348091d953427fc9800a1d49d94054866348008766879b24ef742cb613dc3d9",
+      "packageDigest": "9588077f2c27d6c69dd725a87383bc31571ae5be9d8205462c26c8242801696b",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2234,
+          "size": 2260,
           "executable": false,
           "classification": "text",
-          "exactSha256": "3ade4e6f8f2717ca899fd841e61f116963a406e9527015b803854c16d012e278",
-          "textNormalizedSha256": "3ade4e6f8f2717ca899fd841e61f116963a406e9527015b803854c16d012e278",
-          "identitySha256": "3ade4e6f8f2717ca899fd841e61f116963a406e9527015b803854c16d012e278"
+          "exactSha256": "abaa3df00b91b4eb0595873e5753eb83ca2639a91fa2ffcfb671f8b652aba2bc",
+          "textNormalizedSha256": "abaa3df00b91b4eb0595873e5753eb83ca2639a91fa2ffcfb671f8b652aba2bc",
+          "identitySha256": "abaa3df00b91b4eb0595873e5753eb83ca2639a91fa2ffcfb671f8b652aba2bc"
         }
       ]
     },
     {
       "name": "orca-jira",
       "sourcePath": "skills/orca-jira",
-      "packageDigest": "815931fe3f4b52437ca15db4b512ce4033b84b3ce1639df0882cc4f7adfc005d",
+      "packageDigest": "49a1fbf1aaa38eed790451a11293a1a33e27edd78966e77f13d92f6a99fbc92a",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2080,
+          "size": 2104,
           "executable": false,
           "classification": "text",
-          "exactSha256": "ca83c4662fbc2306efb9043674998b0ca5abacc78ec2e5f85e5db80288e6777a",
-          "textNormalizedSha256": "ca83c4662fbc2306efb9043674998b0ca5abacc78ec2e5f85e5db80288e6777a",
-          "identitySha256": "ca83c4662fbc2306efb9043674998b0ca5abacc78ec2e5f85e5db80288e6777a"
+          "exactSha256": "80d966cb12b0c5eb9e32cd9ab535338b0513ab214ebe10f51fb6e5b91bb919a9",
+          "textNormalizedSha256": "80d966cb12b0c5eb9e32cd9ab535338b0513ab214ebe10f51fb6e5b91bb919a9",
+          "identitySha256": "80d966cb12b0c5eb9e32cd9ab535338b0513ab214ebe10f51fb6e5b91bb919a9"
         }
       ]
     },
     {
       "name": "orca-linear",
       "sourcePath": "skills/orca-linear",
-      "packageDigest": "95f52429823e887317046f23b671d05408a947c296e5b2e44e9173dfc1d5aa4e",
+      "packageDigest": "5fe7d1b2cca087257096e74fb0b6d56a480d9f4dfb44f30cf57e7db98521bd19",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2088,
+          "size": 2112,
           "executable": false,
           "classification": "text",
-          "exactSha256": "8da23ef96470906315cace8ff84f8056255ee37d1b2d5db84d8b7b3270a0ba0f",
-          "textNormalizedSha256": "8da23ef96470906315cace8ff84f8056255ee37d1b2d5db84d8b7b3270a0ba0f",
-          "identitySha256": "8da23ef96470906315cace8ff84f8056255ee37d1b2d5db84d8b7b3270a0ba0f"
+          "exactSha256": "57b1e6b3416f05fe02db549f0c11c26810189e7b8489adf3fd6ff15be5507403",
+          "textNormalizedSha256": "57b1e6b3416f05fe02db549f0c11c26810189e7b8489adf3fd6ff15be5507403",
+          "identitySha256": "57b1e6b3416f05fe02db549f0c11c26810189e7b8489adf3fd6ff15be5507403"
         }
       ]
     },
     {
       "name": "orca-per-workspace-env",
       "sourcePath": "skills/orca-per-workspace-env",
-      "packageDigest": "103f0671da111c9ad3def6c46da8d432e656878b840e6cc742219f4a3a4dbceb",
+      "packageDigest": "28f65f43d9a968cad34e9b8f963b41adf814756f83f35621095202c14609e8f1",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 2257,
+          "size": 2281,
           "executable": false,
           "classification": "text",
-          "exactSha256": "c005d126a13d2913351472f07690f1c1a660d4f286e2a5f21864aee294f436ce",
-          "textNormalizedSha256": "c005d126a13d2913351472f07690f1c1a660d4f286e2a5f21864aee294f436ce",
-          "identitySha256": "c005d126a13d2913351472f07690f1c1a660d4f286e2a5f21864aee294f436ce"
+          "exactSha256": "d3005e3d580a25619865f1691f605f345cf4e125e7ada44538808331b5d1ed08",
+          "textNormalizedSha256": "d3005e3d580a25619865f1691f605f345cf4e125e7ada44538808331b5d1ed08",
+          "identitySha256": "d3005e3d580a25619865f1691f605f345cf4e125e7ada44538808331b5d1ed08"
         }
       ]
     },
     {
       "name": "orchestration",
       "sourcePath": "skills/orchestration",
-      "packageDigest": "195f26431ecfb6df41b941b22958a2330b110bac7b7e97004e0b35fe586e41d9",
+      "packageDigest": "0431bbefbbf97cc1ae59802bf6f4e883544d9fcbe2546223a51fffaa4ea5d40c",
       "files": [
         {
           "path": "SKILL.md",
-          "size": 3671,
+          "size": 3703,
           "executable": false,
           "classification": "text",
-          "exactSha256": "cd1b364bf35781bad06bf75ab1766afa8d6cec69cb2060529691d89871a2098a",
-          "textNormalizedSha256": "cd1b364bf35781bad06bf75ab1766afa8d6cec69cb2060529691d89871a2098a",
-          "identitySha256": "cd1b364bf35781bad06bf75ab1766afa8d6cec69cb2060529691d89871a2098a"
+          "exactSha256": "525d43b9779b573d4daef8d3ecf84d9eab0e06dec1b3620b96e0b7f903e850bb",
+          "textNormalizedSha256": "525d43b9779b573d4daef8d3ecf84d9eab0e06dec1b3620b96e0b7f903e850bb",
+          "identitySha256": "525d43b9779b573d4daef8d3ecf84d9eab0e06dec1b3620b96e0b7f903e850bb"
         }
       ]
     }

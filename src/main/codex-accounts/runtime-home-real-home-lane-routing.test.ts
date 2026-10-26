@@ -100,7 +100,7 @@ describe('CodexRuntimeHomeService', () => {
     process.env.CODEX_HOME = getRuntimeCodexHomePath()
     process.env.ORCA_CODEX_HOME = getRuntimeCodexHomePath()
     try {
-      // Pin the path so nested Orca cannot poll an inherited managed CODEX_HOME.
+      // Pin the path so nested Amoeba cannot poll an inherited managed CODEX_HOME.
 
       expect(service.prepareForRateLimitFetch()).toEqual({
         kind: 'ready',
@@ -189,7 +189,7 @@ describe('CodexRuntimeHomeService', () => {
     }
   })
 
-  it('resolves only Orca-owned homes used by live retained host shells', async () => {
+  it('resolves only Amoeba-owned homes used by live retained host shells', async () => {
     const accountHome = createManagedAuth(
       testState.userDataDir,
       'account-1',

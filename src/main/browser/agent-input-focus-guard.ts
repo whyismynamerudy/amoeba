@@ -17,7 +17,7 @@ const PANE_READY_TIMEOUT_MS = 150
 export function focusGuardUnavailableError(): BrowserError {
   return new BrowserError(
     'browser_focus_guard_unavailable',
-    "Orca could not protect the user's keyboard focus for this page, so the input was not sent. Retry, or show the page first."
+    "Amoeba could not protect the user's keyboard focus for this page, so the input was not sent. Retry, or show the page first."
   )
 }
 
@@ -25,7 +25,7 @@ export function focusGuardUnavailableError(): BrowserError {
 function userComposingError(): BrowserError {
   return new BrowserError(
     'browser_user_composing',
-    'The user is typing with an input method in Orca, so the input was not sent to keep their unfinished text. Retry in a moment.'
+    'The user is typing with an input method in Amoeba, so the input was not sent to keep their unfinished text. Retry in a moment.'
   )
 }
 

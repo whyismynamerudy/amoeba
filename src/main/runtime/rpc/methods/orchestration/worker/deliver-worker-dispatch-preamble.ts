@@ -53,7 +53,7 @@ export async function deliverWorkerDispatchPreamble(args: {
     dispatchId: args.dispatchId,
     taskSpec: args.taskSpec,
     coordinatorHandle: orcaSessionIdOrHandle(args.coordinatorHandle, args.db),
-    // Its mailbox stays keyed by the handle; its commands name its Orca session ID, which binds to it.
+    // Its mailbox stays keyed by the handle; its commands name its Amoeba session ID, which binds to it.
     workerHandle:
       structuredSession && isOrcaSessionId(structuredSession.identity.sessionId)
         ? formatOrcaSessionAddress(canonicalOrcaSessionId(structuredSession.identity.sessionId))

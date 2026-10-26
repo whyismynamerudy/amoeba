@@ -185,7 +185,7 @@ describe('AgentHookServer transport interference', () => {
 
     await postTruncatedHook(port, token)
     await postTruncatedHook(port, token)
-    // Orca's own slowloris timeout must not be misclassified as external interference.
+    // Amoeba's own slowloris timeout must not be misclassified as external interference.
     await postStalledHook(port, token)
     expect(reports).toEqual([])
 

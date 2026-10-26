@@ -82,7 +82,7 @@ describe('ChecksPanelReviewHeader', () => {
     expect(markup).toContain('More PR actions')
     expect(markup).toContain('Unlink PR from workspace')
     expect(markup).toContain(
-      'Orca will hide PR #2964 details for this workspace. The PR and branch on GitHub won’t be changed.'
+      'Amoeba will hide PR #2964 details for this workspace. The PR and branch on GitHub won’t be changed.'
     )
     expect(markup).toContain('Link another PR')
     expect(markup).toContain('lucide-ellipsis')
@@ -97,13 +97,15 @@ describe('ChecksPanelReviewHeader', () => {
     expect(markup).not.toContain('⇧⌘+click')
   })
 
-  // With inversion on and Link Routing off, the modifier goes to Orca; label that destination.
-  it('names Orca when the modifier inverts toward the built-in browser', () => {
-    expect(renderHeader({ modifierHintDestination: 'orca' })).toContain('⇧⌘+click to open in Orca')
+  // With inversion on and Link Routing off, the modifier goes to Amoeba; label that destination.
+  it('names Amoeba when the modifier inverts toward the built-in browser', () => {
+    expect(renderHeader({ modifierHintDestination: 'orca' })).toContain(
+      '⇧⌘+click to open in Amoeba'
+    )
 
     vi.stubGlobal('navigator', { userAgent: 'Windows' })
     expect(renderHeader({ modifierHintDestination: 'orca' })).toContain(
-      'Shift+Ctrl+click to open in Orca'
+      'Shift+Ctrl+click to open in Amoeba'
     )
   })
 
@@ -131,7 +133,7 @@ describe('ChecksPanelReviewHeader', () => {
     expect(markup).toContain('More MR actions')
     expect(markup).toContain('Unlink MR from workspace')
     expect(markup).toContain(
-      'Orca will hide MR !31 details for this workspace. The MR and branch on GitLab won’t be changed.'
+      'Amoeba will hide MR !31 details for this workspace. The MR and branch on GitLab won’t be changed.'
     )
     expect(markup).toContain('Link another MR')
   })

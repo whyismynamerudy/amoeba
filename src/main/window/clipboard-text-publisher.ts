@@ -100,7 +100,7 @@ function publisherPath(): string | Promise<string> {
   ) {
     return source
   }
-  // A detached owner must not execute pages from an AppImage mount after Orca exits.
+  // A detached owner must not execute pages from an AppImage mount after Amoeba exits.
   stagedPublisher ??= stageClipboardPublisher(source, app.getPath('userData')).catch(
     (error: unknown) => {
       stagedPublisher = undefined

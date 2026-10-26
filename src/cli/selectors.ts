@@ -117,7 +117,7 @@ export async function resolveCurrentWorktreeSelection(
   if (!selection) {
     throw new RuntimeClientError(
       'selector_not_found',
-      `No Orca-managed worktree contains the current directory: ${resolvePath(cwd)}`
+      `No Amoeba-managed worktree contains the current directory: ${resolvePath(cwd)}`
     )
   }
   return selection
@@ -254,7 +254,7 @@ export async function getComputerCommandTarget(
 export type EmulatorCliTarget = {
   worktree?: string
   device?: string
-  emulator?: string // Orca id from list
+  emulator?: string // Amoeba id from list
 }
 
 export async function getEmulatorWorktreeSelector(

@@ -58,8 +58,8 @@ export function ResourcePtyPanel({
                   ? 'resourceManager.pty.localOwnedCount_one'
                   : 'resourceManager.pty.localOwnedCount_other',
                 sessions.length === 1
-                  ? '{{count}} Orca PTY on this computer'
-                  : '{{count}} Orca PTYs on this computer',
+                  ? '{{count}} Amoeba PTY on this computer'
+                  : '{{count}} Amoeba PTYs on this computer',
                 { count: sessions.length }
               )}
           {inventory.observedAt !== null && unbound > 0 && (
@@ -103,7 +103,7 @@ export function ResourcePtyPanel({
         )}
         {inventory.observedAt !== null && sessions.length === 0 && (
           <p className="p-3 text-xs text-muted-foreground">
-            {translate('resourceManager.pty.noLocalOrcaPtys', 'No local Orca PTYs')}
+            {translate('resourceManager.pty.noLocalOrcaPtys', 'No local Amoeba PTYs')}
           </p>
         )}
         <ResourcePtyList

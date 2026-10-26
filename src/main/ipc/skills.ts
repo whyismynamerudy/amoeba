@@ -38,7 +38,7 @@ export function registerSkillsHandlers(store: Store, runtime?: OrcaRuntimeServic
   }
   registerSkillCloudIpcHandlers(runtime, discover)
 
-  // Local host only; paired hosts plan Orca's skills over RPC.
+  // Local host only; paired hosts plan Amoeba's skills over RPC.
   handleMainWindowSkillIpc(
     'skills:bundledPlan',
     async (_event, value: unknown): Promise<BundledSkillPlan> =>

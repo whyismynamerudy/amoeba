@@ -319,7 +319,7 @@ function loadNodePtyNativeModule() {
   assertNodePtyJobOwnership({ nativeName, native, addonPath })
   if (requiresPatchedNodePtySourceBuild() && !isSourceBuildDir(native?.dir)) {
     throw new Error(
-      `node-pty resolved to ${native.dir}; expected build/Release so Orca's node-pty patch is active`
+      `node-pty resolved to ${native.dir}; expected build/Release so Amoeba's node-pty patch is active`
     )
   }
 }
@@ -342,7 +342,7 @@ function getPatchedNodePtyRebuildReason() {
     return null
   }
 
-  // Loadable upstream prebuilds lack Orca patches; require source-built build/Release artifacts on both platforms.
+  // Loadable upstream prebuilds lack Amoeba patches; require source-built build/Release artifacts on both platforms.
   const nodePtyDir = resolve(projectDir, 'node_modules', 'node-pty')
   const artifactPaths = nodePtyBuildArtifactPaths(nodePtyDir)
   const missingArtifact = artifactPaths.find((artifactPath) => !existsSync(artifactPath))

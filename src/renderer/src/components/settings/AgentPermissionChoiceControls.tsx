@@ -38,7 +38,7 @@ export function agentPermissionChoiceLabel(
 function ownDescription(): string {
   return translate(
     'settings.agents.permissionOwnDescription',
-    'Orca adds no permission flag in terminals; chats use Settings → Chat.'
+    'Amoeba adds no permission flag in terminals; chats use Settings → Chat.'
   )
 }
 

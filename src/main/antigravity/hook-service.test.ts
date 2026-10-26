@@ -309,25 +309,25 @@ describe('AntigravityHookService', () => {
     vi.spyOn(process, 'platform', 'get').mockReturnValue('win32')
     try {
       const service = new AntigravityHookService()
-      let runtimePath = 'C:\\Orca1\\Orca.exe'
+      let runtimePath = 'C:\\Orca1\\Amoeba.exe'
       service.setWindowsRuntimePathProvider(() => runtimePath)
       const readerPath = join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook-post.cjs')
       await service.refreshManagedScripts()
       expect(existsSync(readerPath)).toBe(false)
       expect(service.install().state).toBe('installed')
       rmSync(readerPath)
-      runtimePath = 'C:\\Orca2\\Orca.exe'
+      runtimePath = 'C:\\Orca2\\Amoeba.exe'
       await service.refreshManagedScripts()
       expect(readFileSync(readerPath, 'utf8')).toContain("require('node:string_decoder')")
       expect(
         readFileSync(join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook.cmd'), 'utf8')
-      ).toContain('ORCA_AGENT_HOOK_NODE=C:\\Orca2\\Orca.exe')
+      ).toContain('ORCA_AGENT_HOOK_NODE=C:\\Orca2\\Amoeba.exe')
     } finally {
       vi.restoreAllMocks()
     }
   })
 
-  it('preserves user-authored hook bundles and entries in Orca bundle', () => {
+  it('preserves user-authored hook bundles and entries in Amoeba bundle', () => {
     const configPath = join(homeDir, '.gemini', 'config', 'hooks.json')
     mkdirSync(dirname(configPath), { recursive: true })
     writeFileSync(

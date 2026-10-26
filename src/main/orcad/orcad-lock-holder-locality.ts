@@ -58,7 +58,7 @@ export function orcadLockHolderUnverifiableError(lock: {
   return new OrcadInstanceLockError(
     'orcad_instance_lock_holder_unverifiable',
     `${lock.holder} holds the data root ${lock.dataRoot}${lock.foreign ? ' from another machine' : ''}. ` +
-      'Orca cannot check from here whether it is still running, because this data root may be ' +
+      'Amoeba cannot check from here whether it is still running, because this data root may be ' +
       `shared with other machines. Stop it there. If it is not running anywhere, ${reclaim}` +
       `delete ${lock.lockPath} once you are sure.`
   )

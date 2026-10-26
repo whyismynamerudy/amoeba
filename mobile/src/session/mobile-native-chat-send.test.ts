@@ -114,11 +114,10 @@ describe('sendMobileNativeChatMessage', () => {
 
   it('reports a definite rejection when the connect wait times out', async () => {
     // Pre-connect timeout spends the same budget but proves nondelivery because no frame was written.
-    const client = {
-      sendRequest: vi
-        .fn()
-        .mockRejectedValue(new Error('Timed out while connecting to the remote Orca runtime.'))
-    } as unknown as RpcClient
+    const client = clientWithResponse(undefined)
+    vi.mocked(client.sendRequest).mockRejectedValue(
+      new Error('Timed out while connecting to the remote Amoeba runtime.')
+    )
 
     await expect(
       sendMobileNativeChatMessageWithOutcome({ client, terminal: 'term', text: 'hello' })

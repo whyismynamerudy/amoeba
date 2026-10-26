@@ -36,7 +36,7 @@ describe.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
         ...fixture,
         platform: 'darwin',
         isPackaged: true,
-        execPath: join(fixture.root, 'Orca'),
+        execPath: join(fixture.root, 'Amoeba'),
         homePath: join(fixture.root, 'home'),
         defaultMacCommandPath: fixture.commandPath,
         processPathEnv: `${fixture.foreignBin}:${fixture.defaultBin}`
@@ -48,7 +48,7 @@ describe.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
         currentTarget: null,
         pathConfigured: true
       })
-      await expect(installer.install()).rejects.toThrow('Refusing to replace non-Orca command')
+      await expect(installer.install()).rejects.toThrow('Refusing to replace non-Amoeba command')
       await chmod(fixture.foreignPath, 0o600)
       expect(await readFile(fixture.foreignPath, 'utf8')).toBe(unreadableContents)
     })
@@ -59,7 +59,7 @@ describe.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
         ...fixture,
         platform: 'darwin',
         isPackaged: true,
-        execPath: join(fixture.root, 'Orca'),
+        execPath: join(fixture.root, 'Amoeba'),
         homePath: join(fixture.root, 'home'),
         defaultMacCommandPath: fixture.commandPath,
         processPathEnv: `${fixture.defaultBin}:${fixture.foreignBin}`
@@ -79,7 +79,7 @@ describe.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
           ...fixture,
           platform,
           isPackaged: true,
-          execPath: join(fixture.root, 'Orca'),
+          execPath: join(fixture.root, 'Amoeba'),
           homePath: join(fixture.root, 'home'),
           commandPathOverride: fixture.foreignPath,
           processPathEnv: fixture.foreignBin

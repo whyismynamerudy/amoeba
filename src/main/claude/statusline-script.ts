@@ -55,7 +55,7 @@ export function getManagedStatusLineScript(target: 'local' | 'posix' = 'local'):
       // Escaped quotes match the JSON key, avoiding false matches in paths.
       '"%SystemRoot%\\System32\\findstr.exe" /c:\\"rate_limits\\" "%ORCA_STATUSLINE_PAYLOAD_FILE%" >nul 2>nul',
       `if errorlevel 1 goto :${STATUSLINE_CLEANUP_LABEL}`,
-      // Refresh stale endpoint coordinates after Orca restarts, falling back to PTY env.
+      // Refresh stale endpoint coordinates after Amoeba restarts, falling back to PTY env.
       'if defined ORCA_AGENT_HOOK_ENDPOINT if exist "%ORCA_AGENT_HOOK_ENDPOINT%" call "%ORCA_AGENT_HOOK_ENDPOINT%" 2>nul',
       `if "%ORCA_AGENT_HOOK_PORT%"=="" goto :${STATUSLINE_CLEANUP_LABEL}`,
       `if "%ORCA_AGENT_HOOK_TOKEN%"=="" goto :${STATUSLINE_CLEANUP_LABEL}`,

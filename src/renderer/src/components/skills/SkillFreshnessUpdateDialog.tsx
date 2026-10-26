@@ -132,11 +132,11 @@ function DialogHeadline({
         {unsupported === 'connect-host'
           ? translate(
               'auto.components.skills.SkillFreshnessUpdateDialog.connectHost',
-              'Connect to this SSH host to check its Orca skills.'
+              'Connect to this SSH host to check its Amoeba skills.'
             )
           : translate(
               'auto.components.skills.SkillFreshnessUpdateDialog.updateServer',
-              'Update Orca on the server to update its Orca skills.'
+              'Update Amoeba on the server to update its Amoeba skills.'
             )}
       </p>
     )

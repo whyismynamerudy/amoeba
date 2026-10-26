@@ -73,7 +73,7 @@ export function projectOrcadMigrationSessionScrollback(
         bytes.length > TERMINAL_SCROLLBACK_STORE_BYTE_LIMIT
       ) {
         ;(leaveBehind ? leftBehindItems : blockedItems).push(
-          `saved terminal history Orca could not read for tab ${tabId}`
+          `saved terminal history Amoeba could not read for tab ${tabId}`
         )
         continue
       }

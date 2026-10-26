@@ -43,7 +43,7 @@ export class CdpDebuggerChannel {
         Record<string, unknown>,
         string | undefined
       ]
-      // Hide Orca-owned frame sessions that the client did not request.
+      // Hide Amoeba-owned frame sessions that the client did not request.
       if (isOrcaFrameSessionTraffic(this.webContents, method, params, sessionId || undefined)) {
         return
       }

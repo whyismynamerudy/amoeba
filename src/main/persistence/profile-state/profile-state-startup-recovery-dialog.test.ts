@@ -22,10 +22,10 @@ describe('profile state startup recovery dialog', () => {
       buttons: ['Copy recovery command', 'Quit'],
       defaultId: 1,
       cancelId: 1,
-      title: 'Orca profile state cannot be opened',
-      message: 'Orca cannot safely open this profile.',
+      title: 'Amoeba profile state cannot be opened',
+      message: 'Amoeba cannot safely open this profile.',
       detail:
-        'SQLite state is unreadable.\nSQLite path: /tmp/profile-state.db\n\nCopy the recovery command, then run it after Orca closes.'
+        'SQLite state is unreadable.\nSQLite path: /tmp/profile-state.db\n\nCopy the recovery command, then run it after Amoeba closes.'
     })
     expect(copyToClipboard).toHaveBeenCalledWith('orca profile state exports')
   })
@@ -60,7 +60,7 @@ describe('profile state startup recovery dialog', () => {
         defaultId: 0,
         cancelId: 0,
         detail:
-          'both profile authorities are present\n\nQuit Orca and resolve the profile-state authority before retrying.'
+          'both profile authorities are present\n\nQuit Amoeba and resolve the profile-state authority before retrying.'
       })
     )
     expect(copyToClipboard).not.toHaveBeenCalled()
@@ -129,9 +129,9 @@ describe('profile state startup recovery dialog', () => {
           '',
           'Everything else stays as it is now.',
           '',
-          'Projects added after that backup will be removed from Orca, along with their workspace details. Files on disk are not touched.',
+          'Projects added after that backup will be removed from Amoeba, along with their workspace details. Files on disk are not touched.',
           '',
-          'Orca keeps a copy of the damaged file in its data folder, then restarts.'
+          'Amoeba keeps a copy of the damaged file in its data folder, then restarts.'
         ].join('\n')
       })
     }

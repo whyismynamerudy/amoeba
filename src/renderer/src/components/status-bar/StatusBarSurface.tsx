@@ -329,7 +329,7 @@ export function StatusBarSurface({
                   >
                     <PanelsTopLeft className="size-3.5" />
                     {showFloatingWorkspaceAttentionDot ? (
-                      // Why: amber = Orca's "needs attention" convention; ring matches the fill so the dot reads on the icon.
+                      // Why: amber = Amoeba's "needs attention" convention; ring matches the fill so the dot reads on the icon.
                       <span
                         aria-hidden
                         data-floating-terminal-attention

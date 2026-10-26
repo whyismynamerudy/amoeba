@@ -13,14 +13,14 @@ export function getSystemNotificationSettingsCopy(
   if (platform === 'darwin') {
     return {
       failureTitle: 'macOS did not show the notification',
-      failureDescription: 'Enable Allow notifications for Orca in System Settings.'
+      failureDescription: 'Enable Allow notifications for Amoeba in System Settings.'
     }
   }
 
   if (platform === 'win32') {
     return {
       failureTitle: 'Windows did not show the notification',
-      failureDescription: 'Enable notifications for Orca in Windows Settings.'
+      failureDescription: 'Enable notifications for Amoeba in Windows Settings.'
     }
   }
 
@@ -107,7 +107,7 @@ export async function sendNotificationSettingsTestNotification(
         {
           description: translate(
             'auto.components.settings.NotificationsPane.115437bc35',
-            'If no macOS banner appeared, enable Allow notifications for Orca.'
+            'If no macOS banner appeared, enable Allow notifications for Amoeba.'
           ),
           action: {
             label: translate(
@@ -155,7 +155,7 @@ export async function sendNotificationSettingsTestNotification(
         {
           description: translate(
             'auto.components.settings.NotificationsPane.4676a95bc3',
-            'Check your desktop notification settings for Orca.'
+            'Check your desktop notification settings for Amoeba.'
           )
         }
       )

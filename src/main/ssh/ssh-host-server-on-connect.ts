@@ -232,7 +232,7 @@ function setupFailed(
   error: unknown,
   empty: boolean
 ): Promise<HostServerOnConnectResult> {
-  console.warn('[ssh] Managed Orca server setup failed:', error)
+  console.warn('[ssh] Managed Amoeba server setup failed:', error)
   reportHostServerSetupError(deps.report, target, trace, error)
   const unavailable = classifyOrcadHostUnavailable(error)
   const conflict = empty ? null : orcadMigrationConflictGuidance(error)
@@ -255,7 +255,7 @@ async function afterDeploy(
   if (result.outcome !== 'already-current') {
     return { route: 'managed', environmentId }
   }
-  // Another Orca version may serve it; only the now-paired server can say whether it may update.
+  // Another Amoeba version may serve it; only the now-paired server can say whether it may update.
   const update = await checkManagedServerUpdate(target, environmentId, deps, () =>
     deps.progress(target, 'updating')
   )
@@ -297,7 +297,7 @@ function deferred(
   result: { code: string; reason: string },
   empty: boolean
 ): Promise<HostServerOnConnectResult> {
-  console.warn(`[ssh] Managed Orca server setup deferred (${result.code}):`, result.reason)
+  console.warn(`[ssh] Managed Amoeba server setup deferred (${result.code}):`, result.reason)
   const unavailable = classifyOrcadHostUnavailable({ code: result.code })
   return unfinished(target, deps, unavailable, empty, 'deferred', { detail: result.reason })
 }
@@ -315,7 +315,7 @@ async function unfinished(
     await (empty ? deps.abandonDeploy(target) : deps.abandonConversion(target))
   } catch (error) {
     // Retain fences when staging/registration leaves destination state unproven.
-    console.warn('[ssh] The managed Orca server setup keeps its fence:', error)
+    console.warn('[ssh] The managed Amoeba server setup keeps its fence:', error)
   }
   // Re-read the journal: abort may have released the fence or discovered commit.
   const held = !empty && !unavailable && deps.hasUnfinishedConversion(target)

@@ -90,7 +90,7 @@ export async function prepareWorktreePushTargetWithExec(
     const existingRemote = await findRemoteForUrl(execGit, repoPath, target.remoteUrl)
     if (existingRemote) {
       remoteName = existingRemote
-      // Reused Orca remotes retain ownership so removing the final worktree can reclaim them.
+      // Reused Amoeba remotes retain ownership so removing the final worktree can reclaim them.
       remoteCreated = isRemoteCreatedByKnownWorktree(existingRemote)
       // Reused remotes may still track every fork branch; keep this branch within the bounded refspec.
       await ensureRemoteTracksBranchNarrowly(execGit, repoPath, remoteName, target.branchName)

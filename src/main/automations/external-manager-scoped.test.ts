@@ -234,7 +234,7 @@ describe('scoped external automations', () => {
     expect(runProcessMock).not.toHaveBeenCalled()
   })
 
-  it('confines a manager failure to its own scope and never to Orca store health', async () => {
+  it('confines a manager failure to its own scope and never to Amoeba store health', async () => {
     const health = orcaStoreHealth()
     const engine = createScopedExternalAutomations({
       registry: {

@@ -32,8 +32,8 @@ describe('orcad browser helper in the desktop install park', () => {
 
   beforeEach(async () => {
     root = await mkdtemp(join(tmpdir(), 'orcad-browser-park-'))
-    bundle = join(root, 'Orca.app')
-    executable = join(bundle, 'Contents', 'MacOS', 'Orca')
+    bundle = join(root, 'Amoeba.app')
+    executable = join(bundle, 'Contents', 'MacOS', 'Amoeba')
     await mkdir(join(bundle, 'Contents', 'MacOS'), { recursive: true })
     await writeFile(executable, '')
     await writeFile(join(bundle, 'Contents', 'Info.plist'), 'v1')

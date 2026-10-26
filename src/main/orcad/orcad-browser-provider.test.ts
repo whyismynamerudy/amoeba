@@ -179,7 +179,7 @@ describe('ExternalChromiumBrowserProcess', () => {
 describe('cross-platform browser provider paths', () => {
   it('resolves installed Electron launchers on macOS, Linux, and Windows', () => {
     expect(installedElectronCandidates('darwin', '/Users/test', {})).toContain(
-      '/Users/test/Applications/Orca.app/Contents/MacOS/Orca'
+      '/Users/test/Applications/Amoeba.app/Contents/MacOS/Amoeba'
     )
     expect(installedElectronCandidates('linux', '/home/test', {})).toContain(
       '/home/test/.local/bin/orca-ide'
@@ -188,7 +188,7 @@ describe('cross-platform browser provider paths', () => {
       installedElectronCandidates('win32', 'C:\\Users\\test', {
         LOCALAPPDATA: 'C:\\Users\\test\\AppData\\Local'
       })
-    ).toContain('C:\\Users\\test\\AppData\\Local\\Programs\\Orca\\Orca.exe')
+    ).toContain('C:\\Users\\test\\AppData\\Local\\Programs\\Amoeba\\Amoeba.exe')
   })
 
   it('uses platform-specific bundled agent-browser names', () => {
@@ -208,7 +208,7 @@ describe.skipIf(process.platform === 'win32')('resolveInstalledElectronExecutabl
   it('rejects a symlink to the bash CLI shim and picks the install-dir binary', async () => {
     const shim = join(root, 'share', 'orca-ide-shim')
     const link = join(root, 'bin', 'orca-ide')
-    const electron = join(root, 'opt', 'Orca', 'orca-ide')
+    const electron = join(root, 'opt', 'Amoeba', 'orca-ide')
     await writeExecutable(shim, '#!/usr/bin/env bash\nexec true\n')
     await mkdir(join(link, '..'), { recursive: true })
     await symlink(shim, link)
@@ -219,7 +219,7 @@ describe.skipIf(process.platform === 'win32')('resolveInstalledElectronExecutabl
   })
 
   it('still accepts an AppImage-style binary', async () => {
-    const appImage = join(root, 'Orca.AppImage')
+    const appImage = join(root, 'Amoeba.AppImage')
     await writeExecutable(appImage, Buffer.from([0x7f, 0x45, 0x4c, 0x46, 2, 1, 1, 0]))
 
     await expect(resolveInstalledElectronExecutable([appImage])).resolves.toBe(appImage)
@@ -324,7 +324,7 @@ describe('resolveOrcadBrowserProvider', () => {
       resolveOrcadBrowserProvider({
         userDataPath: root,
         environment: {},
-        resolveInstalledElectronExecutable: async () => '/opt/Orca/orca-ide',
+        resolveInstalledElectronExecutable: async () => '/opt/Amoeba/orca-ide',
         resolveAgentBrowserBinary: () => '/agent-browser'
       })
     ).resolves.toBeNull()
@@ -343,7 +343,7 @@ describe('resolveOrcadBrowserProvider', () => {
       resolveOrcadBrowserProvider({
         userDataPath: root,
         environment: { ORCA_BROWSER_EXECUTABLE: join(root, 'absent-chromium') },
-        resolveInstalledElectronExecutable: async () => '/opt/Orca/orca-ide',
+        resolveInstalledElectronExecutable: async () => '/opt/Amoeba/orca-ide',
         resolveAgentBrowserBinary: () => null
       })
     ).resolves.toBeNull()

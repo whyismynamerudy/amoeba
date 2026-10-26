@@ -35,7 +35,7 @@ import {
 import { waitForPtyShellEcho } from './terminal-pty-readiness'
 import { parkHiddenTabBehindDecoy } from './helpers/terminal-hidden-parking'
 
-const POINTER_COMMAND = 'orca-dev orchestration check'
+const POINTER_COMMAND = 'amoeba-dev orchestration check'
 
 // Allow microtask/liveness deferral and the delayed Enter submission.
 const DELIVERY_TIMEOUT_MS = 20_000

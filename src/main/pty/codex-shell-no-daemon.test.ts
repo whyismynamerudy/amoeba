@@ -188,7 +188,7 @@ function run(
       ...process.env,
       PATH: `${sandbox.bin}${delimiter}${process.env.PATH ?? ''}`,
       CODEX_HOME: join(sandbox.bin, '..', 'codex-home'),
-      // Nested Orca tests must not forward the host pane's identity.
+      // Nested Amoeba tests must not forward the host pane's identity.
       ...Object.fromEntries(CODEX_COMMAND_IDENTITY_ENV_KEYS.map((key) => [key, ''])),
       ...env
     }

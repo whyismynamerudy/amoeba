@@ -71,7 +71,7 @@ afterEach(() => {
   vi.resetAllMocks()
 })
 
-describe('bundled Orca startup readiness', () => {
+describe('bundled Amoeba startup readiness', () => {
   it.each(['win32', 'darwin', 'linux'] as const)(
     'isolates native process state in the exact bundled %s executable',
     async (platform) => {

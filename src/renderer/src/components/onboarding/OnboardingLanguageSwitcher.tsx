@@ -184,7 +184,7 @@ export function OnboardingLanguageSwitcher({
               <Label htmlFor="onboarding-language-request">
                 {translate(
                   'onboarding.language.requestPrompt',
-                  'Which language would you like Orca to support?'
+                  'Which language would you like Amoeba to support?'
                 )}
               </Label>
               <Input

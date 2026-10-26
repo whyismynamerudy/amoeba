@@ -189,7 +189,7 @@ export async function acquireCodexStructuredSession(input: {
               sessionId,
               connection: acquisition.connection,
               error,
-              // A previously unproven Orca close still owns this exit.
+              // A previously unproven Amoeba close still owns this exit.
               ...(exit?.expected ? { closedByOrca: true as const } : {}),
               ...(deps.logger ? { logger: deps.logger } : {}),
               prompts: acquisition.prompts,

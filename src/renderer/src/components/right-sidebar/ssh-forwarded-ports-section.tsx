@@ -66,7 +66,7 @@ export function SshForwardedPortsSection({
                 key={entry.id}
                 entry={entry}
                 onEdit={() => setDialogState({ mode: 'edit', entry })}
-                // Use the system browser: this forward listens locally, while Orca’s browser may run on another host.
+                // Use the system browser: this forward listens locally, while Amoeba’s browser may run on another host.
                 onOpenInBrowser={() =>
                   void window.api.shell.openUrl(browserUrlForPortForwardEntry(entry))
                 }

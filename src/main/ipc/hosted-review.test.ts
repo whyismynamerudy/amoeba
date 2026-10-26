@@ -176,7 +176,7 @@ describe('registerHostedReviewHandlers', () => {
     )
   })
 
-  // Shared symlinks belong to Orca and must not fail the user's dirty preflight (#10451).
+  // Shared symlinks belong to Amoeba and must not fail the user's dirty preflight (#10451).
   it('passes the repo shared link paths through local review creation', async () => {
     const localRepo = {
       id: 'repo-local',

@@ -38,7 +38,7 @@ afterEach(async () => {
 async function makeFixture() {
   const root = await mkdtemp(join(tmpdir(), 'orca-cli-appimage-ownership-'))
   created.push(root)
-  const appImagePath = join(root, 'Orca.AppImage')
+  const appImagePath = join(root, 'Amoeba.AppImage')
   const cacheRootPath = join(root, 'cache')
   const commandDirectory = join(root, 'home', '.local', 'bin')
   const commandPath = join(commandDirectory, 'orca-ide')
@@ -145,7 +145,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI ownership', () => {
     })
 
     await expect(installer.getStatus()).resolves.toMatchObject({ state: 'conflict' })
-    await expect(installer.install()).rejects.toThrow('Refusing to replace non-Orca command')
+    await expect(installer.install()).rejects.toThrow('Refusing to replace non-Amoeba command')
     await expect(readlink(fixture.commandPath)).resolves.toBe(foreignTarget)
     expect(extract).not.toHaveBeenCalled()
   })
@@ -197,7 +197,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI ownership', () => {
       appImagePath: fixture.appImagePath,
       cacheRootPath: fixture.cacheRootPath
     })!
-    const relocatedPath = join(fixture.root, 'downloads', 'Orca.AppImage')
+    const relocatedPath = join(fixture.root, 'downloads', 'Amoeba.AppImage')
     await mkdir(dirname(relocatedPath), { recursive: true })
     await rename(fixture.appImagePath, relocatedPath)
     const relocatedFixture = { ...fixture, appImagePath: relocatedPath }
@@ -250,7 +250,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI ownership', () => {
     }
 
     await expect(new RacedInstaller(installerOptions(fixture)).install()).rejects.toThrow(
-      'Refusing to replace non-Orca command'
+      'Refusing to replace non-Amoeba command'
     )
     await expect(readlink(fixture.commandPath)).resolves.toBe(foreignTarget)
     expect((await readdir(fixture.commandDirectory)).some((name) => name.includes('.orca-'))).toBe(
@@ -259,7 +259,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI ownership', () => {
   })
 
   it('reclaims a symlink left by a packaged deb/rpm install', async () => {
-    for (const directory of ['/opt/Orca', '/opt/orca-ide', '/opt/orca']) {
+    for (const directory of ['/opt/Amoeba', '/opt/orca-ide', '/opt/orca']) {
       const fixture = await makeFixture()
       await symlink(`${directory}/resources/bin/orca-ide`, fixture.commandPath)
 

@@ -165,9 +165,9 @@ describe('Antigravity Windows hook post command', () => {
 
   it('posts with the owned runtime and keeps payloads off the command line', () => {
     vi.spyOn(process, 'platform', 'get').mockReturnValue('win32')
-    const script = getManagedScript('local', 'C:\\Orca!100%\\Orca.exe')
+    const script = getManagedScript('local', 'C:\\Amoeba!100%\\Amoeba.exe')
     expect(script).not.toMatch(/powershell|curl|payload@-/i)
-    expect(script).toContain('ORCA_AGENT_HOOK_NODE=C:\\Orca!100%%\\Orca.exe')
+    expect(script).toContain('ORCA_AGENT_HOOK_NODE=C:\\Amoeba!100%%\\Amoeba.exe')
     expect(script).toContain('"%ORCA_AGENT_HOOK_NODE%" "%~dp0antigravity-hook-post.cjs"')
     expect(script).toContain('ELECTRON_RUN_AS_NODE=1')
     expect(script).toContain('setlocal DisableDelayedExpansion')

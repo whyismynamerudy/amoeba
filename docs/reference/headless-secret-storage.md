@@ -73,7 +73,7 @@ after it ships (`src/main/orcad/orcad-legacy-keyring-key.ts`).
   rollback the old server shows "Could not decrypt saved Linear credential… reconnect Linear".
   Connect each integration again on that server. Plaintext copies are deliberately not kept for
   rollback.
-- **GitHub and GitLab** tokens are not stored by Orca at all. `gh` and `glab` keep them, under
+- **GitHub and GitLab** tokens are not stored by Amoeba at all. `gh` and `glab` keep them, under
   their own storage settings.
 
 ## Migration

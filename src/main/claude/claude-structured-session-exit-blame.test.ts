@@ -36,7 +36,7 @@ describe('what a started Claude session says ended it', () => {
     })
   })
 
-  it('blames Orca when a journal fault makes Orca close the child', async () => {
+  it('blames Amoeba when a journal fault makes Amoeba close the child', async () => {
     const { connection, ended } = await startedClaude({
       appendItem: () => {},
       appendTombstone: () => {},

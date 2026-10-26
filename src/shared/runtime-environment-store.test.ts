@@ -53,7 +53,7 @@ describe('runtime environment store', () => {
     )
   }
 
-  it('refuses a pairing code that this same Orca profile issued', () => {
+  it('refuses a pairing code that this same Amoeba profile issued', () => {
     const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-env-store-'))
     tempDirs.push(userDataPath)
     writeProfileKeypair(userDataPath, 1)
@@ -63,11 +63,11 @@ describe('runtime environment store', () => {
         name: 'myself',
         pairingCode: pairingCode('ws://192.0.2.10:6768')
       })
-    ).toThrow(/this Orca itself/)
+    ).toThrow(/this Amoeba itself/)
     expect(listEnvironments(userDataPath)).toEqual([])
   })
 
-  it('refuses re-pairing a saved server with a code this same Orca profile issued', () => {
+  it('refuses re-pairing a saved server with a code this same Amoeba profile issued', () => {
     const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-env-store-'))
     tempDirs.push(userDataPath)
     const environment = addEnvironmentFromPairingCode(userDataPath, {

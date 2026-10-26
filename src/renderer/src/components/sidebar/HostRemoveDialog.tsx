@@ -35,7 +35,7 @@ type HostRemoveDialogProps = {
   onOpenChange: (open: boolean) => void
   hostId: ExecutionHostId
   label: string
-  /** `wsl`: a WSL host, removed in place (Settings → Orca servers → WSL hosts). */
+  /** `wsl`: a WSL host, removed in place (Settings → Amoeba servers → WSL hosts). */
   target: NonNullable<HostRemovalTarget> | { kind: 'wsl'; environmentId: string }
 }
 
@@ -183,18 +183,18 @@ export function HostRemoveDialog({
     target.kind === 'wsl'
       ? translate(
           'auto.components.sidebar.HostRemoveDialog.wslHostEndsTerminals',
-          'Removes {{value0}} from Orca, ends its open terminals and stops Orca’s server in that distro. Files in the distro are untouched.',
+          'Removes {{value0}} from Amoeba, ends its open terminals and stops Amoeba’s server in that distro. Files in the distro are untouched.',
           { value0: label }
         )
       : target.kind === 'runtime'
         ? translate(
             'auto.components.sidebar.HostRemoveDialog.4d5e6f7a8b',
-            'This opens the Orca servers settings where you can remove this server.'
+            'This opens the Amoeba servers settings where you can remove this server.'
           )
         : hasWorkspaces
           ? translate(
               'auto.components.sidebar.HostRemoveDialog.hostHasWorkspacesDefault',
-              'Removes {{value0}} and its credentials from this computer. Its {{value1}} stay in Orca — remote files are not touched.',
+              'Removes {{value0}} and its credentials from this computer. Its {{value1}} stay in Amoeba — remote files are not touched.',
               { value0: label, value1: workspaceCountLabel }
             )
           : translate(
@@ -211,7 +211,7 @@ export function HostRemoveDialog({
       )
     : translate(
         'auto.components.sidebar.HostRemoveDialog.alsoForgetLocal',
-        'Also remove these {{value0}} from Orca',
+        'Also remove these {{value0}} from Amoeba',
         { value0: workspaceCountLabel }
       )
 
@@ -274,7 +274,7 @@ export function HostRemoveDialog({
                           )
                         : translate(
                             'auto.components.sidebar.HostRemoveDialog.alsoForgetLocalHint',
-                            'Clears them from Orca only. Remote files, worktrees, and branches are left untouched.'
+                            'Clears them from Amoeba only. Remote files, worktrees, and branches are left untouched.'
                           )}
                     </span>
                   </span>

@@ -68,7 +68,7 @@ export function AddWslHostFormPanel({
         <DialogDescription>
           {translate(
             'auto.components.sidebar.AddWslHostFormPanel.description',
-            'Orca runs its server inside the distro, so git, files and terminals run natively in Linux. Use it for new projects; projects you opened through \\\\wsl.localhost keep working as they are.'
+            'Amoeba runs its server inside the distro, so git, files and terminals run natively in Linux. Use it for new projects; projects you opened through \\\\wsl.localhost keep working as they are.'
           )}
         </DialogDescription>
       </DialogHeader>
@@ -147,7 +147,7 @@ export function AddWslHostFormPanel({
           <p className="text-xs text-muted-foreground" aria-live="polite">
             {translate(
               'auto.components.sidebar.AddWslHostFormPanel.addingHint',
-              'Installing and starting the Orca server in the distro. The first time can take a minute.'
+              'Installing and starting the Amoeba server in the distro. The first time can take a minute.'
             )}
           </p>
         ) : null}

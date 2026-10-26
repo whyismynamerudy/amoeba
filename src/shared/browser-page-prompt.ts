@@ -30,5 +30,5 @@ export type BrowserPagePromptResponse = {
   answer: unknown
 }
 
-/** `failed`: the user said yes but Orca could not carry it out, e.g. no app opens the link. */
+/** `failed`: the user said yes but Amoeba could not carry it out, e.g. no app opens the link. */
 export type BrowserPagePromptResult = 'rejected' | 'answered' | 'failed'

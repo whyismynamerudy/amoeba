@@ -5,8 +5,8 @@
 ; #10138/#23225: electron-builder’s APP_ASSOCIATE overwrites the extension’s default without backup,
 ; and APP_UNASSOCIATE never restores it. Register only additive ProgID/OpenWithProgids/SupportedTypes
 ; entries; never write the extension’s default handler. Sync extensions with isOsOpenedDocumentName().
-!define MARKDOWN_PROGID "Orca.Markdown"
-!define TABULAR_PROGID "Orca.Tabular"
+!define MARKDOWN_PROGID "Amoeba.Markdown"
+!define TABULAR_PROGID "Amoeba.Tabular"
 
 !macro ORCA_REGISTER_DOCUMENT_OPEN_WITH EXT PROGID
   WriteRegNone SHELL_CONTEXT "Software\Classes\${EXT}\OpenWithProgids" "${PROGID}"
@@ -64,8 +64,8 @@
     Pop $0
     ; Give the OS a moment to release the image lock before removing the tree.
     Sleep 500
-    RMDir /r "$LOCALAPPDATA\Orca\daemon-host"
-    RMDir /r "$LOCALAPPDATA\Orca\daemon-host-profiles"
+    RMDir /r "$LOCALAPPDATA\Amoeba\daemon-host"
+    RMDir /r "$LOCALAPPDATA\Amoeba\daemon-host-profiles"
   ${endIf}
   ; customInstall rewrites associations on every update, so remove them during uninstallOldVersion too.
   DeleteRegKey SHELL_CONTEXT "Software\Classes\${MARKDOWN_PROGID}"

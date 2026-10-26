@@ -298,7 +298,7 @@ function MobileAgentSessionHistoryPanelContent({
         <View style={styles.state}>
           <Text style={styles.stateTitle}>Agent Session History Unavailable</Text>
           <Text style={styles.stateText}>
-            Update Orca on this host to browse agent session history.
+            Update Amoeba on this host to browse agent session history.
           </Text>
         </View>
       ) : screenState.kind === 'error' ? (

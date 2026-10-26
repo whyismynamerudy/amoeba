@@ -17,8 +17,8 @@ export function triggerStartupNotificationRegistration(store: Store): void {
   store.updateUI({ notificationPermissionRequested: true })
 
   const notification = new Notification({
-    title: 'Orca is ready to notify you',
-    body: 'Allow notifications so Orca can alert you when agents finish or terminals need attention.'
+    title: 'Amoeba is ready to notify you',
+    body: 'Allow notifications so Amoeba can alert you when agents finish or terminals need attention.'
   })
 
   // Retain the notification and its click handler until it closes.

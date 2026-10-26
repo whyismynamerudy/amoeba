@@ -56,7 +56,7 @@ describe('gh exec deadline', () => {
       const rejection = expect(pending).rejects.toThrow('timed out')
       await vi.waitFor(() => expect(spawnMock).toHaveBeenCalledOnce())
 
-      // A detached group keeps cleanup signals from reaching Orca's own process group.
+      // A detached group keeps cleanup signals from reaching Amoeba's own process group.
       expect(spawnMock.mock.calls[0][2].detached).toBe(true)
       expect(processKillMock).not.toHaveBeenCalled()
 

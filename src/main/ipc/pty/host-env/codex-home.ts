@@ -24,7 +24,7 @@ export function shouldSkipCodexHomeEnvForWindowsShell(
   return isWslShellName(shellPath) || (typeof cwd === 'string' && parseWslPath(cwd) !== null)
 }
 
-// System-default real-home launches must remove inherited Orca overrides when no managed home is selected.
+// System-default real-home launches must remove inherited Amoeba overrides when no managed home is selected.
 export function shouldStripInheritedOrcaCodexHome(args: {
   target: CodexAccountSelectionTarget
   selectedCodexHomePath: string | null
@@ -38,7 +38,7 @@ export function shouldStripInheritedOrcaCodexHome(args: {
 
 export const CODEX_HOME_ENV_KEYS = ['CODEX_HOME', 'ORCA_CODEX_HOME'] as const
 
-// Remove only overrides matching Orca's private marker, then drop the marker so wrappers cannot restore them; preserve user CODEX_HOME (#8606).
+// Remove only overrides matching Amoeba's private marker, then drop the marker so wrappers cannot restore them; preserve user CODEX_HOME (#8606).
 export function stripInheritedOrcaCodexHomeOverride(baseEnv: Record<string, string>): void {
   for (const key of getLocalOrcaCodexHomeEnvKeysToDelete(baseEnv)) {
     delete baseEnv[key]

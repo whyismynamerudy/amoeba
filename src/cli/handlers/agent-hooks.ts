@@ -119,7 +119,7 @@ async function updateRunningRuntime(client: RuntimeClient, enabled: boolean): Pr
     if (status.result.app.running) {
       throw new RuntimeClientError(
         'runtime_error',
-        'Orca is running but unavailable. Retry when it responds, or stop Orca before changing agent hooks offline.'
+        'Amoeba is running but unavailable. Retry when it responds, or stop Amoeba before changing agent hooks offline.'
       )
     }
     return false

@@ -98,7 +98,7 @@ describe('openHttpLink', () => {
     expect(setActiveWorktreeMock).toHaveBeenCalledWith('wt-1', 'ssh:box')
   })
 
-  it('routes into Orca when openLinksInApp is on and a worktree is known', () => {
+  it('routes into Amoeba when openLinksInApp is on and a worktree is known', () => {
     registerWorkspaceHttpLinkBrowserOpener(null)
     storeState.settings = { openLinksInApp: true }
 
@@ -144,7 +144,7 @@ describe('openHttpLink', () => {
     expect(createBrowserTabMock).not.toHaveBeenCalled()
   })
 
-  it('routes floating workspace links into Orca without changing the active repo worktree', () => {
+  it('routes floating workspace links into Amoeba without changing the active repo worktree', () => {
     registerWorkspaceHttpLinkBrowserOpener(null)
     storeState.settings = { openLinksInApp: true }
 
@@ -168,7 +168,7 @@ describe('openHttpLink', () => {
     expect(createBrowserTabMock).not.toHaveBeenCalled()
   })
 
-  it('forceInApp opens a local link in Orca when the setting is off', () => {
+  it('forceInApp opens a local link in Amoeba when the setting is off', () => {
     registerWorkspaceHttpLinkBrowserOpener(null)
     storeState.settings = { openLinksInApp: false }
 
@@ -184,7 +184,7 @@ describe('openHttpLink', () => {
     expect(openUrlMock).not.toHaveBeenCalled()
   })
 
-  it('does not force a remote link into the Orca browser', () => {
+  it('does not force a remote link into the Amoeba browser', () => {
     storeState.settings = { openLinksInApp: false }
 
     openHttpLink('https://example.com/', {
@@ -670,7 +670,7 @@ describe('openHttpLink', () => {
 })
 
 describe('openHttpLink modifier routing', () => {
-  it('forces the system browser when inverting is off and links open in Orca', () => {
+  it('forces the system browser when inverting is off and links open in Amoeba', () => {
     storeState.settings = { openLinksInApp: true, openLinksInAppModifierInverts: false }
 
     openHttpLink('https://example.com/', { worktreeId: 'wt-1', modifierHeld: true })
@@ -689,7 +689,7 @@ describe('openHttpLink modifier routing', () => {
     expect(createBrowserTabMock).not.toHaveBeenCalled()
   })
 
-  it('opens in Orca when inverting is on and links open externally', () => {
+  it('opens in Amoeba when inverting is on and links open externally', () => {
     registerWorkspaceHttpLinkBrowserOpener(null)
     storeState.settings = { openLinksInApp: false, openLinksInAppModifierInverts: true }
 
@@ -702,7 +702,7 @@ describe('openHttpLink modifier routing', () => {
     expect(openUrlMock).not.toHaveBeenCalled()
   })
 
-  it('opens in the system browser when inverting is on and links open in Orca', () => {
+  it('opens in the system browser when inverting is on and links open in Amoeba', () => {
     storeState.settings = { openLinksInApp: true, openLinksInAppModifierInverts: true }
 
     openHttpLink('https://example.com/', { worktreeId: 'wt-1', modifierHeld: true })
@@ -720,8 +720,8 @@ describe('openHttpLink modifier routing', () => {
     expect(createBrowserTabMock).not.toHaveBeenCalled()
   })
 
-  // Why: remote-owned links must never land in an Orca tab that cannot reach them.
-  it('never routes a remote source into Orca even when inverting', () => {
+  // Why: remote-owned links must never land in an Amoeba tab that cannot reach them.
+  it('never routes a remote source into Amoeba even when inverting', () => {
     storeState.settings = { openLinksInApp: false, openLinksInAppModifierInverts: true }
 
     openHttpLink('https://example.com/', {

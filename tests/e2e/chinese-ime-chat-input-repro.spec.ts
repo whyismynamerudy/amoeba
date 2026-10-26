@@ -397,7 +397,7 @@ async function dispatchCandidateSelectionKey(
 
 async function dispatchSogouEmptyCompositionUpdate(page: Page): Promise<void> {
   // Why: Sogou/fcitx emits empty compositionupdate data while its candidate
-  // popup is still open (#6765); Orca's tracker must not flip inactive on it.
+  // popup is still open (#6765); Amoeba's tracker must not flip inactive on it.
   await page.evaluate(() => {
     const active = document.activeElement
     if (!(active instanceof HTMLTextAreaElement)) {

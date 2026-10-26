@@ -24,14 +24,14 @@ const AUTOMATION_STATE_FLAGS = [
 export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['automations', 'list'],
-    summary: 'List scheduled Orca automations',
+    summary: 'List scheduled Amoeba automations',
     usage: 'orca automations list [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     examples: ['orca automations list', 'orca automations list --json']
   },
   {
     path: ['automations', 'show'],
-    summary: 'Show one Orca automation',
+    summary: 'Show one Amoeba automation',
     usage: 'orca automations show <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'id'],
     positionalArgs: ['id'],
@@ -39,7 +39,7 @@ export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['automations', 'create'],
-    summary: 'Create a scheduled Orca automation',
+    summary: 'Create a scheduled Amoeba automation',
     usage:
       'orca automations create --name <name> --trigger <preset|cron|rrule> --prompt <text> --provider <agent> [--precheck <command>] [--repo <selector>|--workspace <selector>|--project <id-or-name> [--host <host>]|--project-host-setup <id>] [--json]',
     allowedFlags: [
@@ -55,7 +55,7 @@ export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
     ],
     notes: [
       'Trigger accepts hourly, daily, weekdays, weekly, a 5-field cron expression, or an RRULE string.',
-      'When --repo is omitted, the CLI uses the enclosing Orca worktree when one can be resolved from cwd.',
+      'When --repo is omitted, the CLI uses the enclosing Amoeba worktree when one can be resolved from cwd.',
       'Use --project, or --project-host-setup, to run on a specific project host setup. --project takes the project id or the display name from `orca project list`, and --host is only needed when the project is set up on more than one host.',
       '--host takes local, ssh:<target-id>, runtime:<environment-id>, or the bare host name `orca host list` prints for any of them.',
       'Use --source-context with a JSON TaskSourceContext when task/provider data should come from a specific host/account; pass null on edit to clear it.',
@@ -73,7 +73,7 @@ export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['automations', 'edit'],
-    summary: 'Edit an Orca automation',
+    summary: 'Edit an Amoeba automation',
     usage: 'orca automations edit <id> [--name <name>] [--trigger <preset|cron|rrule>] [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
@@ -97,7 +97,7 @@ export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['automations', 'remove'],
     destructive: true,
-    summary: 'Remove an Orca automation and its run history',
+    summary: 'Remove an Amoeba automation and its run history',
     usage: 'orca automations remove <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'id'],
     positionalArgs: ['id'],
@@ -105,7 +105,7 @@ export const AUTOMATION_COMMAND_SPECS: CommandSpec[] = [
   },
   {
     path: ['automations', 'run'],
-    summary: 'Run an Orca automation now',
+    summary: 'Run an Amoeba automation now',
     usage: 'orca automations run <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'id'],
     positionalArgs: ['id'],

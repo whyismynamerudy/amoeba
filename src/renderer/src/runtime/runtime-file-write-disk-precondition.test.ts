@@ -388,7 +388,10 @@ describe('writeRuntimeFile disk precondition', () => {
     runtimeEnvironmentCall.mockResolvedValue({
       id: 'rpc',
       ok: false,
-      error: { code: 'runtime_timeout', message: 'Timed out waiting for the remote Orca runtime' },
+      error: {
+        code: 'runtime_timeout',
+        message: 'Timed out waiting for the remote Amoeba runtime'
+      },
       _meta: { runtimeId: 'remote-runtime' }
     })
 
@@ -414,7 +417,7 @@ describe('writeRuntimeFile disk precondition', () => {
         ok: false,
         error: {
           code: 'runtime_timeout',
-          message: 'Timed out waiting for the remote Orca runtime'
+          message: 'Timed out waiting for the remote Amoeba runtime'
         },
         _meta: { runtimeId: 'remote-runtime' }
       }
@@ -430,7 +433,10 @@ describe('writeRuntimeFile disk precondition', () => {
     runtimeEnvironmentCall.mockResolvedValue({
       id: 'rpc',
       ok: false,
-      error: { code: 'runtime_timeout', message: 'Timed out waiting for the remote Orca runtime' },
+      error: {
+        code: 'runtime_timeout',
+        message: 'Timed out waiting for the remote Amoeba runtime'
+      },
       _meta: { runtimeId: 'remote-runtime' }
     })
 

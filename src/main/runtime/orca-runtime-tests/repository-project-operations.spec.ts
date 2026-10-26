@@ -633,7 +633,7 @@ describe('OrcaRuntimeService', () => {
         .catch((error: unknown) => error)
 
       expect(() => runtime.addSshRepo({ connectionId: 'openclaw' })).toThrow(
-        "This Orca server can't add projects on its SSH hosts."
+        "This Amoeba server can't add projects on its SSH hosts."
       )
 
       // Await both calls and assert absent side effects before wording to expose local writes misattributed as remote.

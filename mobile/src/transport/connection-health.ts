@@ -20,12 +20,12 @@ const RELAY_HOST_COPY: Record<
   'signed-out': {
     kind: 'unreachable',
     label: (host) => `Sign-in required on ${host}`,
-    detail: 'Sign in to Orca on your desktop to reconnect'
+    detail: 'Sign in to Amoeba on your desktop to reconnect'
   },
   'host-offline': {
     kind: 'unreachable',
     label: (host) => `${host} is offline`,
-    detail: "Check it's awake, Orca is running, and you're signed in"
+    detail: "Check it's awake, Amoeba is running, and you're signed in"
   },
   // Re-pairing repairs refused credentials even when direct rotation is unavailable.
   'credential-refused': {

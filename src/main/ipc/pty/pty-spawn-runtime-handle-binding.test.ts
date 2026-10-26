@@ -84,7 +84,7 @@ describe('registerPtyHandlers', () => {
     }
 
     registerPtyHandlers(mainWindow as never, runtime as never)
-    const result = (await handlers.get('pty:spawn')!(mainWindowIpcEvent, {
+    const result = await handlers.get('pty:spawn')!(mainWindowIpcEvent, {
       cols: 80,
       rows: 24,
       cwd: '/repo',
@@ -101,7 +101,7 @@ describe('registerPtyHandlers', () => {
         TMUX: '/tmp/orca-claude-agent-teams/team-stale,0,1',
         ORCA_AGENT_TEAMS_TEAM_ID: 'team-stale',
         ORCA_AGENT_TEAMS_TOKEN: 'stale-token',
-        TERM_PROGRAM: 'Orca'
+        TERM_PROGRAM: 'Amoeba'
       },
       launchConfig: {
         agentCommand: 'claude --teammate-mode auto',
@@ -113,7 +113,7 @@ describe('registerPtyHandlers', () => {
         }
       },
       launchAgent: 'claude'
-    })) as { launchConfig?: { agentEnv: Record<string, string> } }
+    })
 
     const spawnOptions = spawnMock.mock.calls.at(-1)?.[2] as { env: Record<string, string> }
     expect(runtime.prepareClaudeAgentTeamsLeaderForHandle).toHaveBeenCalledWith({
@@ -134,12 +134,16 @@ describe('registerPtyHandlers', () => {
     })
     expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/fresh-agent-teams')
     expect(spawnOptions.env.TERM_PROGRAM).toBeUndefined()
-    expect(result.launchConfig?.agentEnv).toMatchObject({
-      CLAUDE_PROFILE: 'captured',
-      CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
-      ORCA_AGENT_TEAMS_TEAM_ID: 'team-fresh',
-      ORCA_AGENT_TEAMS_TOKEN: 'fresh-token',
-      TMUX: '/tmp/orca-claude-agent-teams/team-fresh,0,1'
+    expect(result).toMatchObject({
+      launchConfig: {
+        agentEnv: {
+          CLAUDE_PROFILE: 'captured',
+          CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
+          ORCA_AGENT_TEAMS_TEAM_ID: 'team-fresh',
+          ORCA_AGENT_TEAMS_TOKEN: 'fresh-token',
+          TMUX: '/tmp/orca-claude-agent-teams/team-fresh,0,1'
+        }
+      }
     })
     expect(runtime.registerPreAllocatedHandleForPty).toHaveBeenCalledWith(
       expect.any(String),

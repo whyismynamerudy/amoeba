@@ -1,6 +1,6 @@
 // File focus differs from terminal create's shared --focus help.
 const FILE_OPEN_FOCUS_HELP =
-  "--focus                Bring the user to the file (switches Orca's window to its worktree)"
+  "--focus                Bring the user to the file (switches Amoeba's window to its worktree)"
 
 const COMMAND_SCOPED_FLAG_HELP: Record<string, Record<string, string>> = {
   'reference add': {

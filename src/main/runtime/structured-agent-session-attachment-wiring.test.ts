@@ -30,7 +30,7 @@ function install(directory = stateDirectory): void {
     getRecord: () => null,
     isSessionUnreadable: () => false
   }
-  // Written by a newer Orca: the sweep reads no claims, so nothing here touches the connection.
+  // Written by a newer Amoeba: the sweep reads no claims, so nothing here touches the connection.
   const journal: Pick<JournalHostDatabase, 'readOnly' | 'isClosed' | 'db'> = {
     readOnly: true,
     isClosed: false,

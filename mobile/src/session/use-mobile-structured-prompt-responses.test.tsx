@@ -309,7 +309,7 @@ describe('useMobileStructuredPromptResponses', () => {
       expect(accepted).toBe(false)
       expect(sent).toEqual([])
       expect(onSendError).toHaveBeenCalledWith(
-        'Update Orca on your computer to send answers this long'
+        'Update Amoeba on your computer to send answers this long'
       )
     })
 
@@ -389,7 +389,7 @@ describe('useMobileStructuredPromptResponses', () => {
       if (!expectSent) {
         expect(sent).toEqual([])
         expect(onSendError).toHaveBeenCalledWith(
-          'Update Orca on your computer to send answers this long'
+          'Update Amoeba on your computer to send answers this long'
         )
         return
       }
@@ -430,7 +430,7 @@ describe('useMobileStructuredPromptResponses', () => {
 
       expect(sent).toEqual([])
       expect(onSendError).toHaveBeenCalledWith(
-        'Update Orca on your computer to send answers this long'
+        'Update Amoeba on your computer to send answers this long'
       )
       expect(hook().groupedDraft).not.toBeNull()
 

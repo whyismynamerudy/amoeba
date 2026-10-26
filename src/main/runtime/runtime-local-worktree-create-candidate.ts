@@ -190,7 +190,7 @@ export async function resolveRuntimeLocalWorktreeCreateCandidate(args: {
       computeWorktreePath(effectiveSanitizedName, args.repo.path, args.worktreePathSettings),
       args.workspaceRoot
     )
-    // Orca owns the path until background removal settles.
+    // Amoeba owns the path until background removal settles.
     if (
       !findPendingWorktreeRemovalConflict(args.repo.path, { worktreePath }) &&
       !(await runtimePathExists(worktreePath))

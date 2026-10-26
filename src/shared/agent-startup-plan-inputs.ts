@@ -46,7 +46,7 @@ export function resolveAgentStartupPlanInputs(args: {
   /** Pass the actual PTY shell; omission is valid only when the Settings shell is what the PTY receives. */
   shell: AgentStartupShell | undefined
   sessionOptions?: Record<string, SessionOptionValue> | undefined
-  /** Orca types into this launch after start (worker, automation, handoff), not a user. */
+  /** Amoeba types into this launch after start (worker, automation, handoff), not a user. */
   suppressStartupUpdatePrompt?: boolean
 }): AgentStartupPlanInputs {
   const { agent, settings, platform, isRemote, sessionOptions } = args

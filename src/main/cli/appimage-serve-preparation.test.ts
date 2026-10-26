@@ -15,7 +15,7 @@ afterEach(async () => {
 async function makeFixture() {
   const root = await mkdtemp(join(tmpdir(), 'orca-appimage-serve-'))
   created.push(root)
-  const appImagePath = join(root, 'Orca.AppImage')
+  const appImagePath = join(root, 'Amoeba.AppImage')
   await writeFile(appImagePath, '#!/usr/bin/env bash\n', { mode: 0o755 })
   return { root, appImagePath, cacheRootPath: join(root, 'cache') }
 }
@@ -148,7 +148,7 @@ describe.skipIf(process.platform === 'win32')('probeAppImageCache', () => {
     const { root, cacheRootPath } = await makeFixture()
     const readOnlyDir = join(root, 'opt')
     await mkdir(readOnlyDir)
-    const appImagePath = join(readOnlyDir, 'Orca.AppImage')
+    const appImagePath = join(readOnlyDir, 'Amoeba.AppImage')
     await writeFile(appImagePath, '#!/usr/bin/env bash\n', { mode: 0o755 })
     await chmod(readOnlyDir, 0o555)
     try {

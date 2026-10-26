@@ -150,7 +150,7 @@ export function BrowserUseSetup({
           )}
           description={translate(
             'auto.components.settings.BrowserUsePane.68ea76eb71',
-            "Install the Browser Use skill so agents can operate Orca's browser."
+            "Install the Browser Use skill so agents can operate Amoeba's browser."
           )}
           keywords={getBrowserUsePaneSearchEntries()[0].keywords}
           className={cn(

@@ -9,7 +9,7 @@ export type HostedReviewLocalGitOptions = {
 
 export type HostedReviewExecutionOptions = {
   localGitExecOptions?: HostedReviewLocalGitOptions
-  /** Configured Orca shared links are clean only when untracked real symlinks, never user files. */
+  /** Configured Amoeba shared links are clean only when untracked real symlinks, never user files. */
   sharedLinkPaths?: readonly string[]
 }
 

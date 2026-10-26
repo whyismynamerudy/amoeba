@@ -4,7 +4,7 @@ import {
 } from '../../shared/agent-hook-scrub-safe-env'
 
 export const HERMES_PLUGIN_NAME = 'orca-status'
-export const HERMES_PLUGIN_MARKER = 'Managed by Orca. Do not edit; changes may be overwritten.'
+export const HERMES_PLUGIN_MARKER = 'Managed by Amoeba. Do not edit; changes may be overwritten.'
 
 export const HERMES_EVENTS = [
   'on_session_start',
@@ -35,8 +35,8 @@ export function getPluginManifest(): string {
     `# ${HERMES_PLUGIN_MARKER}`,
     `name: ${HERMES_PLUGIN_NAME}`,
     'version: 1.0.0',
-    'description: "Reports Hermes Agent lifecycle events to Orca."',
-    'author: "Orca"',
+    'description: "Reports Hermes Agent lifecycle events to Amoeba."',
+    'author: "Amoeba"',
     'kind: standalone',
     'provides_hooks:',
     ...HERMES_EVENTS.map((event) => `  - ${event}`),

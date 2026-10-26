@@ -16,7 +16,7 @@ describe('mobile-file-preview-navigation', () => {
       worktreeId: 'wt-1',
       relativePath: 'assets/a #b?c%25 d\\logo.png',
       name: 'logo.png',
-      worktreeName: 'Orca'
+      worktreeName: 'Amoeba'
     }
 
     navigateToMobileFilePreview({ push }, params, {

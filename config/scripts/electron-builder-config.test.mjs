@@ -114,7 +114,7 @@ describe('electron-builder config', () => {
         ? ['notes']
         : [
             'notes/build.log',
-            'notes/installed-orca-backup/Orca.exe',
+            'notes/installed-orca-backup/Amoeba.exe',
             'notes/installed-orca-backup/resources/app.asar',
             'notes/orca-windows-setup.exe',
             'notes/.recovery/state.json'
@@ -178,7 +178,7 @@ describe('electron-builder config', () => {
     const packs = (repoPath) => isPacked(join('/app', repoPath), { isDirectory: () => false })
 
     for (const devBundlePath of [
-      'out/electron-dev/1a2b3c4d5e6f/Orca: dev.app/Contents/MacOS/Electron',
+      'out/electron-dev/1a2b3c4d5e6f/Amoeba: dev.app/Contents/MacOS/Electron',
       'out/electron-dev/1a2b3c4d5e6f/orca-dev-electron-app.json',
       '.cache/vite/renderer/deps/react.js',
       '.cache/vite/web/deps/react.js',
@@ -232,8 +232,8 @@ describe('electron-builder config', () => {
     expect(electronBuilderConfig.mac.extraResources).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          from: 'native/computer-use-macos/.build/release/Orca Computer Use.app',
-          to: 'Orca Computer Use.app'
+          from: 'native/computer-use-macos/.build/release/Amoeba Computer Use.app',
+          to: 'Amoeba Computer Use.app'
         })
       ])
     )
@@ -549,7 +549,7 @@ describe('electron-builder config', () => {
     }
   })
 
-  it('uses Orca native rebuild hook instead of electron-builder default rebuild', () => {
+  it('uses Amoeba native rebuild hook instead of electron-builder default rebuild', () => {
     expect(electronBuilderConfig.beforeBuild).toBe(electronBuilderNativeRebuild)
     expect(electronBuilderConfig.npmRebuild).toBe(true)
   })

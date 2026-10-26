@@ -107,7 +107,7 @@ export async function dispatchPageKeyEvent(
   }
   const route = await resolveFocusedFrameRoute(webContents, send)
   if (route.kind === 'session') {
-    // Tab from the last frame field can escape into Orca's window.
+    // Tab from the last frame field can escape into Amoeba's window.
     const isTabDown =
       params.key === 'Tab' && (params.type === 'keyDown' || params.type === 'rawKeyDown')
     const release = isTabDown ? await guardFocus() : () => {}
@@ -125,7 +125,7 @@ export async function dispatchPageKeyEvent(
   }
   const plan = planCdpKeyEvent(params)
   if (plan && route.kind === 'widget') {
-    // Tab from the last page field can escape into Orca's window.
+    // Tab from the last page field can escape into Amoeba's window.
     const release = plan.events.some((event) => event.type === 'keyDown' && event.keyCode === 'Tab')
       ? await guardFocus()
       : () => {}

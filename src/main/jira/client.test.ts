@@ -182,7 +182,7 @@ describe('Jira client credential storage', () => {
     const headers = netFetchMock.mock.calls[0]?.[1]?.headers as Headers
     const userAgent = headers.get('User-Agent') ?? ''
     expect(netFetchMock.mock.calls[0]?.[1]?.method).toBe('POST')
-    expect(userAgent).toBe('Orca')
+    expect(userAgent).toBe('Amoeba')
     expect(userAgent).not.toMatch(/Mozilla|Chrome|Safari|AppleWebKit/i)
   })
 
@@ -681,7 +681,7 @@ describe('Jira client credential storage', () => {
     expect(resolveProxyMock).toHaveBeenCalledWith('https://example.atlassian.net/rest/api/3/myself')
     expect(netFetchMock).toHaveBeenCalledTimes(1)
     const headers = netFetchMock.mock.calls[0]?.[1]?.headers as Headers
-    expect(headers.get('User-Agent')).toBe('Orca')
+    expect(headers.get('User-Agent')).toBe('Amoeba')
     expect(fetchMock).not.toHaveBeenCalled()
   })
 })
@@ -777,7 +777,7 @@ describe('Jira site file cross-process visibility', () => {
     )
   })
 
-  it('picks up a site connected by another Orca process', async () => {
+  it('picks up a site connected by another Amoeba process', async () => {
     // Processes share ~/.orca; an initially empty read must observe later connections.
     const jira = await loadClientModule()
     expect(jira.getStatus()).toMatchObject({ connected: false, sites: [] })
@@ -791,7 +791,7 @@ describe('Jira site file cross-process visibility', () => {
     })
   })
 
-  it('drops a site disconnected by another Orca process', async () => {
+  it('drops a site disconnected by another Amoeba process', async () => {
     writeJiraFiles('site-alpha', 'token-alpha')
     const jira = await loadClientModule()
     expect(jira.getStatus()).toMatchObject({ connected: true })

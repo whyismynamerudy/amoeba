@@ -15,7 +15,7 @@ import { refuseUndeliverableSessionRecipient } from './messaging/session-recipie
 
 const NO_EFFECTS = 'No effects were applied.'
 
-/** A chat has no pane or process; its Dispatch names it by its Orca session ID alone. */
+/** A chat has no pane or process; its Dispatch names it by its Amoeba session ID alone. */
 export const CHAT_WORKER_AUTHORITY = { paneKey: null, processIncarnation: null } as const
 
 /** The chat a Dispatch assignee party names; null for a terminal or a structured worker. */
@@ -61,7 +61,7 @@ export function refuseChatSelfAssignment(args: {
   if (args.sessionId === args.coordinatorSessionId) {
     throw new OrchestrationError(
       'terminal_is_coordinator',
-      `${formatOrcaSessionAddress(args.sessionId)} is this coordinator's own Orca session ID. ${args.remedy}`
+      `${formatOrcaSessionAddress(args.sessionId)} is this coordinator's own Amoeba session ID. ${args.remedy}`
     )
   }
 }

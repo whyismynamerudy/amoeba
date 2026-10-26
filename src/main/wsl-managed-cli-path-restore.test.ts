@@ -9,8 +9,8 @@ const posix = process.platform !== 'win32'
 const hasZsh = posix && runProcessSync({ program: 'sh', args: ['-c', 'command -v zsh'] }).code === 0
 const root = posix ? mkdtempSync(join(tmpdir(), 'orca managed cli restore ')) : ''
 if (posix) {
-  writeFileSync(join(root, 'orca-dev'), '#!/bin/sh\n')
-  chmodSync(join(root, 'orca-dev'), 0o755)
+  writeFileSync(join(root, 'amoeba-dev'), '#!/bin/sh\n')
+  chmodSync(join(root, 'amoeba-dev'), 0o755)
   writeFileSync(join(root, 'orca-ide'), '#!/bin/sh\n')
   chmodSync(join(root, 'orca-ide'), 0o644)
 }
@@ -43,14 +43,14 @@ function run(
 
 describe.each(SHELLS)('WSL_MANAGED_CLI_PATH_RESTORE in $name', (shell) => {
   it.skipIf(!shell.enabled)('leads PATH with a directory holding an executable CLI', () => {
-    const result = run(shell, { ORCA_WSL_CLI_DIR: root, ORCA_CLI_COMMAND: 'orca-dev' })
+    const result = run(shell, { ORCA_WSL_CLI_DIR: root, ORCA_CLI_COMMAND: 'amoeba-dev' })
     expect(result).toMatchObject({ code: 0, stdout: `${root}:/usr/bin:/bin`, stderr: '' })
   })
 
   it.skipIf(!shell.enabled)('warns and keeps PATH when the CLI cannot run', () => {
     const result = run(shell, { ORCA_WSL_CLI_DIR: root, ORCA_CLI_COMMAND: 'orca-ide' })
     expect(result).toMatchObject({ code: 0, stdout: '/usr/bin:/bin' })
-    expect(result.stderr).toContain('Orca CLI unavailable')
+    expect(result.stderr).toContain('Amoeba CLI unavailable')
   })
 
   it.skipIf(!shell.enabled)('does nothing without a managed directory', () => {

@@ -6,7 +6,7 @@ import { QuickOpenInstallRgGuidance } from './quick-open-install-rg-guidance'
 afterEach(cleanup)
 
 describe('QuickOpenInstallRgGuidance', () => {
-  // Local Orca has bundled rg; installation guidance applies only to remote hosts missing the upload.
+  // Local Amoeba has bundled rg; installation guidance applies only to remote hosts missing the upload.
   it('names the remote as the host to install ripgrep on', () => {
     render(
       <QuickOpenInstallRgGuidance

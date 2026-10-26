@@ -80,7 +80,7 @@ describe('shouldActivateDesktopForSecondInstance', () => {
     // Supervisor serve restarts must not open desktop windows on displayless hosts (#11935).
     const serveArgv = ['/opt/orca/orca-linux.AppImage', '--serve']
     expect(shouldActivateDesktopForSecondInstance(serveArgv)).toBe(false)
-    expect(shouldActivateDesktopForSecondInstance(['/Applications/Orca.app/orca'])).toBe(true)
+    expect(shouldActivateDesktopForSecondInstance(['/Applications/Amoeba.app/orca'])).toBe(true)
   })
 
   it('ignores a duplicate CLI-form serve launch the CLI redirect never rewrote', () => {
@@ -147,7 +147,7 @@ describe('logSingleInstanceLockFailure', () => {
 
   it('tells a second dev launch which profile is taken and how to run another copy', () => {
     const write = vi.fn()
-    const userDataPath = '/Users/dev/Library/Application Support/orca-dev'
+    const userDataPath = '/Users/dev/Library/Application Support/amoeba-dev'
 
     logSingleInstanceLockFailure({ isDevDesktop: true, userDataPath }, write)
 

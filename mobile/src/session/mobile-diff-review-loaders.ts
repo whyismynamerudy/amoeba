@@ -87,7 +87,7 @@ export async function loadMobileDiffReviewSnapshot(
     !statusReply.ok &&
     isMobileGitUnavailable(statusReply.error?.code, statusReply.error?.message)
   ) {
-    return { kind: 'unavailable', message: 'Update Orca desktop to review changes on mobile.' }
+    return { kind: 'unavailable', message: 'Update Amoeba desktop to review changes on mobile.' }
   }
   let status
   try {

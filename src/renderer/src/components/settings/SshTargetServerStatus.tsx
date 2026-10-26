@@ -100,7 +100,7 @@ export function SshTargetServerMenuItems({
       ) : null}
       {canRestart ? (
         <DropdownMenuItem onSelect={() => onOpenDialog('restart')}>
-          {translate('auto.components.settings.restartServer.action', 'Restart Orca’s server…')}
+          {translate('auto.components.settings.restartServer.action', 'Restart Amoeba’s server…')}
         </DropdownMenuItem>
       ) : null}
       {canRecover ? (

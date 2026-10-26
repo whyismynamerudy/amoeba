@@ -99,7 +99,7 @@ describe('structured worker session', () => {
         getAppEnvironment().getPath('userData'),
         'cli',
         'bin',
-        process.platform === 'win32' ? 'orca-dev.cmd' : 'orca-dev'
+        process.platform === 'win32' ? 'orca-dev.cmd' : 'amoeba-dev'
       )
     )
     expect(envAtSpawn?.ORCA_PANE_KEY).toBeUndefined()
@@ -164,7 +164,7 @@ describe('structured worker session', () => {
       ok: false,
       refusal: {
         code: 'structured_agent_session_unsupported',
-        message: 'Orca cannot open a structured agent chat for this workspace.'
+        message: 'Amoeba cannot open a structured agent chat for this workspace.'
       }
     }))
     await expect(

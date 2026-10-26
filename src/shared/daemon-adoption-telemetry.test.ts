@@ -13,49 +13,58 @@ describe('classifyDaemonSpawnerPath', () => {
 
   it('classifies the installed app, the ShipIt staging area, and everything else', () => {
     expect(
-      classifyDaemonSpawnerPath('/Applications/Orca.app/Contents/MacOS/Orca', alwaysExists, null)
-    ).toBe('applications')
-    expect(
       classifyDaemonSpawnerPath(
-        '/private/Applications/Orca.app/Contents/MacOS/Orca',
+        '/Applications/Amoeba.app/Contents/MacOS/Amoeba',
         alwaysExists,
         null
       )
     ).toBe('applications')
     expect(
       classifyDaemonSpawnerPath(
-        '/Users/a/Library/Caches/com.stablyai.orca.ShipIt/update.abc/Orca.app/Contents/MacOS/Orca',
+        '/private/Applications/Amoeba.app/Contents/MacOS/Amoeba',
+        alwaysExists,
+        null
+      )
+    ).toBe('applications')
+    expect(
+      classifyDaemonSpawnerPath(
+        '/Users/a/Library/Caches/com.amoeba.desktop.ShipIt/update.abc/Amoeba.app/Contents/MacOS/Amoeba',
         alwaysExists,
         null
       )
     ).toBe('updater-cache')
     expect(
       classifyDaemonSpawnerPath(
-        '/Users/a/Applications/Orca.app/Contents/MacOS/Orca',
+        '/Users/a/Applications/Amoeba.app/Contents/MacOS/Amoeba',
         alwaysExists,
         null
       )
     ).toBe('other')
     expect(
-      classifyDaemonSpawnerPath('/tmp/OrcaA.app/Contents/MacOS/Orca', alwaysExists, null)
+      classifyDaemonSpawnerPath('/tmp/OrcaA.app/Contents/MacOS/Amoeba', alwaysExists, null)
     ).toBe('other')
   })
 
   it('reports a deleted spawner as missing and an unrecorded one as unknown', () => {
     expect(
-      classifyDaemonSpawnerPath('/Applications/Orca.app/Contents/MacOS/Orca', () => false, null)
+      classifyDaemonSpawnerPath('/Applications/Amoeba.app/Contents/MacOS/Amoeba', () => false, null)
     ).toBe('missing')
     expect(classifyDaemonSpawnerPath(null, alwaysExists, null)).toBe('unknown')
   })
 
-  it("classifies Orca's private stable copy from the recorded spawner path", () => {
-    const prefix = '/Users/alice/Library/Application Support/Orca/daemon-host/macos/terminal-host-'
-    const copy = `${prefix}0f3c/app.noindex/Orca Terminal Host.app/Contents/MacOS/orca-terminal-host`
+  it("classifies Amoeba's private stable copy from the recorded spawner path", () => {
+    const prefix =
+      '/Users/alice/Library/Application Support/Amoeba/daemon-host/macos/terminal-host-'
+    const copy = `${prefix}0f3c/app.noindex/Amoeba Terminal Host.app/Contents/MacOS/orca-terminal-host`
     expect(classifyDaemonSpawnerPath(copy, alwaysExists, prefix)).toBe('stable-copy')
     expect(classifyDaemonSpawnerPath(copy, () => false, prefix)).toBe('missing')
     expect(classifyDaemonSpawnerPath(copy, alwaysExists, null)).toBe('other')
     expect(
-      classifyDaemonSpawnerPath('/Applications/Orca.app/Contents/MacOS/Orca', alwaysExists, prefix)
+      classifyDaemonSpawnerPath(
+        '/Applications/Amoeba.app/Contents/MacOS/Amoeba',
+        alwaysExists,
+        prefix
+      )
     ).toBe('applications')
   })
 })
@@ -106,7 +115,7 @@ describe('daemon_adopted / daemon_pty_cwd_denied schemas', () => {
 
   it('rejects leaked paths, versions, counts, and unknown enum values', () => {
     for (const leak of [
-      { spawner_exec_path: '/Users/alice/Library/Caches/ShipIt/Orca.app' },
+      { spawner_exec_path: '/Users/alice/Library/Caches/ShipIt/Amoeba.app' },
       { app_version: '1.4.187' },
       { live_session_count: 3 },
       { cwd: '/Users/alice/Documents' }

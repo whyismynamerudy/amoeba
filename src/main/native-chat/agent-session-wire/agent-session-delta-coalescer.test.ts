@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
   AGENT_SESSION_DELTA_COALESCE_MS,
+  AGENT_SESSION_STREAMED_TEXT_TRUNCATION_MARKER,
   createAgentSessionDeltaCoalescer
 } from './agent-session-delta-coalescer'
 
@@ -191,7 +192,7 @@ describe('agent-session delta coalescer', () => {
     const clock = manualClock()
     const emitted: { text: string; observedBytes: number; truncated: boolean }[] = []
     const instance = createAgentSessionDeltaCoalescer({
-      maxRetainedBytes: 40,
+      maxRetainedBytes: Buffer.byteLength(AGENT_SESSION_STREAMED_TEXT_TRUNCATION_MARKER) + 6,
       schedule: clock.schedule,
       emit: (_key, _text, snapshot) => emitted.push(snapshot)
     })
@@ -204,13 +205,13 @@ describe('agent-session delta coalescer', () => {
 
     expect(emitted).toEqual([
       {
-        text: 'ééé\n[Orca: streamed output truncated]',
+        text: 'ééé\n[Amoeba: streamed output truncated]',
         observedBytes: 48,
         truncated: true
       }
     ])
     expect(instance.snapshot('item-1')).toEqual({
-      text: 'ééé\n[Orca: streamed output truncated]',
+      text: 'ééé\n[Amoeba: streamed output truncated]',
       observedBytes: 55,
       truncated: true
     })
@@ -252,7 +253,7 @@ describe('snapshot admission before assembly', () => {
     const emitted: [string, string][] = []
     const instance = createAgentSessionDeltaCoalescer({
       schedule: clock.schedule,
-      maxRetainedBytes: 40,
+      maxRetainedBytes: Buffer.byteLength(AGENT_SESSION_STREAMED_TEXT_TRUNCATION_MARKER) + 6,
       shouldEmit,
       emit: (key, text) => emitted.push([key, text])
     })
@@ -271,7 +272,7 @@ describe('snapshot admission before assembly', () => {
 
     instance.append('unicode', `${'é'.repeat(20)}more`)
     clock.fire()
-    const truncated = 'ééé\n[Orca: streamed output truncated]'
+    const truncated = 'ééé\n[Amoeba: streamed output truncated]'
     expect(shouldEmit).toHaveBeenLastCalledWith('unicode', truncated.length)
     expect(emitted.at(-1)).toEqual(['unicode', truncated])
     const calls = shouldEmit.mock.calls.length

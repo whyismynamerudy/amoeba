@@ -44,9 +44,9 @@ describe('classifyWorktreeForceDeleteReason for unstopped PTYs', () => {
   })
 })
 
-// Only Orca’s verdict may escalate the toast to killing live PTYs; user-chosen paths cannot supply it.
+// Only Amoeba’s verdict may escalate the toast to killing live PTYs; user-chosen paths cannot supply it.
 describe('isProvenLivePtyRemovalError', () => {
-  it('reads the verdict Orca actually recorded', () => {
+  it('reads the verdict Amoeba actually recorded', () => {
     expect(isProvenLivePtyRemovalError(liveError)).toBe(true)
     expect(isProvenLivePtyRemovalError(unverifiableError)).toBe(false)
   })

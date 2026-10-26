@@ -184,7 +184,7 @@ describe('ensureVirtualDisplayForHeadlessServe', () => {
     expect(process.env.DISPLAY).toBe(':0')
   })
 
-  // Cleanup unlinks lock first; trusting Orca's own lockless :99 would revive an orphan socket.
+  // Cleanup unlinks lock first; trusting Amoeba's own lockless :99 would revive an orphan socket.
   it('does not adopt its own :99 socket when the lock is missing', async () => {
     setPlatform('linux')
     existsSyncMock.mockReturnValue(true)

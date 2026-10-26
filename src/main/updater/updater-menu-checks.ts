@@ -1,4 +1,5 @@
 import { app } from 'electron'
+import { canUseUpstreamReleaseFeed } from '../../shared/upstream-release-feed-policy'
 import { isMacInstallRequested } from '../updater-mac-install'
 import type { UpdateCheckOptions } from '../../shared/update-status-types'
 import type { ReleaseChannel } from '../../shared/release-channel'
@@ -6,6 +7,10 @@ import { UpdaterScheduling } from './updater-scheduling'
 
 export abstract class UpdaterMenuChecks extends UpdaterScheduling {
   protected checkForUpdatesFromMenu(options?: UpdateCheckOptions): void {
+    if (!canUseUpstreamReleaseFeed(app.name)) {
+      this.sendErrorStatus('Automatic updates are not configured for Amoeba yet.', true)
+      return
+    }
     if (
       this.pendingQuitAndInstallTimer ||
       this.quitAndInstallInProgress ||

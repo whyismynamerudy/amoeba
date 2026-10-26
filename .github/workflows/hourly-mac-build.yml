@@ -174,7 +174,7 @@ jobs:
       # Build required out/mobile-web from mobile’s React Native/Expo install.
       - uses: ./.github/actions/install-mobile-dependencies
 
-      # Require cert before expensive build; signing enables installation over existing Orca.
+      # Require cert before expensive build; signing enables installation over existing Amoeba.
       - name: Verify macOS signing environment
         run: node config/scripts/verify-macos-release-env.mjs
         env:
@@ -265,7 +265,7 @@ jobs:
           Built from [\`stablyai/orca@$short_sha\`](https://github.com/stablyai/orca/commit/$SHA).
 
           **Unvetted.** No tests ran. The macOS build is signed and notarized like a
-          release, so it installs through Orca's in-app updater and opens from a manual
+          release, so it installs through Amoeba's in-app updater and opens from a manual
           download without a Gatekeeper prompt — but nothing here has been reviewed.
 
           **Windows builds are unsigned.** They install and update normally once you

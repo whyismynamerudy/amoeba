@@ -44,7 +44,7 @@ describe('resolveForeignSqliteReaderEntryPath', () => {
   })
 
   it('resolves inside app.asar in a packaged build', () => {
-    const resourcesPath = join('Orca.app', 'Contents', 'Resources')
+    const resourcesPath = join('Amoeba.app', 'Contents', 'Resources')
     expect(
       resolveForeignSqliteReaderEntryPath(
         {

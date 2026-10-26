@@ -59,12 +59,12 @@ test.describe('macOS press-and-hold default', () => {
     expect(record.domain).toBe(state.bundleIdentifier)
 
     const ownsDomain =
-      record.domain === 'com.stablyai.orca' || record.domain!.startsWith('com.stablyai.orca.')
+      record.domain === 'com.amoeba.desktop' || record.domain!.startsWith('com.amoeba.desktop.')
     if (ownsDomain) {
       // A packaged or dev-identity bundle: the write path is live and must have settled.
       expect(['applied', 'kept-user-preference']).toContain(record.decision)
     } else {
-      // The unpackaged harness. Anything but a refusal means Orca wrote into a foreign domain.
+      // The unpackaged harness. Anything but a refusal means Amoeba wrote into a foreign domain.
       expect(record.decision).toBe('foreign-bundle')
     }
   })

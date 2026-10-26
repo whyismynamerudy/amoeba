@@ -163,7 +163,7 @@ describe('a failed delete Git no longer registers, over desktop IPC', () => {
     vi.mocked(worktreeCheckoutExists).mockResolvedValue(true)
   })
 
-  it('removes the push-target remote Orca added when Delete fails partway', async () => {
+  it('removes the push-target remote Amoeba added when Delete fails partway', async () => {
     const [main] = mockKnownFeatureWorktree()
     const pushTarget = {
       remoteName: 'pr-contributor-orca',

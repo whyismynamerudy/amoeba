@@ -56,7 +56,7 @@ export async function resolveOrcadRemoteContext<Target extends OrcadHostTarget =
 ): Promise<OrcadRemoteContext<Target>> {
   const host = detectedHost ?? (await detectRemoteHostPlatform(connection, { signal }))
   if (!host) {
-    throw new OrcadHostUnsupportedError('Orca’s server doesn’t support this SSH host’s platform.')
+    throw new OrcadHostUnsupportedError('Amoeba’s server doesn’t support this SSH host’s platform.')
   }
   const remote = { conn: connection, host, signal }
   const { orcadHome: remoteHome, userDataDir } = await resolveOrcadMachineHome(

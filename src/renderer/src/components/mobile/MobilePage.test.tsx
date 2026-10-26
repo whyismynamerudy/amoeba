@@ -100,7 +100,7 @@ vi.mock('./MobilePageContent', () => ({
         Pair another device
       </button>
       <button type="button" onClick={() => props.handleConnectionModeChange('automatic')}>
-        Orca Relay
+        Amoeba Relay
       </button>
       <button type="button" onClick={() => props.handleConnectionModeChange('local-only')}>
         LAN
@@ -280,7 +280,7 @@ describe('MobilePage pairing connection mode', () => {
     await waitFor(() => expect(screen.getByTestId('pairing-qr')).toHaveTextContent('base64,qr'))
     getPairingQR.mockClear()
 
-    await user.click(screen.getByRole('button', { name: 'Orca Relay' }))
+    await user.click(screen.getByRole('button', { name: 'Amoeba Relay' }))
     await waitFor(() => expect(screen.getByTestId('mode')).toHaveTextContent('automatic'))
     await waitFor(() => expect(screen.getByTestId('pairing-qr')).toHaveTextContent('none'))
     await new Promise((resolve) => setTimeout(resolve, 20))
@@ -292,7 +292,7 @@ describe('MobilePage pairing connection mode', () => {
     mocks.storeState.orcaProfileAuthStatus = { state: 'local' }
     const user = userEvent.setup()
     await openPairingStep()
-    await user.click(screen.getByRole('button', { name: 'Orca Relay' }))
+    await user.click(screen.getByRole('button', { name: 'Amoeba Relay' }))
     await waitFor(() => expect(screen.getByTestId('pairing-qr')).toHaveTextContent('none'))
     getPairingQR.mockClear()
 
@@ -310,7 +310,7 @@ describe('MobilePage pairing connection mode', () => {
     await user.click(screen.getByRole('button', { name: 'Enter flow' }))
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
-    await user.click(screen.getByRole('button', { name: 'Orca Relay' }))
+    await user.click(screen.getByRole('button', { name: 'Amoeba Relay' }))
     await waitFor(() => expect(screen.getByTestId('pairing-qr')).toHaveTextContent('none'))
     getPairingQR.mockClear()
 

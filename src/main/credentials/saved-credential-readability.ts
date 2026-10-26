@@ -69,9 +69,9 @@ export function savedCredentialUnreadable(
   }
 }
 
-/** Prevent paired clients from overwriting credentials sealed by another local Orca app. */
+/** Prevent paired clients from overwriting credentials sealed by another local Amoeba app. */
 export function refuseCredentialSealedElsewhere(credentialName: string): never {
   throw new Error(
-    `The ${credentialName} on this computer was saved by another Orca app here, which this one cannot read. Change it in that app, or forget it here first.`
+    `The ${credentialName} on this computer was saved by another Amoeba app here, which this one cannot read. Change it in that app, or forget it here first.`
   )
 }

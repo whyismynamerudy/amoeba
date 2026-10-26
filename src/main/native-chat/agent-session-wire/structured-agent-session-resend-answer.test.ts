@@ -186,9 +186,9 @@ describe('a resent send id', () => {
     expect(store.getRecord(SESSION)?.rewind?.phase).toBe('prepared')
   })
 
-  it('answers unknown, never a refusal, from a store a newer Orca wrote, which takes no write', async () => {
+  it('answers unknown, never a refusal, from a store a newer Amoeba wrote, which takes no write', async () => {
     await attach()
-    const params = sendParams('sent, then a newer Orca wrote the store')
+    const params = sendParams('sent, then a newer Amoeba wrote the store')
     await host.send(CALLER, params)
     await deliveredOnce()
     await host.close(SESSION, 'evict')

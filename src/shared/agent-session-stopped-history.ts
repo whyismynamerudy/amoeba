@@ -46,7 +46,7 @@ function isOrdinaryPersonMessage(
   return !(firstText?.type === 'text' && firstText.text.startsWith('/'))
 }
 
-/** A Stop took it back where Orca proves the agent never received it. */
+/** A Stop took it back where Amoeba proves the agent never received it. */
 function withdrawnUnwritten(submission: AgentJournalSubmission): boolean {
   return (
     dispatchWasWithdrawn(submission) &&

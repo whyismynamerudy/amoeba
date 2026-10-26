@@ -181,7 +181,7 @@ jobs:
       - uses: ./.github/actions/install-mobile-dependencies
         if: steps.freshness.outputs.should_build == 'true'
 
-      # Why: signing is what makes a daily installable over an existing Orca, so
+      # Why: signing is what makes a daily installable over an existing Amoeba, so
       # a missing cert must fail here rather than after a 20-minute build.
       - name: Verify macOS signing environment
         if: steps.freshness.outputs.should_build == 'true'
@@ -276,7 +276,7 @@ jobs:
           Built from [\`stablyai/orca@$short_sha\`](https://github.com/stablyai/orca/commit/$SHA).
 
           **Unvetted.** No tests ran. The macOS build is signed and notarized like a
-          release, so it installs through Orca's in-app updater and opens from a manual
+          release, so it installs through Amoeba's in-app updater and opens from a manual
           download without a Gatekeeper prompt — but nothing here has been reviewed.
 
           **Windows builds are unsigned.** They install and update normally once you

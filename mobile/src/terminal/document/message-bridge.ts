@@ -50,7 +50,7 @@ export function startMessageBridge(scope: TerminalDocumentScope) {
     }
   }
   // The WebGL atlas retains missing glyphs if it paints before the bundled font finishes loading.
-  if (document.fonts && !document.fonts.check('13px "Orca Nerd Font Symbols"', '\ue0b0')) {
+  if (document.fonts && !document.fonts.check('13px "Amoeba Nerd Font Symbols"', '\ue0b0')) {
     return waitForTerminalFont(scope, reportReady)
   }
   reportReady()
@@ -106,7 +106,7 @@ function waitForTerminalFont(scope: TerminalDocumentScope, reportReady: () => vo
       }
     }
     observeFontCompletion(
-      document.fonts.load('13px "Orca Nerd Font Symbols"', '\ue0b0'),
+      document.fonts.load('13px "Amoeba Nerd Font Symbols"', '\ue0b0'),
       completion
     )
   })

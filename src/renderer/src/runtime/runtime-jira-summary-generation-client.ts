@@ -30,7 +30,7 @@ export async function generateRuntimeJiraIssueSummary(
         success: false,
         error: translate(
           'components.jiraIssueTitleField.hostUpdateRequired',
-          'Generating Jira titles requires a newer Orca server. Update the Jira connection’s host and try again.'
+          'Generating Jira titles requires a newer Amoeba server. Update the Jira connection’s host and try again.'
         )
       }
     }

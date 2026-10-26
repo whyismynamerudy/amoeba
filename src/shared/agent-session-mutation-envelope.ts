@@ -136,7 +136,7 @@ export function refuseUnlessWriterAdmitted(
       : refuse(
           'agent_session_conflict',
           { reason: 'ownerUnproven' },
-          "Orca has not yet confirmed that this chat's previous agent process stopped. Reopen the chat to check again."
+          "Amoeba has not yet confirmed that this chat's previous agent process stopped. Reopen the chat to check again."
         )
   }
   return refuse(

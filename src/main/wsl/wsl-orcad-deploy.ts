@@ -129,7 +129,7 @@ async function launchOverTransport(
   const kernel = await execCommand(conn, 'uname -r', { signal })
   if (isWsl1KernelRelease(kernel)) {
     throw new OrcadHostUnsupportedError(
-      `The WSL 1 distro ${name} isn’t supported by Orca’s server. ` +
+      `The WSL 1 distro ${name} isn’t supported by Amoeba’s server. ` +
         `Convert it with: wsl --set-version ${name} 2`
     )
   }

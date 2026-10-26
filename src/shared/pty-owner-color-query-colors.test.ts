@@ -7,7 +7,7 @@ import {
   resolvePtyOwnerColorQueryColors
 } from './pty-owner-color-query-colors'
 
-it("falls back to the colours of Orca's default dark terminal theme", () => {
+it("falls back to the colours of Amoeba's default dark terminal theme", () => {
   const theme = TERMINAL_THEME_CATALOG[DEFAULT_TERMINAL_THEME_DARK]
   expect(ORCA_DEFAULT_COLOR_QUERY_REPLY_COLORS).toEqual({
     foreground: theme?.foreground,

@@ -187,7 +187,7 @@ export abstract class CliInstallLocation {
           // Installing in the empty default slot can shadow this command without replacing it.
           continue
         }
-        // Match shell PATH precedence, including conflicts that shadow Orca.
+        // Match shell PATH precedence, including conflicts that shadow Amoeba.
         return commandPath
       }
     }
@@ -215,7 +215,13 @@ export abstract class CliInstallLocation {
         return join(this.homePath, '.local', 'bin', DEV_COMMAND_NAME)
       }
       if (this.platform === 'win32') {
-        return join(this.localAppDataPath, 'Programs', 'Orca Dev', 'bin', `${DEV_COMMAND_NAME}.cmd`)
+        return join(
+          this.localAppDataPath,
+          'Programs',
+          'Amoeba Dev',
+          'bin',
+          `${DEV_COMMAND_NAME}.cmd`
+        )
       }
     }
 
