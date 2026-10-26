@@ -10,6 +10,7 @@ import { useAppStore } from '@/store'
 import { getWorktreeMapFromState } from '@/store/selectors'
 import type { Tab } from '../../../../shared/tab-types'
 import { resolveUnifiedTabLabel } from '../../../../shared/tab-title-resolution'
+import { openDockedTaskTerminal } from './project-task-terminal'
 
 /** A chat that fills its group shows as a task header instead of a tab strip. */
 export function isProjectTaskConversationTab(tab: Tab | null | undefined): tab is Tab {
@@ -44,15 +45,15 @@ function HeaderAction({
 
 export function ProjectTaskHeader({
   worktreeId,
+  groupId,
   tab,
   onNewBrowserTab,
-  onNewTerminalTab,
   onShowTabs
 }: {
   worktreeId: string
+  groupId: string
   tab: Tab
   onNewBrowserTab: () => void
-  onNewTerminalTab: () => void
   onShowTabs: () => void
 }): React.JSX.Element {
   useTranslation()
@@ -103,8 +104,8 @@ export function ProjectTaskHeader({
           <Globe className="size-3.5" />
         </HeaderAction>
         <HeaderAction
-          label={translate('projectTasks.header.terminal', 'Open terminal')}
-          onClick={onNewTerminalTab}
+          label={translate('projectTasks.header.terminal', 'Terminal in this task’s folder')}
+          onClick={() => openDockedTaskTerminal(worktreeId, groupId)}
         >
           <SquareTerminal className="size-3.5" />
         </HeaderAction>

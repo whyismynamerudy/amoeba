@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { ArrowUp, FolderPlus, GitBranch, Laptop } from 'lucide-react'
+import { ArrowUp, FolderPlus, GitBranch, Laptop, SquareTerminal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -20,6 +20,7 @@ import { ProjectTaskAgentPicker } from './ProjectTaskAgentPicker'
 import { useProjectTaskComposerStore } from './project-task-composer-store'
 import { startLocalTask, startWorktreeTask } from './project-task-launch'
 import { findLocalWorktree, type ProjectTaskLocation } from './project-task-model'
+import { openHomeTerminal } from './project-task-terminal'
 
 function useDefaultAgent(): TuiAgent {
   const configured = useAppStore((s) => s.settings?.defaultTuiAgent)
@@ -200,6 +201,18 @@ export default function ProjectTaskComposer(): React.JSX.Element {
               )
             : translate('projectTasks.composer.localHint', 'Runs directly in your project folder.')}
         </p>
+        <div className="flex flex-col items-center gap-1">
+          <Button type="button" variant="ghost" size="sm" onClick={openHomeTerminal}>
+            <SquareTerminal className="size-4" />
+            {translate('projectTasks.composer.terminal', 'Open terminal')}
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            {translate(
+              'projectTasks.composer.terminalHint',
+              'For sign-in and setup commands, like claude auth login.'
+            )}
+          </p>
+        </div>
       </div>
     </div>
   )

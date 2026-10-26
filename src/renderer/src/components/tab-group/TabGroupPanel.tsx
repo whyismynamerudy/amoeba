@@ -247,7 +247,6 @@ export default function TabGroupPanel({
 
   const taskHeaderTab =
     projectTasksSidebar &&
-    !hasSplitGroups &&
     isProjectTaskConversationTab(model.activeTab) &&
     tabsShownForTabId !== model.activeTab.id
       ? model.activeTab
@@ -302,9 +301,9 @@ export default function TabGroupPanel({
             {taskHeaderTab ? (
               <ProjectTaskHeader
                 worktreeId={worktreeId}
+                groupId={groupId}
                 tab={taskHeaderTab}
                 onNewBrowserTab={commands.newBrowserTab}
-                onNewTerminalTab={commands.newTerminalTab}
                 onShowTabs={() => setTabsShownForTabId(taskHeaderTab.id)}
               />
             ) : (

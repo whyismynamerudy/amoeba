@@ -21287,7 +21287,7 @@
     },
     "header": {
       "browser": "Open browser",
-      "terminal": "Open terminal",
+      "terminal": "Terminal in this task’s folder",
       "changes": "Review changes",
       "showTabs": "Show tabs"
     },
@@ -21316,7 +21316,9 @@
       "worktreeHint": "Runs in a new worktree on its own branch, so parallel tasks never collide.",
       "localHint": "Runs directly in your project folder.",
       "localFailed": "Could not start a local task.",
-      "worktreeFailed": "Could not create the worktree."
+      "worktreeFailed": "Could not create the worktree.",
+      "terminal": "Open terminal",
+      "terminalHint": "For sign-in and setup commands, like claude auth login."
     }
   }
 }
