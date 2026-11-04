@@ -6,6 +6,16 @@ import { waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { getDefaultSettings } from '../../../../shared/constants'
+
+// These cases exercise the nav rows, which Amoeba hides by default.
+function navRowSettings(): ReturnType<typeof getDefaultSettings> {
+  return {
+    ...getDefaultSettings('/tmp'),
+    showTasksButton: true,
+    showAutomationsButton: true,
+    showMobileButton: true
+  }
+}
 import type { GlobalSettings } from '../../../../shared/global-settings-types'
 import type { Repo } from '../../../../shared/repo-types'
 import { i18n } from '../../i18n/i18n'
@@ -116,7 +126,7 @@ function folderRepo(): Repo {
 }
 
 function setSidebarState({
-  settings = getDefaultSettings('/tmp'),
+  settings = navRowSettings(),
   repos = [gitRepo()]
 }: {
   settings?: GlobalSettings
@@ -226,7 +236,7 @@ describe('SidebarNav', () => {
   it('mounts the Agent Dashboard row only when its experiment is enabled', async () => {
     setSidebarState({
       settings: {
-        ...getDefaultSettings('/tmp'),
+        ...navRowSettings(),
         experimentalAgentDashboardPopout: true
       }
     })
@@ -240,7 +250,7 @@ describe('SidebarNav', () => {
     mocks.agentBucketCounts = { attention: 2, working: 3, done: 1, idle: 4 }
     setSidebarState({
       settings: {
-        ...getDefaultSettings('/tmp'),
+        ...navRowSettings(),
         experimentalAgentDashboardPopout: true,
         experimentalAgentDashboardShowIdle: true
       }
@@ -277,7 +287,7 @@ describe('SidebarNav', () => {
 
   it('opens Artifacts from the sidebar', async () => {
     setSidebarState({
-      settings: { ...getDefaultSettings('/tmp'), showArtifactsButton: true }
+      settings: { ...navRowSettings(), showArtifactsButton: true }
     })
     const container = await renderSidebarNav()
 
@@ -288,7 +298,7 @@ describe('SidebarNav', () => {
 
   it('hides Artifacts from its context menu', async () => {
     setSidebarState({
-      settings: { ...getDefaultSettings('/tmp'), showArtifactsButton: true }
+      settings: { ...navRowSettings(), showArtifactsButton: true }
     })
     const container = await renderSidebarNav()
     const row = getButtonByText(container, 'Artifacts')
@@ -357,7 +367,7 @@ describe('SidebarNav', () => {
   it('omits the Automations row when the sidebar setting is off', async () => {
     setSidebarState({
       settings: {
-        ...getDefaultSettings('/tmp'),
+        ...navRowSettings(),
         showAutomationsButton: false
       }
     })

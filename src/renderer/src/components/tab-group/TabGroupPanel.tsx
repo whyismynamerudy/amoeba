@@ -1,6 +1,5 @@
 import { Suspense, useCallback, useMemo, useState } from 'react'
-import { ConversationWorkspaceNavigation } from './ConversationWorkspaceNavigation'
-import { FLOATING_TERMINAL_WORKTREE_ID } from '../../../../shared/constants'
+import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { useDroppable } from '@dnd-kit/core'
 import { useAppStore } from '../../store'
@@ -23,6 +22,7 @@ import { resolveClientHostedBrowserRowStripGroupId } from '../tab-bar/client-hos
 import { useEditorGroupFileDropOwner } from '../editor/use-editor-group-file-drop-owner'
 import { cn } from '@/lib/utils'
 import { UNFOCUSED_SPLIT_GROUP_OPACITY } from './split-group-dim'
+import { isProjectTaskConversationTab, ProjectTaskHeader } from '../project-tasks/ProjectTaskHeader'
 
 const EditorPanel = lazy(() => import('../editor/EditorPanel'))
 const EMPTY_GROUPS: readonly TabGroup[] = []
@@ -72,16 +72,9 @@ export default function TabGroupPanel({
   const rightSidebarOpen = useAppStore((state) => state.rightSidebarOpen)
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
   const model = useTabGroupWorkspaceModel({ groupId, worktreeId })
-  const [showAllTabs, setShowAllTabs] = useState<boolean | null>(null)
-  const conversationNavigation =
-    tabStrip === 'attached' && worktreeId !== FLOATING_TERMINAL_WORKTREE_ID
-  const tabsOpen =
-    showAllTabs ??
-    (!conversationNavigation ||
-      !model.agentSessionItems.length ||
-      hasSplitGroups ||
-      (model.activeTab?.contentType !== 'agent-session' &&
-        model.activeTab?.contentType !== 'browser'))
+  const projectTasksSidebar = useAppStore((state) => isProjectTaskShellEnabled(state.settings))
+  // Remember which chat asked for its tabs, so switching conversations restores the header.
+  const [tabsShownForTabId, setTabsShownForTabId] = useState<string | null>(null)
   const {
     activeTab,
     agentSessionItems,
@@ -253,6 +246,13 @@ export default function TabGroupPanel({
     />
   )
 
+  const taskHeaderTab =
+    projectTasksSidebar &&
+    isProjectTaskConversationTab(model.activeTab) &&
+    tabsShownForTabId !== model.activeTab.id
+      ? model.activeTab
+      : null
+
   const actionChromeClassName = cn(
     'ml-1.5 flex shrink-0 items-center gap-0.5 transition-opacity duration-150',
     !isFocused && 'opacity-50 hover:opacity-100 focus-within:opacity-100'
@@ -299,28 +299,35 @@ export default function TabGroupPanel({
                 }
               />
             ) : null}
-            <div className="min-w-0 flex-1 h-full">
-              {tabsOpen ? (
-                tabBar
-              ) : (
-                <div className="flex h-full items-center px-3 text-xs text-muted-foreground">
-                  {translate('amoeba.workspace.title', 'Amoeba')}
-                </div>
-              )}
-            </div>
-            <div
-              className={actionChromeClassName}
-              style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
-            >
-              <TabBarQuickCommandsButton
+            {taskHeaderTab ? (
+              <ProjectTaskHeader
                 worktreeId={worktreeId}
                 groupId={groupId}
-                isFocused={isFocused}
+                tab={taskHeaderTab}
+                onNewBrowserTab={commands.newBrowserTab}
+                onShowTabs={() => setTabsShownForTabId(taskHeaderTab.id)}
               />
-              {hasSplitGroups ? (
-                <TabGroupPaneActionsMenu isFocused={isFocused} onCloseGroup={commands.closeGroup} />
-              ) : null}
-            </div>
+            ) : (
+              <>
+                <div className="min-w-0 flex-1 h-full">{tabBar}</div>
+                <div
+                  className={actionChromeClassName}
+                  style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+                >
+                  <TabBarQuickCommandsButton
+                    worktreeId={worktreeId}
+                    groupId={groupId}
+                    isFocused={isFocused}
+                  />
+                  {hasSplitGroups ? (
+                    <TabGroupPaneActionsMenu
+                      isFocused={isFocused}
+                      onCloseGroup={commands.closeGroup}
+                    />
+                  ) : null}
+                </div>
+              </>
+            )}
             {/* Why: Electron drag hit-test respects no-drag only on DOM descendants, not z-index siblings, so this no-drag spacer keeps the floating right-sidebar toggle + window controls clickable. */}
             {reserveClosedExplorerToggleSpace && !rightSidebarOpen ? (
               <div
@@ -336,16 +343,6 @@ export default function TabGroupPanel({
           </div>
         </div>
       )}
-
-      {conversationNavigation && isVisible ? (
-        <ConversationWorkspaceNavigation
-          model={model}
-          groupId={groupId}
-          worktreeId={worktreeId}
-          tabsOpen={tabsOpen}
-          onToggleTabs={() => setShowAllTabs(!tabsOpen)}
-        />
-      ) : null}
 
       <div
         ref={setBodyRef}

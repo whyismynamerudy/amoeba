@@ -1,4 +1,4 @@
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import { ORCA_LAYOUT_OWNER_IS_MAIN } from '../../../shared/layout-owner-switch'
 import path from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -67,7 +67,7 @@ function baseState(): Partial<AppState> {
     agentStatusByPaneKey: {},
     sleepingAgentSessionsByPaneKey: {},
     settings: {
-      ...getDefaultSettings(''),
+      ...classicShellSettings(''),
       agentCmdOverrides: {},
       defaultTuiAgent: 'codex'
     },

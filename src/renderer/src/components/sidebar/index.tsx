@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
+import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 import { useAppStore } from '@/store'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useSidebarResize } from '@/hooks/useSidebarResize'
@@ -24,6 +25,7 @@ import { StalledTerminalDaemonBanner } from './StalledTerminalDaemonBanner'
 
 // Keep the Agents activity pipeline out of the workspace view’s initial bundle.
 const SidebarAgentsList = lazyWithRetry(() => import('./SidebarAgentsList'))
+const ProjectTasksList = lazyWithRetry(() => import('../project-tasks/ProjectTasksList'))
 
 const WorktreeMetaDialog = lazyWithRetry(() => import('./WorktreeMetaDialog'))
 const RemoveFolderDialog = lazyWithRetry(() => import('./RemoveFolderDialog'))
@@ -57,6 +59,7 @@ function Sidebar({
   const startupWorktreeRefreshCompleted = useAppStore((s) => s.startupWorktreeRefreshCompleted)
   const settings = useAppStore((s) => s.settings)
   const sidebarBody = useAppStore((s) => s.sidebarBody ?? 'workspaces')
+  const projectTasksSidebar = useAppStore((s) => isProjectTaskShellEnabled(s.settings))
   const showAgentDashboard = settings?.experimentalAgentDashboardPopout === true
   const agentDashboardDrawerOpen = useAppStore((s) => s.agentDashboardDrawerOpen)
   const setAgentDashboardDrawerOpen = useAppStore((s) => s.setAgentDashboardDrawerOpen)
@@ -188,6 +191,10 @@ function Sidebar({
                     scrollTopRef={agentsScrollTopRef}
                   />
                 </ActivityThreadCollapseContext.Provider>
+              </React.Suspense>
+            ) : projectTasksSidebar ? (
+              <React.Suspense fallback={<div className="min-h-0 flex-1" />}>
+                <ProjectTasksList />
               </React.Suspense>
             ) : (
               <>

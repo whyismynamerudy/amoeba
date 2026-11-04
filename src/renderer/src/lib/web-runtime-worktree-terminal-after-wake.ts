@@ -1,4 +1,5 @@
 import { useAppStore } from '@/store'
+import { isProjectTaskShellSettled } from '../../../shared/project-tasks-settings'
 import { tabHasLivePty } from '../../../shared/tab-has-live-pty'
 import { createWebRuntimeSessionTerminal } from '@/runtime/web-runtime-terminal-creation'
 import { isWebRuntimeSessionActive } from '@/runtime/web-runtime-session-environment'
@@ -54,6 +55,10 @@ export function ensureWebRuntimeWorktreeTerminalAfterWake(
   }
 
   if (!launchAgent) {
+    // Amoeba's task composer stands in for an empty workspace, so wake never seeds a bare shell.
+    if (!opts?.startup && isProjectTaskShellSettled(state.settings)) {
+      return
+    }
     const hasLivePty = tabs.some((tab) => tabHasLivePty(state.ptyIdsByTabId, tab.id))
     if (hasLivePty) {
       return

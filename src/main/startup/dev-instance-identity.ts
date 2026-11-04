@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto'
 import path from 'node:path'
 import type { AppIdentity } from '../../shared/app-identity'
+import { APP_DISPLAY_NAME } from '../../shared/app-display-name'
 
-const BASE_APP_NAME = 'Amoeba'
+const BASE_APP_NAME = APP_DISPLAY_NAME
 const BASE_APP_USER_MODEL_ID = 'com.amoeba.desktop'
 const MAX_LABEL_LENGTH = 80
 

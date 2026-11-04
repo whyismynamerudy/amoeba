@@ -1,6 +1,8 @@
 import { Suspense, useRef } from 'react'
+import { isProjectTaskShellEnabled } from '../../../shared/project-tasks-settings'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { translate } from '@/i18n/i18n'
+import { useAppStore } from '@/store'
 import Sidebar from '../components/Sidebar'
 import RightSidebar from '../components/right-sidebar'
 import { RecoverableRenderErrorBoundary } from '../components/error-boundaries/RecoverableRenderErrorBoundary'
@@ -11,8 +13,13 @@ import { TitlebarLeftControls } from './TitlebarLeftControls'
 import { RightSidebarToggle, TitlebarMainStrip } from './TitlebarMainStrip'
 import type { AppChromeLayout } from './use-app-chrome-layout'
 import type { FloatingWorkspacePanelState } from './use-floating-workspace-panel'
+import {
+  useEmptyTaskWorkspaceId,
+  useProjectTaskStartupHome
+} from '../components/project-tasks/use-project-task-shell'
 
 const Landing = lazy(() => import('../components/Landing'))
+const ProjectTaskComposer = lazy(() => import('../components/project-tasks/ProjectTaskComposer'))
 const WorktreeCreationPanel = lazy(
   () => import('../components/worktree-creation/WorktreeCreationPanel')
 )
@@ -66,6 +73,7 @@ function WorktreeSidebar({
 
 function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element {
   const { activeView, activeWorktreeId, activePendingCreationId, creationLayoutActive } = layout
+  const projectTasksSidebar = useAppStore((s) => isProjectTaskShellEnabled(s.settings))
   return (
     <>
       {activeView === 'settings' ? <Settings /> : null}
@@ -82,7 +90,13 @@ function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element 
           reserveCollapsedSidebarHeaderSpace={layout.leftTitlebarChromeLayout.isFloating}
         />
       ) : null}
-      {activeView === 'terminal' && !activeWorktreeId && !creationLayoutActive ? <Landing /> : null}
+      {activeView === 'terminal' && !activeWorktreeId && !creationLayoutActive ? (
+        projectTasksSidebar ? (
+          <ProjectTaskComposer />
+        ) : (
+          <Landing />
+        )
+      ) : null}
     </>
   )
 }
@@ -92,6 +106,8 @@ export function AppWorkspaceShell(props: {
   floatingWorkspace: FloatingWorkspacePanelState
 }): React.JSX.Element {
   const { layout, floatingWorkspace } = props
+  useProjectTaskStartupHome()
+  const emptyTaskWorkspaceId = useEmptyTaskWorkspaceId(layout.creationLayoutActive)
   const titlebarLeftControls = <TitlebarLeftControls layout={layout} />
   const titlebarMainStrip = <TitlebarMainStrip layout={layout} />
   // Keep scroll memory above sidebar view remounts to preserve list position.
@@ -197,6 +213,17 @@ export function AppWorkspaceShell(props: {
                         </RecoverableRenderErrorBoundary>
                       </Suspense>
                     </TerminalWorkbenchContainer>
+                  ) : null}
+                  {emptyTaskWorkspaceId ? (
+                    // Covers the empty workbench so an opened workspace offers a task, not a blank pane.
+                    <div className="absolute inset-0 z-10 flex bg-background">
+                      <Suspense fallback={null}>
+                        <ProjectTaskComposer
+                          key={emptyTaskWorkspaceId}
+                          worktreeId={emptyTaskWorkspaceId}
+                        />
+                      </Suspense>
+                    </div>
                   ) : null}
                   <Suspense fallback={null}>
                     <RecoverableRenderErrorBoundary

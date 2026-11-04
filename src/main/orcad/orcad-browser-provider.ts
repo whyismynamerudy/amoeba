@@ -76,24 +76,24 @@ export function installedElectronCandidates(
   if (platform === 'darwin') {
     return [
       '/Applications/Amoeba.app/Contents/MacOS/Amoeba',
-      joinPath(homePath, 'Applications', 'Amoeba.app', 'Contents', 'MacOS', 'Amoeba')
+      joinPath(homePath, 'Applications', 'Amoeba.app', 'Contents', 'MacOS', 'Amoeba'),
+      '/Applications/Orca.app/Contents/MacOS/Orca',
+      joinPath(homePath, 'Applications', 'Orca.app', 'Contents', 'MacOS', 'Orca')
     ]
   }
   if (platform === 'win32') {
     return [
       ...(environment.LOCALAPPDATA
-        ? [joinPath(environment.LOCALAPPDATA, 'Programs', 'Amoeba', 'Amoeba.exe')]
+        ? [joinPath(environment.LOCALAPPDATA, 'Programs', 'Orca', 'Orca.exe')]
         : []),
-      ...(environment.ProgramFiles
-        ? [joinPath(environment.ProgramFiles, 'Amoeba', 'Amoeba.exe')]
-        : [])
+      ...(environment.ProgramFiles ? [joinPath(environment.ProgramFiles, 'Orca', 'Orca.exe')] : [])
     ]
   }
   return [
     joinPath(homePath, '.local', 'bin', 'orca-ide'),
     '/usr/local/bin/orca-ide',
     '/usr/bin/orca-ide',
-    '/opt/Amoeba/orca-ide'
+    '/opt/Orca/orca-ide'
   ]
 }
 

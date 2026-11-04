@@ -1,4 +1,4 @@
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import path from 'node:path'
 import { vi } from 'vitest'
 import type { Worktree } from '../../../shared/worktree/types'
@@ -59,7 +59,7 @@ function baseSeedState(worktree: Worktree, worktrees: Worktree[]): Partial<Store
     tabBarOrderByWorktree: {},
     pendingStartupByTabId: {},
     settings: {
-      ...getDefaultSettings(''),
+      ...classicShellSettings(''),
       agentCmdOverrides: {}
     },
     refreshGitHubForWorktreeIfStale: vi.fn()

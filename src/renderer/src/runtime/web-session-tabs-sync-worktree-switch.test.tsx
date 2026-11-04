@@ -2,7 +2,7 @@
 
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import type { RuntimeHostStatusSnapshot } from '../../../shared/runtime-host-status'
 import type { RuntimeMobileSessionTabsResult, RuntimeStatus } from '../../../shared/runtime-types'
 import type * as WebRuntimeTerminalCreationModule from './web-runtime-terminal-creation'
@@ -192,7 +192,7 @@ describe('session-tabs streams across worktree switches on one host', () => {
       {
         ...initialState,
         settings: {
-          ...getDefaultSettings('/tmp'),
+          ...classicShellSettings('/tmp'),
           activeRuntimeEnvironmentId: ENV
         },
         activeWorktreeId: WORKTREE_A,

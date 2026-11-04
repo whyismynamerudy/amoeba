@@ -33,6 +33,7 @@ type MockState = {
     experimentalAgentDashboardPopout?: boolean
     agentsSidebarIntroShown?: boolean
     agentsSidebarMigratedFromExperimental?: boolean
+    projectTasksSidebar?: boolean
   }
 }
 
@@ -293,6 +294,7 @@ describe('SidebarHeader', () => {
   })
 
   it('uses the legacy title based on workspace grouping', () => {
+    mockState.settings = { projectTasksSidebar: false }
     act(() => {
       root.render(<SidebarHeader onWorkspaceBoardMenuOpenChange={vi.fn()} />)
     })
@@ -307,6 +309,17 @@ describe('SidebarHeader', () => {
     })
     expect(container.querySelector('[data-sidebar-section-title="workspaces"]')?.textContent).toBe(
       'Workspaces'
+    )
+  })
+
+  it('titles the task sidebar Projects whatever the workspace grouping', () => {
+    mockState.groupBy = 'workspace-status'
+    act(() => {
+      root.render(<SidebarHeader onWorkspaceBoardMenuOpenChange={vi.fn()} />)
+    })
+
+    expect(container.querySelector('[data-sidebar-section-title="projects"]')?.textContent).toBe(
+      'Projects'
     )
   })
 

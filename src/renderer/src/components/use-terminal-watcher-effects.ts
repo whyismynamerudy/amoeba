@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
+import { isProjectTaskShellSettled } from '../../../shared/project-tasks-settings'
 import { findActivityTerminalPortal } from './activity/activity-terminal-portal'
 import { shouldAutoCreateInitialTerminal } from './terminal/initial-terminal'
 import { findPendingWorktreeCreationId } from '@/lib/pending-worktree-creation'
@@ -239,7 +240,8 @@ export function useTerminalWatcherEffects(controller: TerminalWatcherController)
       }
       // Only applied decisions consume the gate; canceled/blocked checks stay retryable and reruns share the in-flight promise.
       startupActivationGateWorktreeIdsRef.current.add(activeWorktreeId)
-      if (outcome !== 'empty') {
+      // Amoeba's task composer stands in for an empty workspace; never seed a bare shell here.
+      if (outcome !== 'empty' || isProjectTaskShellSettled(useAppStore.getState().settings)) {
         return
       }
       // A pending or unanswered chat create owns the surface even before its tab is published.
