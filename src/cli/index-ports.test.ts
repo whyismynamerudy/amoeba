@@ -123,7 +123,7 @@ function captureOutput(): () => string {
   return () => [...logSpy.mock.calls, ...errSpy.mock.calls].flat().join('\n')
 }
 
-describe('orca ports', () => {
+describe('amoeba ports', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,

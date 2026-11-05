@@ -100,7 +100,7 @@ describe('editor autosave changed-on-disk conflict flow', () => {
     const store = createEditorStore()
     openDirtyFile(store, 'typed during save')
     // Combined-diff notifications bypass watcher echo checks; a fresh self-write stamp identifies the controller’s own save.
-    recordSelfWrite('/repo/file.ts', 'orca save')
+    recordSelfWrite('/repo/file.ts', 'amoeba save')
 
     const cleanup = attachEditorAutosaveController(withLoadedBaselines(store))
     try {

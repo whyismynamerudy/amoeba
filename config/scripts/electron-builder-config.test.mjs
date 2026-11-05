@@ -252,8 +252,8 @@ describe('electron-builder config', () => {
           to: 'computer-use-windows/runtime.ps1'
         }),
         expect.objectContaining({
-          from: 'native/windows-cli-launcher/.build/orca.exe',
-          to: 'bin/orca.exe'
+          from: 'native/windows-cli-launcher/.build/amoeba.exe',
+          to: 'bin/amoeba.exe'
         }),
         expect.objectContaining({
           from: 'native/windows-cli-launcher/.build/orca-administrator-restart.exe',
@@ -321,7 +321,7 @@ describe('electron-builder config', () => {
     expect(electronBuilderConfig.win.extraResources.map((r) => r.to)).not.toContain(serveSimTarget)
   })
 
-  // Source shim unpacked under resources/win32/bin lacks adjacent orca.exe (#7351); only extraResources/bin copy works.
+  // Source shim unpacked under resources/win32/bin lacks adjacent amoeba.exe (#7351); only extraResources/bin copy works.
   it('keeps the Windows CLI shim source tree out of app.asar', () => {
     expect(electronBuilderConfig.files).toEqual(
       expect.arrayContaining(['!resources/win32{,/**/*}'])
@@ -330,8 +330,8 @@ describe('electron-builder config', () => {
     expect(electronBuilderConfig.win.extraResources).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          from: 'resources/win32/bin/orca.cmd',
-          to: 'bin/orca.cmd'
+          from: 'resources/win32/bin/amoeba.cmd',
+          to: 'bin/amoeba.cmd'
         })
       ])
     )

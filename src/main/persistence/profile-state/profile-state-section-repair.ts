@@ -70,7 +70,7 @@ export function repairProfileStateSections(options: {
   if (plan === undefined) {
     throw new ProfileStateRecoveryCommandError(
       'runtime_error',
-      `Amoeba can't repair this profile one section at a time (${reason}). Nothing was changed. Run \`orca profile state exports\` and restore a whole backup with \`orca profile state rollback --backup <id>\`.`
+      `Amoeba can't repair this profile one section at a time (${reason}). Nothing was changed. Run \`amoeba profile state exports\` and restore a whole backup with \`amoeba profile state rollback --backup <id>\`.`
     )
   }
   if (options.approved !== undefined && !sameSections(options.approved, plan.sections)) {

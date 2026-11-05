@@ -106,7 +106,7 @@ async function resolvePortsTarget(
   if (isNativeFolderSelector(selector)) {
     throw new RuntimeClientError(
       'invalid_argument',
-      'Amoeba does not tie ports to native folder workspaces yet. Run `orca ports --all` to list every listener on the host.'
+      'Amoeba does not tie ports to native folder workspaces yet. Run `amoeba ports --all` to list every listener on the host.'
     )
   }
   const shown = await client.call<{ worktree: RuntimeWorktreeRecord }>('worktree.show', {

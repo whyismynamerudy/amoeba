@@ -1,6 +1,6 @@
 /** Name children by stable Amoeba session id; provider ids rotate on clear. Reject cross-host claims; retain worker handles for non-orchestration surfaces.
  * Pin the CLI by absolute launcher and user-data path because login shells can reorder PATH; older CLIs refuse the structured marker.
- * Reuse the PTY CLI-path rule: Linux installs as orca-ide to avoid GNOME Orca (#7904). Never fall back to bare or inherited launchers.
+ * Reuse the PTY CLI-path rule (#7904). Never fall back to bare or inherited launchers.
  * Empty remote selectors to mask the parent env; explicit flags still work, and login profiles can re-export selectors.
  * Omit pane identity: hooks and mobile status assume a live PTY leaf. Resolve worker identity at every spawn, including recovery and clear. */
 
@@ -46,7 +46,7 @@ export function sealStructuredSessionChild(input: {
   inheritedEnvToDelete: readonly string[]
   cliRuntimeCommand?: string
 }): SealedStructuredSessionChild {
-  // Why: pair before naming the child so this app's CLI dir stays ahead of a runtime dir holding another `orca`.
+  // Why: pair before naming the child so this app's CLI dir stays ahead of a runtime dir holding another `amoeba`.
   const paired = input.cliRuntimeCommand
     ? withCliRuntimeOnPath(input.cliRuntimeCommand, input.env, { platform: process.platform })
     : input.env

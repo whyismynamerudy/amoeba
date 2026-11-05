@@ -30,7 +30,7 @@ describe('ambiguous selector recovery', () => {
 
     expect(output).toContain('More than one project matches --repo "app"')
     expect(output).toContain('id:<repo-id> or path:<absolute-path>')
-    expect(output).toContain('orca repo list --json')
+    expect(output).toContain('amoeba repo list --json')
   })
 
   it('carries the ambiguous --worktree value into the --json failure envelope', () => {
@@ -54,7 +54,7 @@ describe('ambiguous selector recovery', () => {
       error: {
         data: {
           nextSteps: expect.arrayContaining([
-            'List the exact values with `orca worktree list --json`.'
+            'List the exact values with `amoeba worktree list --json`.'
           ])
         }
       }
@@ -69,7 +69,7 @@ describe('ambiguous selector recovery', () => {
       remoteServerSelected: true
     })
 
-    expect(output).toContain('`orca repo list --json`, passing the same server flag')
+    expect(output).toContain('`amoeba repo list --json`, passing the same server flag')
   })
 
   it('stays silent when no selector flag was passed', () => {
@@ -166,13 +166,13 @@ describe('CLI error recovery', () => {
   it('prints did-you-mean next steps for an unknown-command error carrying data', () => {
     const error = new RuntimeClientError('invalid_argument', 'Unknown command: worktree remov', {
       suggestions: ['worktree rm'],
-      nextSteps: ['Did you mean: orca worktree rm']
+      nextSteps: ['Did you mean: amoeba worktree rm']
     })
 
     const output = formatCliError(error)
 
     expect(output).toContain('Unknown command: worktree remov')
-    expect(output).toContain('Next step: Did you mean: orca worktree rm')
+    expect(output).toContain('Next step: Did you mean: amoeba worktree rm')
   })
 
   it('prefers structured recovery over generic computer hints in text output', () => {
@@ -227,7 +227,7 @@ describe('CLI error recovery', () => {
         message: 'computer sidecar exited with code 1',
         data: {
           nextSteps: [
-            'Run `orca computer capabilities --json` to confirm the provider is available before retrying.'
+            'Run `amoeba computer capabilities --json` to confirm the provider is available before retrying.'
           ]
         }
       },
@@ -256,13 +256,13 @@ describe('CLI error recovery', () => {
     const error = new RuntimeClientError(
       'runtime_unavailable',
       'The local runtime has a recovery step.',
-      { nextSteps: ['Run `orca runtime status --json` and retry.'] }
+      { nextSteps: ['Run `amoeba runtime status --json` and retry.'] }
     )
 
     expect(formatCliError(error)).toBe(
       [
         'The local runtime has a recovery step.',
-        'Next step: Run `orca runtime status --json` and retry.'
+        'Next step: Run `amoeba runtime status --json` and retry.'
       ].join('\n')
     )
   })
@@ -291,7 +291,7 @@ describe('CLI error recovery', () => {
     const message = 'Could not connect to the running Amoeba app.'
 
     expect(formatCliError(new RuntimeClientError('runtime_unavailable', message))).toBe(
-      `${message}\nAmoeba is not running. Run 'orca open' first.`
+      `${message}\nAmoeba is not running. Run 'amoeba open' first.`
     )
   })
 
@@ -307,7 +307,9 @@ describe('CLI error recovery', () => {
       _meta: { runtimeId: 'runtime_local' }
     })
 
-    expect(formatCliError(error)).toBe(`${message}\nAmoeba is not running. Run 'orca open' first.`)
+    expect(formatCliError(error)).toBe(
+      `${message}\nAmoeba is not running. Run 'amoeba open' first.`
+    )
   })
 
   it('preserves the local request-id protection for an RPC runtime-unavailable error', () => {

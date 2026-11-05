@@ -232,7 +232,7 @@
       "continueButton": "Continuar sem CLI",
       "title": "CLI do Amoeba indisponível",
       "message": "O Amoeba não conseguiu iniciar seu transporte local de comandos.",
-      "detail": "O Amoeba continuará funcionando, mas comandos como orca status, orca terminal e orquestração ficam indisponíveis nesta sessão.\n\n{{guidance}}\n\nCausa: {{cause}}",
+      "detail": "O Amoeba continuará funcionando, mas comandos como amoeba status, amoeba terminal e orquestração ficam indisponíveis nesta sessão.\n\n{{guidance}}\n\nCausa: {{cause}}",
       "guidance": {
         "permissionDenied": "O Amoeba não conseguiu gravar seu arquivo de runtime. Verifique as permissões da pasta de dados do Amoeba e reinicie.",
         "storageUnavailable": "Seu disco pode estar cheio ou somente leitura. Libere espaço e reinicie o Amoeba.",
@@ -732,7 +732,7 @@
         "remoteUnsupported": "Gerencie a identidade do navegador no host remoto com a CLI do Amoeba.",
         "loading": "Carregando…",
         "resetRequired": "Os dados de identidade precisam ser redefinidos explicitamente antes de poderem ser alterados.",
-        "resetRequiredCommand": "Redefina pela linha de comando: orca browser identity set --mode <mode> --reset",
+        "resetRequiredCommand": "Redefina pela linha de comando: amoeba browser identity set --mode <mode> --reset",
         "optionClean": "Limpo",
         "optionCleanTooltip": "Remove os tokens do Amoeba e do Electron para corresponder às sessões importadas do Chrome.",
         "optionNative": "Nativo",
@@ -3761,7 +3761,7 @@
               "614c756ab1": "Importar Cookies do Navegador",
               "cee44fb442": "automação",
               "a57c2172dc": "agente-navegador",
-              "f5b8fdddf5": "orca-cli",
+              "f5b8fdddf5": "amoeba-cli",
               "e5a784bc54": "instalar",
               "9d97446873": "agente",
               "a2d489263e": "skill",
@@ -3790,7 +3790,7 @@
           "9a3758d983": "Nenhum servidor salvo.",
           "9bee6bbeeb": "Adicionar Servidor",
           "55fcc964cd": "no servidor e cole a URL de pareamento exibida.",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "163671f7b5": "Execute",
           "c3d772c514": "orca://pair?code=...",
           "9bc9b83474": "Código de pareamento",
@@ -5421,7 +5421,7 @@
           "6f894ef9c2": "Mostrar no Finder",
           "cbe55e4d48": "Mostrar no Explorer",
           "9fd4023db0": "Mostrar no Gerenciador de Arquivos",
-          "outsideOrcaDescription": "Os terminais do Amoeba já têm `orca`. Ative isto para usar `orca` em outros terminais fora do Amoeba."
+          "outsideOrcaDescription": "Os terminais do Amoeba já têm `amoeba`. Ative isto para usar `amoeba` em outros terminais fora do Amoeba."
         },
         "GitPane": {
           "895d3f70b8": "gh",
@@ -5585,8 +5585,8 @@
           "editDescription": "Atualize os detalhes de conexão desta máquina. As alterações se aplicam na próxima conexão.",
           "addDescription": "Adicione uma máquina persistente na qual você pode entrar via SSH.",
           "editingPrefix": "Editando",
-          "allowRemoteCliControl": "Permitir que a CLI orca deste host controle o Amoeba",
-          "allowRemoteCliControlHelp": "Ativado por padrão para novos hosts. Permite que comandos orca executados neste host abram e controlem abas do navegador Amoeba neste computador, apenas nos espaços de trabalho deste host e enquanto ele estiver conectado. Também permite que terminais iniciados por um Amoeba mais antigo neste host executem comandos de orquestração (check, inbox, send, ask, reply) para seu próprio trabalho supervisionado. Eles não podem ler seus arquivos, área de transferência ou cookies. Quando desativado, eles acessam apenas o próprio servidor Amoeba deste host.",
+          "allowRemoteCliControl": "Permitir que a CLI amoeba deste host controle o Amoeba",
+          "allowRemoteCliControlHelp": "Ativado por padrão para novos hosts. Permite que comandos amoeba executados neste host abram e controlem abas do navegador Amoeba neste computador, apenas nos espaços de trabalho deste host e enquanto ele estiver conectado. Também permite que terminais iniciados por um Amoeba mais antigo neste host executem comandos de orquestração (check, inbox, send, ask, reply) para seu próprio trabalho supervisionado. Eles não podem ler seus arquivos, área de transferência ou cookies. Quando desativado, eles acessam apenas o próprio servidor Amoeba deste host.",
           "addHost": "Adicionar host"
         },
         "RuntimeHostAccessForm": {
@@ -5617,7 +5617,7 @@
           "advanced": "Avançado",
           "sshTunnel": "Estou usando um tunnel SSH para este endereço local",
           "sshTunnelHelp": "Mantenha o tunnel ativo enquanto usa esta conexão.",
-          "headlessHelp": "Usando orca serve sem interface? Execute orca serve --pairing-address <host-acessível> no outro computador.",
+          "headlessHelp": "Usando amoeba serve sem interface? Execute amoeba serve --pairing-address <host-acessível> no outro computador.",
           "cancel": "Cancelar",
           "addWithTunnel": "Adicionar host usando tunnel",
           "addHost": "Adicionar host",
@@ -6142,7 +6142,7 @@
           "e49688f67f": "Registrar `{{value0}}` no WSL?",
           "61ac55278e": "Remover `{{value0}}` do WSL?",
           "e2b0ee267f": "desatualizado",
-          "7aa456a460": "Registra `orca-ide` em ~/.local/bin dentro do WSL.",
+          "7aa456a460": "Registra `amoeba` em ~/.local/bin dentro do WSL.",
           "0307677bb9": "Verificando registro da CLI no WSL..."
         },
         "task": {
@@ -6214,7 +6214,7 @@
           "manageKeys": "Gerenciar chaves",
           "addAccess": "Adicionar acesso",
           "setupSkillTitle": "2. Instalar a skill de agente",
-          "setupSkillBody": "Dá aos agentes de código o /orca-linear para leitura, atualizações, triagem e anexação de pull ou merge requests.",
+          "setupSkillBody": "Dá aos agentes de código o /amoeba-linear para leitura, atualizações, triagem e anexação de pull ou merge requests.",
           "setupVisibleTitle": "3. Mostrar o Linear em Tarefas",
           "setupVisibleBody": "Mantém o Linear no seletor de origens de Tarefas e nos atalhos da barra lateral.",
           "openTaskSources": "Origens de Tarefas",
@@ -6226,8 +6226,8 @@
           "notesIntro": "Lembretes rápidos depois que o Linear estiver conectado e a skill instalada.",
           "noteLinkedTitle": "Comece a partir de uma issue do Linear",
           "noteLinkedBody": "As ações de ticket funcionam melhor em uma worktree criada a partir de Tarefas, para que a issue permaneça vinculada como contexto.",
-          "noteSlashTitle": "Mencione /orca-linear",
-          "noteSlashBody": "No chat, use /orca-linear (ou peça em linguagem natural) para que o agente carregue a skill naquele turno.",
+          "noteSlashTitle": "Mencione /amoeba-linear",
+          "noteSlashBody": "No chat, use /amoeba-linear (ou peça em linguagem natural) para que o agente carregue a skill naquele turno.",
           "noteKeysTitle": "As chaves seguem o runtime",
           "noteKeysBody": "As chaves de API e os espaços de trabalho são armazenados para o runtime ativo.",
           "noteVisibilityTitle": "Ocultar ≠ desconectar",
@@ -7082,7 +7082,7 @@
                 "tickets": "tickets",
                 "issues": "issues",
                 "skill": "skill",
-                "orcaLinear": "orca-linear"
+                "orcaLinear": "amoeba-linear"
               }
             }
           }
@@ -7454,7 +7454,7 @@
           "connectedHint": "Espaços de trabalho e chaves são armazenados para o runtime ativo. Você pode adicionar mais acesso quando quiser.",
           "recheck": "Verificar conexão novamente",
           "skillTitle": "Instalar skill de agente do Linear",
-          "skillDescription": "Dá aos agentes o /orca-linear para ler tickets, publicar atualizações, mover estados e anexar pull ou merge requests.",
+          "skillDescription": "Dá aos agentes o /amoeba-linear para ler tickets, publicar atualizações, mover estados e anexar pull ou merge requests.",
           "skillBlocked": "Conecte o Linear primeiro e depois instale a skill para os agentes.",
           "skillPanelTitle": "Skill do Linear",
           "showDescription": "Inclui o Linear no seletor de origens da página Tarefas e nos atalhos da barra lateral."
@@ -7545,7 +7545,7 @@
             "ca6a0c2df7": "atalho",
             "groupShortcut": "Atalho de {{value0}}",
             "4811a8264a": "terminal primeiro",
-            "afda131738": "orca primeiro",
+            "afda131738": "amoeba primeiro",
             "0ecfc47434": "conflito",
             "0f8cb15582": "agente",
             "f1adebbe8c": "shell",
@@ -7822,7 +7822,7 @@
         },
         "LinearAgentSkillPane": {
           "title": "Linear",
-          "description": "Como o Linear funciona no Amoeba: navegue por issues, inicie espaços de trabalho vinculados e permita que agentes atualizem tickets com /orca-linear.",
+          "description": "Como o Linear funciona no Amoeba: navegue por issues, inicie espaços de trabalho vinculados e permita que agentes atualizem tickets com /amoeba-linear.",
           "skillTitle": "Skill do Linear",
           "howToUse": "Exemplos de prompts",
           "howToUseDescription": "Clique em um cartão para copiar um prompt. Use-os em uma worktree vinculada ao Linear depois que a skill for instalada.",
@@ -10537,7 +10537,7 @@
           "pairingCode": "Código de pareamento",
           "pairingCodePlaceholder": "orca://pair?code=...",
           "pairingHelpPrefix": "Execute",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpSuffix": "no servidor e cole a URL de pareamento impressa.",
           "sshImportAlreadySynced": "~/.ssh/config já está sincronizado.",
           "sshImportSynced": "{{value0}} host{{value1}} adicionado(s) ao Amoeba.",
@@ -10720,8 +10720,8 @@
           "automationRunMissing": "Histórico de execução não está mais disponível.",
           "automationAvailabilityUnavailable": "Não foi possível verificar a disponibilidade da automação.",
           "cliHeader": "CLI do Amoeba",
-          "cliCreatedFromAgent": "Criado por um agente via `orca worktree create`",
-          "cliCreatedFromShell": "Criado via `orca worktree create`",
+          "cliCreatedFromAgent": "Criado por um agente via `amoeba worktree create`",
+          "cliCreatedFromShell": "Criado via `amoeba worktree create`",
           "cliStartupAgent": "Iniciado com {{value0}}",
           "cliCreated": "Criado pela CLI do Amoeba",
           "jiraIssue": "Jira {{value0}}",
@@ -14566,7 +14566,7 @@
             "4795ac2d4a": "Tente perguntar:",
             "53905bd076": "Pré-visualização de desenvolvimento: abrindo o terminal de configuração de skills.",
             "1da82af45b": "A CLI do Amoeba precisa de atenção",
-            "ce13a742d0": "`orca` registrado no PATH.",
+            "ce13a742d0": "`amoeba` registrado no PATH.",
             "d1a86c7eb5": "Abra as Configurações para concluir a configuração da CLI."
           },
           "CmdJPaletteFeatureTipVisual": {
@@ -17509,7 +17509,7 @@
           },
           "MobileEmulatorAgentSetupGuideSteps": {
             "21f5687c07": "Skill da CLI do Amoeba",
-            "64fb057667": "Ensina aos agentes os comandos orca emulator para esta worktree."
+            "64fb057667": "Ensina aos agentes os comandos amoeba emulator para esta worktree."
           },
           "MobileEmulatorTabIntroCallout": {
             "1924982130": "Descartar",

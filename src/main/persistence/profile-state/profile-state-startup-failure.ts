@@ -67,9 +67,9 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
     if (damagedSections !== undefined && typeof error.profileId === 'string') {
       return [
         `Part of this profile's saved state is damaged: ${profileStateSectionLabels(damagedSections).join(', ')}. Everything else is intact.`,
-        `Stop Amoeba, then run \`orca profile state rollback --repair --profile-id ${error.profileId}\` to replace only the damaged parts from backups and keep everything else. Amoeba keeps a copy of the damaged file.`,
+        `Stop Amoeba, then run \`amoeba profile state rollback --repair --profile-id ${error.profileId}\` to replace only the damaged parts from backups and keep everything else. Amoeba keeps a copy of the damaged file.`,
         `SQLite path: ${error.databaseFile}`,
-        'To restore a whole backup instead, run `orca profile state exports`, then `orca profile state rollback --backup <id>`.'
+        'To restore a whole backup instead, run `amoeba profile state exports`, then `amoeba profile state rollback --backup <id>`.'
       ].join('\n')
     }
     return [
@@ -80,9 +80,9 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
       retainedBackups,
       'Retained JSON exports:',
       retainedExports,
-      'Stop Amoeba, then run `orca profile state exports` and choose a known-good recovery artifact.',
-      'Restore SQLite with `orca profile state rollback --backup <id>`, or restore a JSON export with',
-      '`orca profile state rollback --revision <revision>`.'
+      'Stop Amoeba, then run `amoeba profile state exports` and choose a known-good recovery artifact.',
+      'Restore SQLite with `amoeba profile state rollback --backup <id>`, or restore a JSON export with',
+      '`amoeba profile state rollback --revision <revision>`.'
     ].join('\n')
   }
 
@@ -91,9 +91,9 @@ export function formatProfileStateStartupFailure(error: unknown): string | undef
       `Amoeba cannot safely choose a profile-state authority: ${error.message}`,
       'An older build may have changed the JSON file. Both copies are preserved; neither is selected automatically.',
       'Stop Amoeba and copy the profile directory before choosing which state to keep.',
-      'To keep the current JSON, including edits from an older build, run `orca profile state rollback --current-json`. This archives both copies and does not merge their contents.',
-      'Run `orca profile state exports` to inspect retained recovery points.',
-      'Use `orca profile state rollback --backup <id>` or `orca profile state rollback --revision <revision>` only after selecting the state you want to restore.'
+      'To keep the current JSON, including edits from an older build, run `amoeba profile state rollback --current-json`. This archives both copies and does not merge their contents.',
+      'Run `amoeba profile state exports` to inspect retained recovery points.',
+      'Use `amoeba profile state rollback --backup <id>` or `amoeba profile state rollback --revision <revision>` only after selecting the state you want to restore.'
     ].join('\n')
   }
 

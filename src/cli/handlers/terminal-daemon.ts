@@ -65,7 +65,7 @@ export function formatSeveredDaemonStatus(result: SeveredStatusResult): string {
     `Terminal daemon PID ${severed.pid} is running without its program files (the AppImage it started from is gone).`,
     `It still hosts ${describeSessions(severed.liveSessionCount)}. New terminals are not kept across restarts until it is restarted.`,
     'Restarting ENDS those processes. Agents that support resume can be resumed afterwards; shells and other jobs cannot.',
-    'Run `orca terminal-daemon restart --yes` when your agents are idle.',
+    'Run `amoeba terminal-daemon restart --yes` when your agents are idle.',
     ...liveness
   ].join('\n')
 }

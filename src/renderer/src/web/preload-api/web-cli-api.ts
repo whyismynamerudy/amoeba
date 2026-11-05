@@ -1,10 +1,11 @@
 import type { PreloadApi } from '../../../../preload/api-types'
 import { getBrowserPlatform } from './web-storage'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../../../shared/orca-cli-command-name'
 
 export function createCliApi(): NonNullable<Partial<PreloadApi>['cli']> {
   const status = {
     platform: getBrowserPlatform(),
-    commandName: getBrowserPlatform() === 'linux' ? 'orca-ide' : 'orca',
+    commandName: AMOEBA_CLI_COMMAND_NAME,
     commandPath: null,
     pathDirectory: null,
     pathConfigured: false,

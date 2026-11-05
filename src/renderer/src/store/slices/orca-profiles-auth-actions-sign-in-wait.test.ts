@@ -39,7 +39,7 @@ function deferredConnect(): (result: ConnectCurrentOrcaProfileResult) => void {
   return (result) => finish(result)
 }
 
-describe('orca profile sign-in timeout', () => {
+describe('amoeba profile sign-in timeout', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.stubGlobal('window', {

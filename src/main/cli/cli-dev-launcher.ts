@@ -4,6 +4,7 @@ import { dirname, isAbsolute, join } from 'node:path'
 import { DEV_COMMAND_NAME, DEV_LAUNCHER_DIR } from './cli-install-constants'
 import { escapeWindowsBatchValue, isAbsoluteForPlatform } from './cli-install-path-format'
 import { quotePosixShellDoubleQuotedApostrophe } from '../../shared/shell-argument-quoting'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
 
 export async function ensureDevLauncher(args: {
   platform: NodeJS.Platform
@@ -37,8 +38,8 @@ export async function ensureDevLauncher(args: {
     mode: args.platform === 'win32' ? undefined : 0o755
   })
   if (args.commandName === DEV_COMMAND_NAME && args.platform !== 'win32') {
-    // Why: dev PTYs prepend this dir to PATH, so keep a local `orca` alias without claiming the global command.
-    await writeFile(join(dirname(launcherPath), 'orca'), content, {
+    // Why: dev PTYs prepend this dir to PATH, so keep a local `amoeba` alias without claiming the global command.
+    await writeFile(join(dirname(launcherPath), AMOEBA_CLI_COMMAND_NAME), content, {
       encoding: 'utf8',
       mode: 0o755
     })

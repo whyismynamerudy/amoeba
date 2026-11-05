@@ -16,7 +16,7 @@ export type ServeServiceSpec = {
 export type ServeServiceInput = {
   platform: NodeJS.Platform
   homeDir: string
-  /** Absolute path of the stable `orca` launcher, never a version-specific executable. */
+  /** Absolute path of the stable `amoeba` launcher, never a version-specific executable. */
   command: string
   userDataPath: string
   /** The profile's userData when no override is set; that profile gets the plain name. */
@@ -147,7 +147,7 @@ function renderSystemdUnit(argv: string[], env: Record<string, string>): string 
     .join('\n')
   // Kill only the supervisor: it stops its server while the terminal daemon survives.
   return `[Unit]
-Description=Amoeba server (orca serve --supervise)
+Description=Amoeba server (amoeba serve --supervise)
 StartLimitIntervalSec=900
 StartLimitBurst=5
 

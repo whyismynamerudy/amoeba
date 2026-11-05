@@ -43,7 +43,7 @@ function mockClaudeChild(): { once: (event: string, cb: (...args: unknown[]) => 
   return child
 }
 
-describe('orca claude-teams CLI handler', () => {
+describe('amoeba claude-teams CLI handler', () => {
   const isWindows = process.platform === 'win32'
   let previousRunAsNode: string | undefined
   let previousPaneKey: string | undefined
@@ -78,7 +78,7 @@ describe('orca claude-teams CLI handler', () => {
     previousRunAsNode = process.env.ELECTRON_RUN_AS_NODE
     previousPaneKey = process.env.ORCA_PANE_KEY
     previousExitCode = process.exitCode
-    // Reproduce the Electron-as-Node flag inherited from the orca launcher.
+    // Reproduce the Electron-as-Node flag inherited from the amoeba launcher.
     process.env.ELECTRON_RUN_AS_NODE = '1'
     process.env.ORCA_PANE_KEY = 'tab-1:leaf-1'
   })
@@ -181,7 +181,7 @@ describe('orca claude-teams CLI handler', () => {
   })
 
   // #32177: an empty --data-root must never fall back to the default profile's lock.
-  it('refuses `orca serve --reclaim-stale-lock` with a --data-root that names no directory', async () => {
+  it('refuses `amoeba serve --reclaim-stale-lock` with a --data-root that names no directory', async () => {
     const ctx: HandlerContext = {
       flags: new Map<string, string | boolean>([
         ['reclaim-stale-lock', true],
@@ -196,7 +196,7 @@ describe('orca claude-teams CLI handler', () => {
     await expect(CORE_HANDLERS.serve(ctx)).rejects.toMatchObject({
       code: 'invalid_argument',
       message:
-        '--data-root expects a directory. Usage: orca serve --reclaim-stale-lock [--data-root <dir>] [--yes] [--json]'
+        '--data-root expects a directory. Usage: amoeba serve --reclaim-stale-lock [--data-root <dir>] [--yes] [--json]'
     })
     expect(reclaimStaleLockMock).not.toHaveBeenCalled()
     expect(printReclaimResultMock).not.toHaveBeenCalled()

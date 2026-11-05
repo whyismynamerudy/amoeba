@@ -23,12 +23,12 @@ describe('prependOrcaCliDirToChildPath', () => {
   it.each(['linux', 'darwin'] as const)(
     'uses the %s execution host CLI and profile over inherited values',
     (platform) => {
-      const launcher = join(USER_DATA, 'cli', 'bin', 'orca')
+      const launcher = join(USER_DATA, 'cli', 'bin', 'amoeba')
       installFakeAppEnvironment({ getCliLauncherPath: () => launcher })
       const env: Record<string, string> = {
         PATH: `/usr/bin:${join(USER_DATA, 'cli', 'bin')}::/bin`,
         ORCA_USER_DATA_PATH: '/parent/profile',
-        ORCA_CLI_COMMAND: '/parent/orca',
+        ORCA_CLI_COMMAND: '/parent/amoeba',
         ORCA_CLI_BIN_DIR: '/parent/bin'
       }
       expect(
@@ -48,12 +48,12 @@ describe('prependOrcaCliDirToChildPath', () => {
   )
   it('puts a Windows execution host CLI first on Path without a POSIX restore dir', () => {
     const binDir = join(USER_DATA, 'cli', 'bin')
-    const launcher = join(binDir, 'orca.exe')
+    const launcher = join(binDir, 'amoeba.exe')
     installFakeAppEnvironment({ getCliLauncherPath: () => launcher })
     const env: Record<string, string> = {
       Path: `C:\\Windows;${binDir};;C:\\Tools`,
       ORCA_USER_DATA_PATH: 'C:\\parent\\profile',
-      ORCA_CLI_COMMAND: 'C:\\parent\\orca.exe',
+      ORCA_CLI_COMMAND: 'C:\\parent\\amoeba.exe',
       ORCA_CLI_BIN_DIR: '/parent/bin'
     }
     expect(
@@ -70,14 +70,16 @@ describe('prependOrcaCliDirToChildPath', () => {
       ORCA_CLI_COMMAND: launcher
     })
   })
-  it('leads packaged Linux PATH with the bare-orca shim dir', () => {
+  it('leads packaged Linux PATH with the amoeba shim dir', () => {
     const env: Record<string, string> = { PATH: '/usr/local/bin:/usr/bin' }
-    prependOrcaCliDirToChildPath(env, {
-      isPackaged: true,
-      userDataPath: USER_DATA,
-      resourcesPath: RESOURCES,
-      platform: 'linux'
-    })
+    expect(
+      prependOrcaCliDirToChildPath(env, {
+        isPackaged: true,
+        userDataPath: USER_DATA,
+        resourcesPath: RESOURCES,
+        platform: 'linux'
+      })
+    ).toBe(join(SHIM_DIR, 'amoeba'))
     expect(env.PATH).toBe(`${SHIM_DIR}:/usr/local/bin:/usr/bin`)
     expect(env.ORCA_CLI_BIN_DIR).toBe(SHIM_DIR)
     expect(shim.ensureLinuxTerminalOrcaCliShimDir).toHaveBeenCalledWith({

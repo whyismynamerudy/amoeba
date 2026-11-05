@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   runtime: 'native' as 'native' | 'wsl',
   skillInstalled: true,
   skillUnverifiable: false,
-  updateSkillName: 'orca-linear',
+  updateSkillName: 'amoeba-linear',
   linearConnected: true,
   visibleTaskProviders: ['github', 'linear'] as string[],
   openSettingsPage: vi.fn(),
@@ -125,7 +125,7 @@ describe('LinearAgentSkillPane', () => {
     mocks.runtime = 'native'
     mocks.skillInstalled = true
     mocks.skillUnverifiable = false
-    mocks.updateSkillName = 'orca-linear'
+    mocks.updateSkillName = 'amoeba-linear'
     mocks.linearConnected = true
     mocks.visibleTaskProviders = ['github', 'linear']
     mocks.openSettingsPage.mockClear()
@@ -194,7 +194,7 @@ describe('LinearAgentSkillPane', () => {
     expect(examples).toHaveLength(5)
     for (const example of examples) {
       expect(markup).toContain(example.title)
-      expect(example.prompt).toContain('/orca-linear')
+      expect(example.prompt).toContain('/amoeba-linear')
       expect(example.prompt).not.toContain('{{value0}}')
     }
   })
@@ -218,7 +218,7 @@ describe('LinearAgentSkillPane', () => {
     )
   })
 
-  it('passes the orca-linear install/update skills and freshness on a local runtime', async () => {
+  it('passes the amoeba-linear install/update skills and freshness on a local runtime', async () => {
     await renderPane()
 
     expect(mocks.panelProps.at(-1)).toEqual(

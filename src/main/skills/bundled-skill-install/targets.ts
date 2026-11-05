@@ -56,6 +56,18 @@ export async function resolveBundledSkillRealPath(
   }
 }
 
+export async function bundledSkillLinkPointsAt(
+  filesystem: BundledSkillFilesystem,
+  path: string,
+  rawTarget: string,
+  realPath: string
+): Promise<boolean> {
+  const resolved =
+    (await filesystem.realpath(path)) ??
+    resolve(await resolveBundledSkillRealPath(filesystem, dirname(path)), rawTarget)
+  return bundledSkillPathKey(resolved) === bundledSkillPathKey(realPath)
+}
+
 /** Deduplicate roots by real folder so linked provider homes cannot plan the same target twice; shared root comes first. */
 export async function resolveBundledSkillTargets(
   request: BundledSkillTargetRequest,

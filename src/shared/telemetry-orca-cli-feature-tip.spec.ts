@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { eventSchemas } from './telemetry-events'
 
-describe('orca cli feature tip schemas', () => {
+describe('amoeba cli feature tip schemas', () => {
   it('accepts the shown event for app-open exposure', () => {
     const parsed = eventSchemas.orca_cli_feature_tip_shown.safeParse({
       source: 'app_open'

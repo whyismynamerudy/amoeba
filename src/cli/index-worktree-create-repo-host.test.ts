@@ -62,7 +62,7 @@ const TWIN_SETUPS = [
   buildSetup({ id: 'setup-1', hostId: 'runtime:gpu', repoId: 'repo-1', path: '/srv/orca' })
 ]
 
-describe('orca worktree create carries the selected host', () => {
+describe('amoeba worktree create carries the selected host', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,

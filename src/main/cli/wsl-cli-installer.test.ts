@@ -15,11 +15,11 @@ import { WslCliInstaller, _internals } from './wsl-cli-installer'
 import { reconcileManagedWslCliRegistrations } from './wsl-cli-registration-reconciliation'
 
 function makeHostStatus(
-  launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
+  launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe'
 ) {
   return {
     platform: 'win32',
-    commandName: 'orca',
+    commandName: 'amoeba',
     commandPath: launcherPath,
     pathDirectory: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin',
     pathConfigured: true,
@@ -59,13 +59,20 @@ function createWslRunner(
   options: {
     initialBridge?: string | null
     initialLegacyFile?: string | null
+    initialOldestLegacyFile?: string | null
     failInstall?: boolean
     interopReady?: boolean
   } = {}
 ) {
-  const commandPath = '/home/alice/.local/bin/orca-ide'
-  const legacyCommandPath = '/home/alice/.local/bin/orca'
-  const bridgePath = '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+  const commandPath = '/home/alice/.local/bin/amoeba'
+  const legacyCommandPath = '/home/alice/.local/bin/orca-ide'
+  const oldestLegacyCommandPath = '/home/alice/.local/bin/orca'
+  const quoted = (path: string): string => `'${path}'`
+  const managedLegacyPaths = (): string[] =>
+    [legacyCommandPath, oldestLegacyCommandPath].filter((path) =>
+      files.get(path)?.includes('# Amoeba managed WSL CLI launcher')
+    )
+  const bridgePath = '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
   const files = new Map<string, string>()
   if (initialFile !== null) {
     files.set(commandPath, initialFile)
@@ -78,6 +85,9 @@ function createWslRunner(
   }
   if (options.initialLegacyFile) {
     files.set(legacyCommandPath, options.initialLegacyFile)
+  }
+  if (options.initialOldestLegacyFile) {
+    files.set(oldestLegacyCommandPath, options.initialOldestLegacyFile)
   }
   const calls: string[] = []
   const runner = vi.fn(async (_distro: string, command: string) => {
@@ -106,16 +116,14 @@ function createWslRunner(
         )?.[1] ?? ''
       files.set(commandPath, launcher)
       files.set(bridgePath, bridge)
-      if (files.get(legacyCommandPath)?.includes('# Amoeba managed WSL CLI launcher')) {
-        files.delete(legacyCommandPath)
-      }
+      managedLegacyPaths().forEach((path) => files.delete(path))
       return ''
     }
     if (command.includes('command -v powershell.exe')) {
       return options.interopReady === false ? 'no' : 'yes'
     }
     if (command.includes('rm -f')) {
-      if (command.includes(`rm -f '${commandPath}'`)) {
+      if (command.includes(`rm -f ${quoted(commandPath)}`)) {
         if (
           files.has(bridgePath) &&
           !files.get(bridgePath)?.includes('# Amoeba managed WSL CLI PowerShell bridge')
@@ -125,23 +133,16 @@ function createWslRunner(
         files.delete(commandPath)
         files.delete(bridgePath)
       }
-      if (
-        command.includes(legacyCommandPath) &&
-        files.get(legacyCommandPath)?.includes('# Amoeba managed WSL CLI launcher')
-      ) {
-        files.delete(legacyCommandPath)
-      }
+      managedLegacyPaths()
+        .filter((path) => command.includes(quoted(path)))
+        .forEach((path) => files.delete(path))
       return ''
     }
     if (command.includes('cat ')) {
-      if (command.includes(commandPath)) {
-        return files.get(commandPath) ?? '__ORCA_MISSING__'
-      }
-      if (command.includes(bridgePath)) {
-        return files.get(bridgePath) ?? '__ORCA_MISSING__'
-      }
-      if (command.includes(legacyCommandPath)) {
-        return files.get(legacyCommandPath) ?? '__ORCA_MISSING__'
+      for (const path of [commandPath, bridgePath, legacyCommandPath, oldestLegacyCommandPath]) {
+        if (command.includes(quoted(path)) || command.includes(`cat ${path}`)) {
+          return files.get(path) ?? '__ORCA_MISSING__'
+        }
       }
     }
     throw new Error(`Unexpected WSL command: ${command}`)
@@ -151,7 +152,8 @@ function createWslRunner(
     calls,
     getBridge: () => files.get(bridgePath) ?? null,
     getFile: () => files.get(commandPath) ?? null,
-    getLegacyFile: () => files.get(legacyCommandPath) ?? null
+    getLegacyFile: () => files.get(legacyCommandPath) ?? null,
+    getOldestLegacyFile: () => files.get(oldestLegacyCommandPath) ?? null
   }
 }
 
@@ -175,7 +177,7 @@ describe('WslCliInstaller', () => {
 
     await expect(installer.getStatus()).resolves.toMatchObject({
       state: 'not_installed',
-      commandPath: '/home/alice/.local/bin/orca-ide'
+      commandPath: '/home/alice/.local/bin/amoeba'
     })
 
     const installed = await installer.install()
@@ -183,25 +185,30 @@ describe('WslCliInstaller', () => {
     expect(installed).toMatchObject({
       state: 'installed',
       pathConfigured: true,
-      launcherPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
+      launcherPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe'
     })
     expect(wsl.getFile()).toBe(
       _internals.buildWslLauncher(
-        'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe',
-        '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+        'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe',
+        '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
       )
     )
     expect(wsl.getBridge()).toBe(_internals.buildWslBridgeScript())
     const installCommand = wsl.calls.find((command) => command.includes('cat > "$command_tmp"'))
     expect(installCommand).toBeDefined()
-    expect(installCommand).toContain("legacy_command_path='/home/alice/.local/bin/orca'")
-    expect(installCommand).toContain('rm -f "$legacy_command_path"')
+    for (const legacyPath of ['/home/alice/.local/bin/orca', '/home/alice/.local/bin/orca-ide']) {
+      expect(installCommand).toContain(`[ ! -L '${legacyPath}' ]`)
+      expect(installCommand).toContain(`rm -f '${legacyPath}'`)
+    }
+    const realOrcaBridge = "'/home/alice/.local/share/orca/orca-wsl-bridge.ps1'"
+    expect(installCommand).toContain(
+      `grep -Fq '# Amoeba managed WSL CLI PowerShell bridge' ${realOrcaBridge}; then rm -f ${realOrcaBridge}`
+    )
     // The bridge accepts legacy arguments, so publishing it first keeps interrupted upgrades usable.
     const bridgePublishIndex = installCommand?.indexOf('mv -f "$bridge_tmp"') ?? -1
     const launcherPublishIndex = installCommand?.indexOf('mv -f "$command_tmp"') ?? -1
     expect(bridgePublishIndex).toBeGreaterThan(-1)
     expect(bridgePublishIndex).toBeLessThan(launcherPublishIndex)
-    expect(installCommand).toContain('[ ! -L "$legacy_command_path" ]')
   })
 
   it('continues checking WSL when the host launcher exists but host PATH is unknown', async () => {
@@ -221,23 +228,14 @@ describe('WslCliInstaller', () => {
     await expect(installer.getStatus()).resolves.toMatchObject({
       supported: true,
       state: 'not_installed',
-      commandPath: '/home/alice/.local/bin/orca-ide'
+      commandPath: '/home/alice/.local/bin/amoeba'
     })
-  })
-
-  it('derives the shared WSL bridge path for current and legacy command names', () => {
-    expect(_internals.getBridgePathFromCommandPath('/home/alice/.local/bin/orca-ide')).toBe(
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
-    )
-    expect(_internals.getBridgePathFromCommandPath('/home/alice/.local/bin/orca')).toBe(
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
-    )
   })
 
   it('reports installed WSL launchers whose bin directory is missing from PATH', async () => {
     const launcher = _internals.buildWslLauncher(
       'C:\\Amoeba\\orca.cmd',
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     const wsl = createWslRunner(launcher, false)
     const installer = new WslCliInstaller({
@@ -257,7 +255,7 @@ describe('WslCliInstaller', () => {
   it('accepts current managed WSL scripts with an extra heredoc trailing newline', async () => {
     const launcher = `${_internals.buildWslLauncher(
       'C:\\Amoeba\\orca.cmd',
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )}\n`
     const wsl = createWslRunner(launcher)
     const installer = new WslCliInstaller({
@@ -265,7 +263,7 @@ describe('WslCliInstaller', () => {
       distro: 'Ubuntu',
       hostInstaller: { getStatus: async () => makeHostStatus('C:\\Amoeba\\orca.cmd') },
       wslRunner: async (distro, command) => {
-        if (command.includes('cat /home/alice/.local/share/orca/orca-wsl-bridge.ps1')) {
+        if (command.includes('cat /home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1')) {
           return `${_internals.buildWslBridgeScript()}\n`
         }
         return wsl.runner(distro, command)
@@ -295,7 +293,7 @@ describe('WslCliInstaller', () => {
     const wsl = createWslRunner(
       _internals.buildWslLauncher(
         'C:\\Amoeba\\orca.cmd',
-        '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+        '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
       )
     )
     const installer = new WslCliInstaller({
@@ -311,8 +309,8 @@ describe('WslCliInstaller', () => {
 
   it('generates a launcher that forwards arguments through a PowerShell file bridge', () => {
     const launcher = _internals.buildWslLauncher(
-      'C:\\Program Files\\Amoeba\\resources\\bin\\orca.exe',
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      'C:\\Program Files\\Amoeba\\resources\\bin\\amoeba.exe',
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     const bridge = _internals.buildWslBridgeScript()
 
@@ -373,14 +371,14 @@ describe('WslCliInstaller', () => {
 
     await expect(installer.getStatus()).resolves.toMatchObject({
       state: 'not_installed',
-      commandPath: '/home/alice/.local/bin/orca-ide'
+      commandPath: '/home/alice/.local/bin/amoeba'
     })
   })
 
   it('marks stale managed launchers that point at the old app bin instead of packaged resources', async () => {
     const oldLauncher = _internals.buildWslLauncher(
       'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\bin\\orca.cmd',
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     const wsl = createWslRunner(oldLauncher)
     const installer = new WslCliInstaller({
@@ -393,17 +391,17 @@ describe('WslCliInstaller', () => {
     await expect(installer.getStatus()).resolves.toMatchObject({
       state: 'stale',
       currentTarget: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\bin\\orca.cmd',
-      launcherPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
+      launcherPath: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe'
     })
 
     await expect(installer.install()).resolves.toMatchObject({
       state: 'installed',
-      currentTarget: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
+      currentTarget: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe'
     })
   })
 
   it('repairs the frozen pre-rc4 registration so orchestration send/reply reach native rc4', async () => {
-    const nativeLauncher = 'C:\\Program Files\\Amoeba\\resources\\bin\\orca.exe'
+    const nativeLauncher = 'C:\\Program Files\\Amoeba\\resources\\bin\\amoeba.exe'
     const wsl = createWslRunner(PRE_RC4_MANAGED_WSL_LAUNCHER)
     const installer = new WslCliInstaller({
       platform: 'win32',
@@ -469,7 +467,7 @@ describe('WslCliInstaller', () => {
   })
 
   it('repairs a managed launcher whose bridge is missing, but preserves a conflicting bridge', async () => {
-    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\orca.exe'
+    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\amoeba.exe'
     const missingBridge = createWslRunner(PRE_RC4_MANAGED_WSL_LAUNCHER, true, {
       initialBridge: null
     })
@@ -524,10 +522,10 @@ describe('WslCliInstaller', () => {
   })
 
   it('retains command ownership when only the bridge conflicts', async () => {
-    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\orca.exe'
+    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\amoeba.exe'
     const currentLauncher = _internals.buildWslLauncher(
       nativeLauncher,
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     const wsl = createWslRunner(currentLauncher, true, {
       initialBridge: 'Write-Output "user-owned bridge"\n'
@@ -548,11 +546,12 @@ describe('WslCliInstaller', () => {
     expect(wsl.getFile()).toBe(currentLauncher)
   })
 
-  it('moves a legacy-only managed registration to orca-ide without touching unmanaged names', async () => {
-    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\orca.exe'
+  it('moves managed orca and orca-ide registrations to amoeba without touching unmanaged names', async () => {
+    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\amoeba.exe'
     const managedLegacy = createWslRunner(null, true, {
       initialBridge: _internals.buildWslBridgeScript(),
-      initialLegacyFile: PRE_RC4_MANAGED_WSL_LAUNCHER
+      initialLegacyFile: PRE_RC4_MANAGED_WSL_LAUNCHER,
+      initialOldestLegacyFile: PRE_RC4_MANAGED_WSL_LAUNCHER
     })
     const installer = new WslCliInstaller({
       platform: 'win32',
@@ -566,6 +565,7 @@ describe('WslCliInstaller', () => {
       status: { state: 'installed', currentTarget: nativeLauncher }
     })
     expect(managedLegacy.getLegacyFile()).toBeNull()
+    expect(managedLegacy.getOldestLegacyFile()).toBeNull()
 
     const unmanagedLegacy = createWslRunner(null, true, {
       initialLegacyFile: '#!/bin/sh\necho user-owned\n'
@@ -605,7 +605,7 @@ describe('WslCliInstaller', () => {
   })
 
   it('removes the managed legacy launcher on removal so reconciliation cannot re-adopt it', async () => {
-    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\orca.exe'
+    const nativeLauncher = 'C:\\Amoeba\\resources\\bin\\amoeba.exe'
     const managedLegacy = createWslRunner(null, true, {
       initialBridge: _internals.buildWslBridgeScript(),
       initialLegacyFile: PRE_RC4_MANAGED_WSL_LAUNCHER
@@ -638,7 +638,7 @@ describe('WslCliInstaller', () => {
     const installedWithLegacy = createWslRunner(
       _internals.buildWslLauncher(
         nativeLauncher,
-        '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+        '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
       ),
       true,
       { initialLegacyFile: PRE_RC4_MANAGED_WSL_LAUNCHER }
@@ -664,7 +664,8 @@ describe('WslCliInstaller', () => {
       platform: 'win32',
       distro: 'Ubuntu',
       hostInstaller: {
-        getStatus: async () => makeHostStatus('C:\\Program Files\\Amoeba\\resources\\bin\\orca.exe')
+        getStatus: async () =>
+          makeHostStatus('C:\\Program Files\\Amoeba\\resources\\bin\\amoeba.exe')
       },
       wslRunner: wsl.runner
     })
@@ -684,7 +685,7 @@ describe('WslCliInstaller', () => {
     expect(installCommand).toContain('flock -x -w 30 9')
     // Moving the command to a backup would leave concurrent shells without a CLI.
     expect(installCommand).not.toContain('command_backup')
-    expect(installCommand).not.toContain(`mv -f '/home/alice/.local/bin/orca-ide'`)
+    expect(installCommand).not.toContain(`mv -f '/home/alice/.local/bin/amoeba'`)
   })
 
   it.skipIf(process.platform === 'win32')(
@@ -692,11 +693,11 @@ describe('WslCliInstaller', () => {
     async () => {
       const root = await mkdtemp(join(tmpdir(), 'orca-wsl-cli-rollback-'))
       const home = join(root, 'home with spaces')
-      const commandPath = join(home, '.local', 'bin', 'orca-ide')
-      const bridgePath = join(home, '.local', 'share', 'orca', 'orca-wsl-bridge.ps1')
+      const commandPath = join(home, '.local', 'bin', 'amoeba')
+      const bridgePath = join(home, '.local', 'share', 'amoeba', 'amoeba-wsl-bridge.ps1')
       const bridge = _internals.buildWslBridgeScript()
       await mkdir(join(home, '.local', 'bin'), { recursive: true })
-      await mkdir(join(home, '.local', 'share', 'orca'), { recursive: true })
+      await mkdir(join(home, '.local', 'share', 'amoeba'), { recursive: true })
       await writeFile(commandPath, PRE_RC4_MANAGED_WSL_LAUNCHER, 'utf8')
       await writeFile(bridgePath, bridge, 'utf8')
 
@@ -724,7 +725,7 @@ describe('WslCliInstaller', () => {
         distro: 'Ubuntu',
         hostInstaller: {
           getStatus: async () =>
-            makeHostStatus('C:\\Program Files\\Amoeba\\resources\\bin\\orca.exe')
+            makeHostStatus('C:\\Program Files\\Amoeba\\resources\\bin\\amoeba.exe')
         },
         wslRunner: runner
       })
@@ -756,7 +757,7 @@ describe('WslCliInstaller', () => {
   })
 
   it('is idempotent after repairing an old managed registration', async () => {
-    const nativeLauncher = 'D:\\Custom Amoeba\\resources\\bin\\orca.exe'
+    const nativeLauncher = 'D:\\Custom Amoeba\\resources\\bin\\amoeba.exe'
     const wsl = createWslRunner(PRE_RC4_MANAGED_WSL_LAUNCHER)
     const installer = new WslCliInstaller({
       platform: 'win32',
@@ -769,14 +770,14 @@ describe('WslCliInstaller', () => {
     await expect(installer.repairManagedRegistration()).resolves.toMatchObject({ changed: false })
     expect(wsl.calls.filter((command) => command.includes('cat > "$command_tmp"'))).toHaveLength(1)
     expect(wsl.getFile()).toContain(
-      "ORCA_WIN_LAUNCHER='D:\\Custom Amoeba\\resources\\bin\\orca.exe'"
+      "ORCA_WIN_LAUNCHER='D:\\Custom Amoeba\\resources\\bin\\amoeba.exe'"
     )
   })
 
   it('refuses to remove an old managed launcher when the bridge path is user-owned', async () => {
     const oldLauncher = _internals.buildWslLauncher(
       'C:\\Old\\orca.cmd',
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     const wsl = createWslRunner(oldLauncher)
     const installer = new WslCliInstaller({
@@ -784,7 +785,7 @@ describe('WslCliInstaller', () => {
       distro: 'Ubuntu',
       hostInstaller: { getStatus: async () => makeHostStatus('C:\\Amoeba\\orca.cmd') },
       wslRunner: async (distro, command) => {
-        if (command.includes('cat /home/alice/.local/share/orca/orca-wsl-bridge.ps1')) {
+        if (command.includes('cat /home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1')) {
           return 'user bridge'
         }
         if (command.includes('rm -f')) {

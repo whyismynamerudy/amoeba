@@ -44,7 +44,7 @@ import { main } from './index'
 import { okFixture } from './test-fixtures'
 import { useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   const priorExitCode = process.exitCode
   beforeEach(() => {
     process.exitCode = undefined

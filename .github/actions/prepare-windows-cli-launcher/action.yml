@@ -1,5 +1,5 @@
 name: Prepare the orcad Windows CLI launcher
-description: Compiles native/windows-cli-launcher for each requested arch into .build/windows-cli-launcher/<arch>/orca.exe.
+description: Compiles native/windows-cli-launcher for each requested arch into .build/windows-cli-launcher/<arch>/amoeba.exe.
 
 inputs:
   arches:
@@ -34,6 +34,6 @@ runs:
         foreach ($arch in ($env:ARCHES -split ' ' | Where-Object { $_ })) {
           rustup target add $triples[$arch]
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          node config/scripts/build-windows-cli-launcher.mjs --arch $arch --output ".build/windows-cli-launcher/$arch/orca.exe"
+          node config/scripts/build-windows-cli-launcher.mjs --arch $arch --output ".build/windows-cli-launcher/$arch/amoeba.exe"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }

@@ -513,17 +513,19 @@ describe('agent process recognition', () => {
   })
 
   it('recognizes only the agent subcommand of the generic Amoeba CLI', () => {
-    expect(recognizeAgentProcessFromCommandLine('orca claude-teams')).toEqual({
+    expect(recognizeAgentProcessFromCommandLine('amoeba claude-teams')).toEqual({
       agent: 'claude-agent-teams',
-      processName: 'orca'
+      processName: 'amoeba'
     })
-    expect(recognizeAgentProcessFromCommandLine('orca status')).toBeNull()
+    expect(recognizeAgentProcessFromCommandLine('amoeba status')).toBeNull()
     expect(recognizeAgentProcessFromCommandLine('amoeba-dev terminal list')).toBeNull()
-    expect(recognizeAgentProcessFromCommandLine('node /usr/local/bin/orca claude-teams')).toEqual({
-      agent: 'claude-agent-teams',
-      processName: 'orca'
-    })
-    expect(recognizeAgentProcessFromCommandLine('node /usr/local/bin/orca status')).toBeNull()
+    expect(recognizeAgentProcessFromCommandLine('node /usr/local/bin/amoeba claude-teams')).toEqual(
+      {
+        agent: 'claude-agent-teams',
+        processName: 'amoeba'
+      }
+    )
+    expect(recognizeAgentProcessFromCommandLine('node /usr/local/bin/amoeba status')).toBeNull()
   })
 
   it('recognizes the versioned Cursor Node wrapper without accepting generic agent processes', () => {
@@ -547,7 +549,7 @@ describe('agent process recognition', () => {
   it('does not classify prompt text as a wrapped agent command', () => {
     expect(
       recognizeAgentProcessFromCommandLine(
-        'node /tmp/not-an-agent.js "compare opencode vs orca in Gemini CLI"'
+        'node /tmp/not-an-agent.js "compare opencode vs amoeba in Gemini CLI"'
       )
     ).toBeNull()
     expect(recognizeAgentProcessFromCommandLine(String.raw`node C:\tmp\not-an-agent.js`)).toBeNull()

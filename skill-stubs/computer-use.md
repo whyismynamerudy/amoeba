@@ -7,7 +7,7 @@ This discovery stub loads the version-matched guide from the Amoeba executable u
 ## Load the version-matched guide before running Amoeba commands
 
 ```text
-ORCA skills get computer-use
+AMOEBA skills get computer-use
 ```
 
 <!-- shared: no-guessing -->

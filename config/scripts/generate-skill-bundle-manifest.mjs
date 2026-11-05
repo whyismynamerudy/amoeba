@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { lstat, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
+import { GUIDE_ALIASES } from './skill-guide-aliases.mjs'
 import { resolvePullRequestDiffBase } from './git-pull-request-diff-base.mjs'
 
 // Schema 3 removed revision/tree identity with snapshot registry; freshness compares installed bytes only.
@@ -14,6 +15,10 @@ const OUTPUT_ROOT = path.join(REPO_ROOT, 'resources', 'skills')
 const CURRENT_MANIFEST_PATH = path.join(OUTPUT_ROOT, 'current-manifest.json')
 // Digest ledger is add-only or older untouched SKILL.md installs become unrecognizable.
 const RELEASED_DIGESTS_PATH = path.join(OUTPUT_ROOT, 'released-digests.json')
+// Add-only like the ledger. Upstream Orca ships same-named skills, and its pre-fork bytes match ours,
+// so only blobs naming Amoeba prove a former-name copy is ours to retire.
+const FORMER_NAME_DIGESTS_PATH = path.join(OUTPUT_ROOT, 'former-name-digests.json')
+const AMOEBA_BUILD_MARKER = 'Amoeba'
 const BUNDLED_SOURCES_PATH = path.join(
   REPO_ROOT,
   'src',
@@ -242,10 +247,21 @@ function historicalSkillDigests() {
     offset = headerEnd + 1 + Number(size) + 1
     const digest = textDigest(bytes)
     if (digest !== null) {
-      digests.push([namesByBlob.get(blob), [digest]])
+      digests.push([namesByBlob.get(blob), [digest], bytes.includes(AMOEBA_BUILD_MARKER)])
     }
   }
   return digests
+}
+
+/** Former-name digests only Amoeba shipped: upstream Orca's same-named skills must never match. */
+async function buildFormerNameDigests(history) {
+  const text = await readFile(FORMER_NAME_DIGESTS_PATH, 'utf8').catch(() => null)
+  const ledger = text === null ? { schemaVersion: 1, skills: {} } : JSON.parse(text)
+  const formerNames = new Set(Object.values(GUIDE_ALIASES).flat())
+  return withDigests(
+    ledger,
+    history.filter(([name, , amoebaBuilt]) => amoebaBuilt && formerNames.has(name))
+  )
 }
 
 function withDigests(ledger, additions) {
@@ -271,17 +287,17 @@ async function readReleasedDigests() {
   return text === null ? { schemaVersion: 1, skills: {} } : JSON.parse(text)
 }
 
-async function buildReleasedDigests(manifest) {
+async function buildReleasedDigests(manifest, history) {
   const current = []
   for (const skill of manifest.skills) {
     const bytes = await readFile(path.join(REPO_ROOT, skill.sourcePath, 'SKILL.md'))
     current.push([skill.name, [textDigest(bytes)]])
   }
-  return withDigests(await readReleasedDigests(), [...historicalSkillDigests(), ...current])
+  return withDigests(await readReleasedDigests(), [...history, ...current])
 }
 
 // Embed install bytes: CLI/paired servers have no app resources directory.
-async function buildBundledSources(manifest, ledger) {
+async function buildBundledSources(manifest, ledger, formerNameLedger) {
   const sources = []
   for (const skill of manifest.skills) {
     // The installer's untouched-copy rule is "the folder holds exactly SKILL.md".
@@ -289,10 +305,16 @@ async function buildBundledSources(manifest, ledger) {
       throw new Error(`Bundled skills ship a single text SKILL.md: ${skill.name}`)
     }
     const bytes = await readFile(path.join(REPO_ROOT, skill.sourcePath, 'SKILL.md'))
+    const formerNames = GUIDE_ALIASES[skill.name] ?? []
+    const releasedDigests = [
+      ...ledger.skills[skill.name],
+      ...formerNames.flatMap((name) => formerNameLedger.skills[name] ?? [])
+    ]
     sources.push({
       name: skill.name,
       text: normalizeText(bytes).toString('utf8'),
-      releasedDigests: ledger.skills[skill.name]
+      releasedDigests: [...new Set(releasedDigests)].sort(compareCodeUnits),
+      ...(formerNames.length > 0 ? { formerNames } : {})
     })
   }
   return (
@@ -301,8 +323,10 @@ async function buildBundledSources(manifest, ledger) {
     '  readonly name: string\n' +
     '  /** LF-normalised `SKILL.md`, the only file a bundled skill ships. */\n' +
     '  readonly text: string\n' +
-    '  /** sha256 of every LF-normalised `SKILL.md` any build shipped, this one included. */\n' +
+    '  /** sha256 of every LF-normalised `SKILL.md` this name shipped, plus Amoeba-built copies under a former name. */\n' +
     '  readonly releasedDigests: readonly string[]\n' +
+    '  /** Folder names earlier builds shipped this skill under; untouched copies there are retired. */\n' +
+    '  readonly formerNames?: readonly string[]\n' +
     '}\n\n' +
     '// oxfmt-ignore\n' +
     'export const BUNDLED_SKILL_SOURCES: readonly BundledSkillSource[] = [\n' +
@@ -356,19 +380,23 @@ async function verifyGeneratedFile(filePath, expected) {
 
 async function main() {
   const manifest = await buildCurrentManifest()
-  const ledger = await buildReleasedDigests(manifest)
-  const sources = await buildBundledSources(manifest, ledger)
+  const history = historicalSkillDigests()
+  const ledger = await buildReleasedDigests(manifest, history)
+  const formerNameLedger = await buildFormerNameDigests(history)
+  const sources = await buildBundledSources(manifest, ledger, formerNameLedger)
   if (process.argv.slice(2).includes('--write')) {
     await mkdir(OUTPUT_ROOT, { recursive: true })
     await mkdir(path.dirname(BUNDLED_SOURCES_PATH), { recursive: true })
     await writeFile(CURRENT_MANIFEST_PATH, serialized(manifest))
     await writeFile(RELEASED_DIGESTS_PATH, serialized(ledger))
+    await writeFile(FORMER_NAME_DIGESTS_PATH, serialized(formerNameLedger))
     await writeFile(BUNDLED_SOURCES_PATH, sources)
     return
   }
   await verifyGeneratedFile(CURRENT_MANIFEST_PATH, serialized(manifest))
   // Equal to its own union with history and the current bytes means none is missing.
   await verifyGeneratedFile(RELEASED_DIGESTS_PATH, serialized(ledger))
+  await verifyGeneratedFile(FORMER_NAME_DIGESTS_PATH, serialized(formerNameLedger))
   verifyLedgerKeepsBase(ledger)
   await verifyGeneratedFile(BUNDLED_SOURCES_PATH, sources)
 }

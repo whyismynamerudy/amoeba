@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 import type { CliInstallStatus } from '../../../../shared/cli-install-types'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../../../shared/orca-cli-command-name'
 import { useWindowsTerminalCapabilities } from '@/lib/windows-terminal-capabilities'
 import { useMountedRef } from '@/hooks/useMountedRef'
 import { Button } from '../ui/button'
@@ -70,7 +71,7 @@ export function WslCliRegistration({
 
   const isEnabled = status?.state === 'installed'
   const isSupported = status?.supported ?? false
-  const commandName = status?.commandName ?? 'orca-ide'
+  const commandName = status?.commandName ?? AMOEBA_CLI_COMMAND_NAME
 
   const handleInstall = async (): Promise<void> => {
     setBusyAction('install')
@@ -162,7 +163,7 @@ export function WslCliRegistration({
                 : (status?.detail ??
                   translate(
                     'auto.components.settings.WslCliRegistration.7aa456a460',
-                    'Register `orca-ide` in ~/.local/bin inside WSL.'
+                    'Register `amoeba` in ~/.local/bin inside WSL.'
                   ))}
             </p>
           </div>

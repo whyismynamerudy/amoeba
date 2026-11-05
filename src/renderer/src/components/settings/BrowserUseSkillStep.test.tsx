@@ -14,7 +14,7 @@ vi.mock('./AgentSkillSetupPanel', () => ({
 }))
 
 describe('BrowserUseSkillStep', () => {
-  it('installs the orca-cli skill, which also updates it once installed', () => {
+  it('installs the amoeba-cli skill, which also updates it once installed', () => {
     renderToStaticMarkup(
       <BrowserUseSkillStep
         skillDetected
@@ -25,7 +25,7 @@ describe('BrowserUseSkillStep', () => {
     )
 
     expect(capturedPanel.props).toEqual(
-      expect.objectContaining({ skillNames: ['orca-cli'], installed: true })
+      expect.objectContaining({ skillNames: ['amoeba-cli'], installed: true })
     )
     expect(capturedPanel.props?.installedSkillNames).toBeUndefined()
   })

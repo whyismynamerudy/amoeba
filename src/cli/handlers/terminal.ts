@@ -242,7 +242,7 @@ export const TERMINAL_HANDLERS: Record<string, CommandHandler> = {
       ) {
         throw new RuntimeClientError(
           'incompatible_runtime',
-          'This Amoeba host does not support --retry-split and would split again. Nothing was split; check `orca terminal list --json` for the pane instead.'
+          'This Amoeba host does not support --retry-split and would split again. Nothing was split; check `amoeba terminal list --json` for the pane instead.'
         )
       }
     }

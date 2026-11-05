@@ -46,7 +46,7 @@ export function buildAgentStartupPlan(args: {
   agentEnv?: Record<string, string> | null
   sessionOptions?: Record<string, SessionOptionValue>
   sessionOptionsOverrideAgentArgs?: boolean
-  /** Remote Linux deploys orca, so skip the local-only orca-ide rename. */
+  /** Remote hosts run the plain command, so skip this machine's platform override. */
   isRemote?: boolean
   /** Amoeba types into this launch after start, so a startup update prompt would take that input. */
   suppressStartupUpdatePrompt?: boolean

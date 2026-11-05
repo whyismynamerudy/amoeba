@@ -107,7 +107,7 @@ function printedResults(output: string): Extract<AiVaultSearchResponse, { kind: 
   return parsed
 }
 
-describe('orca search over the runtime RPC', () => {
+describe('amoeba search over the runtime RPC', () => {
   it('sends the query with the contract defaults the schema resolves', async () => {
     const { call } = await runSearch([['query', 'resize race']])
 
@@ -285,7 +285,7 @@ describe('orca search over the runtime RPC', () => {
   })
 })
 
-describe('orca search --json', () => {
+describe('amoeba search --json', () => {
   it('hands back the contract response unchanged under the CLI envelope', async () => {
     const { output } = await runSearch([['query', 'q']], { json: true })
     const printed = printedEnvelope(output)

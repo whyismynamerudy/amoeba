@@ -3,7 +3,7 @@
 import type { RpcDispatchStreamingOptions } from './dispatcher-stream-options'
 
 export type RpcCallerIdentity =
-  /** The `orca` CLI over the runtime socket, and the in-process bridges that relay it. */
+  /** The `amoeba` CLI over the runtime socket, and the in-process bridges that relay it. */
   | { kind: 'local-cli' }
   /** All local IPC windows share identity across reload and app restart. */
   | { kind: 'desktop' }

@@ -18,7 +18,7 @@ describe('browser history view rows', () => {
       entry('https://github.com/stablyai/orca', 'Amoeba repo', at(20, 9)),
       entry('https://en.wikipedia.org/wiki/Orca', 'Amoeba - Wikipedia', at(21, 9))
     ]
-    expect(listBrowserHistoryRows(history, [], 'orca github').map((r) => r.title)).toEqual([
+    expect(listBrowserHistoryRows(history, [], 'amoeba github').map((r) => r.title)).toEqual([
       'Amoeba repo'
     ])
     expect(listBrowserHistoryRows(history, [], ' GITHUB   ORCA ').map((r) => r.title)).toEqual([

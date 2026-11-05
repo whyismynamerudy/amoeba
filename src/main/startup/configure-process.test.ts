@@ -334,7 +334,7 @@ describe('configureDevUserDataPath', () => {
     expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'amoeba-dev'))
   })
 
-  it('keeps packaged runs in the orca profile the CLI reads unless --user-data-dir is set', async () => {
+  it('keeps packaged runs in the amoeba profile the CLI reads unless --user-data-dir is set', async () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
 

@@ -11,7 +11,7 @@ type BuildSourceControlAgentDeliveryPlanArgs = {
   detectedAgents: TuiAgent[]
   connectionUnavailable: boolean
   launchPlatform?: NodeJS.Platform
-  /** SSH uses the plain orca shim; validate the command that host will run. */
+  /** SSH uses the plain amoeba shim; validate the command that host will run. */
   isRemote?: boolean
 }
 

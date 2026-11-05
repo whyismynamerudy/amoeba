@@ -168,11 +168,11 @@ describe('preflight', () => {
       if (command !== 'which') {
         throw new Error(`unexpected command ${String(command)}`)
       }
-      if (String(args[0]) === 'orca') {
+      if (String(args[0]) === 'amoeba') {
         return {
           environmentResolved: true,
           code: 0,
-          stdout: '/Applications/Amoeba.app/Contents/MacOS/orca\n',
+          stdout: '/Applications/Amoeba.app/Contents/MacOS/amoeba\n',
           stderr: '',
           timedOut: false
         }
@@ -197,11 +197,11 @@ describe('preflight', () => {
           timedOut: false
         }
       }
-      if (String(args[0]) === 'orca') {
+      if (String(args[0]) === 'amoeba') {
         return {
           environmentResolved: true,
           code: 0,
-          stdout: '/Applications/Amoeba.app/Contents/MacOS/orca\n',
+          stdout: '/Applications/Amoeba.app/Contents/MacOS/amoeba\n',
           stderr: '',
           timedOut: false
         }
@@ -230,7 +230,7 @@ describe('preflight', () => {
           timedOut: false
         }
       }
-      if (String(args[0]) === 'orca') {
+      if (String(args[0]) === 'amoeba') {
         return {
           environmentResolved: true,
           code: 0,

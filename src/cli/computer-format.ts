@@ -223,7 +223,7 @@ function formatComputerFollowUpCommand(
   target: ComputerActionFollowUpTarget
 ): string {
   const args = [
-    'orca',
+    'amoeba',
     'computer',
     'get-app-state',
     '--app',

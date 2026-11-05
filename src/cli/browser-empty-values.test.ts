@@ -37,7 +37,7 @@ vi.mock('./runtime-client', () => {
 import { main } from './index'
 import { okFixture, queueFixtures } from './test-fixtures'
 
-describe('orca cli storage set preserves an empty value', () => {
+describe('amoeba cli storage set preserves an empty value', () => {
   beforeEach(() => {
     callMock.mockReset()
     process.exitCode = undefined
@@ -132,7 +132,7 @@ describe('orca cli storage set preserves an empty value', () => {
   })
 })
 
-describe('orca cli cookie set and set credentials preserve an empty value', () => {
+describe('amoeba cli cookie set and set credentials preserve an empty value', () => {
   beforeEach(() => {
     callMock.mockReset()
     process.exitCode = undefined

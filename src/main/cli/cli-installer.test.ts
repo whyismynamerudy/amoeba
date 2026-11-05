@@ -37,7 +37,7 @@ import { buildLegacyAppImageCliWrapper } from './legacy-appimage-cli-wrapper'
 async function fakeAppImageExtractRunner(_appImagePath: string, cwd: string): Promise<void> {
   const launcherDir = join(cwd, 'squashfs-root', 'resources', 'bin')
   await mkdir(launcherDir, { recursive: true })
-  await writeFile(join(launcherDir, 'orca-ide'), '#!/usr/bin/env bash\n', {
+  await writeFile(join(launcherDir, 'amoeba'), '#!/usr/bin/env bash\n', {
     encoding: 'utf8',
     mode: 0o755
   })
@@ -57,7 +57,7 @@ describe('CliInstaller', () => {
     'creates a dev launcher and installs a macOS symlink in the requested path',
     async () => {
       const fixture = await makeFixture()
-      const installPath = join(fixture.root, 'bin', 'orca')
+      const installPath = join(fixture.root, 'bin', 'amoeba')
       const installer = new CliInstaller({
         platform: 'darwin',
         isPackaged: false,
@@ -70,7 +70,7 @@ describe('CliInstaller', () => {
 
       const initial = await installer.getStatus()
       expect(initial.state).toBe('not_installed')
-      expect(initial.launcherPath).toContain(join('userData', 'cli', 'bin', 'orca'))
+      expect(initial.launcherPath).toContain(join('userData', 'cli', 'bin', 'amoeba'))
 
       const installed = await installer.install()
       expect(installed.state).toBe('installed')
@@ -91,7 +91,7 @@ describe('CliInstaller', () => {
     'creates a linux symlink under the requested path and warns when PATH is missing',
     async () => {
       const fixture = await makeFixture()
-      const installPath = join(fixture.root, '.local', 'bin', 'orca-ide')
+      const installPath = join(fixture.root, '.local', 'bin', 'amoeba')
       const installer = new CliInstaller({
         platform: 'linux',
         isPackaged: false,
@@ -104,7 +104,7 @@ describe('CliInstaller', () => {
 
       const installed = await installer.install()
       expect(installed.state).toBe('installed')
-      expect(installed.commandName).toBe('orca-ide')
+      expect(installed.commandName).toBe('amoeba')
       expect(installed.pathConfigured).toBe(false)
       expect(installed.detail).toContain('.local')
 
@@ -140,7 +140,7 @@ describe('CliInstaller', () => {
       expect(installed.launcherPath).toBe(join(fixture.userDataPath, 'cli', 'bin', 'amoeba-dev'))
       await expect(readlink(installed.commandPath as string)).resolves.toBe(installed.launcherPath)
       await expect(
-        readFile(join(fixture.userDataPath, 'cli', 'bin', 'orca'), 'utf8')
+        readFile(join(fixture.userDataPath, 'cli', 'bin', 'amoeba'), 'utf8')
       ).resolves.toBe(await readFile(installed.launcherPath as string, 'utf8'))
     }
   )
@@ -151,7 +151,7 @@ describe('CliInstaller', () => {
     async () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
-      const installPath = join(commandDir, 'orca-ide')
+      const installPath = join(commandDir, 'amoeba')
       const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', {
@@ -177,14 +177,14 @@ describe('CliInstaller', () => {
       const installed = await installer.install()
       expect(installed).toMatchObject({
         state: 'installed',
-        commandName: 'orca-ide',
+        commandName: 'amoeba',
         installMethod: 'symlink',
         pathConfigured: true
       })
       // The command target remains stable while its cache endpoint advances generations.
       expect(relative(cacheRootPath, installed.launcherPath as string).split(sep)).toEqual([
         'launcher',
-        'orca-ide'
+        'amoeba'
       ])
       expect(installed.currentTarget).toBe(installed.launcherPath)
       await expect(readlink(installPath)).resolves.toBe(installed.launcherPath)
@@ -209,7 +209,7 @@ describe('CliInstaller', () => {
     async () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
-      const installPath = join(commandDir, 'orca-ide')
+      const installPath = join(commandDir, 'amoeba')
       const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', {
@@ -255,7 +255,7 @@ describe('CliInstaller', () => {
     async () => {
       const fixture = await makeFixture()
       const commandDir = join(fixture.root, '.local', 'bin')
-      const installPath = join(commandDir, 'orca-ide')
+      const installPath = join(commandDir, 'amoeba')
       const appImagePath = join(fixture.root, "Amoeba's AppImage.AppImage")
       const cacheRootPath = join(fixture.root, 'cache')
       await mkdir(commandDir, { recursive: true })
@@ -294,20 +294,22 @@ describe('CliInstaller', () => {
   )
 
   it.skipIf(process.platform === 'win32')(
-    'removes the old managed linux orca symlink when installing orca-ide',
+    'retires legacy orca-ide links into this bundle but not orca links into another app',
     async () => {
       const fixture = await makeFixture()
       const homePath = join(fixture.root, 'home')
       const commandDir = join(homePath, '.local', 'bin')
       const resourcesPath = join(fixture.root, 'resources')
-      const launcherPath = join(resourcesPath, 'bin', 'orca-ide')
-      const oldLauncherPath = join(resourcesPath, 'bin', 'orca')
-      const legacyCommandPath = join(commandDir, 'orca')
+      const launcherPath = join(resourcesPath, 'bin', 'amoeba')
+      const legacyCommandPath = join(commandDir, 'orca-ide')
+      const realOrcaCommandPath = join(commandDir, 'orca')
+      const realOrcaTarget = join(fixture.root, 'orca-app', 'resources', 'bin', 'orca')
       await mkdir(commandDir, { recursive: true })
       await mkdir(join(resourcesPath, 'bin'), { recursive: true })
       await writeFile(launcherPath, '#!/usr/bin/env bash\n', 'utf8')
-      await writeFile(oldLauncherPath, '#!/usr/bin/env bash\n', 'utf8')
-      await symlink(oldLauncherPath, legacyCommandPath)
+      // Earlier Amoeba builds shipped resources/bin/orca-ide; the link dangles after the update.
+      await symlink(join(resourcesPath, 'bin', 'orca-ide'), legacyCommandPath)
+      await symlink(realOrcaTarget, realOrcaCommandPath)
 
       const installer = new CliInstaller({
         platform: 'linux',
@@ -320,18 +322,20 @@ describe('CliInstaller', () => {
       })
 
       const installed = await installer.install()
-      expect(installed.commandPath).toBe(join(commandDir, 'orca-ide'))
+      expect(installed.commandPath).toBe(join(commandDir, 'amoeba'))
       await expect(lstat(legacyCommandPath)).rejects.toMatchObject({ code: 'ENOENT' })
+      await expect(readlink(realOrcaCommandPath)).resolves.toBe(realOrcaTarget)
     }
   )
 
   it.skipIf(process.platform === 'win32')(
-    'removes a legacy linux orca symlink when registering from an AppImage',
+    'retires a legacy link into this AppImage payload but not the shared stable launcher',
     async () => {
       const fixture = await makeFixture()
       const homePath = join(fixture.root, 'home')
       const commandDir = join(homePath, '.local', 'bin')
       const legacyCommandPath = join(commandDir, 'orca')
+      const sharedLauncherCommandPath = join(commandDir, 'orca-ide')
       const appImagePath = join(fixture.root, 'Amoeba.AppImage')
       const cacheRootPath = join(fixture.root, 'cache')
       await mkdir(commandDir, { recursive: true })
@@ -341,6 +345,9 @@ describe('CliInstaller', () => {
       })
       const extractedRoot = resolveAppImageExtractedRoot({ appImagePath, cacheRootPath })!
       await symlink(join(dirname(extractedRoot.payloadLauncherPath), 'orca'), legacyCommandPath)
+      // Real Orca AppImages publish into the same cache launcher dir, so this cannot be proven ours.
+      const sharedLauncherTarget = join(dirname(extractedRoot.stableLauncherPath), 'orca-ide')
+      await symlink(sharedLauncherTarget, sharedLauncherCommandPath)
 
       const installer = new CliInstaller({
         platform: 'linux',
@@ -355,8 +362,9 @@ describe('CliInstaller', () => {
       })
 
       const installed = await installer.install()
-      expect(installed.commandPath).toBe(join(commandDir, 'orca-ide'))
+      expect(installed.commandPath).toBe(join(commandDir, 'amoeba'))
       await expect(lstat(legacyCommandPath)).rejects.toMatchObject({ code: 'ENOENT' })
+      await expect(readlink(sharedLauncherCommandPath)).resolves.toBe(sharedLauncherTarget)
     }
   )
 
@@ -418,7 +426,7 @@ describe('CliInstaller', () => {
       await mkdir(protectedDir)
       await chmod(protectedDir, 0o500)
 
-      const installPath = join(protectedDir, 'bin', 'orca')
+      const installPath = join(protectedDir, 'bin', 'amoeba')
       const privilegedCommands: string[] = []
       const installer = new CliInstaller({
         platform: 'darwin',

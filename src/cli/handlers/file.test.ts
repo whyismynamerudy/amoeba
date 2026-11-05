@@ -47,7 +47,7 @@ vi.mock('../runtime-client', () => {
 import { main } from '../index'
 import { buildWorktree, okFixture, queueFixtures, worktreeListFixture } from '../test-fixtures'
 
-describe('orca file CLI handlers', () => {
+describe('amoeba file CLI handlers', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     callMock.mockReset()
@@ -60,7 +60,7 @@ describe('orca file CLI handlers', () => {
     await main(['file', '--help'], '/tmp/repo')
 
     const output = vi.mocked(console.log).mock.calls[0][0]
-    expect(output).toContain('Usage: orca file <command> [options]')
+    expect(output).toContain('Usage: amoeba file <command> [options]')
     expect(output).toContain('open-changed')
     expect(callMock).not.toHaveBeenCalled()
   })

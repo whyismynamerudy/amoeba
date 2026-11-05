@@ -6,6 +6,7 @@ import { resolvePathEnvKey } from '../pty/windows-environment-path'
 import { ensureLinuxTerminalOrcaCliShimDir } from './linux-terminal-orca-cli-shim'
 import { getBundledLauncherPath } from './bundled-cli-launcher-path'
 import { DEV_COMMAND_NAME } from './cli-install-constants'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
 
 export type OrcaCliChildPathOptions = {
   isPackaged: boolean
@@ -51,7 +52,7 @@ export function prependOrcaCliDirToChildPath(
       : devCliBin
     return join(devCliBin, platform === 'win32' ? `${DEV_COMMAND_NAME}.cmd` : DEV_COMMAND_NAME)
   } else if (platform === 'linux') {
-    // Managed children need bare `orca` to reach the CLI instead of GNOME's screen reader.
+    // AppImage resources sit on an ephemeral mount, so children reach the CLI through a stable shim.
     const shimDir = ensureLinuxTerminalOrcaCliShimDir({ userDataPath: opts.userDataPath })
     if (shimDir) {
       env.ORCA_CLI_BIN_DIR = shimDir
@@ -59,7 +60,7 @@ export function prependOrcaCliDirToChildPath(
         .split(pathDelimiter)
         .filter((entry) => entry.length > 0 && entry !== shimDir)
       env.PATH = [shimDir, ...inheritedEntries].join(pathDelimiter)
-      return join(shimDir, 'orca')
+      return join(shimDir, AMOEBA_CLI_COMMAND_NAME)
     }
   } else if (opts.resourcesPath && (platform === 'darwin' || platform === 'win32')) {
     const bundledCliBin = join(opts.resourcesPath, 'bin')
@@ -70,7 +71,7 @@ export function prependOrcaCliDirToChildPath(
     env[resolvePathEnvKey(env, platform)] = inheritedPath
       ? `${bundledCliBin}${pathDelimiter}${inheritedPath}`
       : bundledCliBin
-    // Why the native launcher on Windows: `orca.cmd` refuses message bodies cmd.exe would mangle.
+    // Why the native launcher on Windows: `amoeba.cmd` refuses message bodies cmd.exe would mangle.
     return getBundledLauncherPath(platform, opts.resourcesPath)
   }
   return null

@@ -29,8 +29,8 @@ export function createLoginShellHarness(): LoginShellHarness {
   for (const dir of [home, globalBin, appCliBin]) {
     mkdirSync(dir, { recursive: true })
   }
-  writeStub(join(globalBin, 'orca'), 'global')
-  writeStub(join(appCliBin, 'orca'), 'app')
+  writeStub(join(globalBin, 'amoeba'), 'global')
+  writeStub(join(appCliBin, 'amoeba'), 'app')
   writeStub(join(appCliBin, 'amoeba-dev'), 'app')
   const prependGlobal = `export PATH="${globalBin}:$PATH"\n`
   writeFileSync(join(home, '.zprofile'), prependGlobal)

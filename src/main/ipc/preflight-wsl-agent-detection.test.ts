@@ -210,7 +210,7 @@ describe('the detection script itself, run by a real POSIX shell', () => {
 
   itPosix('finds a CLI when $HOME contains a space', async () => {
     // HOME with spaces must remain one path throughout fallback glob expansion.
-    const spaced = mkdtempSync(join(tmpdir(), 'orca has space-'))
+    const spaced = mkdtempSync(join(tmpdir(), 'amoeba has space-'))
     const previous = home
     home = spaced
     try {

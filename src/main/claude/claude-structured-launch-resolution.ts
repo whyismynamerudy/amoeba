@@ -268,7 +268,7 @@ export function claudeStructuredLaunchPart(
       },
       env,
       inheritedEnvToDelete: [],
-      // The agent runtime follows Amoeba's CLI directory on PATH so another orca cannot shadow it.
+      // The agent runtime follows Amoeba's CLI directory on PATH so another amoeba cannot shadow it.
       cliRuntimeCommand: command
     }
   }

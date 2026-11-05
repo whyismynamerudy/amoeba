@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { dirname, join, resolve } from 'node:path'
+import { join } from 'node:path'
 import type {
   BundledSkillCleanup,
   BundledSkillObserved,
@@ -15,10 +15,11 @@ import {
   type BundledSkillFolderClass
 } from './classify'
 import type { BundledSkillFilesystem } from './filesystem'
+import { planFormerNameRetirement, selectBundledSkillSources } from './former-skill-names'
 import { bundledSkillSiblingKind } from './swap'
 import {
+  bundledSkillLinkPointsAt,
   bundledSkillPathKey,
-  resolveBundledSkillRealPath,
   resolveBundledSkillTargets,
   type BundledSkillTargetRequest,
   type BundledSkillTargetRoot
@@ -68,18 +69,6 @@ export function sameBundledSkillObserved(
   right: BundledSkillObserved
 ): boolean {
   return JSON.stringify(left) === JSON.stringify(right)
-}
-
-async function linkPointsAt(
-  filesystem: BundledSkillFilesystem,
-  path: string,
-  rawTarget: string,
-  realPath: string
-): Promise<boolean> {
-  const resolved =
-    (await filesystem.realpath(path)) ??
-    resolve(await resolveBundledSkillRealPath(filesystem, dirname(path)), rawTarget)
-  return bundledSkillPathKey(resolved) === bundledSkillPathKey(realPath)
 }
 
 async function recoverySiblings(
@@ -154,6 +143,13 @@ async function planTarget(
     folderClass = 'other'
   }
   const { restoreFrom, cleanup } = await recoverySiblings(context, root, folderClass === 'absent')
+  const retired = await planFormerNameRetirement(
+    filesystem,
+    context.source,
+    context.digest,
+    root.path,
+    shared
+  )
   const base = { path, role: root.role, agents: root.agents, observed }
   const leave = (reason: NonNullable<BundledSkillOp['reason']>, replaceable: boolean) =>
     ({ ...base, kind: 'leave', reason, replaceable, cleanup }) satisfies BundledSkillOp
@@ -186,7 +182,8 @@ async function planTarget(
       case 'released':
         return files('update')
       case 'absent':
-        if (!shared) {
+        // A renamed skill's untouched former copy moves in place, whatever the shared slot does.
+        if (!shared || (!shared.current && retired.length > 0)) {
           return files('write')
         }
         if (!shared.current) {
@@ -200,7 +197,7 @@ async function planTarget(
     if (
       shared &&
       observed.kind === 'link' &&
-      (await linkPointsAt(filesystem, path, observed.target, shared.realPath))
+      (await bundledSkillLinkPointsAt(filesystem, path, observed.target, shared.realPath))
     ) {
       return shared.current
         ? { ...base, kind: 'keep', cleanup }
@@ -214,8 +211,14 @@ async function planTarget(
       : files('replace')
   }
 
-  const holdsOrcaCopy = Boolean(restoreFrom) || ORCA_COPY_CLASSES.has(folderClass)
-  const op = await decide()
+  const holdsOrcaCopy =
+    Boolean(restoreFrom) || ORCA_COPY_CLASSES.has(folderClass) || retired.length > 0
+  const decided = await decide()
+  // Retire former copies only where the new name lands; a left target keeps the old one usable.
+  const op =
+    decided.kind === 'leave' || retired.length === 0
+      ? decided
+      : { ...decided, cleanup: [...decided.cleanup, ...retired] }
   const writes = op.kind !== 'keep' && op.kind !== 'leave'
   if (!writes && op.cleanup.length === 0) {
     return { op, holdsOrcaCopy }
@@ -297,17 +300,8 @@ export async function buildBundledSkillPlan(
   input: BundledSkillPlanInput
 ): Promise<ResolvedBundledSkillPlan> {
   const roots = await resolveBundledSkillTargets(input, input.filesystem)
-  const selected = input.names
-    ? input.names.map((name) => {
-        const source = input.sources.find((candidate) => candidate.name === name)
-        if (!source) {
-          throw new Error(`bundled-skill-unknown: ${name}`)
-        }
-        return source
-      })
-    : input.sources
   const skills: BundledSkillPlanEntry[] = []
-  for (const source of selected) {
+  for (const source of selectBundledSkillSources(input)) {
     const entry = await planSkill(input, roots, source)
     if (entry) {
       skills.push(entry)

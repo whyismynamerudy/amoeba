@@ -192,7 +192,7 @@
         "remoteUnsupported": "Gestiona la identidad del navegador en el host remoto con la CLI de Amoeba.",
         "loading": "Cargando…",
         "resetRequired": "Los datos de identidad deben restablecerse explícitamente antes de que se puedan cambiar.",
-        "resetRequiredCommand": "Restablecerlo desde la línea de comandos: orca browser identity set --mode <mode> --reset",
+        "resetRequiredCommand": "Restablecerlo desde la línea de comandos: amoeba browser identity set --mode <mode> --reset",
         "optionClean": "Limpio",
         "optionCleanTooltip": "Elimina los tokens Amoeba y Electron para que coincidan con las sesiones de Chrome importadas.",
         "optionNative": "Nativo",
@@ -5917,8 +5917,8 @@
           "issueLinkLabel": "Enlace del issue",
           "reviewLinkLabel": "Enlace de {{value0}}",
           "cliHeader": "Amoeba CLI",
-          "cliCreatedFromAgent": "Creado por un agente a través de `orca worktree create`",
-          "cliCreatedFromShell": "Creado a través de `orca worktree create`",
+          "cliCreatedFromAgent": "Creado por un agente a través de `amoeba worktree create`",
+          "cliCreatedFromShell": "Creado a través de `amoeba worktree create`",
           "cliStartupAgent": "Started with {{value0}}",
           "cliCreated": "Creado por Amoeba CLI",
           "jiraIssue": "Jira {{value0}}",
@@ -6537,7 +6537,7 @@
           "pairingCode": "Código de emparejamiento",
           "pairingCodePlaceholder": "orca://pair?code=...",
           "pairingHelpPrefix": "Ejecuta",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpSuffix": "en el servidor y pega la URL de emparejamiento impresa.",
           "sshImportAlreadySynced": "~/.ssh/config ya está sincronizado.",
           "sshImportSynced": "Se sincronizó {{value0}} host{{value1}}.",
@@ -7355,7 +7355,7 @@
           "9fd4023db0": "Mostrar en el administrador de archivos",
           "installFailureUnknownReason": "Amoeba no pudo completar el registro de CLI y no reportó ninguna razón.",
           "installFailureConflictRemedy": "Elimina {{value0}} y regístrate nuevamente si ya no es necesario.",
-          "outsideOrcaDescription": "Las terminales de Amoeba ya incluyen `orca`. Actívalo para usar `orca` desde otras terminales fuera de Amoeba."
+          "outsideOrcaDescription": "Las terminales de Amoeba ya incluyen `amoeba`. Actívalo para usar `amoeba` desde otras terminales fuera de Amoeba."
         },
         "CliSkillRuntimeSetup": {
           "04325573f8": "WSL",
@@ -8464,7 +8464,7 @@
           "9a3758d983": "No hay servidores guardados.",
           "9bee6bbeeb": "Agregar servidor",
           "55fcc964cd": "en el servidor y pega la URL de emparejamiento impresa.",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "163671f7b5": "Ejecutar",
           "c3d772c514": "orca://pair?code=...",
           "9bc9b83474": "Código de emparejamiento",
@@ -8935,7 +8935,7 @@
           "addDescription": "Agrega una máquina persistente en la que puedas iniciar sesión por SSH.",
           "editingPrefix": "Editando",
           "allowRemoteCliControl": "Permitir que la orca CLI de este host controle Amoeba",
-          "allowRemoteCliControlHelp": "Activado de forma predeterminada en los hosts nuevos. Permite que los comandos orca ejecutados en este host abran y controlen pestañas del navegador de Amoeba en este escritorio, solo en los espacios de trabajo de este host y solo mientras esté conectado, y que las terminales iniciadas por una versión anterior de Amoeba en este host ejecuten comandos de orquestación (check, inbox, send, ask, reply) para su propio trabajo supervisado. No pueden leer tus archivos, tu portapapeles ni tus cookies. Cuando está desactivado, solo llegan al propio servidor de Amoeba de este host.",
+          "allowRemoteCliControlHelp": "Activado de forma predeterminada en los hosts nuevos. Permite que los comandos amoeba ejecutados en este host abran y controlen pestañas del navegador de Amoeba en este escritorio, solo en los espacios de trabajo de este host y solo mientras esté conectado, y que las terminales iniciadas por una versión anterior de Amoeba en este host ejecuten comandos de orquestación (check, inbox, send, ask, reply) para su propio trabajo supervisado. No pueden leer tus archivos, tu portapapeles ni tus cookies. Cuando está desactivado, solo llegan al propio servidor de Amoeba de este host.",
           "addHost": "Añadir host"
         },
         "TasksPane": {
@@ -9319,7 +9319,7 @@
           "e49688f67f": "¿Registrar `{{value0}}` en WSL?",
           "61ac55278e": "¿Eliminar `{{value0}}` de WSL?",
           "e2b0ee267f": "duro",
-          "7aa456a460": "Registra `orca-ide` en ~/.local/bin dentro de WSL.",
+          "7aa456a460": "Registra `amoeba` en ~/.local/bin dentro de WSL.",
           "0307677bb9": "Comprobando el registro de la CLI de WSL..."
         },
         "accounts": {
@@ -9830,7 +9830,7 @@
               "614c756ab1": "Importar cookies del navegador",
               "cee44fb442": "automatización",
               "a57c2172dc": "navegador-agente",
-              "f5b8fdddf5": "orca-cli",
+              "f5b8fdddf5": "amoeba-cli",
               "e5a784bc54": "instalar",
               "9d97446873": "agent",
               "a2d489263e": "skill",
@@ -10820,7 +10820,7 @@
           "search": {
             "ca6a0c2df7": "atajo",
             "4811a8264a": "terminal primero",
-            "afda131738": "orca primero",
+            "afda131738": "amoeba primero",
             "0ecfc47434": "conflicto",
             "0f8cb15582": "agente",
             "f1adebbe8c": "shell",
@@ -11857,7 +11857,7 @@
         },
         "LinearAgentSkillPane": {
           "title": "Linear",
-          "description": "Cómo funciona Linear en Amoeba: explora incidencias, inicia espacios de trabajo vinculados y permite que los agentes actualicen incidencias con /orca-linear.",
+          "description": "Cómo funciona Linear en Amoeba: explora incidencias, inicia espacios de trabajo vinculados y permite que los agentes actualicen incidencias con /amoeba-linear.",
           "skillTitle": "Habilidad de Linear",
           "howToUse": "Prompts de ejemplo",
           "howToUseDescription": "Haz clic en una tarjeta para copiar un prompt. Úsalos en un espacio de trabajo vinculado a Linear después de instalar la habilidad.",
@@ -12194,7 +12194,7 @@
           "manageKeys": "Administrar claves",
           "addAccess": "Añadir acceso",
           "setupSkillTitle": "2. Instalar la habilidad del agente",
-          "setupSkillBody": "Proporciona /orca-linear a los agentes para leer, actualizar, clasificar y adjuntar solicitudes de cambio.",
+          "setupSkillBody": "Proporciona /amoeba-linear a los agentes para leer, actualizar, clasificar y adjuntar solicitudes de cambio.",
           "setupVisibleTitle": "3. Mostrar Linear en Tareas",
           "setupVisibleBody": "Mantiene Linear en el selector de fuentes de Tareas y en los accesos directos de la barra lateral.",
           "openTaskSources": "Fuentes de tareas",
@@ -12206,8 +12206,8 @@
           "notesIntro": "Recordatorios rápidos después de conectar Linear e instalar la habilidad.",
           "noteLinkedTitle": "Comienza desde una incidencia de Linear",
           "noteLinkedBody": "Las acciones de incidencias funcionan mejor en un espacio de trabajo creado desde Tareas, para mantener la incidencia vinculada como contexto.",
-          "noteSlashTitle": "Menciona /orca-linear",
-          "noteSlashBody": "En el chat, usa /orca-linear (o pide la acción en lenguaje natural) para que el agente cargue la habilidad durante ese turno.",
+          "noteSlashTitle": "Menciona /amoeba-linear",
+          "noteSlashBody": "En el chat, usa /amoeba-linear (o pide la acción en lenguaje natural) para que el agente cargue la habilidad durante ese turno.",
           "noteKeysTitle": "Las claves siguen al entorno de ejecución",
           "noteKeysBody": "Las claves de API y los espacios de trabajo se guardan para el entorno de ejecución activo.",
           "noteVisibilityTitle": "Ocultar no desconecta",
@@ -12223,7 +12223,7 @@
           "connectedHint": "Los espacios de trabajo y las claves se guardan para el entorno de ejecución activo. Puedes añadir más accesos en cualquier momento.",
           "recheck": "Volver a comprobar la conexión",
           "skillTitle": "Instalar la habilidad de agente de Linear",
-          "skillDescription": "Proporciona /orca-linear a los agentes para leer incidencias, publicar actualizaciones, cambiar estados y adjuntar solicitudes de cambio.",
+          "skillDescription": "Proporciona /amoeba-linear a los agentes para leer incidencias, publicar actualizaciones, cambiar estados y adjuntar solicitudes de cambio.",
           "skillBlocked": "Conecta Linear primero y luego instala la habilidad para los agentes.",
           "skillPanelTitle": "Habilidad de Linear",
           "showDescription": "Incluye Linear en el selector de fuentes de Tareas y en los accesos directos de la barra lateral."
@@ -12279,7 +12279,7 @@
           "advanced": "Avanzado",
           "sshTunnel": "Estoy usando un túnel SSH hacia esta dirección local",
           "sshTunnelHelp": "Mantén el túnel activo mientras usas esta conexión.",
-          "headlessHelp": "¿Usas orca serve sin interfaz? Ejecuta orca serve --pairing-address <host-accesible> en el otro equipo.",
+          "headlessHelp": "¿Usas amoeba serve sin interfaz? Ejecuta amoeba serve --pairing-address <host-accesible> en el otro equipo.",
           "cancel": "Cancelar",
           "addWithTunnel": "Añadir host mediante túnel",
           "addHost": "Añadir host",
@@ -15696,7 +15696,7 @@
             "4795ac2d4a": "Prueba a pedir:",
             "53905bd076": "Vista previa de desarrollo: abriendo la terminal de configuración de skills.",
             "1da82af45b": "Amoeba CLI necesita atención",
-            "ce13a742d0": "`orca` registrado en PATH.",
+            "ce13a742d0": "`amoeba` registrado en PATH.",
             "d1a86c7eb5": "Abre Configuración para finalizar la configuración de la CLI."
           },
           "CmdJPaletteFeatureTipVisual": {
@@ -15811,7 +15811,7 @@
           },
           "MobileEmulatorAgentSetupGuideSteps": {
             "21f5687c07": "Skill del CLI de Amoeba",
-            "64fb057667": "Enseña a los agentes los comandos orca del emulador para este worktree."
+            "64fb057667": "Enseña a los agentes los comandos amoeba del emulador para este worktree."
           },
           "MobileEmulatorTabIntroCallout": {
             "1924982130": "Descartar",
@@ -20161,7 +20161,7 @@
       "continueButton": "Continue without CLI",
       "title": "Amoeba CLI unavailable",
       "message": "Amoeba no pudo iniciar su transporte de comando local.",
-      "detail": "Amoeba seguirá funcionando, pero los comandos como orca status, orca terminal y las funciones de orquestación no estarán disponibles durante esta sesión.\n\n{{guidance}}\n\nCausa: {{cause}}",
+      "detail": "Amoeba seguirá funcionando, pero los comandos como amoeba status, amoeba terminal y las funciones de orquestación no estarán disponibles durante esta sesión.\n\n{{guidance}}\n\nCausa: {{cause}}",
       "guidance": {
         "permissionDenied": "Amoeba no pudo escribir su archivo de ejecución. Verifique los permisos en la carpeta de datos de Amoeba y luego reinicie.",
         "storageUnavailable": "Su disco puede estar lleno o ser de sólo lectura. Libere espacio y luego reinicie Amoeba.",

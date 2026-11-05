@@ -43,7 +43,7 @@ async function createPrivilegedFixture() {
   createdRoots.push(root)
   const protectedDirectory = join(root, 'protected')
   protectedDirectories.push(protectedDirectory)
-  const commandPath = join(protectedDirectory, 'orca')
+  const commandPath = join(protectedDirectory, 'amoeba')
   const userDataPath = join(root, 'user-data')
   const appPath = join(root, 'app')
   await mkdir(protectedDirectory)
@@ -106,7 +106,7 @@ describe.skipIf(process.platform !== 'darwin' || process.getuid?.() === 0)(
 
     it('restores a trailing-newline symlink inserted after privileged inspection', async () => {
       const fixture = await createPrivilegedFixture()
-      const staleTarget = join(fixture.userDataPath, 'cli', 'bin', 'old', 'orca')
+      const staleTarget = join(fixture.userDataPath, 'cli', 'bin', 'old', 'amoeba')
       const foreignTarget = `${staleTarget}\n`
       await symlink(staleTarget, fixture.commandPath)
       const original = await lstat(fixture.commandPath, { bigint: true })
@@ -169,7 +169,7 @@ describe.skipIf(process.platform !== 'darwin' || process.getuid?.() === 0)(
 
     it('creates missing parent directories readable by the user', async () => {
       const fixture = await createPrivilegedFixture()
-      const commandPath = join(fixture.protectedDirectory, 'nested', 'bin', 'orca')
+      const commandPath = join(fixture.protectedDirectory, 'nested', 'bin', 'amoeba')
       const installer = new CliInstaller({
         ...fixtureInstallerOptions(fixture),
         commandPathOverride: commandPath,
@@ -216,7 +216,10 @@ describe.skipIf(process.platform !== 'darwin' || process.getuid?.() === 0)(
 
     it('repairs an unreadable link to an older Amoeba launcher through the transaction', async () => {
       const fixture = await createPrivilegedFixture()
-      await symlink('/Applications/Old Amoeba.app/Contents/Resources/bin/orca', fixture.commandPath)
+      await symlink(
+        '/Applications/Old Amoeba.app/Contents/Resources/bin/amoeba',
+        fixture.commandPath
+      )
       await lchmod(fixture.commandPath, 0o300)
       const commands: string[] = []
       const installer = new CliInstaller({
@@ -239,7 +242,7 @@ describe.skipIf(process.platform !== 'darwin' || process.getuid?.() === 0)(
 
     it('refuses an unreadable symlink that is not an Amoeba launcher once root makes it readable', async () => {
       const fixture = await createPrivilegedFixture()
-      const foreignTarget = '/opt/other/bin/orca'
+      const foreignTarget = '/opt/other/bin/amoeba'
       await symlink(foreignTarget, fixture.commandPath)
       await lchmod(fixture.commandPath, 0o300)
       const installer = new CliInstaller({
@@ -255,9 +258,48 @@ describe.skipIf(process.platform !== 'darwin' || process.getuid?.() === 0)(
       ).toBe(false)
     })
 
+    it('retires an Amoeba-owned legacy orca link in the same authorization as install', async () => {
+      const fixture = await createPrivilegedFixture()
+      const resourcesPath = join(fixture.root, 'Amoeba.app', 'Contents', 'Resources')
+      const homeBin = join(fixture.root, 'home', '.local', 'bin')
+      await mkdir(join(resourcesPath, 'bin'), { recursive: true })
+      await mkdir(homeBin, { recursive: true })
+      await writeFile(join(resourcesPath, 'bin', 'amoeba'), '#!/usr/bin/env bash\n', {
+        mode: 0o755
+      })
+      const legacyPath = join(fixture.protectedDirectory, 'orca')
+      await symlink(join(resourcesPath, 'bin', 'orca'), legacyPath)
+      const realOrcaTarget = '/Applications/Orca.app/Contents/Resources/bin/orca'
+      await symlink(realOrcaTarget, join(homeBin, 'orca'))
+      const commands: string[] = []
+      const installer = new CliInstaller({
+        platform: 'darwin',
+        isPackaged: true,
+        userDataPath: fixture.userDataPath,
+        appPath: fixture.appPath,
+        resourcesPath,
+        homePath: join(fixture.root, 'home'),
+        defaultMacCommandPath: join(fixture.protectedDirectory, 'amoeba'),
+        processPathEnv: fixture.protectedDirectory,
+        privilegedRunner: async (command) => {
+          commands.push(command)
+          await chmod(fixture.protectedDirectory, 0o700)
+          await executePrivilegedShell(command)
+        }
+      })
+
+      await chmod(fixture.protectedDirectory, 0o500)
+      const installed = await installer.install()
+
+      expect(installed.state).toBe('installed')
+      expect(commands).toHaveLength(1)
+      await expect(lstat(legacyPath)).rejects.toMatchObject({ code: 'ENOENT' })
+      await expect(readlink(join(homeBin, 'orca'))).resolves.toBe(realOrcaTarget)
+    })
+
     it('restores the displaced command when publication setup fails', async () => {
       const fixture = await createPrivilegedFixture()
-      const staleTarget = join(fixture.userDataPath, 'cli', 'bin', 'old', 'orca')
+      const staleTarget = join(fixture.userDataPath, 'cli', 'bin', 'old', 'amoeba')
       await symlink(staleTarget, fixture.commandPath)
       const installer = new CliInstaller({
         ...fixtureInstallerOptions(fixture),

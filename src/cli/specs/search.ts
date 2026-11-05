@@ -6,7 +6,7 @@ export const SEARCH_COMMAND_SPECS: CommandSpec[] = [
     path: ['search'],
     summary: 'Search the full text of agent sessions indexed on the selected Amoeba host',
     usage:
-      'orca search <query> [--scope conversation|all] [--fresh] [--limit <n>] [--cursor <c>] [--agent <id>] [--path <p>] [--since <iso>] [--sort relevance|newest] [--debug] [--json]\n  orca search --index-status [--json]',
+      'amoeba search <query> [--scope conversation|all] [--fresh] [--limit <n>] [--cursor <c>] [--agent <id>] [--path <p>] [--since <iso>] [--sort relevance|newest] [--debug] [--json]\n  amoeba search --index-status [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
       'query',
@@ -37,12 +37,12 @@ export const SEARCH_COMMAND_SPECS: CommandSpec[] = [
       '--json prints the runtime response envelope with the search contract answer under `result`.'
     ],
     examples: [
-      'orca search "strict mode violation getByRole"',
-      'orca search resolveTerminalPath --agent claude --sort newest',
-      'orca search "kernel panic" --path /Users/me/orca --since 2026-08-01T00:00:00Z --json',
-      'orca search "kernel panic" --limit 50 --cursor eyJ2IjoxfQ',
-      'orca search --index-status',
-      'orca search "flaky test" --environment build-server'
+      'amoeba search "strict mode violation getByRole"',
+      'amoeba search resolveTerminalPath --agent claude --sort newest',
+      'amoeba search "kernel panic" --path /Users/me/orca --since 2026-08-01T00:00:00Z --json',
+      'amoeba search "kernel panic" --limit 50 --cursor eyJ2IjoxfQ',
+      'amoeba search --index-status',
+      'amoeba search "flaky test" --environment build-server'
     ]
   }
 ]

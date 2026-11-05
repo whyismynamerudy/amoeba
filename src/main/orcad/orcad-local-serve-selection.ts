@@ -148,7 +148,7 @@ async function placeSlotRuntime(
       await copyVerifiedAppImageNodeRuntime(bundledNodeRuntime, destination)
       return
     } catch (error) {
-      console.error(`orca serve: not using the bundled Node (${errorMessage(error)})`)
+      console.error(`amoeba serve: not using the bundled Node (${errorMessage(error)})`)
     }
   }
   const cached = await materializeRuntime(target, cacheRoot, { fetcher: fetch })

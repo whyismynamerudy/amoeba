@@ -11,12 +11,18 @@
       "title": "Meet your Agents tab"
     }
   },
+  "amoeba": {
+    "workspace": {
+      "title": "Amoeba"
+    }
+  },
   "auto": {
     "App": {
       "1b9d9d065f": "settings",
       "332dbfa497": "Workspace uploaded",
       "3443924e91": "automations",
       "4f08ae8311": "tasks",
+      "5096cbbc86": "Amoeba",
       "62ca9895a7": "space",
       "844eb0f4f4": "activity",
       "9f0152563e": "mobile",
@@ -61,6 +67,7 @@
       },
       "Landing": {
         "16e9e3df89": "starred",
+        "6ca6ff404e": "AMOEBA",
         "ce44fad849": "Missing dependencies",
         "f05d237049": "Add a project first"
       },
@@ -1138,11 +1145,13 @@
           "42554f615f": "Choose the font used by the Amoeba interface.",
           "4de76f6902": "Control what appears in the application titlebar.",
           "5db6ba961f": "Show the Amoeba Mobile button at the top of the left sidebar.",
+          "61d842eca0": "Show the Amoeba Mobile shortcut in the sidebar. It remains available from Toolbox.",
           "622e1c3465": "Scale the entire application interface.",
           "661942ab7f": "Show the Tasks button at the top of the left sidebar.",
           "6a272ca553": "Titlebar",
           "75f07ab60c": "Show files matched by .gitignore in the file explorer.",
           "872af9556e": "System Tray",
+          "9da1020447": "Show Amoeba Mobile Button",
           "e9f2ca5582": "Turn off to hide files matched by .gitignore from the file explorer.",
           "ea943d0db0": "Choose which indicators appear at the bottom of the window. You can also right-click the status bar for the same toggles.",
           "f687711a9b": "Scale the entire application interface. Use",
@@ -1508,7 +1517,7 @@
           "7b5986c8df": "Connected to {{value0}}. To create new projects there by default, choose it under Advanced > Default host for new projects.",
           "84b9b2be05": "Create a revocable access grant so a browser or another Amoeba client can connect.",
           "8cf8790697": "Saved servers route this browser through a paired Amoeba runtime.",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "9a3758d983": "No saved servers.",
           "9bc9b83474": "Pairing code",
           "9bee6bbeeb": "Add Server",
@@ -1556,7 +1565,7 @@
           "connectionDetails": "Connection details",
           "endpointKind": "Endpoint kind",
           "getLink": "Get an access link from the other host",
-          "headlessHelp": "Using headless orca serve? Run orca serve --pairing-address <reachable-host> on the other computer.",
+          "headlessHelp": "Using headless amoeba serve? Run amoeba serve --pairing-address <reachable-host> on the other computer.",
           "loopbackRecovery": "On the other computer, create a new link using Another device and choose its Tailscale or LAN address.",
           "name": "Name in Amoeba",
           "nameHelp": "This only changes how the computer appears in Amoeba.",
@@ -1785,6 +1794,15 @@
             "ff8de8a2ad": "display"
           }
         },
+        "appearance": {
+          "search": {
+            "1de96ec8a6": "Show Amoeba Mobile Button",
+            "5e5b8878bf": "phone",
+            "682293cadf": "Show the Amoeba Mobile button at the top of the left sidebar.",
+            "74618577c7": "mobile",
+            "839fb1e3ed": "toolbox"
+          }
+        },
         "artifacts": {
           "account": "Amoeba account",
           "connected": "Connected",
@@ -1956,6 +1974,11 @@
           "refreshLinks": "Refresh",
           "showButton": "Show Skills button"
         },
+        "shortcuts": {
+          "search": {
+            "afda131738": "amoeba first"
+          }
+        },
         "ssh": {
           "search": {
             "62826efbe9": "Add a new remote SSH target.",
@@ -2058,7 +2081,7 @@
       "sidebar": {
         "AddRemoteHostDialog": {
           "pairingCode": "Pairing code",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpPrefix": "Run",
           "pairingHelpSuffix": "on the server and paste the printed pairing URL.",
           "serverName": "Server name",
@@ -2124,6 +2147,10 @@
         "SetupScriptPromptCard": {
           "dcaa645da5": "ok"
         },
+        "SidebarFeedbackDialog": {
+          "26108d3699": "Join Discord",
+          "3460258a54": "Follow on X"
+        },
         "SidebarHeader": {
           "49f62c5665": "Workspace board",
           "5c9c7c16aa": "Add a project to create workspaces",
@@ -2140,7 +2167,9 @@
           "9c95e1ce91": "Agents"
         },
         "SidebarSettingsHelpMenu": {
-          "d396773ef0": "checking"
+          "c4f8e1b72a": "X",
+          "d396773ef0": "checking",
+          "eb9884e55b": "Discord"
         },
         "SidebarToolbar": {
           "19e32d0e5f": "Open folder picker to add a project",

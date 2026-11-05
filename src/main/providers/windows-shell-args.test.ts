@@ -223,7 +223,7 @@ describe('resolveWindowsShellLaunchArgs', () => {
       'C:\\Users\\alice',
       'C:\\Users\\alice',
       undefined,
-      `orca ${'x'.repeat(7000)}`
+      `amoeba ${'x'.repeat(7000)}`
     )
 
     expect(result.startupCommandDeliveredInShellArgs).toBeUndefined()

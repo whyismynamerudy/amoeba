@@ -56,7 +56,7 @@ const ORCA_PROJECT = {
 }
 const PROJECT_LIST_FIXTURE = okFixture('req_project_list', { projects: [ORCA_PROJECT] })
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   const priorExitCode = process.exitCode
   beforeEach(() => {
     process.exitCode = undefined

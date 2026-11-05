@@ -129,7 +129,7 @@ describe('useSkillFreshness', () => {
     const second = deferred<BundledSkillPlan>()
     const bundledPlan = vi
       .fn()
-      .mockResolvedValueOnce(plan(1, ['orca-cli']))
+      .mockResolvedValueOnce(plan(1, ['amoeba-cli']))
       .mockReturnValueOnce(second.promise)
     installBundledPlan(bundledPlan)
     const renderProbes = (enabled: boolean): void => {
@@ -143,7 +143,7 @@ describe('useSkillFreshness', () => {
 
     await act(async () => renderProbes(true))
     expect(bundledPlan).toHaveBeenCalledTimes(1)
-    expect(state?.plan?.skills.map((skill) => skill.name)).toEqual(['orca-cli'])
+    expect(state?.plan?.skills.map((skill) => skill.name)).toEqual(['amoeba-cli'])
 
     await act(async () => renderProbes(true))
     expect(bundledPlan).toHaveBeenCalledTimes(1)
@@ -192,12 +192,12 @@ describe('useSkillFreshness', () => {
     const second = deferred<BundledSkillPlan>()
     const bundledPlan = vi
       .fn()
-      .mockResolvedValueOnce(plan(1, ['orca-cli']))
+      .mockResolvedValueOnce(plan(1, ['amoeba-cli']))
       .mockReturnValueOnce(second.promise)
     installBundledPlan(bundledPlan)
 
     await act(async () => root?.render(<Probe />))
-    expect(state?.plan?.skills.map((skill) => skill.name)).toEqual(['orca-cli'])
+    expect(state?.plan?.skills.map((skill) => skill.name)).toEqual(['amoeba-cli'])
 
     await act(async () => window.dispatchEvent(new Event('focus')))
     expect(bundledPlan).toHaveBeenCalledTimes(1)
@@ -311,7 +311,7 @@ describe('useSkillFreshness', () => {
   })
 
   it('re-plans a new host without ever showing the previous host’s plan', async () => {
-    const bundledPlan = vi.fn().mockResolvedValueOnce(plan(1, ['orca-cli']))
+    const bundledPlan = vi.fn().mockResolvedValueOnce(plan(1, ['amoeba-cli']))
     installBundledPlan(bundledPlan)
 
     await act(async () => root?.render(<Probe />))

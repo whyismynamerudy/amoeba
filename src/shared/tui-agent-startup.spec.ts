@@ -281,10 +281,10 @@ describe('tui agent startup plans', () => {
       allowEmptyPromptLaunch: true
     })
 
-    expect(plan?.launchCommand).toBe('orca-ide claude-teams')
+    expect(plan?.launchCommand).toBe('amoeba claude-teams')
   })
 
-  it('uses the plain orca shim for Claude Agent Teams on Linux SSH remotes', () => {
+  it('uses the plain amoeba shim for Claude Agent Teams on Linux SSH remotes', () => {
     // Remote Linux deploys orca, never local-only orca-ide; using the renamed desktop wrapper breaks relay launches (#6500).
     const plan = buildAgentStartupPlan({
       agent: 'claude-agent-teams',
@@ -295,7 +295,7 @@ describe('tui agent startup plans', () => {
       allowEmptyPromptLaunch: true
     })
 
-    expect(plan?.launchCommand).toBe('orca claude-teams')
+    expect(plan?.launchCommand).toBe('amoeba claude-teams')
   })
 
   it('keeps the Windows orca.cmd shim for Claude Agent Teams on SSH remotes', () => {
@@ -309,7 +309,7 @@ describe('tui agent startup plans', () => {
       allowEmptyPromptLaunch: true
     })
 
-    expect(plan?.launchCommand).toBe('orca.cmd claude-teams')
+    expect(plan?.launchCommand).toBe('amoeba.cmd claude-teams')
   })
 
   it('keeps the Linux orca-ide wrapper for local (non-remote) Claude Agent Teams', () => {
@@ -323,7 +323,7 @@ describe('tui agent startup plans', () => {
       allowEmptyPromptLaunch: true
     })
 
-    expect(plan?.launchCommand).toBe('orca-ide claude-teams')
+    expect(plan?.launchCommand).toBe('amoeba claude-teams')
   })
 
   it('launches OpenClaude as a distinct argv agent', () => {

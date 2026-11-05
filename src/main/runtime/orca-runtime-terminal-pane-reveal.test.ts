@@ -16,7 +16,7 @@ function notifierWith(revealTerminalPane: RuntimeNotifier['revealTerminalPane'])
 }
 
 describe('OrcaRuntimeService.revealTerminalPane', () => {
-  it('refuses on a runtime with no window, such as orca serve', async () => {
+  it('refuses on a runtime with no window, such as amoeba serve', async () => {
     const runtime = new OrcaRuntimeService()
 
     await expect(runtime.revealTerminalPane(target)).rejects.toThrow('renderer_unavailable')

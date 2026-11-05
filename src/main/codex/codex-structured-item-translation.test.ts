@@ -138,7 +138,7 @@ describe('codex item identity', () => {
     expect(ordinals.ordinalFor(THREAD_ID, 'turn-2', 'item-1')).toBe(0)
   })
 
-  it('keys a non-message item and a turnless message in the orca namespace', () => {
+  it('keys a non-message item and a turnless message in the amoeba namespace', () => {
     const ordinals = new CodexTurnOrdinals()
     const command = codexItemIdentity({
       threadId: THREAD_ID,
@@ -717,8 +717,8 @@ describe('codex item bodies', () => {
       codexItemBody({
         type: 'webSearch',
         id: 'w',
-        query: 'orca release notes',
-        action: { type: 'search', query: 'orca release notes', queries: null },
+        query: 'amoeba release notes',
+        action: { type: 'search', query: 'amoeba release notes', queries: null },
         results: null
       })
     ).toEqual({
@@ -726,9 +726,9 @@ describe('codex item bodies', () => {
       name: 'web_search',
       callId: 'w',
       input: {
-        query: 'orca release notes',
+        query: 'amoeba release notes',
         description: 'search',
-        action: { type: 'search', query: 'orca release notes', queries: null }
+        action: { type: 'search', query: 'amoeba release notes', queries: null }
       },
       state: 'completed'
     })
@@ -740,8 +740,8 @@ describe('codex item bodies', () => {
       codexItemBody({
         type: 'webSearch',
         id: 'w',
-        query: 'orca release notes',
-        action: { type: 'search', query: 'orca release notes', queries: null },
+        query: 'amoeba release notes',
+        action: { type: 'search', query: 'amoeba release notes', queries: null },
         results
       })
     ).toMatchObject({

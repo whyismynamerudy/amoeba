@@ -1,7 +1,4 @@
-export function resolveOrchestrationCliExecutable(
-  env: NodeJS.ProcessEnv = process.env,
-  platform: NodeJS.Platform = process.platform
-): string {
+export function resolveOrchestrationCliExecutable(env: NodeJS.ProcessEnv = process.env): string {
   const configured = env.ORCA_CLI_COMMAND?.trim()
   if (configured) {
     return configured
@@ -9,7 +6,7 @@ export function resolveOrchestrationCliExecutable(
   if (env.ORCA_DEV_REPO_ROOT) {
     return 'amoeba-dev'
   }
-  return platform === 'linux' ? 'orca-ide' : 'orca'
+  return 'amoeba'
 }
 
 export function buildOrchestrationRecoveryCommand(

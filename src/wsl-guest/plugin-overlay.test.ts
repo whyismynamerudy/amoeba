@@ -165,14 +165,14 @@ describe('PluginOverlayManager', () => {
     writeFileSync(join(userConfigDir, 'plugins', 'user-plugin.js'), 'user plugin')
     writeFileSync(join(userConfigDir, 'plugins', 'orca-opencode-status.js'), 'user same-name')
 
-    manager.setSources({ opencodePluginSource: 'orca plugin' })
+    manager.setSources({ opencodePluginSource: 'amoeba plugin' })
     const dir = manager.materializeOpenCode('tab-opencode:0', userConfigDir)
 
     expect(dir).not.toBeNull()
     expect(readFileSync(join(dir!, 'opencode.json'), 'utf8')).toBe('{"provider":"custom"}')
     expect(readFileSync(join(dir!, 'plugins', 'user-plugin.js'), 'utf8')).toBe('user plugin')
     expect(readFileSync(join(dir!, 'plugins', 'orca-opencode-status.js'), 'utf8')).toBe(
-      'orca plugin'
+      'amoeba plugin'
     )
     expect(readFileSync(join(userConfigDir, 'plugins', 'orca-opencode-status.js'), 'utf8')).toBe(
       'user same-name'
@@ -209,7 +209,7 @@ describe('PluginOverlayManager', () => {
   )
 
   it('does not override a missing preexisting OpenCode config dir', () => {
-    manager.setSources({ opencodePluginSource: 'orca plugin' })
+    manager.setSources({ opencodePluginSource: 'amoeba plugin' })
 
     expect(manager.materializeOpenCode('tab-missing:0', join(homeDir, 'missing'))).toBeNull()
   })
@@ -496,7 +496,7 @@ describe('PluginOverlayManager', () => {
       writeFileSync(join(linkedTarget, 'keep.js'), 'do not delete')
       symlinkSync(linkedTarget, join(userConfigDir, 'plugins', 'linked-plugin'), 'dir')
 
-      manager.setSources({ opencodePluginSource: 'orca plugin' })
+      manager.setSources({ opencodePluginSource: 'amoeba plugin' })
       const dir = manager.materializeOpenCode('tab-opencode-symlink:0', userConfigDir)!
       expect(existsSync(join(dir, 'plugins', 'linked-plugin'))).toBe(true)
 

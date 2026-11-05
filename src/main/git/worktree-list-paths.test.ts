@@ -56,7 +56,13 @@ async function createRepoWithLockedDeletedWorktree(): Promise<{
     'feature/locked-delete',
     requestedWorktreePath
   ])
-  git(repoPath, ['worktree', 'lock', '--reason', 'orca locked stale repro', requestedWorktreePath])
+  git(repoPath, [
+    'worktree',
+    'lock',
+    '--reason',
+    'amoeba locked stale repro',
+    requestedWorktreePath
+  ])
 
   const worktreePath = await realpath(requestedWorktreePath)
   await rm(worktreePath, { recursive: true, force: true })

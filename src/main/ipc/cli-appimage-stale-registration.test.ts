@@ -4,6 +4,7 @@ import type { CliInstallState, CliInstallStatus } from '../../shared/cli-install
 const mocks = vi.hoisted(() => ({
   getStatus: vi.fn(),
   handle: vi.fn(),
+  hasManagedLegacyCommand: vi.fn(),
   hydrateShellPath: vi.fn(),
   install: vi.fn(),
   isAppImageRegistrationOwnedBySibling: vi.fn(),
@@ -18,6 +19,7 @@ vi.mock('electron', () => ({ ipcMain: { handle: mocks.handle } }))
 vi.mock('../cli/cli-installer', () => ({
   CliInstaller: class {
     getStatus = mocks.getStatus
+    hasManagedLegacyCommand = mocks.hasManagedLegacyCommand
     install = mocks.install
     isAppImageRegistrationOwnedBySibling = mocks.isAppImageRegistrationOwnedBySibling
     remove = mocks.remove
@@ -64,19 +66,19 @@ const originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform')
 
 function status(
   state: CliInstallState,
-  launcherPath = '/cache/current/resources/bin/orca-ide'
+  launcherPath = '/cache/current/resources/bin/amoeba'
 ): CliInstallStatus {
   return {
     platform: 'linux',
-    commandName: 'orca-ide',
-    commandPath: '/home/me/.local/bin/orca-ide',
+    commandName: 'amoeba',
+    commandPath: '/home/me/.local/bin/amoeba',
     pathDirectory: '/home/me/.local/bin',
     pathConfigured: true,
     launcherPath,
     installMethod: 'symlink',
     supported: true,
     state,
-    currentTarget: state === 'not_installed' ? null : '/cache/old/resources/bin/orca-ide',
+    currentTarget: state === 'not_installed' ? null : '/cache/old/resources/bin/amoeba',
     unsupportedReason: null,
     detail: null
   }
@@ -96,6 +98,7 @@ function cliHandler(channelName: string): () => Promise<CliInstallStatus> {
 beforeEach(() => {
   mocks.getStatus.mockReset()
   mocks.handle.mockReset()
+  mocks.hasManagedLegacyCommand.mockReset().mockResolvedValue(false)
   mocks.hydrateShellPath.mockReset().mockResolvedValue({ ok: false })
   mocks.install.mockReset()
   mocks.isAppImageRegistrationOwnedBySibling.mockReset().mockReturnValue(false)
@@ -187,10 +190,10 @@ describe('AppImage CLI registration startup repair', () => {
   })
 
   it('repairs a later AppImage generation after an earlier repair succeeds', async () => {
-    const firstStale = status('stale', '/cache/launcher/orca-ide')
-    const firstInstalled = status('installed', '/cache/launcher/orca-ide')
-    const nextStale = status('stale', '/cache/launcher/orca-ide')
-    const nextInstalled = status('installed', '/cache/launcher/orca-ide')
+    const firstStale = status('stale', '/cache/launcher/amoeba')
+    const firstInstalled = status('installed', '/cache/launcher/amoeba')
+    const nextStale = status('stale', '/cache/launcher/amoeba')
+    const nextInstalled = status('installed', '/cache/launcher/amoeba')
     mocks.getStatus
       .mockResolvedValueOnce(firstStale)
       .mockResolvedValueOnce(firstStale)
@@ -210,9 +213,9 @@ describe('AppImage CLI registration startup repair', () => {
   })
 
   it('waits for the cooldown before repairing a newer AppImage generation', async () => {
-    const firstStale = status('stale', '/cache/launcher/orca-ide')
-    const nextStale = status('stale', '/cache/launcher/orca-ide')
-    const nextInstalled = status('installed', '/cache/launcher/orca-ide')
+    const firstStale = status('stale', '/cache/launcher/amoeba')
+    const nextStale = status('stale', '/cache/launcher/amoeba')
+    const nextInstalled = status('installed', '/cache/launcher/amoeba')
     let now = 1_000
     mocks.getStatus
       .mockResolvedValueOnce(firstStale)
@@ -274,6 +277,23 @@ describe('AppImage CLI registration startup repair', () => {
     finishFirstInstall(installed)
     await expect(Promise.all([first, second])).resolves.toEqual([installed, installed])
     expect(mocks.install).toHaveBeenCalledTimes(2)
+  })
+
+  it('registers amoeba once in place of a managed pre-rename command', async () => {
+    const notInstalled = status('not_installed')
+    const installed = status('installed')
+    mocks.getStatus.mockResolvedValue(notInstalled)
+    mocks.hasManagedLegacyCommand.mockResolvedValue(true)
+    mocks.install.mockResolvedValue(installed)
+    const getInstallStatus = installStatusHandler()
+
+    await expect(getInstallStatus()).resolves.toBe(installed)
+    await expect(getInstallStatus()).resolves.toBe(notInstalled)
+    expect(mocks.hasManagedLegacyCommand).toHaveBeenCalledWith(
+      notInstalled.commandPath,
+      notInstalled.launcherPath
+    )
+    expect(mocks.install).toHaveBeenCalledOnce()
   })
 
   it('does not undo a queued removal with a stale automatic repair', async () => {
@@ -348,7 +368,7 @@ describe('AppImage CLI registration startup repair', () => {
   it('does not claim a sibling AppImage registration during a status poll', async () => {
     const stale = {
       ...status('stale'),
-      currentTarget: '/cache/current/resources/bin/orca-ide'
+      currentTarget: '/cache/current/resources/bin/amoeba'
     }
     mocks.getStatus.mockResolvedValue(stale)
     mocks.isAppImageRegistrationOwnedBySibling.mockReturnValue(true)

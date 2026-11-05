@@ -47,7 +47,7 @@ On packaged Windows, a legacy ask uses a two-step commit/resume protocol. The
 initial command commits the question, prints its exact
 `ask --resume <message_id>` command, and exits with launcher status `75`. Run
 that exact resume after the launcher or update boundary. For an attested WSL
-launch, preserve the printed `orca-ide` executable and distro route. Older WSL
+launch, preserve the printed executable and distro route. Older WSL
 workers without launch proof remain lifecycle read-only even while their
 terminal and filesystem work continue.
 
@@ -56,14 +56,14 @@ terminal and filesystem work continue.
 Read-only inspection does not consume mail:
 
 ```text
-ORCA orchestration run-list --json
-ORCA orchestration run-show --id run_legacy_local --json
-ORCA orchestration run-show --id <adopted_run_id> --json
-ORCA orchestration task-list --run <adopted_run_id> --json
-ORCA orchestration inbox --full --json
-ORCA orchestration check --terminal <legacy_handle> --peek --format --json
-ORCA terminal read --terminal <legacy_handle> --json
-ORCA terminal wait --terminal <legacy_handle> --for tui-idle --timeout-ms 60000 --json
+AMOEBA orchestration run-list --json
+AMOEBA orchestration run-show --id run_legacy_local --json
+AMOEBA orchestration run-show --id <adopted_run_id> --json
+AMOEBA orchestration task-list --run <adopted_run_id> --json
+AMOEBA orchestration inbox --full --json
+AMOEBA orchestration check --terminal <legacy_handle> --peek --format --json
+AMOEBA terminal read --terminal <legacy_handle> --json
+AMOEBA terminal wait --terminal <legacy_handle> --for tui-idle --timeout-ms 60000 --json
 ```
 
 `run_legacy_local` is an empty audit tombstone after adoption. Find the ordinary
@@ -73,8 +73,8 @@ Only when the original coordinator is unavailable or cannot prove retained
 authority may a new live coordinator take over from its own terminal:
 
 ```text
-ORCA orchestration run-use --id <adopted_run_id> --takeover-legacy --json
-ORCA orchestration check --run <adopted_run_id> --json
+AMOEBA orchestration run-use --id <adopted_run_id> --takeover-legacy --json
+AMOEBA orchestration check --run <adopted_run_id> --json
 ```
 
 Takeover binds the authenticated invoking terminal; `--from` cannot nominate

@@ -37,7 +37,7 @@ describe('federated worker agent launch', () => {
     vi.spyOn(runtime, 'getTerminalProcessIncarnation').mockReturnValue(
       'runtime_test:term_remote_worker:1'
     )
-    vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('orca')
+    vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('amoeba')
     vi.spyOn(runtime, 'sendTerminalAgentPrompt').mockResolvedValue({
       handle: 'term_remote_worker',
       accepted: true,

@@ -91,7 +91,7 @@ describe('CliSection project runtime defaults', () => {
         <CliSection currentPlatform="darwin" settings={getDefaultSettings('/tmp')} />
       )
       expect(capturedPanel.useInstalledAgentSkill).toHaveBeenLastCalledWith(
-        'orca-cli',
+        'amoeba-cli',
         expect.objectContaining({ runtimeTarget: { kind: 'local' }, discoveryTarget: undefined })
       )
       expect(capturedPanel.props?.target).toEqual({ kind: 'local' })
@@ -101,7 +101,7 @@ describe('CliSection project runtime defaults', () => {
   it('exposes freshness only for a resolved local host runtime', () => {
     const settings = getDefaultSettings('/tmp')
     renderToStaticMarkup(<CliSection currentPlatform="darwin" settings={settings} />)
-    expect(capturedPanel.props?.freshnessSkillName).toBe('orca-cli')
+    expect(capturedPanel.props?.freshnessSkillName).toBe('amoeba-cli')
 
     capturedPanel.canUseSkillFreshness = false
     renderToStaticMarkup(<CliSection currentPlatform="darwin" settings={settings} />)
@@ -152,14 +152,14 @@ describe('CliSection project runtime defaults', () => {
     )
 
     expect(capturedPanel.useInstalledAgentSkill).toHaveBeenCalledWith(
-      'orca-cli',
+      'amoeba-cli',
       expect.objectContaining({
         discoveryTarget: { runtime: 'wsl', wslDistro: 'Ubuntu' },
         runtimeTarget: { kind: 'local' },
         sourceKinds: ['global']
       })
     )
-    expect(capturedPanel.props?.skillNames).toEqual(['orca-cli'])
+    expect(capturedPanel.props?.skillNames).toEqual(['amoeba-cli'])
     expect(capturedPanel.props?.terminalRuntime).toMatchObject({
       runtime: 'wsl',
       wslDistro: 'Ubuntu'

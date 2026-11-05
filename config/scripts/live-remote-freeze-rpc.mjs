@@ -12,14 +12,14 @@ export function appendOrcaRpcOutput(output, chunk, bytes, limit = MAX_ORCA_RPC_O
   }
 }
 
-export function resolveOrcaCliCommand({ env = process.env, platform = process.platform } = {}) {
+export function resolveOrcaCliCommand({ env = process.env } = {}) {
   if (env.ORCA_CLI_COMMAND?.trim()) {
     return env.ORCA_CLI_COMMAND.trim()
   }
   if (env.ORCA_DEV_REPO_ROOT) {
     return 'amoeba-dev'
   }
-  return platform === 'linux' ? 'orca-ide' : 'orca'
+  return 'amoeba'
 }
 
 export function resolveOrcaCliInvocation({
@@ -32,7 +32,7 @@ export function resolveOrcaCliInvocation({
   if (
     platform === 'win32' &&
     env.ORCA_DEV_REPO_ROOT &&
-    (commandName === 'amoeba-dev' || commandName === 'orca-dev.cmd')
+    (commandName === 'amoeba-dev' || commandName === 'amoeba-dev.cmd')
   ) {
     const defaultUserDataPath = path.win32.join(
       env.APPDATA ?? path.win32.join(env.USERPROFILE ?? '', 'AppData', 'Roaming'),

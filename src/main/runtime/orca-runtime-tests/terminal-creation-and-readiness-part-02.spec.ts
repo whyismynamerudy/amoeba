@@ -606,9 +606,9 @@ describe('OrcaRuntimeService', () => {
 
   // claude-agent-teams has platform-specific launchers, making it a useful platform-resolution fixture.
   it.each([
-    { platform: 'win32' as const, expected: 'orca.cmd claude-teams' },
-    { platform: 'linux' as const, expected: 'orca-ide claude-teams' },
-    { platform: 'darwin' as const, expected: 'orca claude-teams' }
+    { platform: 'win32' as const, expected: 'amoeba.cmd claude-teams' },
+    { platform: 'linux' as const, expected: 'amoeba claude-teams' },
+    { platform: 'darwin' as const, expected: 'amoeba claude-teams' }
   ])(
     'resolves a startupAgent through the $platform launcher name',
     async ({ platform, expected }) => {

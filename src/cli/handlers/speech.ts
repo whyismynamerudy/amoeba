@@ -21,7 +21,7 @@ export async function readOpenAiKeyFromStdin(
   if (stdin.isTTY) {
     throw new RuntimeClientError(
       'invalid_argument',
-      'Pipe the key on stdin, e.g. printf %s "$OPENAI_API_KEY" | orca speech openai-key set'
+      'Pipe the key on stdin, e.g. printf %s "$OPENAI_API_KEY" | amoeba speech openai-key set'
     )
   }
   const chunks: Buffer[] = []

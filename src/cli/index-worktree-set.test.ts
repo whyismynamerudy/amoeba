@@ -45,7 +45,7 @@ import { RuntimeRpcFailureError } from './runtime/types'
 import { buildWorktree, okFixture, queueFixtures, worktreeListFixture } from './test-fixtures'
 import { useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,
@@ -71,7 +71,7 @@ describe('orca cli worktree awareness', () => {
         const output = JSON.parse(logSpy.mock.calls.at(-1)?.[0] ?? '{}').error
         expect(output.message).toContain(`Parent selector "${parent}" is a folder.`)
         expect(output.message).toContain(
-          'Folder parents are accepted only by orca worktree create.'
+          'Folder parents are accepted only by amoeba worktree create.'
         )
         expect(process.exitCode).toBe(1)
       }

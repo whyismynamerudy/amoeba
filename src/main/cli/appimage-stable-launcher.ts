@@ -15,7 +15,7 @@ import {
   writeFileSync
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
-import { LINUX_CLI_COMMAND_NAME } from './bundled-cli-launcher-path'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
 import { quotePosixShellDoubleQuotedApostrophe } from '../../shared/shell-argument-quoting'
 
 const LAUNCHER_DIRECTORY_NAME = 'launcher'
@@ -28,7 +28,7 @@ const LAUNCHER_MAX_BYTES = 16 * 1024
 export type AppImageLauncherEndpoint = 'live' | 'installed'
 
 export function resolveAppImageStableLauncherPath(cacheRootPath: string): string {
-  return join(resolve(cacheRootPath), LAUNCHER_DIRECTORY_NAME, LINUX_CLI_COMMAND_NAME)
+  return join(resolve(cacheRootPath), LAUNCHER_DIRECTORY_NAME, AMOEBA_CLI_COMMAND_NAME)
 }
 
 export function resolveAppImageLauncherEndpointPath(
@@ -106,7 +106,7 @@ function installLauncher(launcherPath: string, content: string): boolean {
   }
   const temporaryPath = join(
     dirname(launcherPath),
-    `.${LINUX_CLI_COMMAND_NAME}-${process.pid}-${randomUUID()}`
+    `.${AMOEBA_CLI_COMMAND_NAME}-${process.pid}-${randomUUID()}`
   )
   try {
     writeFileSync(temporaryPath, content, { encoding: 'utf8', flag: 'wx', mode: 0o755 })

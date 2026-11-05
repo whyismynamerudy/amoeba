@@ -12,7 +12,7 @@ export type PreambleParams = {
   coordinatorHandle: string
   workerHandle: string
   devMode?: boolean
-  // Packaged WSL uses orca-ide; other hosts retain their existing launcher.
+  // The terminal-resolved command; dev builds use amoeba-dev.
   cliCommand?: OrchestrationCliCommand
   // Supply actual preflight drift only; spurious warnings train workers to ignore stale-base evidence.
   baseDrift?: {
@@ -52,7 +52,7 @@ function dispatchIdentityLines(params: PreambleParams): string {
 // Place behavior rules beside CLI examples, where agent readers use them.
 export function buildDispatchPreamble(params: PreambleParams): string {
   // Dev agents must reach the dev socket through orca-dev.
-  const cli = params.devMode ? 'amoeba-dev' : (params.cliCommand ?? 'orca')
+  const cli = params.devMode ? 'amoeba-dev' : (params.cliCommand ?? 'amoeba')
   const chat = isSessionHandle(params.workerHandle)
   const surface = chat ? 'chat' : 'terminal'
   const postDoneInstructions = buildPostWorkerDoneInstructions({

@@ -6,7 +6,7 @@ export const ACCOUNT_COMMAND_SPECS: CommandSpec[] = [
     path: ['account', 'add'],
     summary: 'Add a managed agent account by signing in on this Amoeba host',
     usage:
-      'orca account add [--agent claude|codex|opencode|devin] [--label <name>] [--integration <id>] [--json]',
+      'amoeba account add [--agent claude|codex|opencode|devin] [--label <name>] [--integration <id>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'agent', 'label', 'integration'],
     notes: [
       'Runs the agent login (`claude login` / `codex login`) in this terminal, then registers the account with the local Amoeba runtime.',
@@ -17,22 +17,22 @@ export const ACCOUNT_COMMAND_SPECS: CommandSpec[] = [
       'Sign in with the account you want to add (e.g. use a private/incognito browser window for a second account).',
       '--agent defaults to claude. Requires the Amoeba runtime to be running on this machine.'
     ],
-    examples: ['orca account add', 'orca account add --agent codex']
+    examples: ['amoeba account add', 'amoeba account add --agent codex']
   },
   {
     path: ['account', 'list'],
     summary: 'List managed agent accounts on this Amoeba host',
-    usage: 'orca account list [--agent opencode|devin] [--json]',
+    usage: 'amoeba account list [--agent opencode|devin] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'agent'],
     notes: [
       'Lists the accounts on this machine. `--environment` / `--pairing-code` are rejected rather than ignored; run it on the host whose accounts you want to see.'
     ],
-    examples: ['orca account list']
+    examples: ['amoeba account list']
   },
   {
     path: ['account', 'select'],
     summary: 'Select an OpenCode or Devin profile for new agent launches',
-    usage: 'orca account select --agent opencode|devin --account <id|system> [--json]',
+    usage: 'amoeba account select --agent opencode|devin --account <id|system> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'agent', 'account']
   },
   {
@@ -40,7 +40,7 @@ export const ACCOUNT_COMMAND_SPECS: CommandSpec[] = [
     aliases: [['account', 'remove']],
     destructive: true,
     summary: 'Remove a managed OpenCode or Devin profile and its private data',
-    usage: 'orca account rm --agent opencode|devin --account <id> [--json]',
+    usage: 'amoeba account rm --agent opencode|devin --account <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'agent', 'account'],
     notes: [
       'Deletes credentials and conversation data in the managed profile. Stop its running agents first. System credentials are never removed.'

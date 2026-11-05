@@ -51,7 +51,7 @@ beforeAll(() => {
     return
   }
   sharedLauncherRoot = mkdtempSync(join(tmpdir(), 'orca cli launcher build '))
-  sharedLauncherPath = join(sharedLauncherRoot, 'orca.exe')
+  sharedLauncherPath = join(sharedLauncherRoot, 'amoeba.exe')
   const result = runProcessSync({
     program: process.execPath,
     args: ['config/scripts/build-windows-cli-launcher.mjs'],
@@ -63,7 +63,7 @@ beforeAll(() => {
     throw new Error(`${result.stdout}\n${result.stderr}`)
   }
   copyFileSync(
-    join(projectRoot, 'native', 'windows-cli-launcher', '.build', 'orca.exe'),
+    join(projectRoot, 'native', 'windows-cli-launcher', '.build', 'amoeba.exe'),
     sharedLauncherPath
   )
 }, 300_000)
@@ -180,7 +180,7 @@ describe('Windows CLI launcher', () => {
           return path
         }
       )
-      const outputPath = join(root, 'orca.exe')
+      const outputPath = join(root, 'amoeba.exe')
       const fingerprint = windowsRustExecutableFingerprint(inputs, '1.4.214')
       expect(shouldReuseCompiledWindowsRustExecutable(outputPath, fingerprint)).toBe(false)
       writeFileSync(outputPath, 'binary')
@@ -230,7 +230,7 @@ describe('Windows CLI launcher', () => {
     () => {
       const root = mkdtempSync(join(tmpdir(), 'orca launcher metadata '))
       try {
-        const launcherPath = join(root, 'orca.exe')
+        const launcherPath = join(root, 'amoeba.exe')
         expect(sharedLauncherBuild).not.toBeNull()
         expect(
           sharedLauncherBuild.status,
@@ -275,7 +275,11 @@ describe('Windows CLI launcher', () => {
     try {
       const result = spawnSync(
         process.execPath,
-        ['config/scripts/build-windows-cli-launcher.mjs', '--output', join(outputRoot, 'orca.exe')],
+        [
+          'config/scripts/build-windows-cli-launcher.mjs',
+          '--output',
+          join(outputRoot, 'amoeba.exe')
+        ],
         { cwd: projectRoot, encoding: 'utf8' }
       )
 
@@ -291,7 +295,7 @@ describe('Windows CLI launcher', () => {
     const appRoot = mkdtempSync(join(tmpdir(), 'orca cli launcher '))
     try {
       const resourcesPath = join(appRoot, 'resources')
-      const launcherPath = join(resourcesPath, 'bin', 'orca.exe')
+      const launcherPath = join(resourcesPath, 'bin', 'amoeba.exe')
       const cliPath = join(resourcesPath, 'app.asar.unpacked', 'out', 'cli', 'index.js')
       mkdirSync(join(resourcesPath, 'bin'), { recursive: true })
       mkdirSync(dirname(cliPath), { recursive: true })
@@ -352,7 +356,7 @@ describe('Windows CLI launcher', () => {
     const root = mkdtempSync(join(tmpdir(), 'orca server launcher '))
     try {
       const profile = join(root, 'server profile')
-      const launcherPath = join(profile, 'cli', 'bin', 'orca.exe')
+      const launcherPath = join(profile, 'cli', 'bin', 'amoeba.exe')
       const cliPath = join(root, 'server slot', 'out', 'cli', 'index.js')
       mkdirSync(dirname(cliPath), { recursive: true })
       writeFileSync(
@@ -418,7 +422,7 @@ describe('Windows CLI launcher', () => {
     const appRoot = mkdtempSync(join(tmpdir(), 'orca duplicate path launcher '))
     try {
       const resourcesPath = join(appRoot, 'resources')
-      const launcherPath = join(resourcesPath, 'bin', 'orca.exe')
+      const launcherPath = join(resourcesPath, 'bin', 'amoeba.exe')
       const cliPath = join(resourcesPath, 'app.asar.unpacked', 'out', 'cli', 'index.js')
       const outputPath = join(appRoot, 'child-result.json')
       const harnessSourcePath = join(

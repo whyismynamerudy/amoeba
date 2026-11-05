@@ -88,7 +88,7 @@ describe('browser route partition identity', () => {
     expect(derived.partition).not.toContain(derived.bindingFingerprint)
   })
 
-  it('scopes partition ownership to one orca profile and one environment', () => {
+  it('scopes partition ownership to one amoeba profile and one environment', () => {
     const scope = deriveBrowserRoutePartitionStorageScope({
       orcaProfileId: 'orca/profile:alpha',
       environmentId: 'environment-a'

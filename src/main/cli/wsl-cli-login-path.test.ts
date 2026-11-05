@@ -10,12 +10,12 @@ vi.mock('../wsl/wsl-runner', () => ({
 import { WslCliInstaller, _internals } from './wsl-cli-installer'
 import { WslCliUnreachableError } from './wsl-cli-status'
 
-const launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\orca.exe'
+const launcherPath = 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin\\amoeba.exe'
 
 function makeHostStatus(): CliInstallStatus {
   return {
     platform: 'win32',
-    commandName: 'orca',
+    commandName: 'amoeba',
     commandPath: launcherPath,
     pathDirectory: 'C:\\Users\\me\\AppData\\Local\\Programs\\Amoeba\\resources\\bin',
     pathConfigured: true,
@@ -78,7 +78,7 @@ describe('WslCliInstaller login-PATH lanes', () => {
   it('reports PATH unknown rather than "not on PATH" without the login PATH', async () => {
     const launcher = _internals.buildWslLauncher(
       launcherPath,
-      '/home/alice/.local/share/orca/orca-wsl-bridge.ps1'
+      '/home/alice/.local/share/amoeba/amoeba-wsl-bridge.ps1'
     )
     runWslProcessMock.mockImplementation(async (spec: { script: string; loginPath: string }) => ({
       environmentResolved: spec.loginPath !== 'preferred',
@@ -89,7 +89,7 @@ describe('WslCliInstaller login-PATH lanes', () => {
           ? 'no'
           : spec.script.includes('wslpath')
             ? 'yes'
-            : spec.script.includes('orca-wsl-bridge.ps1')
+            : spec.script.includes('amoeba-wsl-bridge.ps1')
               ? _internals.buildWslBridgeScript()
               : launcher,
       stderr: '',

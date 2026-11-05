@@ -21,7 +21,7 @@ describe('Windows desktop administrator status', () => {
     expect(await getWindowsAdministratorStatus()).toBe(answer === 'true')
     expect(runProcess).toHaveBeenCalledWith(
       expect.objectContaining({
-        program: expect.stringContaining('orca.exe'),
+        program: expect.stringContaining('amoeba.exe'),
         args: ['--orca-administrator-status']
       })
     )

@@ -42,6 +42,17 @@ export async function removeBundledSkillSibling(
   await filesystem.remove(path)
 }
 
+/** Move a renamed skill's former copy aside as the new name's old sibling; an interrupted delete is then the next plan's restore. */
+export async function retireBundledSkillFormerCopy(
+  filesystem: BundledSkillFilesystem,
+  path: string,
+  name: string
+): Promise<void> {
+  const old = siblingPath(join(dirname(path), name), BUNDLED_SKILL_OLD_MARKER)
+  await filesystem.rename(path, old)
+  await removeBundledSkillSibling(filesystem, old)
+}
+
 async function stage(
   filesystem: BundledSkillFilesystem,
   target: string,

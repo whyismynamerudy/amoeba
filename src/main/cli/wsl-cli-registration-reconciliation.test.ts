@@ -64,7 +64,7 @@ describe('reconcileManagedWslCliRegistrations', () => {
       appVersion: '1.4.138',
       listDistros: async () => ['Ubuntu'],
       listRunningDistros: async () => ['Ubuntu'],
-      getHostLauncherTarget: async () => 'C:\\Amoeba\\resources\\bin\\orca.exe',
+      getHostLauncherTarget: async () => 'C:\\Amoeba\\resources\\bin\\amoeba.exe',
       registry,
       createInstaller: () => ({
         repairManagedRegistration: async () => ({
@@ -76,7 +76,7 @@ describe('reconcileManagedWslCliRegistrations', () => {
     })
 
     expect(registry.getCandidates).toHaveBeenCalledWith(['Ubuntu'], {
-      currentTarget: 'C:\\Amoeba\\resources\\bin\\orca.exe',
+      currentTarget: 'C:\\Amoeba\\resources\\bin\\amoeba.exe',
       appVersion: '1.4.138'
     })
     expect(registry.recordObservations).toHaveBeenCalledWith([
@@ -84,7 +84,7 @@ describe('reconcileManagedWslCliRegistrations', () => {
         distro: 'Ubuntu',
         inspected: true,
         managed: true,
-        reconciled: { target: 'C:\\Amoeba\\resources\\bin\\orca.exe', appVersion: '1.4.138' }
+        reconciled: { target: 'C:\\Amoeba\\resources\\bin\\amoeba.exe', appVersion: '1.4.138' }
       }
     ])
   })

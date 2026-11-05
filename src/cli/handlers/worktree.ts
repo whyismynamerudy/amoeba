@@ -231,7 +231,7 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
     if (parentSelector && getWorkspaceKeyParentSelector(parentSelector)?.startsWith('folder:')) {
       throw new RuntimeClientError(
         'invalid_argument',
-        `Parent selector "${parentSelector}" is a folder. Folder parents are accepted only by orca worktree create.`
+        `Parent selector "${parentSelector}" is a folder. Folder parents are accepted only by amoeba worktree create.`
       )
     }
     const isUnread = getOptionalWorktreeUnreadFlag(flags)
@@ -261,7 +261,7 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
       parentSelector
         ? [
             `Amoeba could not find the worktree selector "${worktree}" or the parent selector "${parentSelector}". The server did not identify which selector failed.`,
-            'Check both selectors with orca worktree show --worktree <selector> --json.'
+            'Check both selectors with amoeba worktree show --worktree <selector> --json.'
           ]
         : []
     )

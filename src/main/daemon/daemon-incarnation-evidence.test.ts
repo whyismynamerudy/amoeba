@@ -29,7 +29,7 @@ const auditClassifierDependencies = {
 } satisfies DaemonAuditClassifierDependencies
 
 function linuxStat(state: string, startTicks: string): string {
-  return `42 (orca daemon with spaces) ${[state, ...Array(18).fill('0'), startTicks].join(' ')}`
+  return `42 (amoeba daemon with spaces) ${[state, ...Array(18).fill('0'), startTicks].join(' ')}`
 }
 
 function linuxDependencies(

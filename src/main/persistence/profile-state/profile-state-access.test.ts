@@ -285,7 +285,7 @@ describe('profile state owner reclamation', () => {
       .mockImplementation(() => clock)
     vi.spyOn(fs, 'readFileSync').mockImplementation((file, options) => {
       if (file === '/proc/12345/stat') {
-        return `12345 (orca daemon) ${fields.join(' ')}`
+        return `12345 (amoeba daemon) ${fields.join(' ')}`
       }
       return read(file, options)
     })

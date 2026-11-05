@@ -102,14 +102,14 @@ describe('seeding beside a caller-provided chat surface', () => {
       'wt-1',
       undefined,
       undefined,
-      { command: 'orca issue run' },
+      { command: 'amoeba issue run' },
       undefined,
       { callerProvidesSurface: true }
     )
 
     expect(createTab).toHaveBeenCalledTimes(1)
     expect(store.queueTabIssueCommandSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'orca issue run',
+      command: 'amoeba issue run',
       env: undefined
     })
   })

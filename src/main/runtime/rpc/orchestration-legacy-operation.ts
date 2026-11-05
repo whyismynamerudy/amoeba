@@ -7,6 +7,9 @@ import { OrchestrationError } from '../orchestration/orchestration-error'
 
 const MESSAGE_TYPE_SET = new Set<string>(MESSAGE_TYPES)
 
+/** `orca`/`orca-ide` arrive from CLIs built before the rename; hints echo the caller's own name. */
+export type CompatibilityCliCommand = 'amoeba' | 'amoeba-dev' | 'orca' | 'orca-ide'
+
 export type LegacySendParams = {
   from?: string
   to?: string
@@ -30,7 +33,7 @@ export type LegacyCheckParams = {
   timeoutMs?: number
   compatibilityAck?: string
   compatibilityQuestionAck?: string
-  compatibilityCliCommand?: 'orca' | 'orca-ide' | 'amoeba-dev'
+  compatibilityCliCommand?: CompatibilityCliCommand
 }
 
 export type LegacyAskParams = {
@@ -41,8 +44,8 @@ export type LegacyAskParams = {
   resume?: string
   options?: string
   timeoutMs?: number
-  compatibilityCliCommand?: 'orca' | 'orca-ide' | 'amoeba-dev'
-  compatibilityWindowsCommand?: 'orca' | 'orca-ide'
+  compatibilityCliCommand?: CompatibilityCliCommand
+  compatibilityWindowsCommand?: 'amoeba' | 'orca' | 'orca-ide'
 }
 
 export type LegacyReplyParams = {
@@ -162,7 +165,7 @@ export function parseLegacyOptions(raw: string | undefined): string[] {
 export function supportedLegacyHints(
   message: MessageRow,
   principal: LegacyCompatibilityPrincipalRow,
-  cliCommand: 'orca' | 'orca-ide' | 'amoeba-dev'
+  cliCommand: CompatibilityCliCommand
 ): string[] {
   if (
     principal.role !== 'coordinator' ||

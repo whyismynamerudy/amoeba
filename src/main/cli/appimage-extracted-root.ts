@@ -9,7 +9,7 @@ export {
   resolveAppImageCacheKey
 } from '../../shared/appimage-cache-identity'
 import { removeExtractedAppImagePayload } from './appimage-payload-removal'
-import { LINUX_CLI_COMMAND_NAME } from './bundled-cli-launcher-path'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
 import {
   APPIMAGE_SOURCE_RECORD_NAME,
   appImageCacheDigest,
@@ -29,7 +29,8 @@ import {
   resolveAppImageStableLauncherPath
 } from './appimage-stable-launcher'
 
-const CACHE_DIR_SEGMENTS = ['orca', 'appimage'] as const
+// Not ~/.cache/orca: real Orca's AppImage registration would repoint a shared `installed` endpoint.
+const CACHE_DIR_SEGMENTS = ['amoeba', 'appimage'] as const
 const EXTRACT_OUTPUT_DIR = 'squashfs-root'
 const MAX_GENERATION_ATTEMPTS = 2
 const EXTRACTION_STAGING_PREFIX = '.extract-'
@@ -78,14 +79,14 @@ export function resolveAppImageExtractedRoot(
 export function isAppImageExtractedLauncherPath(
   options: AppImageExtractionOptions,
   candidatePath: string,
-  launcherName = LINUX_CLI_COMMAND_NAME
+  launcherName = AMOEBA_CLI_COMMAND_NAME
 ): boolean {
   if (!isAbsolute(candidatePath)) {
     return false
   }
   const cacheRootPath = resolveAppImageCacheRootPath(options)
   if (
-    launcherName === LINUX_CLI_COMMAND_NAME &&
+    launcherName === AMOEBA_CLI_COMMAND_NAME &&
     resolve(candidatePath) === resolveAppImageStableLauncherPath(cacheRootPath)
   ) {
     return true
@@ -260,7 +261,7 @@ export function resolveAppImageCacheRootPath(options: AppImageExtractionOptions)
 function extractedRootAt(rootPath: string, cacheRootPath: string): AppImageExtractedRoot {
   return {
     rootPath,
-    payloadLauncherPath: join(rootPath, 'resources', 'bin', LINUX_CLI_COMMAND_NAME),
+    payloadLauncherPath: join(rootPath, 'resources', 'bin', AMOEBA_CLI_COMMAND_NAME),
     stableLauncherPath: resolveAppImageStableLauncherPath(cacheRootPath)
   }
 }
@@ -294,7 +295,7 @@ async function publishExtractedRoot(
 
 function hasPayloadLauncher(rootPath: string): boolean {
   try {
-    const stats = lstatSync(join(rootPath, 'resources', 'bin', LINUX_CLI_COMMAND_NAME))
+    const stats = lstatSync(join(rootPath, 'resources', 'bin', AMOEBA_CLI_COMMAND_NAME))
     return stats.isFile() && (stats.mode & 0o111) !== 0
   } catch {
     return false

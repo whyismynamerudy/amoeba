@@ -23,12 +23,12 @@ function readAppDirArg(argv) {
 
 function getPackagedCliPath(appDir) {
   if (process.platform === 'darwin' || appDir.endsWith('.app')) {
-    return join(appDir, 'Contents', 'Resources', 'bin', 'orca')
+    return join(appDir, 'Contents', 'Resources', 'bin', 'amoeba')
   }
   if (process.platform === 'win32') {
-    return join(appDir, 'resources', 'bin', 'orca.exe')
+    return join(appDir, 'resources', 'bin', 'amoeba.exe')
   }
-  return join(appDir, 'resources', 'bin', 'orca-ide')
+  return join(appDir, 'resources', 'bin', 'amoeba')
 }
 
 const appDir = resolve(readAppDirArg(process.argv.slice(2)))
@@ -51,8 +51,8 @@ try {
 
   await run(['--help'])
   const list = JSON.parse((await run(['skills', 'list', '--json'])).stdout)
-  assert(list.topics.some((topic) => topic.name === 'orca-cli'))
-  assert.match((await run(['skills', 'get', 'orca-cli'])).stdout, /name: orca-cli/)
+  assert(list.topics.some((topic) => topic.name === 'amoeba-cli'))
+  assert.match((await run(['skills', 'get', 'amoeba-cli'])).stdout, /name: amoeba-cli/)
   assert.match((await run(['skills', 'get', 'computer-use'])).stdout, /name: computer-use/)
   const install = JSON.parse(
     (
@@ -60,7 +60,7 @@ try {
         'skills',
         'install',
         '--skill',
-        'orca-cli',
+        'amoeba-cli',
         '--agent',
         'codex',
         '--dry-run',
@@ -69,7 +69,7 @@ try {
     ).stdout
   )
   const update = JSON.parse(
-    (await run(['skills', 'update', '--skill', 'orca-cli', '--dry-run', '--json'])).stdout
+    (await run(['skills', 'update', '--skill', 'amoeba-cli', '--dry-run', '--json'])).stdout
   )
   assert.equal(install.executed, false)
   assert.equal(update.executed, false)

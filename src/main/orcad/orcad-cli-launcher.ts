@@ -10,6 +10,9 @@ import { nodeFileContentsEqual } from '../../shared/node-file-content-equality'
 import { buildUnixCliLauncher } from '../cli/cli-dev-launcher'
 import { writeFileAtomically } from '../codex-accounts/fs-utils'
 import { resolveOrcadInstallRoot, resolveUserDataPath } from './orcad-app-paths'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
+
+const LEGACY_POSIX_LAUNCHER_NAME = 'orca'
 
 // The native Windows launcher selects server mode when this sibling config exists.
 export const ORCAD_WINDOWS_CLI_LAUNCHER_CONFIG_FILENAME = 'orca-launcher.cfg'
@@ -35,9 +38,10 @@ export async function prepareOrcadCliLauncher(): Promise<void> {
     launcherPath = await prepareWindowsLauncher(installRoot, entry, userDataPath, binDir)
     return
   }
-  const path = join(binDir, 'orca')
+  const path = join(binDir, AMOEBA_CLI_COMMAND_NAME)
   const script = buildUnixCliLauncher(process.execPath, entry, userDataPath, 'node')
   await mkdir(binDir, { recursive: true })
+  await removeLegacyLaunchers(binDir, [LEGACY_POSIX_LAUNCHER_NAME])
   const current = await readFile(path, 'utf8').catch(() => null)
   if (current !== script) {
     writeFileAtomically(path, script, { mode: 0o700 })
@@ -65,19 +69,11 @@ async function prepareWindowsLauncher(
   if (!existsSync(source)) {
     return null
   }
-  const path = join(binDir, 'orca.exe')
+  const path = join(binDir, `${AMOEBA_CLI_COMMAND_NAME}.exe`)
   await mkdir(binDir, { recursive: true })
   await removeRetiredLaunchers(binDir)
-  const binary = await readFile(source)
-  if (!(await nodeFileContentsEqual(path, binary).catch(() => false))) {
-    try {
-      writeFileAtomically(path, binary)
-    } catch {
-      // Windows locks running images against overwrite but allows retirement by rename.
-      await rename(path, `${path}.${randomUUID()}${RETIRED_LAUNCHER_SUFFIX}`)
-      writeFileAtomically(path, binary)
-    }
-  }
+  await removeLegacyLaunchers(binDir, [`${LEGACY_POSIX_LAUNCHER_NAME}.exe`])
+  await publishWindowsLauncher(path, await readFile(source))
   const configPath = join(binDir, ORCAD_WINDOWS_CLI_LAUNCHER_CONFIG_FILENAME)
   const config = buildWindowsCliLauncherConfig(process.execPath, entry, userDataPath)
   if ((await readFile(configPath, 'utf8').catch(() => null)) !== config) {
@@ -86,11 +82,30 @@ async function prepareWindowsLauncher(
   return path
 }
 
+async function publishWindowsLauncher(path: string, binary: Buffer): Promise<void> {
+  if (await nodeFileContentsEqual(path, binary).catch(() => false)) {
+    return
+  }
+  try {
+    writeFileAtomically(path, binary)
+  } catch {
+    // Windows locks running images against overwrite but allows retirement by rename.
+    await rename(path, `${path}.${randomUUID()}${RETIRED_LAUNCHER_SUFFIX}`)
+    writeFileAtomically(path, binary)
+  }
+}
+
+/** Pre-rename slots wrote `orca` into this private bin dir; terminals here must expose only `amoeba`. */
+async function removeLegacyLaunchers(binDir: string, names: readonly string[]): Promise<void> {
+  // A running Windows image cannot be deleted; a later start retries.
+  await Promise.all(names.map((name) => rm(join(binDir, name), { force: true }).catch(() => {})))
+}
+
 async function removeRetiredLaunchers(binDir: string): Promise<void> {
   const names = await readdir(binDir).catch(() => [])
   await Promise.all(
     names
-      .filter((name) => name.startsWith('orca.exe.') && name.endsWith(RETIRED_LAUNCHER_SUFFIX))
+      .filter((name) => name.includes('.exe.') && name.endsWith(RETIRED_LAUNCHER_SUFFIX))
       // Running retired images remain until a later cleanup.
       .map((name) => rm(join(binDir, name), { force: true }).catch(() => {}))
   )

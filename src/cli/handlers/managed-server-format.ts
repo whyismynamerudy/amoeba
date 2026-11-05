@@ -12,7 +12,7 @@ export function formatManagedServerStatus(status: OrcadManagedRuntimeStatus): st
   ]
   if (status.recovery) {
     lines.push(
-      `Interrupted ${status.recovery.operation} of ${status.recovery.version} (${status.recovery.phase}); run \`orca environment recover\`.`
+      `Interrupted ${status.recovery.operation} of ${status.recovery.version} (${status.recovery.phase}); run \`amoeba environment recover\`.`
     )
   }
   if (status.migration) {
@@ -25,7 +25,7 @@ export function formatManagedServerStatus(status: OrcadManagedRuntimeStatus): st
   }
   if (status.availableUpdate) {
     lines.push(
-      `Update available: ${status.availableUpdate}; run \`orca environment update --environment ${status.environmentId}\`.`
+      `Update available: ${status.availableUpdate}; run \`amoeba environment update --environment ${status.environmentId}\`.`
     )
   }
   return lines.join('\n')

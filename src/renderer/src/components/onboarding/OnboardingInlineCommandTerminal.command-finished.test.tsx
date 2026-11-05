@@ -106,7 +106,7 @@ describe('OnboardingInlineCommandTerminal command-finished forwarding', () => {
       }
       await act(async () => {
         root?.render(
-          <FeatureSetupInlineTerminal command="npx skills add orca-cli" selection={selection} />
+          <FeatureSetupInlineTerminal command="npx skills add amoeba-cli" selection={selection} />
         )
       })
       const telemetry = {
@@ -152,7 +152,7 @@ describe('OnboardingInlineCommandTerminal command-finished forwarding', () => {
     await act(async () => {
       root?.render(
         <FeatureSetupInlineTerminal
-          command="npx skills add orca-cli"
+          command="npx skills add amoeba-cli"
           selection={{
             browserUse: true,
             computerUse: false,

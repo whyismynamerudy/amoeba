@@ -171,7 +171,7 @@ describe('repairing damaged profile-state sections', () => {
         { domain: section, backupId: profile.backupId, backupCreatedAtMs: expect.any(Number) }
       ])
       expect(formatProfileStateStartupFailure(failure)).toContain(
-        `orca profile state rollback --repair --profile-id ${profileId}`
+        `amoeba profile state rollback --repair --profile-id ${profileId}`
       )
 
       expect(() =>

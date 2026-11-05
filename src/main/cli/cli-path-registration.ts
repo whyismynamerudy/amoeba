@@ -1,9 +1,9 @@
 import type { CliInstallStatus } from '../../shared/cli-install-types'
-import { CliCommandInstallation } from './cli-command-installation'
+import { LegacyCliCommandCleanup } from './legacy-cli-command-cleanup'
 import { isWindowsUserPathPermissionError } from './cli-install-errors'
 import { samePathEntry, splitPathEntries } from './cli-install-path-format'
 
-export class CliPathRegistration extends CliCommandInstallation {
+export class CliPathRegistration extends LegacyCliCommandCleanup {
   protected async probePathConfiguration(
     pathDirectory: string
   ): Promise<{ configured: boolean | null; detail: string | null }> {

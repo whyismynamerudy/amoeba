@@ -10,8 +10,8 @@ import type { RuntimeHostStatusSnapshot } from '../../../shared/runtime-host-sta
 // Web transport messages the shared classifier doesn't list: the connection waiter's deadline and
 // a socket that dropped mid-request.
 const WEB_CONNECTION_FAILURE_FRAGMENTS = [
-  'timed out while connecting to the remote orca runtime',
-  'remote orca runtime connection interrupted'
+  'timed out while connecting to the remote amoeba runtime',
+  'remote amoeba runtime connection interrupted'
 ].flatMap((fragment) => [fragment, fragment.replaceAll('orca', 'amoeba')])
 
 function isConnectionFailure(error: unknown): boolean {

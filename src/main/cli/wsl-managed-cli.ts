@@ -4,13 +4,14 @@ import { join } from 'node:path'
 import { getAppEnvironment } from '../../shared/app-environment'
 import { windowsPowerShellPath } from '@orca/process-host/windows-system-binary'
 import { writeShellWrapperFiles } from '../shell-wrapper-file-writer'
-import { getBundledLauncherPath, LINUX_CLI_COMMAND_NAME } from './bundled-cli-launcher-path'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
+import { getBundledLauncherPath } from './bundled-cli-launcher-path'
 import { DEV_COMMAND_NAME } from './cli-install-constants'
 import { buildColocatedWslLauncher, buildWslBridgeScript } from './wsl-cli-scripts'
 
-/** Packaged builds share `orca-ide` with guest registration; dev builds get their own name. */
+/** Packaged builds share `amoeba` with guest registration; dev builds get their own name. */
 export function getWslCliCommandName(isPackaged: boolean): string {
-  return isPackaged ? LINUX_CLI_COMMAND_NAME : DEV_COMMAND_NAME
+  return isPackaged ? AMOEBA_CLI_COMMAND_NAME : DEV_COMMAND_NAME
 }
 
 let warnedMissingRuntime = false
@@ -40,7 +41,7 @@ export function getManagedWslCliDir(opts: {
   const directory = join(opts.userDataPath, 'wsl-managed-cli', digest)
   const files = [
     [join(directory, getWslCliCommandName(opts.isPackaged)), launcher],
-    [join(directory, 'orca-wsl-bridge.ps1'), bridge]
+    [join(directory, 'amoeba-wsl-bridge.ps1'), bridge]
   ] as const
   const ready =
     files.every(([path]) => existsSync(path)) ||

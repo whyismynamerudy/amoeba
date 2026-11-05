@@ -31,7 +31,7 @@ vi.mock('../../../pi/titlebar-extension-service', () => ({
 vi.mock('../../../cli/orca-cli-child-path', () => ({ prependOrcaCliDirToChildPath: () => {} }))
 vi.mock('../../../cli/wsl-managed-cli', () => ({
   getManagedWslCliDir: () => undefined,
-  getWslCliCommandName: () => 'orca-ide'
+  getWslCliCommandName: () => 'amoeba'
 }))
 
 let root: string

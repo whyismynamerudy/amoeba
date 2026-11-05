@@ -342,11 +342,11 @@ describe('LinearAgentSkillSetupPrompt', () => {
     })
     await settleRender()
 
-    expect(document.body.textContent).toContain('orca-linear')
+    expect(document.body.textContent).toContain('amoeba-linear')
     expect(mocks.panelProps.at(-1)).toEqual(
       expect.objectContaining({
-        skillNames: ['orca-linear'],
-        installedSkillNames: ['orca-linear']
+        skillNames: ['amoeba-linear'],
+        installedSkillNames: ['amoeba-linear']
       })
     )
     expect(mocks.panelProps.at(-1)?.getPrerequisiteStatus).toBeUndefined()
@@ -423,7 +423,7 @@ describe('LinearAgentSkillSetupPrompt', () => {
     await settleRender()
 
     expect(document.body.querySelector('[data-testid="linear-skill-inline-panel"]')).not.toBeNull()
-    expect(document.body.textContent).toContain('orca-linear')
+    expect(document.body.textContent).toContain('amoeba-linear')
 
     const installButton = Array.from(document.body.querySelectorAll('button')).find(
       (button) => button.textContent === 'Mock install'
@@ -706,7 +706,7 @@ describe('LinearAgentSkillSetupPrompt', () => {
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
     await settleRender()
-    expect(mocks.panelProps.at(-1)?.skillNames).toEqual(['orca-linear'])
+    expect(mocks.panelProps.at(-1)?.skillNames).toEqual(['amoeba-linear'])
   })
 
   it('uses remote-safe success copy for remote workspaces', async () => {

@@ -524,7 +524,7 @@ describe('claude structured launch resolution', () => {
       })
     })({ identity: IDENTITY })
 
-    // Right behind this app's CLI, so a runtime dir holding another `orca` cannot shadow it.
+    // Right behind this app's CLI, so a runtime dir holding another `amoeba` cannot shadow it.
     expect((launch.env?.PATH ?? launch.env?.Path)?.split(delimiter).slice(1)).toEqual([
       binDir,
       '/usr/bin'

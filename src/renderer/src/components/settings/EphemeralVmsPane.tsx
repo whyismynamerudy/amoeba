@@ -21,7 +21,7 @@ type RecipeCatalogEntry = Awaited<
 
 // Keep the nudge short; the skill owns provider choice, setup, authentication and validation.
 const AGENT_PROMPT =
-  'Use the orca-per-workspace-env skill to set up a per-workspace environment for this repo.'
+  'Use the amoeba-per-workspace-env skill to set up a per-workspace environment for this repo.'
 
 export function EphemeralVmsPane(): React.JSX.Element {
   const openModal = useAppStore((state) => state.openModal)

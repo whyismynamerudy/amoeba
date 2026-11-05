@@ -45,7 +45,7 @@ import { okFixture, queueFixtures } from './test-fixtures'
 import { AUTOMATION_EXTRA_AGENT_ARGS_RUNTIME_CAPABILITY } from '../shared/protocol-version'
 import { useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca cli automation extra agent args', () => {
+describe('amoeba cli automation extra agent args', () => {
   const originalExitCode = process.exitCode
 
   afterEach(() => {

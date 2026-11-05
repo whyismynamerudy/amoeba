@@ -6,14 +6,12 @@ import {
 
 describe('orchestration recovery command identity', () => {
   it.each([
-    ['configured dev', { ORCA_CLI_COMMAND: 'amoeba-dev' }, 'darwin', 'amoeba-dev'],
-    ['configured WSL', { ORCA_CLI_COMMAND: 'orca-ide' }, 'linux', 'orca-ide'],
-    ['dev checkout', { ORCA_DEV_REPO_ROOT: '/repo' }, 'darwin', 'amoeba-dev'],
-    ['packaged Linux', {}, 'linux', 'orca-ide'],
-    ['local macOS', {}, 'darwin', 'orca'],
-    ['local Windows', {}, 'win32', 'orca']
-  ] as const)('resolves the %s CLI identity', (_name, env, platform, expected) => {
-    expect(resolveOrchestrationCliExecutable(env, platform)).toBe(expected)
+    ['configured dev', { ORCA_CLI_COMMAND: 'amoeba-dev' }, 'amoeba-dev'],
+    ['configured pre-rename WSL wrapper', { ORCA_CLI_COMMAND: 'orca-ide' }, 'orca-ide'],
+    ['dev checkout', { ORCA_DEV_REPO_ROOT: '/repo' }, 'amoeba-dev'],
+    ['packaged', {}, 'amoeba']
+  ] as const)('resolves the %s CLI identity', (_name, env, expected) => {
+    expect(resolveOrchestrationCliExecutable(env)).toBe(expected)
   })
 
   it('reconstructs the keyed worker-start command from its RPC params', () => {

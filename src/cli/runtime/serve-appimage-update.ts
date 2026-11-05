@@ -197,7 +197,7 @@ export function createSupervisedAppImageUpdate(
       if (!reportedFailedAttempt) {
         reportedFailedAttempt = true
         deps.log(
-          `[serve] Keeping the running build: ${watch.appImagePath} was started once and did not come up. Replace it again, or run \`orca serve --supervise --force\` once to retry it.`
+          `[serve] Keeping the running build: ${watch.appImagePath} was started once and did not come up. Replace it again, or run \`amoeba serve --supervise --force\` once to retry it.`
         )
       }
       return 'current'

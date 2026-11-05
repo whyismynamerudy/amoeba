@@ -82,7 +82,9 @@ vi.mock('../runtime/runtime-rpc-startup-failure', () => ({
   showRuntimeRpcStartupFailureDialog: vi.fn()
 }))
 vi.mock('../cli/cli-installer', () => ({ CliInstaller: class {} }))
-vi.mock('../cli/linux-bare-orca-dispatcher', () => ({ installLinuxBareOrcaDispatcher: vi.fn() }))
+vi.mock('../cli/linux-legacy-orca-dispatcher-retirement', () => ({
+  retireLinuxBareOrcaDispatcher: vi.fn()
+}))
 vi.mock('../terminal-history-deletion', () => ({ scheduleAllPendingHistoryTreeRemovals: vi.fn() }))
 vi.mock('../ipc/startup-notification-registration', () => ({
   triggerStartupNotificationRegistration: vi.fn()

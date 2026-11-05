@@ -47,7 +47,7 @@ import { main } from './index'
 import { encodePairingOffer, PAIRING_OFFER_VERSION } from '../shared/pairing'
 import { useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,

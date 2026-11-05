@@ -273,19 +273,11 @@ export abstract class OrcaRuntimeWithGetOrchestrationDispatchAuthority extends O
       const ptyId = this.resolveLeafForHandle(handle)?.ptyId
       pty = ptyId ? (this.ptysById.get(ptyId) ?? null) : null
     } catch {
-      return 'orca'
-    }
-    if (!pty) {
-      return 'orca'
+      return localOrchestrationCliCommand()
     }
     return resolveTerminalOrchestrationCliCommand({
-      connectionId: pty.connectionId,
-      isWsl: pty.isWsl,
-      worktreeId: pty.worktreeId,
-      runtimeCliCommand: runtimeOrchestrationCliCommand(),
-      projectRuntime: this.store
-        ? resolveLocalProjectRuntimeForWorktreeId(this.requireStore(), pty.worktreeId)
-        : undefined
+      connectionId: pty?.connectionId ?? null,
+      runtimeCliCommand: runtimeOrchestrationCliCommand()
     })
   }
   /** Recover a handle only for an exact live process incarnation and known host scope; never close a replacement under a reused PTY id. workerShow also uses this without lease rechecks. */

@@ -12,7 +12,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     hidden: true,
     summary: 'Start a dev connector conversation with a background terminal agent',
     usage:
-      'orca connector start --conversation <id> --delivery-id <id> --agent claude|codex --prompt <text> (--worktree <selector> | --project-group <id> [--name <name>]) [--json]',
+      'amoeba connector start --conversation <id> --delivery-id <id> --agent claude|codex --prompt <text> (--worktree <selector> | --project-group <id> [--name <name>]) [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
       'conversation',
@@ -32,7 +32,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     path: ['connector', 'send'],
     hidden: true,
     summary: 'Send a follow-up into a dev connector conversation',
-    usage: 'orca connector send --conversation <id> --delivery-id <id> --text <text> [--json]',
+    usage: 'amoeba connector send --conversation <id> --delivery-id <id> --text <text> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'conversation', 'delivery-id', 'text'],
     notes: [
       ...CONNECTOR_NOTES,
@@ -43,7 +43,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     path: ['connector', 'prompt'],
     hidden: true,
     summary: "Show what a dev connector conversation's agent is waiting on",
-    usage: 'orca connector prompt --conversation <id> [--json]',
+    usage: 'amoeba connector prompt --conversation <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'conversation'],
     notes: [
       CONNECTOR_NOTES[0],
@@ -54,7 +54,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     path: ['connector', 'answer'],
     hidden: true,
     summary: "Answer a dev connector conversation's pending prompt",
-    usage: 'orca connector answer --conversation <id> --prompt-id <id> --option <id> [--json]',
+    usage: 'amoeba connector answer --conversation <id> --prompt-id <id> --option <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'conversation', 'prompt-id', 'option'],
     notes: [
       CONNECTOR_NOTES[0],
@@ -65,7 +65,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     path: ['connector', 'cancel'],
     hidden: true,
     summary: 'Cancel what a dev connector conversation is doing',
-    usage: 'orca connector cancel --conversation <id> --delivery-id <id> [--json]',
+    usage: 'amoeba connector cancel --conversation <id> --delivery-id <id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'conversation', 'delivery-id'],
     notes: [
       ...CONNECTOR_NOTES,
@@ -76,7 +76,7 @@ export const CONNECTOR_COMMAND_SPECS: CommandSpec[] = [
     path: ['connector', 'watch'],
     hidden: true,
     summary: 'Collect connector conversation events for a while',
-    usage: 'orca connector watch [--for-ms <ms>] [--json]',
+    usage: 'amoeba connector watch [--for-ms <ms>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'for-ms'],
     notes: [
       CONNECTOR_NOTES[0],

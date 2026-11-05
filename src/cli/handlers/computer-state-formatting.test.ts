@@ -40,7 +40,7 @@ vi.mock('../runtime-client', () => {
 import { main } from '../index'
 import { okFixture, queueFixtures } from '../test-fixtures'
 
-describe('orca computer get-app-state formatting', () => {
+describe('amoeba computer get-app-state formatting', () => {
   let screenshotDirectory: string
   beforeEach(() => {
     vi.restoreAllMocks()

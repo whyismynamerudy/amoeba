@@ -36,7 +36,7 @@ const registeredAgentSchema = z.object({
     steering: openEnum(['inject', 'queue'] as const, 'queue')
       .optional()
       .default('queue'),
-    // `orca` claims only that Amoeba answers the agent's requests, never that it confines the agent.
+    // `amoeba` claims only that Amoeba answers the agent's requests, never that it confines the agent.
     approvalEnforcement: openEnum(['provider', 'orca'] as const, 'orca')
       .optional()
       .default('orca')

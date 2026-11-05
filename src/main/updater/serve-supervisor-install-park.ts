@@ -218,10 +218,10 @@ export function serveInstallRefusalMessage(
 ): string {
   const pids = result.pids.slice(0, 10).join(', ')
   if (result.reason === 'unresponsive') {
-    return `Background orca serve services (process IDs: ${pids}) did not pause for the update in time. Amoeba remains open; retry the update, or stop those services first.`
+    return `Background amoeba serve services (process IDs: ${pids}) did not pause for the update in time. Amoeba remains open; retry the update, or stop those services first.`
   }
   if (result.reason === 'busy') {
     return 'Another Amoeba window is already installing this update. Amoeba remains open; retry in a minute.'
   }
-  return `Close the other Amoeba instances (process IDs: ${pids}) before installing this update. Background orca serve instances also need to stop. Amoeba remains open; retry the update after closing them.`
+  return `Close the other Amoeba instances (process IDs: ${pids}) before installing this update. Background amoeba serve instances also need to stop. Amoeba remains open; retry the update after closing them.`
 }

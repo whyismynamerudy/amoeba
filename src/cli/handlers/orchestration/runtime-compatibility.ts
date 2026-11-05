@@ -1,19 +1,18 @@
 import { RuntimeClientError } from '../../runtime-client'
 
-export function resolveCompatibilityCliCommand(): 'orca' | 'orca-ide' | 'amoeba-dev' {
+/** Undefined means `amoeba`, the server default, so pre-rename servers never see a value they reject. */
+export function resolveCompatibilityCliCommand(): 'amoeba-dev' | 'orca-ide' | undefined {
   const configured = process.env.ORCA_CLI_COMMAND
-  if (configured === 'orca' || configured === 'orca-ide' || configured === 'amoeba-dev') {
-    return configured
-  }
-  return process.platform === 'linux' ? 'orca-ide' : 'orca'
+  return configured === 'amoeba-dev' || configured === 'orca-ide' ? configured : undefined
 }
 
-export function resolvePackagedWindowsCompatibilityCommand(): 'orca' | 'orca-ide' | undefined {
+export function resolvePackagedWindowsCompatibilityCommand(): 'amoeba' | 'orca-ide' | undefined {
   if (process.env.ORCA_WINDOWS_PACKAGED_CLI_LAUNCHER !== '1') {
     return undefined
   }
+  // `orca-ide` arrives only from a WSL wrapper registered before the rename.
   const command = process.env.ORCA_CLI_COMMAND
-  if (command === 'orca' || command === 'orca-ide') {
+  if (command === 'amoeba' || command === 'orca-ide') {
     return command
   }
   throw new RuntimeClientError(

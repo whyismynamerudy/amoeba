@@ -47,9 +47,13 @@ describe('orcad profile CLI launcher', () => {
     'launches pinned Node with intact arguments and the execution host profile',
     async () => {
       await writeCli()
+      // Pre-rename slots wrote `orca`; this server's terminals must expose only `amoeba`.
+      await mkdir(join(roots.profile, 'cli', 'bin'), { recursive: true })
+      await writeFile(join(roots.profile, 'cli', 'bin', 'orca'), '#!/bin/sh\n')
       await prepareOrcadCliLauncher()
       const launcher = getOrcadCliLauncherPath()
-      expect(launcher).toBe(join(roots.profile, 'cli', 'bin', 'orca'))
+      expect(launcher).toBe(join(roots.profile, 'cli', 'bin', 'amoeba'))
+      expect(await readdir(join(roots.profile, 'cli', 'bin'))).toEqual(['amoeba'])
       if (!launcher) {
         throw new Error('CLI launcher is missing')
       }
@@ -141,9 +145,11 @@ describe('orcad profile CLI launcher', () => {
     it('installs the native launcher and points it at this slot, runtime and profile', async () => {
       await writeCli()
       await writeLauncher('native launcher v1')
+      await mkdir(binDir(), { recursive: true })
+      await writeFile(join(binDir(), 'orca.exe'), 'pre-rename launcher')
       await prepareOrcadCliLauncher()
       const launcher = getOrcadCliLauncherPath()
-      expect(launcher).toBe(join(binDir(), 'orca.exe'))
+      expect(launcher).toBe(join(binDir(), 'amoeba.exe'))
       expect(await readFile(launcher!, 'utf8')).toBe('native launcher v1')
       expect(await readConfig()).toBe(
         [
@@ -155,7 +161,7 @@ describe('orcad profile CLI launcher', () => {
       )
       // Batch/PowerShell proxies can reparse cmd.exe arguments instead of preserving them.
       expect((await readdir(binDir())).sort()).toEqual(
-        [ORCAD_WINDOWS_CLI_LAUNCHER_CONFIG_FILENAME, 'orca.exe'].sort()
+        [ORCAD_WINDOWS_CLI_LAUNCHER_CONFIG_FILENAME, 'amoeba.exe'].sort()
       )
     })
 
@@ -167,11 +173,11 @@ describe('orcad profile CLI launcher', () => {
       await writeCli()
       await writeLauncher('native launcher v2')
       await prepareOrcadCliLauncher()
-      expect(await readFile(join(binDir(), 'orca.exe'), 'utf8')).toBe('native launcher v2')
+      expect(await readFile(join(binDir(), 'amoeba.exe'), 'utf8')).toBe('native launcher v2')
       expect(await readConfig()).toContain(`cli=${join(roots.install, 'out', 'cli', 'index.js')}`)
     })
 
-    it('leaves a slot without the native launcher with no orca command', async () => {
+    it('leaves a slot without the native launcher with no amoeba command', async () => {
       await writeCli()
       await prepareOrcadCliLauncher()
       expect(getOrcadCliLauncherPath()).toBeNull()

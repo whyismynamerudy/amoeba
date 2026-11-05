@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest'
 const run = promisify(execFile)
 const referenceRoot = resolve(
   import.meta.dirname,
-  '../../skill-guides/orca-per-workspace-env/references'
+  '../../skill-guides/amoeba-per-workspace-env/references'
 )
 const vercel = await readFile(resolve(referenceRoot, 'provider-vercel.md'), 'utf8')
 const ssh = await readFile(resolve(referenceRoot, 'ssh-host.md'), 'utf8')
@@ -81,7 +81,7 @@ exit 0`)
         const output = JSON.parse(result.stdout)
         expect(output.userData).toMatchObject({
           provider: 'vercel-sandbox',
-          resourceId: 'orca-fixture-123',
+          resourceId: 'amoeba-fixture-123',
           snapshotId: 'snap_fixture'
         })
         expect(result.calls.map((args) => args.slice(0, 2))).toEqual([
@@ -112,7 +112,7 @@ exit 0`)
         ['sandbox', 'create'],
         ['sandbox', 'remove']
       ])
-      expect(result.calls[1]).toEqual(['sandbox', 'remove', 'orca-fixture-123'])
+      expect(result.calls[1]).toEqual(['sandbox', 'remove', 'amoeba-fixture-123'])
       expect(result.stderr).not.toContain('unbound variable')
     })
 

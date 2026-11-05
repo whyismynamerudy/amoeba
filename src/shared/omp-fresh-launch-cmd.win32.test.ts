@@ -9,7 +9,7 @@ import { buildAgentStartupPlan } from './tui-agent-startup'
 it.skipIf(process.platform !== 'win32')(
   'guards OMP alike when typed or read from a variable',
   async () => {
-    const root = await mkdtemp(join(tmpdir(), 'orca omp & (cmd) '))
+    const root = await mkdtemp(join(tmpdir(), 'amoeba omp & (cmd) '))
     try {
       const config = join(root, 'fresh %ORCA_EXPANSION_PROBE% & settings!.yml')
       const capture = join(root, 'argv.json')

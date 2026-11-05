@@ -2,7 +2,7 @@
 //!
 //! Why a native binary rather than the `.cmd` alone: `cmd.exe` reparses `%*` and
 //! executes or truncates embedded newlines, so orchestration message bodies
-//! cannot survive it (#8374). `orca.cmd` refuses those subcommands and defers
+//! cannot survive it (#8374). `amoeba.cmd` refuses those subcommands and defers
 //! here.
 //!
 //! Why not a managed assembly: a small freshly-compiled MSIL image in a
@@ -79,13 +79,14 @@ fn main() {
     );
     env::set_var("ELECTRON_RUN_AS_NODE", "1");
     env::set_var("ORCA_WINDOWS_PACKAGED_CLI_LAUNCHER", "1");
+    // A WSL wrapper registered before the rename still asks for `orca-ide` until reconciliation replaces it.
     let requested_command = env::var("ORCA_CLI_COMMAND").unwrap_or_default();
     env::set_var(
         "ORCA_CLI_COMMAND",
         if requested_command == "orca-ide" {
             "orca-ide"
         } else {
-            "orca"
+            "amoeba"
         },
     );
 
@@ -117,8 +118,8 @@ fn run_server_cli(config_path: &Path) -> ! {
         "NODE_OPTIONS",
         "NODE_REPL_EXTERNAL_MODULE",
         "ELECTRON_RUN_AS_NODE",
-        // A server started by the desktop's `orca serve` inherits this marker, which would make
-        // orchestration demand a bare `orca` resume command.
+        // A server started by the desktop's `amoeba serve` inherits this marker, which would make
+        // orchestration demand a bare `amoeba` resume command.
         "ORCA_WINDOWS_PACKAGED_CLI_LAUNCHER",
     ] {
         env::remove_var(name);

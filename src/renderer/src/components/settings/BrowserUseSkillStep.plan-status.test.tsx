@@ -22,7 +22,11 @@ it.each([false, true])(
     mocks.plan.mockResolvedValue({
       kind: 'plan',
       plan: planOf([
-        sharedEntry('orca-cli', blocked ? 'leave' : 'keep', blocked ? { reason: 'unwritable' } : {})
+        sharedEntry(
+          'amoeba-cli',
+          blocked ? 'leave' : 'keep',
+          blocked ? { reason: 'unwritable' } : {}
+        )
       ])
     })
     const { container } = render(

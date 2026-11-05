@@ -72,7 +72,7 @@ describe('sealStructuredSessionChild identity', () => {
       ORCA_AGENT_SESSION_ID: SESSION_ID,
       // For a CLI that predates the id, which refuses on it instead of guessing a sibling.
       ORCA_STRUCTURED_SESSION: '1',
-      ORCA_CLI_COMMAND: join(SHIM_DIR, 'orca'),
+      ORCA_CLI_COMMAND: join(SHIM_DIR, 'amoeba'),
       ORCA_CLI_BIN_DIR: SHIM_DIR,
       // The instance that minted the id, so any current CLI dials it rather than the default.
       ORCA_USER_DATA_PATH: USER_DATA,
@@ -126,7 +126,7 @@ describe('sealStructuredSessionChild identity', () => {
 
   describe.each(['chat', 'worker'] as const)("reaches this app's CLI as a %s", (kind) => {
     it('reaches a headless host CLI without Electron resources', () => {
-      const launcher = join(USER_DATA, 'cli', 'bin', 'orca')
+      const launcher = join(USER_DATA, 'cli', 'bin', 'amoeba')
       installFakeAppEnvironment({
         isPackaged: () => true,
         getPath: () => USER_DATA,
@@ -156,11 +156,10 @@ describe('sealStructuredSessionChild identity', () => {
     })
 
     it('on packaged Linux, through the bare-orca shim, named by absolute path', () => {
-      // Bare orca on Linux is GNOME's screen reader; this app installs as orca-ide (#7904).
       pinPlatform('linux')
       installFakeAppEnvironment({ isPackaged: () => true, getPath: () => USER_DATA })
       const env = sealedChildEnv(SESSION_ID, { PATH: '/usr/bin:/bin' })
-      expect(env.ORCA_CLI_COMMAND).toBe(join(SHIM_DIR, 'orca'))
+      expect(env.ORCA_CLI_COMMAND).toBe(join(SHIM_DIR, 'amoeba'))
       expect(env.PATH).toBe(`${SHIM_DIR}:/usr/bin:/bin`)
     })
 
@@ -169,7 +168,7 @@ describe('sealStructuredSessionChild identity', () => {
       installFakeAppEnvironment({ isPackaged: () => true, getPath: () => USER_DATA })
       const env = sealedChildEnv(SESSION_ID, { PATH: '/usr/bin' })
       expect(env.PATH).toBe(`${join(RESOURCES, 'bin')}:/usr/bin`)
-      expect(env.ORCA_CLI_COMMAND).toBe(join(RESOURCES, 'bin', 'orca'))
+      expect(env.ORCA_CLI_COMMAND).toBe(join(RESOURCES, 'bin', 'amoeba'))
     })
 
     it('on packaged Windows, through the bundled CLI dir under the env block spelling', () => {
@@ -179,7 +178,7 @@ describe('sealStructuredSessionChild identity', () => {
       expect(env.Path).toBe(`${join(RESOURCES, 'bin')};C:\\Windows`)
       expect(env.PATH).toBeUndefined()
       // The native launcher: `orca.cmd` refuses message bodies cmd.exe would mangle.
-      expect(env.ORCA_CLI_COMMAND).toBe(join(RESOURCES, 'bin', 'orca.exe'))
+      expect(env.ORCA_CLI_COMMAND).toBe(join(RESOURCES, 'bin', 'amoeba.exe'))
       expect(env.ORCA_CLI_BIN_DIR).toBeUndefined()
     })
 
@@ -192,7 +191,7 @@ describe('sealStructuredSessionChild identity', () => {
     })
   })
 
-  it('omits the CLI command when no launcher resolves, never naming a bare `orca`', () => {
+  it('omits the CLI command when no launcher resolves, never naming a bare `amoeba`', () => {
     // An unresolved bundled launcher cannot fall back to bare or inherited orca: those can launch GNOME or another app.
     pinPlatform('linux')
     installFakeAppEnvironment({ isPackaged: () => true, getPath: () => USER_DATA })
@@ -220,7 +219,7 @@ describe('sealStructuredSessionChild identity', () => {
   })
 
   it('never names the WSL-scoped launcher, because a structured worker cannot run in WSL', () => {
-    // WSL exports orca-ide for PTYs; structured WSL sessions cannot become workers, so Linux needs the bare-orca shim.
+    // Structured WSL sessions cannot become workers, so Linux reaches the CLI through the shim.
     expect(
       structuredWorkerHostScope({
         executionHostId: 'local',

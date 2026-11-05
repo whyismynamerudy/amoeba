@@ -3,6 +3,7 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
+  rmSync,
   statSync,
   writeFileSync,
   type Stats
@@ -21,8 +22,11 @@ import {
   removeAppImageLegacyLiveEndpoint
 } from './appimage-stable-launcher'
 import { getBundledLauncherPath } from './bundled-cli-launcher-path'
-import { buildBareOrcaCliScript } from './linux-bare-orca-dispatcher'
 import { quotePosixShellDoubleQuotedApostrophe } from '../../shared/shell-argument-quoting'
+import {
+  AMOEBA_CLI_COMMAND_NAME,
+  LEGACY_CLI_COMMAND_NAMES
+} from '../../shared/orca-cli-command-name'
 
 const SHIM_DIR_NAME = 'linux-orca-cli-shim'
 
@@ -32,11 +36,11 @@ export type LinuxTerminalOrcaCliShimOptions = {
   resourcesPath?: string | null
   /** Trusted caller override; production requires the complete AppImage runtime identity. */
   appImagePath?: string | null
-  /** Test seam — defaults to $XDG_CACHE_HOME/orca/appimage. */
+  /** Test seam — defaults to $XDG_CACHE_HOME/amoeba/appimage. */
   appImageCacheRootPath?: string
 }
 
-// Prepend only in managed PTYs so agents' bare `orca` calls reach the CLI instead of GNOME Orca.
+// Prepend only in managed PTYs so `amoeba` reaches this app even when the CLI is not registered.
 export function ensureLinuxTerminalOrcaCliShimDir(
   options: LinuxTerminalOrcaCliShimOptions
 ): string | null {
@@ -201,16 +205,22 @@ exec "$launcher" "$@"
 `
 }
 
-function ensureShimForLauncher(userDataPath: string, launcherPath: string): string | null {
-  const script = buildBareOrcaCliScript(launcherPath)
+export function buildCliForwardingScript(launcherPath: string): string {
+  return `#!/usr/bin/env bash\nexec ${quotePosixShellDoubleQuotedApostrophe(launcherPath)} "$@"\n`
+}
 
-  return ensureShimForScript(userDataPath, script)
+function ensureShimForLauncher(userDataPath: string, launcherPath: string): string | null {
+  return ensureShimForScript(userDataPath, buildCliForwardingScript(launcherPath))
 }
 
 function ensureShimForScript(userDataPath: string, script: string): string | null {
   const shimDir = join(userDataPath, SHIM_DIR_NAME)
-  const shimPath = join(shimDir, 'orca')
+  const shimPath = join(shimDir, AMOEBA_CLI_COMMAND_NAME)
   try {
+    // Earlier builds wrote the shim as `orca`; this private dir is ours, so drop it.
+    for (const legacyName of LEGACY_CLI_COMMAND_NAMES) {
+      rmSync(join(shimDir, legacyName), { force: true })
+    }
     if (readShim(shimPath) !== script) {
       mkdirSync(shimDir, { recursive: true })
       writeFileSync(shimPath, script, 'utf8')
