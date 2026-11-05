@@ -144,7 +144,7 @@ describe.skipIf(process.platform !== 'win32')('Claude statusLine delivery on Win
       statusLine: { type: 'command', command: LEGACY_COMMAND }
     })
     expect(command).toBe(
-      join(home, '.orca', 'agent-hooks', 'claude-statusline.cmd').replaceAll('\\', '/')
+      join(home, '.amoeba', 'hooks', 'claude-statusline.cmd').replaceAll('\\', '/')
     )
 
     const legacy = await run(powershellPath(), [...POWERSHELL_ARGS, LEGACY_COMMAND], 0)

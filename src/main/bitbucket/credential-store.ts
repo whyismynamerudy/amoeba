@@ -1,5 +1,4 @@
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs'
-import { homedir } from 'node:os'
 import { join } from 'node:path'
 import {
   CredentialDecryptionError,
@@ -11,6 +10,7 @@ import {
 import type { BitbucketAuthMode } from '../../shared/bitbucket-credentials'
 import { readCredentialFileProtection } from '../credential-file-protection'
 import type { SecretAtRestProtection } from '../../shared/secret-at-rest-protection'
+import { getAmoebaHomeDir } from '../amoeba-home/amoeba-home-dir'
 
 // Plaintext display metadata lets status reads avoid keychain prompts.
 export type BitbucketStoredMetadata = {
@@ -46,7 +46,7 @@ let cachedSecret: BitbucketStoredSecret | null = null
 let credentialError: string | null = null
 
 function getOrcaDir(): string {
-  return join(homedir(), '.orca')
+  return getAmoebaHomeDir()
 }
 
 function getMetadataPath(): string {

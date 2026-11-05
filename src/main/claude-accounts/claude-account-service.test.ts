@@ -116,7 +116,7 @@ describe('ClaudeAccountService', () => {
       account('new-wsl', {
         managedAuthRuntime: 'wsl',
         wslDistro: 'Ubuntu',
-        wslLinuxAuthPath: '/home/u/.local/share/orca/claude-profiles/new-wsl/home'
+        wslLinuxAuthPath: '/home/u/.local/share/amoeba/claude-profiles/new-wsl/home'
       })
     ])
     f.signIn('a', 'now-a@example.test')
@@ -546,7 +546,7 @@ describe('ClaudeAccountService', () => {
       account('w', {
         managedAuthRuntime: 'wsl',
         wslDistro: 'Ubuntu',
-        wslLinuxAuthPath: '/home/u/.local/share/orca/claude-profiles/w/home'
+        wslLinuxAuthPath: '/home/u/.local/share/amoeba/claude-profiles/w/home'
       })
     ])
     const selected = await f.service.selectAccountForTarget('w', {

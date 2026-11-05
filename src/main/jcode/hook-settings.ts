@@ -1,6 +1,7 @@
 // Honor JCODE_HOME so hooks land in the config jcode actually reads.
 import { homedir } from 'node:os'
 import { join } from 'node:path'
+import { AMOEBA_HOOKS_RELATIVE_DIR, getAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 const JCODE_SCRIPT_BASE = 'jcode-hook'
 
@@ -37,7 +38,7 @@ export function getJcodeManagedScriptPath(): string {
 }
 
 export function getSharedJcodeScriptPath(scriptFileName: string): string {
-  return join(homedir(), '.orca', 'agent-hooks', scriptFileName)
+  return getAmoebaHookScriptPath(scriptFileName)
 }
 
 // jcode tokenizes commands before direct execution; quote paths to preserve Windows separators and spaces.
@@ -54,6 +55,7 @@ export function getJcodeRemoteManagedCommand(scriptPath: string): string {
 // Normalize Windows separators before matching the managed script.
 export function isJcodeManagedCommand(command: string | null | undefined): boolean {
   return (
-    typeof command === 'string' && command.replaceAll('\\', '/').includes('agent-hooks/jcode-hook')
+    typeof command === 'string' &&
+    command.replaceAll('\\', '/').includes(`${AMOEBA_HOOKS_RELATIVE_DIR}/jcode-hook`)
   )
 }

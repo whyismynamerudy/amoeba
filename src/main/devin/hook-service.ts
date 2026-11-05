@@ -38,6 +38,7 @@ import {
   readDevinHooksSource,
   serializeDevinHooksConfig
 } from './hook-config-json'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 function getManagedScript(target: 'local' | 'posix' = 'local'): string {
   if (target === 'local' && process.platform === 'win32') {
@@ -173,7 +174,7 @@ export class DevinHookService {
     // Remote hook scripts use POSIX syntax regardless of the local platform.
     const remoteConfigPath = getDevinRemoteConfigPath(remoteHome)
     const remoteScriptFileName = getDevinPosixManagedScriptFileName()
-    const remoteScriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/${remoteScriptFileName}`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, remoteScriptFileName)
     try {
       const body = await readTextFileRemote(sftp, remoteConfigPath)
       const config =

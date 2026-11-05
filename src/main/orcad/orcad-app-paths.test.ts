@@ -36,7 +36,7 @@ describe('resolveUserDataPath', () => {
     expect(resolveUserDataPath()).toBe(join(sep, 'xdg', 'Amoeba'))
 
     vi.stubEnv('XDG_DATA_HOME', '')
-    expect(resolveUserDataPath()).toBe(join(homedir(), '.orca'))
+    expect(resolveUserDataPath()).toBe(join(homedir(), '.amoeba'))
   })
 })
 

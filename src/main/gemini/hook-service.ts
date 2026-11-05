@@ -29,6 +29,7 @@ import {
   buildWindowsHookStdinDrainEpilogue
 } from '../agent-hooks/hook-stdin-contract'
 import { posixCurlCommand } from '../agent-hooks/hook-post-command'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 // Gemini has no permission-prompt hook, so approvals cannot produce an Amoeba waiting state.
 // Gemini uses BeforeTool; remove stale Claude-style PreToolUse registrations below.
@@ -205,7 +206,7 @@ export class GeminiHookService {
   // Remote hooks use POSIX paths and the same event/config contract as local installation.
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const remoteConfigPath = `${remoteHome.replace(/\/$/, '')}/.gemini/settings.json`
-    const remoteScriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/gemini-hook.sh`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, 'gemini-hook.sh')
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
       if (!config) {

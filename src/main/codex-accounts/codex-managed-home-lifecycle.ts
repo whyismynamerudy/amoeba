@@ -13,6 +13,7 @@ import type { CodexAccountAddTarget, ManagedCodexHomeLocation } from './codex-ac
 import { writeFileAtomically } from './fs-utils'
 import { ManagedCodexHomeTemporarilyUnavailableError } from './host-codex-managed-home-ownership'
 import type { CodexManagedHomePath } from './codex-managed-home-path'
+import { GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT } from './guest-codex-account-homes'
 
 const WSL_MANAGED_HOME_TIMEOUT_MS = 5_000
 
@@ -147,7 +148,7 @@ export class CodexManagedHomeLifecycle {
       throw new Error('Could not resolve the active WSL home directory for Codex login.')
     }
 
-    const linuxPath = `${home.replace(/\/$/, '')}/.local/share/orca/codex-accounts/${accountId}/home`
+    const linuxPath = `${home.replace(/\/$/, '')}/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}/${accountId}/home`
     const markerPath = `${linuxPath}/.orca-managed-home`
     const created = await runWslProcess({
       distro,
@@ -188,7 +189,7 @@ export class CodexManagedHomeLifecycle {
           'set -euo pipefail',
           `candidate=${quotePosixShell(linuxHomePath)}`,
           `expected_marker=${quotePosixShell(expectedAccountId)}`,
-          'managed_root="${HOME%/}/.local/share/orca/codex-accounts"',
+          `managed_root="\${HOME%/}/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}"`,
           'candidate_real=$(readlink -f -- "$candidate" 2>/dev/null || true)',
           'managed_root_real=$(readlink -f -- "$managed_root" 2>/dev/null || true)',
           'test -n "$candidate_real"',

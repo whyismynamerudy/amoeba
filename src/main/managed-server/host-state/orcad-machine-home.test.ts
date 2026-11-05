@@ -167,7 +167,7 @@ function machine(name: string, hostname = name, options: MachineOptions = {}) {
 }
 
 function loginHomeResult() {
-  return { loginHome: home, orcadHome: home, userDataDir: join(home, '.orca') }
+  return { loginHome: home, orcadHome: home, userDataDir: join(home, '.amoeba') }
 }
 
 function claimPath(): string {
@@ -175,7 +175,7 @@ function claimPath(): string {
 }
 
 function legacyOwner(name: string, machineIdentity: string | null = uuidOf(name)): void {
-  const dir = join(home, '.orca', '.profile-state-access', 'participants', 'token')
+  const dir = join(home, '.amoeba', '.profile-state-access', 'participants', 'token')
   mkdirSync(dir, { recursive: true })
   writeFileSync(
     join(dir, 'token.owner'),
@@ -202,7 +202,7 @@ describe.runIf(POSIX)('resolveOrcadMachineHome on a home several machines share'
     )
     expect(statSync(bHome.orcadHome).mode & 0o777).toBe(0o700)
     // A shallow sibling path keeps runtime sockets within Unix length limits.
-    expect(bHome.userDataDir).toMatch(new RegExp(`^${home}/\\.orca-[a-f0-9]{8}$`))
+    expect(bHome.userDataDir).toMatch(new RegExp(`^${home}/\\.amoeba-[a-f0-9]{8}$`))
 
     expect(await resolveOrcadMachineHome(b, true)).toEqual(bHome)
     expect(await resolveOrcadMachineHome(a, true)).toEqual(loginHomeResult())
@@ -236,7 +236,7 @@ describe.runIf(POSIX)('resolveOrcadMachineHome on a home several machines share'
       recursive: true
     })
     writeFileSync(join(home, '.orca-remote', 'orcad-active.json'), '{"schemaVersion":1}')
-    mkdirSync(join(home, '.orca', 'profiles'), { recursive: true })
+    mkdirSync(join(home, '.amoeba', 'profiles'), { recursive: true })
     legacyOwner('node-a')
 
     expect(await resolveOrcadMachineHome(a, true)).toEqual(loginHomeResult())
@@ -257,7 +257,7 @@ describe.runIf(POSIX)('resolveOrcadMachineHome on a home several machines share'
     expect(existsSync(claimPath())).toBe(false)
 
     // Node-a exits; node-b must retain its own home instead of adopting that install.
-    rmSync(join(home, '.orca'), { recursive: true })
+    rmSync(join(home, '.amoeba'), { recursive: true })
     expect(await resolveOrcadMachineHome(b, true)).toEqual(bHome)
     expect(await resolveOrcadMachineHome(a, true)).toEqual(loginHomeResult())
   })
@@ -412,7 +412,7 @@ describe.runIf(POSIX)('resolveOrcadMachineHome on a home several machines share'
     const b = machine('node-b', 'node-b', nfs)
     // Clean shutdown removed the data-root owner but left an unattributed prior activation.
     writeFileSync(join(mkdirp(home, '.orca-remote'), 'orcad-active.json'), '{"schemaVersion":1}')
-    mkdirp(home, '.orca', '.profile-state-access', 'participants')
+    mkdirp(home, '.amoeba', '.profile-state-access', 'participants')
 
     await expect(resolveOrcadMachineHome(b, true)).rejects.toThrow(/can't tell which machine/)
     expect(existsSync(claimPath())).toBe(false)
@@ -431,7 +431,7 @@ describe.runIf(POSIX)('resolveOrcadMachineHome on a home several machines share'
   it('claims a shared home whose data root no orcad ever activated, and its fix runs anywhere', async () => {
     const a = machine('node-a', 'node-a', { homeSource: 'filer:/export/home' })
     // Profile use by a CLI need not imply any managed server install.
-    mkdirp(home, '.orca', '.profile-state-access', 'participants')
+    mkdirp(home, '.amoeba', '.profile-state-access', 'participants')
     expect(await resolveOrcadMachineHome(a, true)).toEqual(loginHomeResult())
 
     // Ownership repair must also work before ~/.orca-remote exists.

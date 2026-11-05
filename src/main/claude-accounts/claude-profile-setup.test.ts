@@ -167,8 +167,8 @@ describe('Claude account profile setup', () => {
   it('refuses a WSL profile on the Windows host side', async () => {
     fixture()
     const report = await provisionClaudeAccountProfile({
-      dataRoot: '/home/u/.local/share/orca',
-      profile: describeClaudeProfile('/home/u/.local/share/orca', 'a', {
+      dataRoot: '/home/u/.local/share/amoeba',
+      profile: describeClaudeProfile('/home/u/.local/share/amoeba', 'a', {
         runtime: 'wsl',
         distro: 'Ubuntu',
         executionHostId: 'local'

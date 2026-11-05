@@ -291,7 +291,7 @@ it('does not read an inactive WSL account through a stopped distro', async () =>
     id: 'acct',
     managedAuthRuntime: 'wsl',
     wslDistro: 'Ubuntu',
-    wslLinuxAuthPath: '/home/u/.local/share/orca/claude-profiles/acct/home'
+    wslLinuxAuthPath: '/home/u/.local/share/amoeba/claude-profiles/acct/home'
   })
   expect(runningDistros.filter).toHaveBeenCalledWith(['\\\\wsl.localhost\\Ubuntu\\'], {
     requireConfirmed: true

@@ -51,7 +51,7 @@ describe('codex sessions roots', () => {
   })
 
   it('scans per-account homes after the default roots, leaving WSL shares to their tier', async () => {
-    const accountHome = '/home/u/.local/share/orca/codex-accounts/a1/home'
+    const accountHome = '/home/u/.local/share/amoeba/codex-accounts/a1/home'
     configureHostReadableTranscriptPathSources({
       getAdditionalCodexHomePaths: () => [accountHome, '\\\\wsl.localhost\\Ubuntu\\home\\u\\.codex']
     })

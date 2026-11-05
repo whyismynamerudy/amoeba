@@ -51,8 +51,7 @@ afterEach(() => {
 })
 
 const configPath = (): string => join(home, '.kimi-code', 'config.toml')
-const scriptPath = (fileName = 'kimi-hook.sh'): string =>
-  join(home, '.orca', 'agent-hooks', fileName)
+const scriptPath = (fileName = 'kimi-hook.sh'): string => join(home, '.amoeba', 'hooks', fileName)
 const supportsPosixFileModes = process.platform !== 'win32'
 
 describe('KimiHookService', () => {
@@ -71,10 +70,10 @@ describe('KimiHookService', () => {
     })
 
     it('registers the .cmd by bare forward-slash path, else the encoded launcher', () => {
-      expect(getManagedCommand('C:\\Users\\alice\\.orca\\agent-hooks\\kimi-hook.cmd')).toBe(
-        'C:/Users/alice/.orca/agent-hooks/kimi-hook.cmd'
+      expect(getManagedCommand('C:\\Users\\alice\\.amoeba\\hooks\\kimi-hook.cmd')).toBe(
+        'C:/Users/alice/.amoeba/hooks/kimi-hook.cmd'
       )
-      const spacedPath = 'C:\\Users\\Bob Smith\\.orca\\agent-hooks\\kimi-hook.cmd'
+      const spacedPath = 'C:\\Users\\Bob Smith\\.amoeba\\hooks\\kimi-hook.cmd'
       expect(getManagedCommand(spacedPath)).toBe(wrapWindowsHookCommand(spacedPath))
     })
 
@@ -131,7 +130,7 @@ describe('KimiHookService', () => {
       expect(script).toContain('printf \'%s\' "$payload" | LC_ALL= LC_NUMERIC=C curl')
       expect(script).toContain('--data-urlencode "payload@-"')
       expect(script).not.toContain('--data-urlencode "payload=${payload}"')
-      expect(config).toContain('agent-hooks/kimi-hook.sh')
+      expect(config).toContain('.amoeba/hooks/kimi-hook.sh')
     }
   )
 
@@ -151,7 +150,7 @@ describe('KimiHookService', () => {
 
     service.install()
     const reinstalled = readFileSync(configPath(), 'utf-8')
-    expect((reinstalled.match(/orca-managed-kimi-hooks \(/g) ?? []).length).toBe(1)
+    expect((reinstalled.match(/amoeba-managed-kimi-hooks \(/g) ?? []).length).toBe(1)
 
     const removed = service.remove()
     expect(removed.state).toBe('not_installed')

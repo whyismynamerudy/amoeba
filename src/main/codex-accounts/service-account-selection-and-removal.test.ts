@@ -172,7 +172,7 @@ describe('CodexAccountService config sync', () => {
           managedHomePath: wslManagedHomePath,
           managedHomeRuntime: 'wsl',
           wslDistro: 'Ubuntu',
-          wslLinuxHomePath: '/home/alice/.local/share/orca/codex-accounts/wsl-account/home',
+          wslLinuxHomePath: '/home/alice/.local/share/amoeba/codex-accounts/wsl-account/home',
           providerAccountId: null,
           workspaceLabel: null,
           workspaceAccountId: null,

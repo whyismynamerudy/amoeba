@@ -18,7 +18,7 @@ import { provisionClaudeProfile } from './claude-profile-provisioning'
 const USER_HOOK = { matcher: '', hooks: [{ type: 'command', command: 'notify-me' }] }
 const ORCA_HOOK = {
   matcher: '',
-  hooks: [{ type: 'command', command: '"$HOME/.orca/agent-hooks/claude-hook.sh"' }]
+  hooks: [{ type: 'command', command: '"$HOME/.amoeba/hooks/claude-hook.sh"' }]
 }
 const LOGIN = { emailAddress: 'p@example.com' }
 const roots: string[] = []

@@ -9,6 +9,7 @@ import {
 import { readCodexTopLevelModelProvider } from '../codex/codex-model-provider-config'
 import type { Store } from '../persistence'
 import { toWindowsWslPath } from '../wsl'
+import { GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT } from './guest-codex-account-homes'
 
 export type CanonicalCodexConfig = {
   contents: string
@@ -53,7 +54,7 @@ export class CodexConfigMirror {
       return this.readHostConfig()
     }
 
-    const managedRootMarker = '/.local/share/orca/codex-accounts/'
+    const managedRootMarker = `/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}/`
     const markerIndex = wslInfo.linuxPath.indexOf(managedRootMarker)
     if (markerIndex === -1) {
       return null

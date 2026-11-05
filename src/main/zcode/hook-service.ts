@@ -38,6 +38,7 @@ import {
   readZCodeConfigSource,
   serializeZCodeConfig
 } from './hook-config-json'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 function getManagedScript(target: 'local' | 'posix' = 'local'): string {
   if (target === 'local' && process.platform === 'win32') {
@@ -140,7 +141,7 @@ export class ZCodeHookService {
     const remoteConfigPath = getZCodeRemoteConfigPath(remoteHome)
     // Remote Windows is unsupported here; local process.platform cannot describe an SSH host.
     const remoteScriptFileName = getZCodePosixManagedScriptFileName()
-    const remoteScriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/${remoteScriptFileName}`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, remoteScriptFileName)
     try {
       const body = await readTextFileRemote(sftp, remoteConfigPath)
       const config = body === null ? {} : parseZCodeConfigText(body, 'remote ZCode config.json')

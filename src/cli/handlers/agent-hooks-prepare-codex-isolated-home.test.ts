@@ -73,17 +73,17 @@ beforeEach(() => {
   managedHome = join(appUserData, 'codex-runtime-home', 'home')
   mkdirSync(managedHome, { recursive: true })
   // Simulate an app that installed the pane home under a different HOME at spawn.
-  const appCommand = getManagedCommand(join(appHome, '.orca', 'agent-hooks', SCRIPT_NAME))
+  const appCommand = getManagedCommand(join(appHome, '.amoeba', 'hooks', SCRIPT_NAME))
   writeFileSync(
     join(managedHome, 'hooks.json'),
     `${JSON.stringify({ hooks: { Stop: [{ hooks: [{ type: 'command', command: appCommand }] }] } }, null, 2)}\n`
   )
   for (const home of [appHome, realHome]) {
     mkdirSync(join(home, '.codex'), { recursive: true })
-    mkdirSync(join(home, '.orca', 'agent-hooks'), { recursive: true })
+    mkdirSync(join(home, '.amoeba', 'hooks'), { recursive: true })
     writeFileSync(join(home, '.codex', 'hooks.json'), '{\n  "hooks": {}\n}\n')
     writeFileSync(join(home, '.codex', 'config.toml'), 'model = "user-model"\n')
-    writeFileSync(join(home, '.orca', 'agent-hooks', SCRIPT_NAME), '# another Amoeba wrote this\n')
+    writeFileSync(join(home, '.amoeba', 'hooks', SCRIPT_NAME), '# another Amoeba wrote this\n')
   }
   vi.stubEnv('ORCA_USER_DATA_PATH', appUserData)
   vi.stubEnv('CODEX_HOME', managedHome)

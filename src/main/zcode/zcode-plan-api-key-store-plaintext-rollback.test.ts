@@ -54,8 +54,8 @@ let keyPath: string
 
 beforeEach(async () => {
   mocks.home = realFs.mkdtempSync(join(os.tmpdir(), 'orca-glm-plaintext-rollback-'))
-  keyPath = join(mocks.home, '.orca', 'zcode-plan-api-key.enc')
-  realFs.mkdirSync(join(mocks.home, '.orca'))
+  keyPath = join(mocks.home, '.amoeba', 'zcode-plan-api-key.enc')
+  realFs.mkdirSync(join(mocks.home, '.amoeba'))
   mocks.write.mockReset().mockImplementation(realFs.writeFileSync)
   mocks.rename.mockReset().mockImplementation(realFs.renameSync)
   mocks.restrict.mockReset().mockReturnValue(false)
@@ -90,7 +90,7 @@ describe('plaintext rollback through the secure-file writer', () => {
     expect(mocks.write).toHaveBeenCalledTimes(2)
     expect(realFs.existsSync(keyPath)).toBe(false)
     expect(store.readZcodePlanApiKey()).toBeNull()
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual([])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual([])
   })
 
   // Rename preserves staged DACL; later read-time hardening failure must not erase the restored key.
@@ -195,7 +195,7 @@ describe('conditional rollback publication through the real writer', () => {
       expect(realFs.readFileSync(keyPath, 'utf8')).toBe(envelope('other-writer-key'))
       expect(store.readZcodePlanApiKey()).toBe('other-writer-key')
       expect(mocks.rename).toHaveBeenCalledTimes(1)
-      expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(['zcode-plan-api-key.enc'])
+      expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(['zcode-plan-api-key.enc'])
     }
   )
 
@@ -231,7 +231,7 @@ describe('conditional rollback publication through the real writer', () => {
     expect(realFs.readFileSync(keyPath, 'utf8')).toBe(envelope('other-writer-key'))
     expect(store.readZcodePlanApiKey()).toBe('other-writer-key')
     expect(mocks.rename).toHaveBeenCalledTimes(1)
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(['zcode-plan-api-key.enc'])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(['zcode-plan-api-key.enc'])
   })
 
   it('removes only the owned rejected plaintext when rollback rename fails', () => {
@@ -244,7 +244,7 @@ describe('conditional rollback publication through the real writer', () => {
 
     expect(realFs.existsSync(keyPath)).toBe(false)
     expect(store.readZcodePlanApiKey()).toBeNull()
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual([])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual([])
   })
 
   it.each([false, true])(
@@ -265,7 +265,7 @@ describe('conditional rollback publication through the real writer', () => {
       expect(shouldPublish).toHaveBeenCalledTimes(1)
       expect(mocks.rename).not.toHaveBeenCalled()
       expect(realFs.existsSync(keyPath)).toBe(previous)
-      expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(
+      expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(
         previous ? ['zcode-plan-api-key.enc'] : []
       )
       if (previous) {
@@ -287,7 +287,7 @@ describe('conditional rollback publication through the real writer', () => {
 
     expect(mocks.rename).not.toHaveBeenCalled()
     expect(realFs.readFileSync(keyPath, 'utf8')).toBe(envelope('previous-key'))
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(['zcode-plan-api-key.enc'])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(['zcode-plan-api-key.enc'])
   })
 
   it('retains best-effort restriction outcomes when guarded publication is allowed', () => {
@@ -304,7 +304,7 @@ describe('conditional rollback publication through the real writer', () => {
     expect(shouldPublish).toHaveBeenCalledTimes(1)
     expect(mocks.rename).toHaveBeenCalledTimes(1)
     expect(realFs.readFileSync(keyPath, 'utf8')).toBe(envelope('candidate-key'))
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(['zcode-plan-api-key.enc'])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(['zcode-plan-api-key.enc'])
   })
 
   it('checks publication immediately after staged hardening and before rename', () => {
@@ -343,6 +343,6 @@ describe('conditional rollback publication through the real writer', () => {
     ).toThrow('Synthetic guarded rename failure')
 
     expect(realFs.readFileSync(keyPath, 'utf8')).toBe(envelope('previous-key'))
-    expect(realFs.readdirSync(join(mocks.home, '.orca'))).toEqual(['zcode-plan-api-key.enc'])
+    expect(realFs.readdirSync(join(mocks.home, '.amoeba'))).toEqual(['zcode-plan-api-key.enc'])
   })
 })

@@ -23,6 +23,7 @@ import {
   installWindowsClaudeHookFiles,
   refreshWindowsClaudeHookFiles
 } from './windows-hook-files'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 export { getManagedScript }
 import { getManagedStatusLineCommand, getManagedStatusLineScript } from './statusline-script'
@@ -254,7 +255,7 @@ export class ClaudeHookService {
     // Remote hook installation targets POSIX hosts regardless of the client platform.
     const remoteConfigPath = getRemoteConfigPath(remoteHome, this.options.settings)
     const remoteScriptFileName = getPosixManagedScriptFileName(this.options.settings)
-    const remoteScriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/${remoteScriptFileName}`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, remoteScriptFileName)
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
       if (!config) {

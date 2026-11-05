@@ -251,9 +251,9 @@ describe('createPtySubprocess', () => {
         cwd: 'C:\\Users\\jin\\repo',
         env: {
           CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home',
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\amoeba\\codex-accounts\\a\\home',
           ORCA_CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\amoeba\\codex-accounts\\a\\home'
         }
       })
     } finally {
@@ -291,9 +291,9 @@ describe('createPtySubprocess', () => {
         shellOverride: 'wsl.exe',
         env: {
           CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home',
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\amoeba\\codex-accounts\\a\\home',
           ORCA_CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\amoeba\\codex-accounts\\a\\home'
         }
       })
     } finally {
@@ -314,8 +314,8 @@ describe('createPtySubprocess', () => {
       ['-d', 'Ubuntu', '--exec', 'sh', '-c', expect.stringContaining(`cd '${expectedLinuxCwd}'`)],
       expect.objectContaining({
         env: expect.objectContaining({
-          CODEX_HOME: '/home/jin/.local/share/orca/codex-accounts/a/home',
-          ORCA_CODEX_HOME: '/home/jin/.local/share/orca/codex-accounts/a/home',
+          CODEX_HOME: '/home/jin/.local/share/amoeba/codex-accounts/a/home',
+          ORCA_CODEX_HOME: '/home/jin/.local/share/amoeba/codex-accounts/a/home',
           WSLENV: expect.stringContaining('CODEX_HOME')
         })
       })
@@ -410,7 +410,7 @@ describe('createPtySubprocess', () => {
     spawnMock.mockReturnValue(mockPtyProcess())
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')
     Object.defineProperty(process, 'platform', { value: 'win32' })
-    const home = '/home/jin/.local/share/orca/claude-profiles/a/home'
+    const home = '/home/jin/.local/share/amoeba/claude-profiles/a/home'
     try {
       await createPtySubprocess({
         sessionId: 'test',
@@ -420,7 +420,7 @@ describe('createPtySubprocess', () => {
         env: {
           CLAUDE_CONFIG_DIR: home,
           ORCA_CLAUDE_INJECTED_CONFIG_DIR: home,
-          ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/orca/claude-profiles/selected-wsl-orca'
+          ORCA_CLAUDE_PROFILE_POINTER: '~/.local/share/amoeba/claude-profiles/selected-wsl-orca'
         }
       })
     } finally {
@@ -438,7 +438,7 @@ describe('createPtySubprocess', () => {
       ])
     )
     expect(env.ORCA_CLAUDE_PROFILE_POINTER).toBe(
-      '~/.local/share/orca/claude-profiles/selected-wsl-orca'
+      '~/.local/share/amoeba/claude-profiles/selected-wsl-orca'
     )
   })
 

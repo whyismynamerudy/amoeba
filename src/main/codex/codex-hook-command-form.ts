@@ -1,6 +1,6 @@
 // Shared HOME builds must freeze command bytes per form to avoid rewrite/trust loops.
 // Bump the form to change bytes; preserve entries from higher forms.
-export const CODEX_HOOK_COMMAND_FORM = 1
+export const CODEX_HOOK_COMMAND_FORM = 2
 
 const FORM_MARKER = /orca-agent-hook-form=(\d+)/
 
@@ -12,8 +12,9 @@ const POSIX_STDIN_DRAIN = '{ command -p cat 2>/dev/null || cat; } >/dev/null 2>&
 const WINDOWS_BARE_PATH = /^[A-Za-z0-9_.:/~-]+$/
 
 function buildPosixCommand(): string {
-  const rootScript = '"${ORCA_AGENT_HOOK_ROOT-}/agent-hooks/codex-hook.sh"'
-  const sharedScript = '"${HOME-}/.orca/agent-hooks/codex-hook.sh"'
+  // Form 2 left Orca's agent-hooks paths, which Orca's matcher claims as its own.
+  const rootScript = '"${ORCA_AGENT_HOOK_ROOT-}/hooks/codex-hook.sh"'
+  const sharedScript = '"${HOME-}/.amoeba/hooks/codex-hook.sh"'
   // The root branch stays dormant until Amoeba sets its root; shared hooks require a pane and port.
   // Outside Amoeba or with hooks off, only drain stdin, preserving the frozen command bytes.
   return [
@@ -58,7 +59,7 @@ function buildWindowsCommand(scriptPath: string, env: WindowsDirectoryEnv): stri
 }
 
 /**
- * Only Windows embeds scriptPath (~/.orca/agent-hooks); bytes depend on it and the machine's Windows directory.
+ * Only Windows embeds scriptPath (~/.amoeba/hooks); bytes depend on it and the machine's Windows directory.
  */
 export function buildCodexHookCommand(
   scriptPath: string,

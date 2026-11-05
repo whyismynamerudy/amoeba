@@ -24,7 +24,7 @@ import {
 } from './codex-hook-hash-lookup'
 import { getCodexHookTrustMemoPath } from './codex-hook-trust-memo'
 
-const COMMAND = '/home/u/.orca/agent-hooks/codex-hook.sh'
+const COMMAND = '/home/u/.amoeba/hooks/codex-hook.sh'
 let userData: string
 let codexPath: string
 

@@ -253,7 +253,7 @@ async function generatePosixScripts(): Promise<Map<string, string>> {
     const status = await entry.install(memory.sftp)
     expect(status.state, `${entry.agent} install status`).toBe('installed')
     const generated = [...memory.fs.files.entries()].filter(
-      ([path]) => path.includes('/.orca/agent-hooks/') && path.endsWith('.sh')
+      ([path]) => path.includes('/.amoeba/hooks/') && path.endsWith('.sh')
     )
     expect(generated.length, `${entry.agent} generated scripts`).toBeGreaterThan(0)
     for (const [path, script] of generated) {
@@ -305,7 +305,7 @@ describe('Windows managed hook stdin structure', () => {
           expect((await entry.install()).state, `${entry.agent} install status`).toBe('installed')
         }
       })
-      const hooksDir = join(home, '.orca', 'agent-hooks')
+      const hooksDir = join(home, '.amoeba', 'hooks')
       const fileNames = readdirSync(hooksDir)
       const mainBatchScripts = fileNames.filter(
         (name) => name.endsWith('-hook.cmd') && !name.startsWith('antigravity-')
@@ -383,7 +383,7 @@ describe('Windows managed hook stdin structure', () => {
         for (const entry of LOCAL_INSTALLERS) {
           expect((await entry.install()).state, `${entry.agent} install status`).toBe('installed')
         }
-        const hooksDir = join(home, '.orca', 'agent-hooks')
+        const hooksDir = join(home, '.amoeba', 'hooks')
         const mainScripts = readdirSync(hooksDir).filter(
           (name) =>
             name === 'antigravity-hook.cmd' ||
@@ -569,7 +569,7 @@ describe('Windows managed hook stdin structure', () => {
 
 describe.skipIf(process.platform === 'win32')('managed hook stdin lifecycle', () => {
   it('emits neutral JSON when the Claude lifecycle script is missing', async () => {
-    const command = getRemoteManagedCommand('/home/dev/.orca/agent-hooks/claude-hook.sh')
+    const command = getRemoteManagedCommand('/home/dev/.amoeba/hooks/claude-hook.sh')
     const result = await runPosixHook(command)
 
     expect(result.exitCode).toBe(0)

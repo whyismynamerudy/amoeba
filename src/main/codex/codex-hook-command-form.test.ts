@@ -19,35 +19,33 @@ import { planRealHomeCodexHookEntries } from './codex-real-home-hook-entry-plan'
 
 // Goldens prevent shared HOME builds rewriting each other's hooks without a form bump.
 const POSIX_GOLDEN =
-  ': orca-agent-hook-form=1; if [ -n "${ORCA_PANE_KEY-}" ] && [ -n "${ORCA_AGENT_HOOK_ROOT-}" ] && [ -f "${ORCA_AGENT_HOOK_ROOT-}/agent-hooks/codex-hook.sh" ]; then /bin/sh "${ORCA_AGENT_HOOK_ROOT-}/agent-hooks/codex-hook.sh" || :; elif [ -z "${ORCA_AGENT_HOOK_ROOT-}" ] && [ -n "${ORCA_PANE_KEY-}" ] && [ -n "${ORCA_AGENT_HOOK_PORT-}" ] && [ -f "${HOME-}/.orca/agent-hooks/codex-hook.sh" ]; then /bin/sh "${HOME-}/.orca/agent-hooks/codex-hook.sh" || :; else { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi'
-const WINDOWS_BARE_GOLDEN = 'C:/Users/alice/.orca/agent-hooks/codex-hook.cmd'
+  ': orca-agent-hook-form=2; if [ -n "${ORCA_PANE_KEY-}" ] && [ -n "${ORCA_AGENT_HOOK_ROOT-}" ] && [ -f "${ORCA_AGENT_HOOK_ROOT-}/hooks/codex-hook.sh" ]; then /bin/sh "${ORCA_AGENT_HOOK_ROOT-}/hooks/codex-hook.sh" || :; elif [ -z "${ORCA_AGENT_HOOK_ROOT-}" ] && [ -n "${ORCA_PANE_KEY-}" ] && [ -n "${ORCA_AGENT_HOOK_PORT-}" ] && [ -f "${HOME-}/.amoeba/hooks/codex-hook.sh" ]; then /bin/sh "${HOME-}/.amoeba/hooks/codex-hook.sh" || :; else { command -p cat 2>/dev/null || cat; } >/dev/null 2>&1 || :; fi'
+const WINDOWS_BARE_GOLDEN = 'C:/Users/alice/.amoeba/hooks/codex-hook.cmd'
 const WINDOWS_CMD_GOLDEN =
-  'C:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd"'
+  'C:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.amoeba/hooks/codex-hook.cmd"'
 // Older local builds used bare cmd; installation and app-start reconciliation migrate it.
 const WINDOWS_BARE_CMD_SPELLING =
-  'cmd --% /d /c @"C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd"'
+  'cmd --% /d /c @"C:/Users/First Last/.amoeba/hooks/codex-hook.cmd"'
 const WINDOWS_ENV = { SystemRoot: 'C:\\Windows', ComSpec: 'C:\\Windows\\system32\\cmd.exe' }
 // Dev builds used PowerShell text for spaced profile paths; app start migrates it.
 const WINDOWS_POWERSHELL_TEXT =
-  "<# orca-agent-hook-form=1 #> if ($env:ORCA_PANE_KEY -and $env:ORCA_AGENT_HOOK_ROOT -and (Test-Path -LiteralPath (Join-Path $env:ORCA_AGENT_HOOK_ROOT 'agent-hooks\\codex-hook.cmd') -PathType Leaf)) { & (Join-Path $env:ORCA_AGENT_HOOK_ROOT 'agent-hooks\\codex-hook.cmd') } elseif (-not $env:ORCA_AGENT_HOOK_ROOT -and $env:ORCA_PANE_KEY -and $env:ORCA_AGENT_HOOK_PORT -and (Test-Path -LiteralPath 'C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd' -PathType Leaf)) { & 'C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd' } else { if (-not $env:ORCA_AGENT_HOOK_PORT -or -not $env:ORCA_AGENT_HOOK_TOKEN -or -not $env:ORCA_PANE_KEY) { exit 0 }; [Console]::In.ReadToEnd() | Out-Null }; exit 0"
+  "<# orca-agent-hook-form=1 #> if ($env:ORCA_PANE_KEY -and $env:ORCA_AGENT_HOOK_ROOT -and (Test-Path -LiteralPath (Join-Path $env:ORCA_AGENT_HOOK_ROOT 'agent-hooks\\codex-hook.cmd') -PathType Leaf)) { & (Join-Path $env:ORCA_AGENT_HOOK_ROOT 'agent-hooks\\codex-hook.cmd') } elseif (-not $env:ORCA_AGENT_HOOK_ROOT -and $env:ORCA_PANE_KEY -and $env:ORCA_AGENT_HOOK_PORT -and (Test-Path -LiteralPath 'C:/Users/First Last/.amoeba/hooks/codex-hook.cmd' -PathType Leaf)) { & 'C:/Users/First Last/.amoeba/hooks/codex-hook.cmd' } else { if (-not $env:ORCA_AGENT_HOOK_PORT -or -not $env:ORCA_AGENT_HOOK_TOKEN -or -not $env:ORCA_PANE_KEY) { exit 0 }; [Console]::In.ReadToEnd() | Out-Null }; exit 0"
 
 function windowsCommandFor(
   profileDirName: string,
   env: Record<string, string | undefined> = WINDOWS_ENV
 ): string {
   return buildCodexHookCommand(
-    `C:\\Users\\${profileDirName}\\.orca\\agent-hooks\\codex-hook.cmd`,
+    `C:\\Users\\${profileDirName}\\.amoeba\\hooks\\codex-hook.cmd`,
     'win32',
     env
   )
 }
 
 describe('frozen Codex hook command', () => {
-  it('matches the form 1 goldens', () => {
-    expect(CODEX_HOOK_COMMAND_FORM).toBe(1)
-    expect(buildCodexHookCommand('/home/a/.orca/agent-hooks/codex-hook.sh', 'linux')).toBe(
-      POSIX_GOLDEN
-    )
+  it('matches the form 2 goldens', () => {
+    expect(CODEX_HOOK_COMMAND_FORM).toBe(2)
+    expect(buildCodexHookCommand('/home/a/.amoeba/hooks/codex-hook.sh', 'linux')).toBe(POSIX_GOLDEN)
     expect(windowsCommandFor('alice')).toBe(WINDOWS_BARE_GOLDEN)
     expect(windowsCommandFor('First Last')).toBe(WINDOWS_CMD_GOLDEN)
   })
@@ -57,7 +55,7 @@ describe('frozen Codex hook command', () => {
     (character) => {
       const name = `a${character}b`
       expect(windowsCommandFor(name)).toBe(
-        `C:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/${name}/.orca/agent-hooks/codex-hook.cmd"`
+        `C:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/${name}/.amoeba/hooks/codex-hook.cmd"`
       )
     }
   )
@@ -65,13 +63,13 @@ describe('frozen Codex hook command', () => {
   it.each(['alice', 'Alice.Smith-2', 'a_b', 'ALICE~1'])(
     'keeps the bare path for the safe profile path %s',
     (name) => {
-      expect(windowsCommandFor(name)).toBe(`C:/Users/${name}/.orca/agent-hooks/codex-hook.cmd`)
+      expect(windowsCommandFor(name)).toBe(`C:/Users/${name}/.amoeba/hooks/codex-hook.cmd`)
     }
   )
 
   it('writes the same Windows bytes for a path in either slash direction', () => {
     for (const name of ['alice', 'First Last']) {
-      const backslashed = `C:\\Users\\${name}\\.orca\\agent-hooks\\codex-hook.cmd`
+      const backslashed = `C:\\Users\\${name}\\.amoeba\\hooks\\codex-hook.cmd`
       expect(buildCodexHookCommand(backslashed, 'win32', WINDOWS_ENV)).toBe(
         buildCodexHookCommand(backslashed.replaceAll('\\', '/'), 'win32', WINDOWS_ENV)
       )
@@ -80,7 +78,7 @@ describe('frozen Codex hook command', () => {
 
   it('names the system cmd.exe from %SystemRoot%, on any drive, with backslashes', () => {
     expect(windowsCommandFor('First Last', { SystemRoot: 'D:\\Windows' })).toBe(
-      'D:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd"'
+      'D:\\Windows\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.amoeba/hooks/codex-hook.cmd"'
     )
     expect(windowsCommandFor('First Last', { SystemRoot: 'C:\\WINDOWS\\' })).toBe(
       WINDOWS_CMD_GOLDEN.replace('C:\\Windows\\', 'C:\\WINDOWS\\')
@@ -90,7 +88,7 @@ describe('frozen Codex hook command', () => {
 
   it('falls back to the Windows directory holding %ComSpec% when %SystemRoot% is unset', () => {
     expect(windowsCommandFor('First Last', { ComSpec: 'E:\\WinNT\\system32\\cmd.exe' })).toBe(
-      'E:\\WinNT\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.orca/agent-hooks/codex-hook.cmd"'
+      'E:\\WinNT\\System32\\cmd.exe --% /d /v:off /c @"C:/Users/First Last/.amoeba/hooks/codex-hook.cmd"'
     )
     // Missing one environment variable must not change this machine's command bytes.
     expect(windowsCommandFor('First Last', { ComSpec: 'C:\\Windows\\system32\\cmd.exe' })).toBe(
@@ -120,8 +118,8 @@ describe('frozen Codex hook command', () => {
   })
 
   it('writes identical POSIX bytes whatever the home or build', () => {
-    expect(buildCodexHookCommand('/Users/a/.orca/agent-hooks/codex-hook.sh', 'darwin')).toBe(
-      buildCodexHookCommand('/home/b/.orca/agent-hooks/codex-hook.sh', 'linux')
+    expect(buildCodexHookCommand('/Users/a/.amoeba/hooks/codex-hook.sh', 'darwin')).toBe(
+      buildCodexHookCommand('/home/b/.amoeba/hooks/codex-hook.sh', 'linux')
     )
   })
 
@@ -136,18 +134,18 @@ describe('frozen Codex hook command', () => {
   )
 
   it('reads the form: current, higher, and unmarked older forms', () => {
-    expect(readCodexHookCommandForm(POSIX_GOLDEN, POSIX_GOLDEN)).toBe(1)
-    expect(readCodexHookCommandForm(WINDOWS_BARE_GOLDEN, WINDOWS_BARE_GOLDEN)).toBe(1)
-    expect(readCodexHookCommandForm(POSIX_GOLDEN.replace('form=1', 'form=2'), POSIX_GOLDEN)).toBe(2)
+    expect(readCodexHookCommandForm(POSIX_GOLDEN, POSIX_GOLDEN)).toBe(2)
+    expect(readCodexHookCommandForm(WINDOWS_BARE_GOLDEN, WINDOWS_BARE_GOLDEN)).toBe(2)
+    expect(readCodexHookCommandForm(POSIX_GOLDEN.replace('form=2', 'form=3'), POSIX_GOLDEN)).toBe(3)
     expect(
       readCodexHookCommandForm(
-        "if [ -f '/h/.orca/agent-hooks/codex-hook.sh' ]; then /bin/sh '/h/.orca/agent-hooks/codex-hook.sh'; fi",
+        "if [ -f '/h/.amoeba/hooks/codex-hook.sh' ]; then /bin/sh '/h/.amoeba/hooks/codex-hook.sh'; fi",
         POSIX_GOLDEN
       )
     ).toBe(0)
     expect(
       readCodexHookCommandForm(
-        'C:\\Users\\alice\\.orca\\agent-hooks\\codex-hook.cmd',
+        'C:\\Users\\alice\\.amoeba\\hooks\\codex-hook.cmd',
         WINDOWS_BARE_GOLDEN
       )
     ).toBe(0)
@@ -179,11 +177,11 @@ describe('the Windows spelling change', () => {
     ['the bare-cmd spelling', WINDOWS_BARE_CMD_SPELLING],
     [
       "main's PowerShell text",
-      buildWindowsHookPowerShellCommand('C:\\Users\\First Last\\.orca\\agent-hooks\\codex-hook.cmd')
+      buildWindowsHookPowerShellCommand('C:\\Users\\First Last\\.amoeba\\hooks\\codex-hook.cmd')
     ],
     [
       'the encoded launcher',
-      wrapWindowsHookCommand('C:\\Users\\First Last\\.orca\\agent-hooks\\codex-hook.cmd')
+      wrapWindowsHookCommand('C:\\Users\\First Last\\.amoeba\\hooks\\codex-hook.cmd')
     ]
   ])('converts %s to the cmd.exe spelling once, in its slot, at app start', (_case, older) => {
     const converted = plan(older, true)
@@ -218,12 +216,12 @@ describe.skipIf(process.platform === 'win32')('frozen Codex hook command under /
     const root = join(dir, 'root')
     const marker = join(dir, 'ran')
     for (const [base, label] of [
-      [join(home, '.orca'), 'shared'],
+      [join(home, '.amoeba'), 'shared'],
       [root, 'root']
     ]) {
-      mkdirSync(join(base, 'agent-hooks'), { recursive: true })
+      mkdirSync(join(base, 'hooks'), { recursive: true })
       writeFileSync(
-        join(base, 'agent-hooks', 'codex-hook.sh'),
+        join(base, 'hooks', 'codex-hook.sh'),
         `cat >/dev/null; printf ${label} >> '${marker}'; exit 2\n`
       )
     }

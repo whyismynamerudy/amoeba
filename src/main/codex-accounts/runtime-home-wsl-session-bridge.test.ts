@@ -207,7 +207,7 @@ describe('CodexRuntimeHomeService', () => {
           candidate.includes('codex-accounts/debian-account/home')
             ? {
                 distro: 'Debian',
-                linuxPath: '/home/alice/.local/share/orca/codex-accounts/debian-account/home'
+                linuxPath: '/home/alice/.local/share/amoeba/codex-accounts/debian-account/home'
               }
             : null
       }
@@ -226,7 +226,7 @@ describe('CodexRuntimeHomeService', () => {
             managedHomePath,
             managedHomeRuntime: 'wsl',
             wslDistro: 'Debian',
-            wslLinuxHomePath: '/home/alice/.local/share/orca/codex-accounts/debian/home',
+            wslLinuxHomePath: '/home/alice/.local/share/amoeba/codex-accounts/debian/home',
             providerAccountId: null,
             workspaceLabel: null,
             workspaceAccountId: null,
@@ -274,7 +274,15 @@ describe('CodexRuntimeHomeService', () => {
       getDefaultWslDistro: () => 'Ubuntu',
       getWslHome: () => wslHome
     }))
-    const managedHomePath = join(wslHome, '.local', 'share', 'orca', 'codex-accounts', 'a', 'home')
+    const managedHomePath = join(
+      wslHome,
+      '.local',
+      'share',
+      'amoeba',
+      'codex-accounts',
+      'a',
+      'home'
+    )
     const retiredBridgeRuns = vi.fn()
     vi.doMock('./legacy-wsl-runtime-auth-drain', async (importOriginal) => ({
       ...(await importOriginal<typeof LegacyWslRuntimeAuthDrain>()),

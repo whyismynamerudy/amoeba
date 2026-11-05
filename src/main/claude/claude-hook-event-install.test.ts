@@ -6,7 +6,7 @@ import { getClaudeManagedHookPlan } from './claude-managed-hook-events'
 import { applyManagedHooks } from './hook-settings'
 
 const SCRIPT_FILE_NAME = 'claude-hook.sh'
-const MANAGED_COMMAND = '/home/dev/.orca/agent-hooks/claude-hook.sh'
+const MANAGED_COMMAND = '/home/dev/.amoeba/hooks/claude-hook.sh'
 const managedHook = { type: 'command' as const, command: MANAGED_COMMAND }
 const enums: Record<string, string[]> = fixture.enums
 const topLevelSettings: Record<string, { keys: string[] }> = fixture.topLevelSettings
@@ -111,7 +111,7 @@ describe('Claude managed hook events by resolved version', () => {
 
       const staleHook = {
         type: 'command' as const,
-        command: '/old/.orca/agent-hooks/claude-hook.sh'
+        command: '/old/.amoeba/hooks/claude-hook.sh'
       }
       const stale = { hooks: { StopFailure: [{ hooks: [staleHook] }] } }
       const written = install(stale, version)

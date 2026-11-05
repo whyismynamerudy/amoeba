@@ -23,9 +23,10 @@ import {
   writeJsonDocument,
   type JsonObject
 } from './keybinding-file-parser'
+import { getAmoebaHomeDir } from '../amoeba-home/amoeba-home-dir'
 
 export function getUserKeybindingsPath(homePath: string): string {
-  return join(homePath, '.orca', 'keybindings.json')
+  return join(getAmoebaHomeDir(homePath), 'keybindings.json')
 }
 
 export function readKeybindingFile(

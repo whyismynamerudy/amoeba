@@ -37,6 +37,7 @@ import {
   hasManagedCommand,
   removeInstalledConfig
 } from './hooks-json-bundle'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 function getConfigPath(): string {
   return join(homedir(), '.gemini', 'config', 'hooks.json')
@@ -198,7 +199,7 @@ export class AntigravityHookService {
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const home = remoteHome.replace(/\/$/, '')
     const remoteConfigPath = `${home}/.gemini/config/hooks.json`
-    const remoteScriptPath = `${home}/.orca/agent-hooks/antigravity-hook.sh`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(home, 'antigravity-hook.sh')
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
       if (!config) {

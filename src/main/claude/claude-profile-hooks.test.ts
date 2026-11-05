@@ -66,7 +66,7 @@ function stopHooks(f: ReturnType<typeof fixture>) {
       ? hooks.Stop
       : []
   }
-  const isOrca = (entry: unknown) => JSON.stringify(entry).includes('agent-hooks')
+  const isOrca = (entry: unknown) => JSON.stringify(entry).includes('.amoeba/hooks')
   const setStop = (dir: string, commands: string[]) =>
     f.edit(dir, (value) => {
       const hooks = typeof value.hooks === 'object' ? value.hooks : {}

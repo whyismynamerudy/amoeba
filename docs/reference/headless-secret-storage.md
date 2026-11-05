@@ -8,7 +8,7 @@ has no Electron, so it seals them itself, on the machine it runs on
 ## Where the key lives
 
 Each credential is encrypted with AES-256-GCM. The master key is created on first start and kept
-in `~/.orca/orcad-secret-store-<machine>.json`, mode `0600` (an owner-only ACL on Windows), mixed
+in `~/.amoeba/orcad-secret-store-<machine>.json`, mode `0600` (an owner-only ACL on Windows), mixed
 with the machine ID (`/etc/machine-id`, macOS hardware UUID, Windows `MachineGuid`). That is the
 directory the credentials live in, whatever `ORCA_USER_DATA` says, so the key lasts exactly as
 long as the credentials it seals. There is one record per machine, so hosts that share a home
@@ -21,7 +21,7 @@ design is expected to keep secrets on the client, as VS Code and Zed do.
 
 A server started with `ORCA_USER_DATA` under a temporary directory (tests, smoke launchers)
 keeps the old behavior. It stores credentials unencrypted and never creates a key in the real
-`~/.orca`, or re-seals what is there.
+`~/.amoeba`, or re-seals what is there.
 
 Windows does not use DPAPI. Reaching it from Node takes PowerShell or a native addon, and running
 PowerShell for each operation is an EDR signal.
@@ -56,7 +56,7 @@ after it ships (`src/main/orcad/orcad-legacy-keyring-key.ts`).
 - **The key file is weaker than a keychain.** The key sits next to the credentials, and the
   machine ID it is mixed with is not secret. Profile-state records include it, for example. So the
   key file mainly stops a single credential file from opening on another machine. Anyone who can
-  read this account's files, or a backup of `~/.orca`, can unseal the credentials. Treat the key
+  read this account's files, or a backup of `~/.amoeba`, can unseal the credentials. Treat the key
   file like the credentials themselves. The server logs this gap once with the `[secrets]` prefix.
 - **The key belongs to the host.** If the record is unreadable or bound to a different machine
   ID, the server does not fall back to plaintext. It leaves the saved credentials
@@ -64,12 +64,12 @@ after it ships (`src/main/orcad/orcad-legacy-keyring-key.ts`).
   record starts over, and every integration has to be connected again. A new machine ID counts as
   a new machine, so it gets a new key, and credentials sealed under the old one have to be
   connected again.
-- **Shared home directories.** Integration credentials live in `~/.orca` under the login home.
+- **Shared home directories.** Integration credentials live in `~/.amoeba` under the login home.
   Hosts that share that home (over NFS, for example), or a desktop app on the same machine, each
   seal with their own key, so a credential one of them saves can't be read by the others. To keep
   the old shared plaintext behavior on such hosts, set `ORCA_HEADLESS_SECRET_STORE=plaintext`.
 - **Rolling back to an older server.** A server from before this change can't read credentials a
-  newer one sealed. An SSH or WSL rollback restores profile state, not `~/.orca`, so after a
+  newer one sealed. An SSH or WSL rollback restores profile state, not `~/.amoeba`, so after a
   rollback the old server shows "Could not decrypt saved Linear credential… reconnect Linear".
   Connect each integration again on that server. Plaintext copies are deliberately not kept for
   rollback.

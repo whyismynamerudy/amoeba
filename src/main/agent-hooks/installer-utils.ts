@@ -8,7 +8,6 @@ import {
   renameSync,
   unlinkSync
 } from 'node:fs'
-import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import type { AgentHookSource } from '../../shared/agent-hook-relay'
@@ -20,6 +19,7 @@ import {
   getWindowsNativeHookAgent,
   WINDOWS_NATIVE_HOOK_EXECUTABLE_NAME
 } from './windows-native-hook-executable'
+import { AMOEBA_HOOKS_RELATIVE_DIR, getAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 export type HookCommandConfig = {
   type: 'command'
@@ -68,20 +68,20 @@ export {
   type HooksJsonSnapshot
 } from './hooks-json-read'
 
-// Match script names so reinstalls sweep entries from old and parallel installations.
+// Match only Amoeba's hooks folder: Orca's ~/.orca/agent-hooks entries in the same config are not ours.
 export function createManagedCommandMatcher(
   scriptFileName: string
 ): (command: string | undefined) => boolean {
   const scriptStem = scriptFileName.replace(/\.(?:cmd|ps1|sh)$/, '')
   // Sweep every platform suffix after a platform switch.
   const needles = [
-    `agent-hooks/${scriptFileName}`,
-    `agent-hooks/${scriptStem}.cmd`,
-    `agent-hooks/${scriptStem}.ps1`,
-    `agent-hooks/${scriptStem}.sh`
+    `${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptFileName}`,
+    `${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptStem}.cmd`,
+    `${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptStem}.ps1`,
+    `${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptStem}.sh`
   ]
   // The native executable selects its provider through argv[1].
-  const nativeHook = `agent-hooks/${WINDOWS_NATIVE_HOOK_EXECUTABLE_NAME} ${getWindowsNativeHookAgent(scriptFileName)} `
+  const nativeHook = `${AMOEBA_HOOKS_RELATIVE_DIR}/${WINDOWS_NATIVE_HOOK_EXECUTABLE_NAME} ${getWindowsNativeHookAgent(scriptFileName)} `
   return (command) => {
     if (!command) {
       return false
@@ -110,7 +110,7 @@ function decodePowerShellEncodedCommand(command: string): string | null {
 
 // Parallel Amoeba instances must share one user-wide script path.
 export function getSharedManagedScriptPath(scriptFileName: string): string {
-  return join(homedir(), '.orca', 'agent-hooks', scriptFileName)
+  return getAmoebaHookScriptPath(scriptFileName)
 }
 
 export { wrapPosixHookCommand } from './posix-hook-command'

@@ -8,6 +8,11 @@ import {
   encodeWindowsPowerShellHookCommand,
   WINDOWS_POWERSHELL_HOOK_SWITCHES
 } from './windows-powershell-hook-launcher'
+import {
+  AMOEBA_HOME_DIR_NAME,
+  AMOEBA_HOOKS_DIR_NAME,
+  AMOEBA_HOOKS_RELATIVE_DIR
+} from '../amoeba-home/amoeba-home-dir'
 
 const MANAGED_SCRIPT_BASE_NAME = /^[A-Za-z0-9_-]+$/
 const WINDOWS_GIT_BASH_RUNTIME_HOME_UNSAFE = '*\\&*|*\\^*|*\\(*|*\\)*|*\\;*|*,*|*=*|*%*|*\\!*'
@@ -23,7 +28,7 @@ function buildPosixBranch(
   missingScriptFallback: string,
   options: { requireHome?: boolean } = {}
 ): string {
-  const posixScript = `"\${HOME-}/.orca/agent-hooks/${scriptBaseName}.sh"`
+  const posixScript = `"\${HOME-}/${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptBaseName}.sh"`
   const homeGuard = options.requireHome ? '[ -n "${HOME-}" ] && ' : ''
   const parentCapture =
     scriptBaseName === 'claude-hook' || scriptBaseName === 'openclaude-hook'
@@ -43,7 +48,7 @@ export function wrapRuntimeHomeHookCommand(
 ): string {
   assertManagedScriptBaseName(scriptBaseName)
   // Grok rejects unresolved bare variables even in untaken platform branches.
-  const windowsScript = `"\${HOME-}/.orca/agent-hooks/${scriptBaseName}.cmd"`
+  const windowsScript = `"\${HOME-}/${AMOEBA_HOOKS_RELATIVE_DIR}/${scriptBaseName}.cmd"`
   const drain = POSIX_HOOK_STDIN_DRAIN_COMMAND
   const neutralJson = options.neutralJsonWhenMissing ? `printf '{}\\n'` : ''
   // POSIX drains before answering; Windows answers and checks Amoeba context before reading abandoned stdin.
@@ -57,7 +62,7 @@ export function wrapRuntimeHomeHookCommand(
   const missingScriptFallback = `case "\${OSTYPE-}" in msys*|cygwin*|win32*) ${windowsMissingScriptFallback} ;; *) ${posixMissingScriptFallback} ;; esac`
   const powershell = '"${SYSTEMROOT-}/System32/WindowsPowerShell/v1.0/powershell.exe"'
   const powershellFallback = options.neutralJsonWhenMissing ? "; Write-Output '{}'" : ''
-  const powershellCommand = `$homePath = $env:HOME -replace '^/([A-Za-z])/', '$1:/'; $scriptPath = Join-Path $homePath '.orca\\agent-hooks\\${scriptBaseName}.cmd'; if (Test-Path -LiteralPath $scriptPath -PathType Leaf) { & $scriptPath; exit $LASTEXITCODE }${powershellFallback}; ${WINDOWS_POWERSHELL_HOOK_ENVIRONMENT_GUARD}; [Console]::In.ReadToEnd() | Out-Null; exit 0`
+  const powershellCommand = `$homePath = $env:HOME -replace '^/([A-Za-z])/', '$1:/'; $scriptPath = Join-Path $homePath '${AMOEBA_HOME_DIR_NAME}\\${AMOEBA_HOOKS_DIR_NAME}\\${scriptBaseName}.cmd'; if (Test-Path -LiteralPath $scriptPath -PathType Leaf) { & $scriptPath; exit $LASTEXITCODE }${powershellFallback}; ${WINDOWS_POWERSHELL_HOOK_ENVIRONMENT_GUARD}; [Console]::In.ReadToEnd() | Out-Null; exit 0`
   const encodedCommand = encodeWindowsPowerShellHookCommand(powershellCommand)
   // Match native launcher switches to preserve AV compatibility across both entry paths.
   const powershellInvocation = `${powershell} ${WINDOWS_POWERSHELL_HOOK_SWITCHES} -EncodedCommand ${encodedCommand}`

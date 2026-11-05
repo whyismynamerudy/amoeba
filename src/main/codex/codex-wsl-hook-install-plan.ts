@@ -2,6 +2,11 @@ import { execFile } from 'node:child_process'
 import { posix as pathPosix, win32 as pathWin32 } from 'node:path'
 import { parseWslUncPath } from '../../shared/wsl-paths'
 import { resolveWslInteropSpawnCwd } from '../wsl-interop-spawn-directory'
+import {
+  AMOEBA_HOME_DIR_NAME,
+  AMOEBA_HOOKS_DIR_NAME,
+  getRemoteAmoebaHookScriptPath
+} from '../amoeba-home/amoeba-home-dir'
 
 export type CodexWslRuntimeHookTarget = {
   runtime?: 'host' | 'wsl'
@@ -200,8 +205,13 @@ export function createCodexWslRuntimeHookInstallPlan(
   return {
     configPath: pathWin32.join(runtimeHomePath, 'hooks.json'),
     tomlPath: pathWin32.join(runtimeHomePath, 'config.toml'),
-    scriptPath: pathWin32.join(runtimeHomePath, '.orca', 'agent-hooks', 'codex-hook.sh'),
-    commandScriptPath: pathPosix.join(linuxRuntimeHome, '.orca', 'agent-hooks', 'codex-hook.sh'),
+    scriptPath: pathWin32.join(
+      runtimeHomePath,
+      AMOEBA_HOME_DIR_NAME,
+      AMOEBA_HOOKS_DIR_NAME,
+      'codex-hook.sh'
+    ),
+    commandScriptPath: getRemoteAmoebaHookScriptPath(linuxRuntimeHome, 'codex-hook.sh'),
     trustConfigPath: pathPosix.join(linuxRuntimeHome, 'hooks.json'),
     wslDistro: distro,
     linuxRuntimeHome

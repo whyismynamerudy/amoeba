@@ -240,61 +240,67 @@ describe('writeHooksJson', () => {
 describe('createManagedCommandMatcher', () => {
   const match = createManagedCommandMatcher('claude-hook.sh')
 
-  it('matches commands containing the agent-hooks/<scriptFileName> path', () => {
-    expect(
-      match('/bin/sh "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh"')
-    ).toBe(true)
-    expect(match('/bin/sh "/some/other/location/agent-hooks/claude-hook.sh"')).toBe(true)
+  it('matches commands naming the .amoeba/hooks/<scriptFileName> path', () => {
+    expect(match('/bin/sh "/Users/alice/.amoeba/hooks/claude-hook.sh"')).toBe(true)
+    expect(match('/bin/sh "/home/dev/runtime/.amoeba/hooks/claude-hook.sh"')).toBe(true)
   })
 
   it('normalizes Windows backslashes so cmd-style paths still match', () => {
-    expect(match('C:\\Users\\alice\\AppData\\Roaming\\Amoeba\\agent-hooks\\claude-hook.sh')).toBe(
-      true
-    )
+    expect(match('C:\\Users\\alice\\.amoeba\\hooks\\claude-hook.sh')).toBe(true)
   })
 
   it('returns false for unrelated commands', () => {
     expect(match(undefined)).toBe(false)
     expect(match('')).toBe(false)
     expect(match('echo "user-authored hook"')).toBe(false)
-    // A matching filename outside agent-hooks remains user-owned.
+    // A matching filename outside Amoeba's hooks folder remains user-owned.
     expect(match('/bin/sh "/home/alice/scripts/claude-hook.sh"')).toBe(false)
   })
 
+  it("leaves Orca's agent-hooks entries alone so both apps can share one config", () => {
+    expect(match('/bin/sh "/Users/alice/.orca/agent-hooks/claude-hook.sh"')).toBe(false)
+    expect(
+      match(
+        'if [ -z "$HOME" ]; then :; else if [ -f "$HOME/.orca/agent-hooks/claude-hook.sh" ]; then /bin/sh "$HOME/.orca/agent-hooks/claude-hook.sh"; fi; fi'
+      )
+    ).toBe(false)
+    expect(
+      match(wrapWindowsHookCommand('C:\\Users\\alice\\.orca\\agent-hooks\\claude-hook.cmd'))
+    ).toBe(false)
+  })
+
+  it('keeps Amoeba commands clear of the agent-hooks/<script> text Orca sweeps as its own', () => {
+    expect(getSharedManagedScriptPath('claude-hook.sh').replaceAll('\\', '/')).not.toContain(
+      'agent-hooks/'
+    )
+  })
+
   it('does not match hooks for a different agent', () => {
-    expect(match('/bin/sh "/path/agent-hooks/gemini-hook.sh"')).toBe(false)
+    expect(match('/bin/sh "/home/a/.amoeba/hooks/gemini-hook.sh"')).toBe(false)
   })
 
   it('matches the guarded launcher form so wrapped commands sweep correctly', () => {
     expect(
       match(
-        'if [ -x "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh" ]; then /bin/sh "/Users/alice/Library/Application Support/Amoeba/agent-hooks/claude-hook.sh"; fi'
+        'if [ -x "/Users/alice/.amoeba/hooks/claude-hook.sh" ]; then /bin/sh "/Users/alice/.amoeba/hooks/claude-hook.sh"; fi'
       )
     ).toBe(true)
   })
 
   it('matches encoded Windows launcher commands by decoding their script path', () => {
-    const command = wrapWindowsHookCommand('C:\\Users\\alice\\.orca\\agent-hooks\\claude-hook.cmd')
+    const command = wrapWindowsHookCommand('C:\\Users\\alice\\.amoeba\\hooks\\claude-hook.cmd')
     expect(match(command)).toBe(true)
-  })
-
-  it('matches the pre-default-form launcher so upgrades replace it instead of duplicating', () => {
-    expect(
-      match(
-        'if [ -z "$HOME" ]; then :; else if [ -f "$HOME/.orca/agent-hooks/claude-hook.sh" ]; then /bin/sh "$HOME/.orca/agent-hooks/claude-hook.sh"; fi; fi'
-      )
-    ).toBe(true)
   })
 
   it('matches PowerShell and POSIX variants across Copilot platform switches', () => {
     const matchPosix = createManagedCommandMatcher('copilot-hook.sh')
     const matchPowerShell = createManagedCommandMatcher('copilot-hook.ps1')
 
-    expect(matchPosix("& 'C:\\Users\\alice\\.orca\\agent-hooks\\copilot-hook.ps1'")).toBe(true)
+    expect(matchPosix("& 'C:\\Users\\alice\\.amoeba\\hooks\\copilot-hook.ps1'")).toBe(true)
     expect(
-      matchPosix(wrapWindowsHookCommand('C:\\Users\\alice\\.orca\\agent-hooks\\copilot-hook.ps1'))
+      matchPosix(wrapWindowsHookCommand('C:\\Users\\alice\\.amoeba\\hooks\\copilot-hook.ps1'))
     ).toBe(true)
-    expect(matchPowerShell("/bin/sh '/home/alice/.orca/agent-hooks/copilot-hook.sh'")).toBe(true)
+    expect(matchPowerShell("/bin/sh '/home/alice/.amoeba/hooks/copilot-hook.sh'")).toBe(true)
   })
 })
 
@@ -306,12 +312,12 @@ describe('removeManagedCommands', () => {
       [
         {
           type: 'command',
-          bash: '/bin/sh "/Users/alice/Amoeba/agent-hooks/copilot-hook.sh"',
+          bash: '/bin/sh "/Users/alice/.amoeba/hooks/copilot-hook.sh"',
           timeoutSec: 5
         },
         {
           type: 'command',
-          powershell: "& 'C:\\Users\\alice\\Amoeba\\agent-hooks\\copilot-hook.sh'",
+          powershell: "& 'C:\\Users\\alice\\.amoeba\\hooks\\copilot-hook.sh'",
           timeoutSec: 5
         },
         {
@@ -333,7 +339,7 @@ describe('removeManagedCommands', () => {
           hooks: [
             {
               type: 'command',
-              command: '/bin/sh "/path/agent-hooks/copilot-hook.sh"'
+              command: '/bin/sh "/path/.amoeba/hooks/copilot-hook.sh"'
             },
             { type: 'command', command: 'echo keep me' }
           ]
@@ -358,7 +364,7 @@ describe('removeManagedCommands', () => {
                 'C:\\Windows\\System32\\cmd.exe',
                 '/d',
                 '/c',
-                'C:\\Users\\alice\\.orca\\agent-hooks\\copilot-hook.cmd'
+                'C:\\Users\\alice\\.amoeba\\hooks\\copilot-hook.cmd'
               ]
             },
             { type: 'command', command: 'echo keep me' }
@@ -399,7 +405,7 @@ describe('hookDefinitionHasManagedCommand', () => {
 
     expect(
       hookDefinitionHasManagedCommand(
-        { bash: '/bin/sh "/Users/alice/Amoeba/agent-hooks/copilot-hook.sh"' },
+        { bash: '/bin/sh "/Users/alice/.amoeba/hooks/copilot-hook.sh"' },
         match
       )
     ).toBe(true)
@@ -409,7 +415,7 @@ describe('hookDefinitionHasManagedCommand', () => {
           hooks: [
             {
               type: 'command',
-              command: '/bin/sh "/path/agent-hooks/copilot-hook.sh"'
+              command: '/bin/sh "/path/.amoeba/hooks/copilot-hook.sh"'
             }
           ]
         },
@@ -423,7 +429,7 @@ describe('hookDefinitionHasManagedCommand', () => {
             {
               type: 'command',
               command: 'C:\\Windows\\System32\\conhost.exe',
-              args: ['--headless', 'C:\\Users\\alice\\.orca\\agent-hooks\\copilot-hook.cmd']
+              args: ['--headless', 'C:\\Users\\alice\\.amoeba\\hooks\\copilot-hook.cmd']
             }
           ]
         },
@@ -449,9 +455,9 @@ describe('hookDefinitionHasManagedCommand', () => {
 })
 
 describe('getSharedManagedScriptPath', () => {
-  it("returns ~/.orca/agent-hooks/<scriptFileName> rooted at the user's home", () => {
+  it("returns ~/.amoeba/hooks/<scriptFileName> rooted at the user's home", () => {
     expect(getSharedManagedScriptPath('claude-hook.sh')).toBe(
-      join(homedir(), '.orca', 'agent-hooks', 'claude-hook.sh')
+      join(homedir(), '.amoeba', 'hooks', 'claude-hook.sh')
     )
   })
 })
@@ -606,26 +612,26 @@ function decodeWindowsHookCommand(command: string): string {
 
 describe('wrapWindowsHookCommand', () => {
   it('invokes the .cmd through an encoded PowerShell command', () => {
-    const command = wrapWindowsHookCommand('C:\\Users\\alice\\.orca\\agent-hooks\\codex-hook.cmd')
+    const command = wrapWindowsHookCommand('C:\\Users\\alice\\.amoeba\\hooks\\codex-hook.cmd')
     expect(command).toMatch(qualifiedWindowsPowerShellCommand)
     expect(command).not.toMatch(/^powershell\b/i)
     const decoded = decodeWindowsHookCommand(command)
     expect(decoded).toMatch(/^\$ProgressPreference='SilentlyContinue'; try \{ Set-ExecutionPolicy/)
     expect(decoded).toContain(
-      "Test-Path -LiteralPath 'C:\\Users\\alice\\.orca\\agent-hooks\\codex-hook.cmd' -PathType Leaf"
+      "Test-Path -LiteralPath 'C:\\Users\\alice\\.amoeba\\hooks\\codex-hook.cmd' -PathType Leaf"
     )
     expect(decoded).toContain(
-      "& 'C:\\Users\\alice\\.orca\\agent-hooks\\codex-hook.cmd'; exit $LASTEXITCODE"
+      "& 'C:\\Users\\alice\\.amoeba\\hooks\\codex-hook.cmd'; exit $LASTEXITCODE"
     )
     expect(decoded).toContain('[Console]::In.ReadToEnd() | Out-Null; exit 0')
   })
 
   it('doubles typographic single quotes in the script path literal', () => {
     const decoded = decodeWindowsHookCommand(
-      wrapWindowsHookCommand('C:\\Users\\O\u2019Brien\\.orca\\agent-hooks\\codex-hook.cmd')
+      wrapWindowsHookCommand('C:\\Users\\O\u2019Brien\\.amoeba\\hooks\\codex-hook.cmd')
     )
     expect(decoded).toContain(
-      "Test-Path -LiteralPath 'C:\\Users\\O\u2019\u2019Brien\\.orca\\agent-hooks\\codex-hook.cmd'"
+      "Test-Path -LiteralPath 'C:\\Users\\O\u2019\u2019Brien\\.amoeba\\hooks\\codex-hook.cmd'"
     )
   })
 
@@ -667,7 +673,7 @@ describe('wrapWindowsHookCommand', () => {
   it.skipIf(process.platform !== 'win32')(
     'executes a script path containing a cmd.exe caret literally',
     () => {
-      const scriptDir = join(tmpDir, 'home with ^ caret', '.orca', 'agent-hooks')
+      const scriptDir = join(tmpDir, 'home with ^ caret', '.amoeba', 'hooks')
       mkdirSync(scriptDir, { recursive: true })
       const scriptPath = join(scriptDir, 'codex-hook.cmd')
       writeFileSync(scriptPath, '@echo off\r\nexit /b 7\r\n', 'utf-8')
@@ -696,8 +702,8 @@ describe('wrapRuntimeHomeHookCommand', () => {
     expect(command).toContain('case "${OSTYPE-}" in msys*|cygwin*|win32*)')
     expect(command).toContain('case "${HOME-}" in *\\&*|*\\^*|*\\(*|*\\)*|*\\;*|*,*|*=*|*%*|*\\!*)')
     expect(command).not.toContain('uname')
-    expect(command).toContain('"${HOME-}/.orca/agent-hooks/claude-hook.cmd"')
-    expect(command).toContain('/bin/sh "${HOME-}/.orca/agent-hooks/claude-hook.sh"')
+    expect(command).toContain('"${HOME-}/.amoeba/hooks/claude-hook.cmd"')
+    expect(command).toContain('/bin/sh "${HOME-}/.amoeba/hooks/claude-hook.sh"')
     expect(command).not.toMatch(/[A-Z]:[\\/]|\/Users\/|\/home\//)
   })
 
@@ -732,8 +738,8 @@ describe('wrapRuntimeHomeHookCommand', () => {
   it('executes the destination HOME script for the current runtime', () => {
     const sourceHome = join(tmpDir, 'source profile')
     const destinationHome = join(tmpDir, "destination $HOME ' & profile")
-    const sourceScriptDir = join(sourceHome, '.orca', 'agent-hooks')
-    const destinationScriptDir = join(destinationHome, '.orca', 'agent-hooks')
+    const sourceScriptDir = join(sourceHome, '.amoeba', 'hooks')
+    const destinationScriptDir = join(destinationHome, '.amoeba', 'hooks')
     mkdirSync(sourceScriptDir, { recursive: true })
     mkdirSync(destinationScriptDir, { recursive: true })
     const windowsExitCode = process.platform === 'win32' ? 7 : 9
@@ -769,7 +775,7 @@ describe('wrapRuntimeHomeHookCommand', () => {
 
   it.skipIf(process.platform !== 'win32')('keeps common Windows profiles on the fast path', () => {
     const destinationHome = join(tmpDir, 'destination 国際 profile')
-    const scriptDir = join(destinationHome, '.orca', 'agent-hooks')
+    const scriptDir = join(destinationHome, '.amoeba', 'hooks')
     mkdirSync(scriptDir, { recursive: true })
     writeFileSync(join(scriptDir, 'claude-hook.cmd'), '@echo off\r\nexit /b 7\r\n', 'utf-8')
     const result = runProcessSync({

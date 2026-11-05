@@ -52,13 +52,11 @@ describe('CommandCodeHookService', () => {
     expect(config.hooks.Stop[0].matcher).toBeUndefined()
     expect(config.hooks.PreToolUse[0].hooks[0].command).toMatch(
       process.platform === 'win32'
-        ? wrapWindowsBatchHookCommand(
-            join(homeDir, '.orca', 'agent-hooks', 'command-code-hook.cmd')
-          )
+        ? wrapWindowsBatchHookCommand(join(homeDir, '.amoeba', 'hooks', 'command-code-hook.cmd'))
         : /command-code-hook/
     )
     if (process.platform !== 'win32') {
-      expect(config.hooks.PreToolUse[0].hooks[0].command).toContain(join(homeDir, '.orca'))
+      expect(config.hooks.PreToolUse[0].hooks[0].command).toContain(join(homeDir, '.amoeba'))
     }
     if (process.platform !== 'win32') {
       expect(config.hooks.PreToolUse[0].hooks[0].command).toMatch(/^if \[ -f /)
@@ -70,7 +68,7 @@ describe('CommandCodeHookService', () => {
     try {
       expect(new CommandCodeHookService().install().state).toBe('installed')
       const command = wrapWindowsBatchHookCommand(
-        join(homeDir, '.orca', 'agent-hooks', 'command-code-hook.cmd')
+        join(homeDir, '.amoeba', 'hooks', 'command-code-hook.cmd')
       )
       const config = JSON.parse(
         readFileSync(join(homeDir, '.commandcode', 'settings.json'), 'utf8')
@@ -88,7 +86,7 @@ describe('CommandCodeHookService', () => {
 
     const scriptFileName =
       process.platform === 'win32' ? 'command-code-hook.cmd' : 'command-code-hook.sh'
-    const script = readFileSync(join(homeDir, '.orca', 'agent-hooks', scriptFileName), 'utf8')
+    const script = readFileSync(join(homeDir, '.amoeba', 'hooks', scriptFileName), 'utf8')
 
     if (process.platform === 'win32') {
       expect(script).toContain('sourceEndpointByPort')
@@ -142,7 +140,7 @@ describe('CommandCodeHookService', () => {
     try {
       await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
       const address = server.address() as AddressInfo
-      const scriptPath = join(homeDir, '.orca', 'agent-hooks', 'command-code-hook.sh')
+      const scriptPath = join(homeDir, '.amoeba', 'hooks', 'command-code-hook.sh')
       const child = spawn('/bin/sh', [scriptPath], {
         env: {
           ...process.env,

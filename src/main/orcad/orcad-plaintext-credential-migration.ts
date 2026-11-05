@@ -1,6 +1,5 @@
 // Seal legacy integration credentials after key loading; gh/glab own their tokens separately.
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { homedir } from 'node:os'
 import { join } from 'node:path'
 import type { SecretStore } from '../../shared/secret-store'
 import { classifyUnenvelopedCredential } from '../../shared/secret-at-rest-protection'
@@ -18,6 +17,7 @@ import { API_KEY_ENVELOPE_PREFIX, getZcodePlanApiKeyPath } from '../zcode/zcode-
 import { COOKIE_ENVELOPE_PREFIX, getMiniMaxCookiePath } from '../minimax/minimax-cookie-store'
 import { miniMaxApiKeyEnvelopeFile } from '../minimax/minimax-api-key-store'
 import { openCodeGoApiKeyEnvelopeFile } from '../opencode/opencode-go-api-key-store'
+import { getAmoebaHomeDir } from '../amoeba-home/amoeba-home-dir'
 
 type PlaintextCredentialTarget = {
   path: string
@@ -40,7 +40,7 @@ function encFilesIn(dir: string): string[] {
 
 /** Keep credentials outside disposable ORCA_USER_DATA roots. */
 export function orcadCredentialRoot(): string {
-  return join(homedir(), '.orca')
+  return getAmoebaHomeDir()
 }
 
 function listPlaintextCredentialTargets(): PlaintextCredentialTarget[] {

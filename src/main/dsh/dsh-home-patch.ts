@@ -1,10 +1,11 @@
 /** Edit only Amoeba's marker-delimited region in the user-owned YAML patch layer. */
 
-const START_MARKER = '# >>> orca-managed-dsh-hooks (managed by Amoeba; do not edit) >>>'
-const END_MARKER = '# <<< orca-managed-dsh-hooks <<<'
+// Orca writes the same block under orca-* markers and row ID; distinct ones let both coexist.
+const START_MARKER = '# >>> amoeba-managed-dsh-hooks (managed by Amoeba; do not edit) >>>'
+const END_MARKER = '# <<< amoeba-managed-dsh-hooks <<<'
 
 /** DSH targets patch rows by ID, so keep this stable. */
-const MANAGED_ROW_ID = 'orca-agent-hooks'
+const MANAGED_ROW_ID = 'amoeba-agent-hooks'
 
 const EMPTY_FLOW_SEQUENCE = '[]'
 

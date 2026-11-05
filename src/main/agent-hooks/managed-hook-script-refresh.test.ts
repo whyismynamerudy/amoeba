@@ -129,7 +129,7 @@ describe('managed hook script refresh', () => {
     homedirMock.mockReturnValue(home)
     try {
       // Simulate a prior install whose CLI and provider config directory are now absent.
-      const hooksDir = join(home, '.orca', 'agent-hooks')
+      const hooksDir = join(home, '.amoeba', 'hooks')
       mkdirSync(hooksDir, { recursive: true })
       writeFileSync(join(hooksDir, 'claude-hook.cmd'), STALE_WINDOWS_HOOK)
 
@@ -152,7 +152,7 @@ describe('managed hook script refresh', () => {
       const home = mkdtempSync(join(tmpdir(), 'orca-hook-locale-refresh-'))
       homedirMock.mockReturnValue(home)
       try {
-        const hooksDir = join(home, '.orca', 'agent-hooks')
+        const hooksDir = join(home, '.amoeba', 'hooks')
         mkdirSync(hooksDir, { recursive: true })
         for (const name of ['claude-hook.sh', 'claude-statusline.sh']) {
           writeFileSync(join(hooksDir, name), '#!/bin/sh\ncurl --connect-timeout 0.5\n')
@@ -216,7 +216,7 @@ describe('managed hook script refresh', () => {
           await install()
         }
       })
-      const hooksDir = join(home, '.orca', 'agent-hooks')
+      const hooksDir = join(home, '.amoeba', 'hooks')
       const files = readdirSync(hooksDir)
       expect(files.length).toBeGreaterThan(0)
       const installed = new Map(
@@ -227,7 +227,7 @@ describe('managed hook script refresh', () => {
       const homeEntries = readdirSync(home, { recursive: true, encoding: 'utf8' }).sort()
       const configs = new Map(
         homeEntries
-          .filter((file) => !file.startsWith(join('.orca', 'agent-hooks') + sep))
+          .filter((file) => !file.startsWith(join('.amoeba', 'hooks') + sep))
           .filter((file) => statSync(join(home, file)).isFile())
           .map((file) => [file, readFileSync(join(home, file))])
       )
@@ -253,7 +253,7 @@ describe('managed hook script refresh', () => {
       for (const file of files) {
         expect(
           refresherAgents.some((agent) => file.startsWith(`${agent}-`)),
-          `${file} is written to ~/.orca/agent-hooks but no refresher owns it`
+          `${file} is written to ~/.amoeba/hooks but no refresher owns it`
         ).toBe(true)
       }
       for (const agent of refresherAgents) {
