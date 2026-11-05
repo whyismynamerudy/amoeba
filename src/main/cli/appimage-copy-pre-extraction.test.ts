@@ -34,7 +34,7 @@ async function makeFixture() {
 async function writePayload(cwd: string): Promise<void> {
   const launcherDir = join(cwd, 'squashfs-root', 'resources', 'bin')
   await mkdir(launcherDir, { recursive: true })
-  await writeFile(join(launcherDir, 'orca-ide'), '', { mode: 0o755 })
+  await writeFile(join(launcherDir, 'amoeba'), '', { mode: 0o755 })
 }
 
 const acceptCache = async (): Promise<string | null> => null
@@ -79,7 +79,7 @@ describe('startAppImageCopyPreExtraction', () => {
     const copy = resolveAppImageExtractedRoot({ appImagePath, cacheRootPath })!
     const earlier = join(dirname(copy.rootPath), 'a'.repeat(24))
     await mkdir(join(earlier, 'resources', 'bin'), { recursive: true })
-    await writeFile(join(earlier, 'resources', 'bin', 'orca-ide'), '', { mode: 0o755 })
+    await writeFile(join(earlier, 'resources', 'bin', 'amoeba'), '', { mode: 0o755 })
 
     const started = preExtraction.startAppImageCopyPreExtraction({
       appImagePath,

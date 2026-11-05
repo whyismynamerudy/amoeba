@@ -4,10 +4,10 @@ version = "0.0.0"
 edition = "2021"
 publish = false
 
-# Why the bin is named `orca`: it ships as resources\bin\orca.exe, and the PE's
+# Why the bin is named `amoeba`: it ships as resources\bin\amoeba.exe, and the PE's
 # OriginalFilename must match the file users actually invoke.
 [[bin]]
-name = "orca"
+name = "amoeba"
 path = "src/main.rs"
 
 [[bin]]

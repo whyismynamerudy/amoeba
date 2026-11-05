@@ -15,7 +15,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
       label: 'WSL Fedora Remix'
     } as const
     const command =
-      'npx skills@1.7.2 add https://github.com/stablyai/orca/tree/abc --skill orca-cli --global'
+      'npx skills@1.7.2 add https://github.com/stablyai/orca/tree/abc --skill amoeba-cli --global'
     expect(buildSkillCommandForRuntime(command, runtime, 'win32')).toBe(command)
     const wrapped = buildSkillSetupTerminalCommand(command, 'powershell.exe', runtime, 'win32')
     expect(wrapped).toContain("wsl.exe -d 'Fedora Remix' --exec sh -c")

@@ -104,7 +104,7 @@ for (const surface of ['panel', 'linear'] as const) {
         result: 'Updated · Installed for 2 more agents'
       }
     ])('labels $button and reports $result', async ({ update, agents, button, result }) => {
-      const name = surface === 'panel' ? 'orca-cli' : 'orca-linear'
+      const name = surface === 'panel' ? 'amoeba-cli' : 'amoeba-linear'
       const plan = planOf([planEntry(name, operations(name, update, agents))])
       mocks.plan.mockResolvedValue({ kind: 'plan', plan })
       mocks.execute.mockResolvedValue(doneResult(plan))
@@ -130,7 +130,7 @@ for (const surface of ['panel', 'linear'] as const) {
     })
 
     it('shows the current verdict without an install button when every copy is current', async () => {
-      const name = surface === 'panel' ? 'orca-cli' : 'orca-linear'
+      const name = surface === 'panel' ? 'amoeba-cli' : 'amoeba-linear'
       mocks.plan.mockResolvedValue({
         kind: 'plan',
         plan: planOf([planEntry(name, operations(name, false, []))])
@@ -162,14 +162,14 @@ for (const surface of ['panel', 'linear'] as const) {
 }
 
 it('keeps the edited-copy suffix after the mixed result', async () => {
-  const plan = planOf([planEntry('orca-cli', operations('orca-cli', true, ['cursor'], true))])
+  const plan = planOf([planEntry('amoeba-cli', operations('amoeba-cli', true, ['cursor'], true))])
   mocks.plan.mockResolvedValue({ kind: 'plan', plan })
   mocks.execute.mockResolvedValue(doneResult(plan))
   render(
     <AgentSkillSetupPanel
       title="CLI skill"
       description={null}
-      skillNames={['orca-cli']}
+      skillNames={['amoeba-cli']}
       installed
       loading={false}
       error={null}
@@ -189,10 +189,10 @@ it.each([
   { agents: ['cursor', 'gemini'], result: 'Installed for 2 agents' }
 ])('uses first-install wording for $result', async ({ agents, result }) => {
   const plan = planOf([
-    planEntry('orca-cli', [
-      planOp('write', '/home/u/.agents/skills/orca-cli'),
+    planEntry('amoeba-cli', [
+      planOp('write', '/home/u/.agents/skills/amoeba-cli'),
       ...agents.map((agent) =>
-        planOp('link', `/home/u/.${agent}/skills/orca-cli`, {
+        planOp('link', `/home/u/.${agent}/skills/amoeba-cli`, {
           agents: agent === 'cursor' ? ['cursor'] : ['gemini']
         })
       )
@@ -204,7 +204,7 @@ it.each([
     <AgentSkillSetupPanel
       title="CLI skill"
       description={null}
-      skillNames={['orca-cli']}
+      skillNames={['amoeba-cli']}
       installed={false}
       loading={false}
       error={null}

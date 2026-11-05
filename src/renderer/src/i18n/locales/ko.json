@@ -192,7 +192,7 @@
         "remoteUnsupported": "Amoeba CLI를 사용하여 원격 호스트에서 브라우저 ID를 관리합니다.",
         "loading": "로드 중…",
         "resetRequired": "ID 데이터를 변경하려면 먼저 명시적으로 재설정해야 합니다.",
-        "resetRequiredCommand": "명령줄에서 재설정하세요: orca browser identity set --mode <mode> --reset",
+        "resetRequiredCommand": "명령줄에서 재설정하세요: amoeba browser identity set --mode <mode> --reset",
         "optionClean": "정리됨",
         "optionCleanTooltip": "가져온 Chrome 세션과 일치하도록 Amoeba 및 Electron 토큰을 제거합니다.",
         "optionNative": "네이티브",
@@ -5883,8 +5883,8 @@
           "issueLinkLabel": "이슈 링크",
           "reviewLinkLabel": "{{value0}} 링크",
           "cliHeader": "Amoeba CLI",
-          "cliCreatedFromAgent": "Agent가 `orca worktree create`로 생성",
-          "cliCreatedFromShell": "`orca worktree create`로 생성",
+          "cliCreatedFromAgent": "Agent가 `amoeba worktree create`로 생성",
+          "cliCreatedFromShell": "`amoeba worktree create`로 생성",
           "cliStartupAgent": "{{value0}}(으)로 시작됨",
           "cliCreated": "Amoeba CLI로 생성됨",
           "jiraIssue": "Jira {{value0}}",
@@ -6535,7 +6535,7 @@
           "pairingCode": "페어링 코드",
           "pairingCodePlaceholder": "orca://pair?code=...",
           "pairingHelpPrefix": "서버에서 실행",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpSuffix": "한 다음 출력된 페어링 URL을 붙여넣으세요.",
           "sshImportAlreadySynced": "~/.ssh/config가 이미 동기화되어 있습니다.",
           "sshImportSynced": "{{value0}} 호스트{{value1}}을(를) Amoeba에 추가했습니다.",
@@ -7324,7 +7324,7 @@
           "9fd4023db0": "파일 관리자에서 보기",
           "installFailureUnknownReason": "Amoeba가 CLI 등록을 완료하지 못했고 이유를 보고하지 않았습니다.",
           "installFailureConflictRemedy": "{{value0}}이(가) 더 이상 필요하지 않다면 제거한 뒤 다시 등록하세요.",
-          "outsideOrcaDescription": "Amoeba 터미널에서는 이미 `orca`를 쓸 수 있습니다. Amoeba 밖의 다른 터미널에서 `orca`를 쓰려면 켜세요."
+          "outsideOrcaDescription": "Amoeba 터미널에서는 이미 `amoeba`를 쓸 수 있습니다. Amoeba 밖의 다른 터미널에서 `amoeba`를 쓰려면 켜세요."
         },
         "CliSkillRuntimeSetup": {
           "04325573f8": "WSL",
@@ -8433,7 +8433,7 @@
           "9a3758d983": "저장된 서버가 없습니다.",
           "9bee6bbeeb": "서버 추가",
           "55fcc964cd": "을(를) 서버에서 실행하고 출력된 페어링 URL을 붙여넣으세요.",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "163671f7b5": "실행",
           "c3d772c514": "orca://pair?code=...",
           "9bc9b83474": "페어링 코드",
@@ -9288,7 +9288,7 @@
           "e49688f67f": "WSL에 `{{value0}}`을(를) 등록하시겠습니까?",
           "61ac55278e": "WSL에서 `{{value0}}`을(를) 제거하시겠습니까?",
           "e2b0ee267f": "오래됨",
-          "7aa456a460": "WSL 내부의 ~/.local/bin에 `orca-ide`를 등록합니다.",
+          "7aa456a460": "WSL 내부의 ~/.local/bin에 `amoeba`를 등록합니다.",
           "0307677bb9": "WSL CLI 등록 확인 중..."
         },
         "accounts": {
@@ -9799,7 +9799,7 @@
               "614c756ab1": "브라우저 쿠키 가져오기",
               "cee44fb442": "오토메이션",
               "a57c2172dc": "agent-browser",
-              "f5b8fdddf5": "orca-cli",
+              "f5b8fdddf5": "amoeba-cli",
               "e5a784bc54": "설치",
               "9d97446873": "에이전트",
               "a2d489263e": "스킬",
@@ -10398,8 +10398,8 @@
               "b8ddd13195": "에이전트 에뮬레이터",
               "1ad6fb6230": "기본 장치",
               "ac0a985873": "에뮬레이터 스킬",
-              "9353854ff3": "orca emulator",
-              "d4b7833894": "orca cli",
+              "9353854ff3": "amoeba emulator",
+              "d4b7833894": "amoeba cli",
               "84e5706975": "serve-sim",
               "7c5a8a2bee": "Xcode",
               "bec7231663": "아이패드",
@@ -11741,7 +11741,7 @@
                 "tickets": "티켓",
                 "issues": "이슈",
                 "skill": "스킬",
-                "orcaLinear": "orca-linear"
+                "orcaLinear": "amoeba-linear"
               }
             }
           }
@@ -11841,7 +11841,7 @@
         },
         "LinearAgentSkillPane": {
           "title": "Linear",
-          "description": "Amoeba에서 Linear 이슈를 탐색하고 연결된 워크스페이스를 시작하며 /orca-linear로 에이전트가 이슈를 업데이트할 수 있습니다.",
+          "description": "Amoeba에서 Linear 이슈를 탐색하고 연결된 워크스페이스를 시작하며 /amoeba-linear로 에이전트가 이슈를 업데이트할 수 있습니다.",
           "skillTitle": "Linear 스킬",
           "howToUse": "프롬프트 예시",
           "howToUseDescription": "카드를 클릭해 프롬프트를 복사하세요. 스킬을 설치한 후 Linear에 연결된 워크스페이스에서 사용하세요.",
@@ -12178,7 +12178,7 @@
           "manageKeys": "키 관리",
           "addAccess": "액세스 추가",
           "setupSkillTitle": "2. 에이전트 스킬 설치",
-          "setupSkillBody": "에이전트가 /orca-linear로 이슈 읽기, 업데이트, 분류, 풀 또는 머지 리퀘스트 첨부를 할 수 있게 합니다.",
+          "setupSkillBody": "에이전트가 /amoeba-linear로 이슈 읽기, 업데이트, 분류, 풀 또는 머지 리퀘스트 첨부를 할 수 있게 합니다.",
           "setupVisibleTitle": "3. 작업에 Linear 표시",
           "setupVisibleBody": "작업 소스 선택기와 사이드바 바로 가기에 Linear를 표시합니다.",
           "openTaskSources": "작업 소스",
@@ -12190,8 +12190,8 @@
           "notesIntro": "Linear를 연결하고 스킬을 설치한 후 참고할 내용입니다.",
           "noteLinkedTitle": "Linear 이슈에서 시작",
           "noteLinkedBody": "작업에서 만든 워크스페이스는 이슈가 컨텍스트로 연결되어 있어 이슈 작업이 가장 원활합니다.",
-          "noteSlashTitle": "/orca-linear 언급",
-          "noteSlashBody": "채팅에서 /orca-linear를 사용하거나 자연어로 요청하면 해당 턴에 에이전트가 스킬을 불러옵니다.",
+          "noteSlashTitle": "/amoeba-linear 언급",
+          "noteSlashBody": "채팅에서 /amoeba-linear를 사용하거나 자연어로 요청하면 해당 턴에 에이전트가 스킬을 불러옵니다.",
           "noteKeysTitle": "키는 런타임별로 저장",
           "noteKeysBody": "API 키와 워크스페이스는 활성 런타임에 저장됩니다.",
           "noteVisibilityTitle": "숨겨도 연결은 유지",
@@ -12207,7 +12207,7 @@
           "connectedHint": "워크스페이스와 키는 활성 런타임에 저장됩니다. 언제든 액세스를 더 추가할 수 있습니다.",
           "recheck": "연결 다시 확인",
           "skillTitle": "Linear 에이전트 스킬 설치",
-          "skillDescription": "에이전트가 /orca-linear로 이슈 읽기, 업데이트 게시, 상태 변경, 풀 또는 머지 리퀘스트 첨부를 할 수 있게 합니다.",
+          "skillDescription": "에이전트가 /amoeba-linear로 이슈 읽기, 업데이트 게시, 상태 변경, 풀 또는 머지 리퀘스트 첨부를 할 수 있게 합니다.",
           "skillBlocked": "먼저 Linear를 연결한 다음 에이전트용 스킬을 설치하세요.",
           "skillPanelTitle": "Linear 스킬",
           "showDescription": "작업 소스 선택기와 사이드바 바로 가기에 Linear를 표시합니다."
@@ -12263,7 +12263,7 @@
           "advanced": "고급",
           "sshTunnel": "이 로컬 주소에 SSH 터널을 사용하고 있습니다",
           "sshTunnelHelp": "이 연결을 사용하는 동안 터널을 유지하세요.",
-          "headlessHelp": "헤드리스 orca serve를 사용하나요? 다른 컴퓨터에서 orca serve --pairing-address <reachable-host>를 실행하세요.",
+          "headlessHelp": "헤드리스 amoeba serve를 사용하나요? 다른 컴퓨터에서 amoeba serve --pairing-address <reachable-host>를 실행하세요.",
           "cancel": "취소",
           "addWithTunnel": "터널을 사용해 호스트 추가",
           "addHost": "호스트 추가",
@@ -20160,7 +20160,7 @@
       "continueButton": "Continue without CLI",
       "title": "Amoeba CLI unavailable",
       "message": "Amoeba가 로컬 명령 전송 기능을 시작하지 못했습니다.",
-      "detail": "Amoeba는 계속 작동하지만 이번 세션에서는 orca status, orca terminal 등의 명령과 오케스트레이션 기능을 사용할 수 없습니다.\n\n{{guidance}}\n\n원인: {{cause}}",
+      "detail": "Amoeba는 계속 작동하지만 이번 세션에서는 amoeba status, amoeba terminal 등의 명령과 오케스트레이션 기능을 사용할 수 없습니다.\n\n{{guidance}}\n\n원인: {{cause}}",
       "guidance": {
         "permissionDenied": "Amoeba가 런타임 파일을 쓸 수 없습니다. Amoeba 데이터 폴더의 권한을 확인한 후 다시 시작하세요.",
         "storageUnavailable": "디스크가 가득 찼거나 읽기 전용일 수 있습니다. 공간을 확보한 후 Amoeba를 다시 시작하세요.",

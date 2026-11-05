@@ -178,7 +178,7 @@ describe('Jira reference keys', () => {
     expect(console.error).toHaveBeenCalledExactlyOnceWith(
       id === 'all'
         ? 'Choose one Jira site ID; --reference-site all is unsupported.'
-        : 'No matching connected Jira site. Check orca jira connection and Amoeba Jira settings.'
+        : 'No matching connected Jira site. Check amoeba jira connection and Amoeba Jira settings.'
     )
     expect(process.exitCode).toBe(1)
     expect(mocks.callMock).not.toHaveBeenCalledWith('jira.lookupIssueSummary', expect.anything())

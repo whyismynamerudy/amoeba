@@ -65,7 +65,7 @@ function buildSetup(overrides: {
   }
 }
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,
@@ -458,7 +458,7 @@ describe('orca cli worktree awareness', () => {
     process.exitCode = priorExitCode
   })
 
-  it('accepts the host alias that `orca host list` prints', async () => {
+  it('accepts the host alias that `amoeba host list` prints', async () => {
     queueFixtures(
       callMock,
       okFixture('req_ssh_targets', {

@@ -48,14 +48,14 @@ let container: HTMLDivElement | null = null
 function discoveredSkill(overrides: Partial<DiscoveredSkill>): DiscoveredSkill {
   return {
     id: 'skill-1',
-    name: 'orca-linear',
+    name: 'amoeba-linear',
     description: null,
     providers: ['agent-skills'],
     sourceKind: 'home',
     sourceLabel: 'Agent skills home',
     rootPath: '/Users/test/.agents/skills',
-    directoryPath: '/Users/test/.agents/skills/orca-linear',
-    skillFilePath: '/Users/test/.agents/skills/orca-linear/SKILL.md',
+    directoryPath: '/Users/test/.agents/skills/amoeba-linear',
+    skillFilePath: '/Users/test/.agents/skills/amoeba-linear/SKILL.md',
     installed: true,
     updatedAt: null,
     ...overrides
@@ -112,7 +112,7 @@ describe('LinearAgentSkillInstallCta', () => {
     const rendered = await renderCta()
 
     expect(rendered.textContent).toContain('Agent skill:')
-    expect(rendered.textContent).toContain('orca-linear')
+    expect(rendered.textContent).toContain('amoeba-linear')
     expect(rendered.textContent).toContain('Not installed')
     expect(rendered.textContent).toContain(
       'Full guided setup (connect + skill + visibility) is under Settings → Task Sources.'
@@ -130,13 +130,13 @@ describe('LinearAgentSkillInstallCta', () => {
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
 
-    expect(mocks.plan).toHaveBeenCalledWith({ kind: 'local' }, { names: ['orca-linear'] })
+    expect(mocks.plan).toHaveBeenCalledWith({ kind: 'local' }, { names: ['amoeba-linear'] })
     expect(rendered.textContent).toContain('Update Amoeba on the server to install its skills.')
   })
 
   it('shows a subtle confirmation and Update when installed', async () => {
     mocks.skillState.installed = true
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' })]
+    mocks.skillState.skills = [discoveredSkill({ name: 'amoeba-linear' })]
 
     const rendered = await renderCta()
 
@@ -180,7 +180,7 @@ describe('LinearAgentSkillInstallCta', () => {
     mocks.agentRuntime = { runtime: 'wsl', wslDistro: 'Debian', label: 'WSL Debian' }
     const rendered = await renderCta()
     expect(rendered.textContent).toContain(
-      `npx skills@1.7.2 add https://github.com/stablyai/orca/tree/${'0'.repeat(40)} --skill orca-linear --global`
+      `npx skills@1.7.2 add https://github.com/stablyai/orca/tree/${'0'.repeat(40)} --skill amoeba-linear --global`
     )
     expect(rendered.textContent).not.toContain('Install skill')
     expect(mocks.plan).not.toHaveBeenCalled()

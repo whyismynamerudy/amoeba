@@ -173,7 +173,8 @@ export function renderResolvedOrchestrationCommand(
   env: NodeJS.ProcessEnv = process.env
 ): string {
   const parts = parseCommandLine(command)
-  if (parts?.[0] !== 'orca') {
+  // Servers built before the rename still phrase recovery commands with `orca`.
+  if (parts?.[0] !== 'amoeba' && parts?.[0] !== 'orca') {
     return command
   }
   return renderCommand([executable, ...parts.slice(1)], platform, env)

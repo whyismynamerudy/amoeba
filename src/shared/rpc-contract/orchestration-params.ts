@@ -42,7 +42,8 @@ export const CheckParams = z
     ack: OptionalString,
     compatibilityAck: OptionalString,
     compatibilityQuestionAck: OptionalString,
-    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'amoeba-dev']).optional(),
+    // `orca`/`orca-ide` come from CLIs built before the rename.
+    compatibilityCliCommand: z.enum(['amoeba', 'amoeba-dev', 'orca', 'orca-ide']).optional(),
     run: OptionalString,
     wait: OptionalBoolean,
     timeoutMs: OptionalFiniteNumber
@@ -133,8 +134,8 @@ export const AskParams = z
     timeoutMs: OptionalFiniteNumber,
     from: OptionalString,
     run: OptionalString,
-    compatibilityCliCommand: z.enum(['orca', 'orca-ide', 'amoeba-dev']).optional(),
-    compatibilityWindowsCommand: z.enum(['orca', 'orca-ide']).optional()
+    compatibilityCliCommand: z.enum(['amoeba', 'amoeba-dev', 'orca', 'orca-ide']).optional(),
+    compatibilityWindowsCommand: z.enum(['amoeba', 'orca', 'orca-ide']).optional()
   })
   .superRefine((params, ctx) => {
     if ((params.question ? 1 : 0) + (params.resume ? 1 : 0) !== 1) {

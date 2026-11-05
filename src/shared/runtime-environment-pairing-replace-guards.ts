@@ -10,7 +10,7 @@ export function assertNoIndependentSshAccess(environment: KnownRuntimeEnvironmen
   if (environment.orcadDeployment) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      'Amoeba runs this server on an SSH host for you; its pairing cannot be replaced or removed here. To decommission it, run `orca environment stop --environment <name> --yes` or use Settings > Amoeba on your SSH hosts; for a host that is gone, run `orca environment forget --environment <name> --yes`.'
+      'Amoeba runs this server on an SSH host for you; its pairing cannot be replaced or removed here. To decommission it, run `amoeba environment stop --environment <name> --yes` or use Settings > Amoeba on your SSH hosts; for a host that is gone, run `amoeba environment forget --environment <name> --yes`.'
     )
   }
   if (environment.pendingSshAccessOperation) {

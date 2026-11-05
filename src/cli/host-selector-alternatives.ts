@@ -174,7 +174,7 @@ export async function resolveSshHostTargetId(
   throw new RuntimeClientError(
     'invalid_argument',
     bareName
-      ? `Unknown host in ${flagSpelling}: it is not this machine or a paired Amoeba server the command can use, and the connected Amoeba host has no SSH target named ${targetId}. Run \`orca host list\` to see every name.`
+      ? `Unknown host in ${flagSpelling}: it is not this machine or a paired Amoeba server the command can use, and the connected Amoeba host has no SSH target named ${targetId}. Run \`amoeba host list\` to see every name.`
       : `Unknown SSH target in ${flagSpelling}: this Amoeba host has no SSH target named or with id ${targetId}.`,
     {
       knownSshTargets: targets,

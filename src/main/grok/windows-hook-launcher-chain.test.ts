@@ -178,7 +178,7 @@ describe('Windows Grok managed hook launch shape', () => {
     )
 
     it('falls back to the encoded launcher when the profile path is not cmd-safe (#6078)', () => {
-      const spaceHome = mkdtempSync(join(tmpdir(), 'orca grok spaced '))
+      const spaceHome = mkdtempSync(join(tmpdir(), 'amoeba grok spaced '))
       homedirMock.mockReturnValue(spaceHome)
       try {
         const commands = withWin32(() => {

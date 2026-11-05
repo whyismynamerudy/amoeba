@@ -192,7 +192,7 @@
         "remoteUnsupported": "Amoeba CLI を使用して、リモートホスト上のブラウザ ID を管理します。",
         "loading": "読み込み中…",
         "resetRequired": "ID データは変更する前に明示的にリセットする必要があります。",
-        "resetRequiredCommand": "コマンドラインからリセットします: orca browser identity set --mode <mode> --reset",
+        "resetRequiredCommand": "コマンドラインからリセットします: amoeba browser identity set --mode <mode> --reset",
         "optionClean": "クリーン",
         "optionCleanTooltip": "インポートされた Chrome セッションと一致するように Amoeba トークンと Electron トークンを削除します。",
         "optionNative": "ネイティブ",
@@ -5883,8 +5883,8 @@
           "issueLinkLabel": "Issue リンク",
           "reviewLinkLabel": "{{value0}} リンク",
           "cliHeader": "Amoeba CLI",
-          "cliCreatedFromAgent": "Agent が `orca worktree create` で作成",
-          "cliCreatedFromShell": "`orca worktree create` で作成",
+          "cliCreatedFromAgent": "Agent が `amoeba worktree create` で作成",
+          "cliCreatedFromShell": "`amoeba worktree create` で作成",
           "cliStartupAgent": "{{value0}} で開始",
           "cliCreated": "Amoeba CLI が作成",
           "jiraIssue": "Jira {{value0}}",
@@ -6535,7 +6535,7 @@
           "pairingCode": "ペアリングコード",
           "pairingCodePlaceholder": "orca://pair?code=...",
           "pairingHelpPrefix": "実行",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpSuffix": "をサーバーで実行し、出力されたペアリング URL を貼り付けます。",
           "sshImportAlreadySynced": "~/.ssh/config はすでに同期されています。",
           "sshImportSynced": "{{value0}} ホスト{{value1}} を同期しました。",
@@ -7324,7 +7324,7 @@
           "9fd4023db0": "ファイルマネージャーで表示",
           "installFailureUnknownReason": "Amoeba は CLI 登録を完了できず、理由を報告しませんでした。",
           "installFailureConflictRemedy": "{{value0}} を削除して、不要になった場合は再度登録してください。",
-          "outsideOrcaDescription": "Amoeba のターミナルでは `orca` がすでに使えます。Amoeba 以外のターミナルから `orca` を使うにはオンにしてください。"
+          "outsideOrcaDescription": "Amoeba のターミナルでは `amoeba` がすでに使えます。Amoeba 以外のターミナルから `amoeba` を使うにはオンにしてください。"
         },
         "CliSkillRuntimeSetup": {
           "04325573f8": "WSL",
@@ -8470,7 +8470,7 @@
           "9a3758d983": "保存されたサーバーはありません。",
           "9bee6bbeeb": "サーバーの追加",
           "55fcc964cd": "をサーバーで実行し、出力されたペアリング URL を貼り付けます。",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "163671f7b5": "実行",
           "c3d772c514": "orca://pair?code=...",
           "9bc9b83474": "ペアリングコード",
@@ -9325,7 +9325,7 @@
           "e49688f67f": "`{{value0}}` を WSL に登録しますか?",
           "61ac55278e": "WSL から {{value0}} を削除しますか?",
           "e2b0ee267f": "古い",
-          "7aa456a460": "WSL 内の~/.local/binに「orca-ide」を登録します。",
+          "7aa456a460": "WSL 内の~/.local/binに「amoeba」を登録します。",
           "0307677bb9": "WSL CLI 登録を確認しています…"
         },
         "accounts": {
@@ -9836,7 +9836,7 @@
               "614c756ab1": "ブラウザの Cookie をインポートする",
               "cee44fb442": "オートメーション",
               "a57c2172dc": "Agent ブラウザ",
-              "f5b8fdddf5": "orca-cli",
+              "f5b8fdddf5": "amoeba-cli",
               "e5a784bc54": "インストール",
               "9d97446873": "Agent",
               "a2d489263e": "スキル",
@@ -10435,8 +10435,8 @@
               "b8ddd13195": "Agent エミュレータ",
               "1ad6fb6230": "デフォルトのデバイス",
               "ac0a985873": "エミュレータスキル",
-              "9353854ff3": "orca emulator",
-              "d4b7833894": "orca cli",
+              "9353854ff3": "amoeba emulator",
+              "d4b7833894": "amoeba cli",
               "84e5706975": "serve-sim",
               "7c5a8a2bee": "xcode",
               "bec7231663": "iPad",
@@ -10826,7 +10826,7 @@
           "search": {
             "ca6a0c2df7": "ショートカット",
             "4811a8264a": "ターミナルファースト",
-            "afda131738": "orca first",
+            "afda131738": "amoeba first",
             "0ecfc47434": "競合",
             "0f8cb15582": "Agent",
             "f1adebbe8c": "シェル",
@@ -11741,7 +11741,7 @@
                 "tickets": "チケット",
                 "issues": "Issue",
                 "skill": "スキル",
-                "orcaLinear": "orca-linear"
+                "orcaLinear": "amoeba-linear"
               }
             }
           }
@@ -11841,7 +11841,7 @@
         },
         "LinearAgentSkillPane": {
           "title": "Linear",
-          "description": "Amoeba で Linear の Issue を参照し、リンク済みワークスペースを開始して、/orca-linear で Agent から更新できます。",
+          "description": "Amoeba で Linear の Issue を参照し、リンク済みワークスペースを開始して、/amoeba-linear で Agent から更新できます。",
           "skillTitle": "Linear スキル",
           "howToUse": "プロンプト例",
           "howToUseDescription": "カードをクリックするとプロンプトをコピーできます。スキルのインストール後、Linear にリンクしたワークツリーで使用してください。",
@@ -12178,7 +12178,7 @@
           "manageKeys": "キーを管理",
           "addAccess": "アクセスを追加",
           "setupSkillTitle": "2. Agent スキルをインストール",
-          "setupSkillBody": "Agent が /orca-linear で課題の参照、更新、トリアージ、プル／MR の添付を行えるようにします。",
+          "setupSkillBody": "Agent が /amoeba-linear で課題の参照、更新、トリアージ、プル／MR の添付を行えるようにします。",
           "setupVisibleTitle": "3. タスクに Linear を表示",
           "setupVisibleBody": "Linear をタスクのソース選択とサイドバーのショートカットに表示します。",
           "openTaskSources": "タスクソース",
@@ -12190,8 +12190,8 @@
           "notesIntro": "Linear の接続とスキルのインストール後に役立つポイントです。",
           "noteLinkedTitle": "Linear の Issue から開始",
           "noteLinkedBody": "チケット操作は、タスクから作成したワークツリーで最も効果的です。Issue がコンテキストとしてリンクされたままになります。",
-          "noteSlashTitle": "/orca-linear を指定",
-          "noteSlashBody": "チャットで /orca-linear を使うか自然言語で依頼すると、そのターンで Agent がスキルを読み込みます。",
+          "noteSlashTitle": "/amoeba-linear を指定",
+          "noteSlashBody": "チャットで /amoeba-linear を使うか自然言語で依頼すると、そのターンで Agent がスキルを読み込みます。",
           "noteKeysTitle": "キーは実行環境ごとに保存",
           "noteKeysBody": "API キーとワークスペースはアクティブな実行環境に保存されます。",
           "noteVisibilityTitle": "非表示にしても接続は維持",
@@ -12207,7 +12207,7 @@
           "connectedHint": "ワークスペースとキーはアクティブな実行環境に保存されます。アクセスはいつでも追加できます。",
           "recheck": "接続を再確認",
           "skillTitle": "Linear Agent スキルをインストール",
-          "skillDescription": "Agent が /orca-linear で課題の参照、更新の投稿、状態変更、プル／MR の添付を行えるようにします。",
+          "skillDescription": "Agent が /amoeba-linear で課題の参照、更新の投稿、状態変更、プル／MR の添付を行えるようにします。",
           "skillBlocked": "先に Linear に接続してから、Agent 用スキルをインストールしてください。",
           "skillPanelTitle": "Linear スキル",
           "showDescription": "Linear をタスクのソース選択とサイドバーのショートカットに表示します。"
@@ -12263,7 +12263,7 @@
           "advanced": "詳細設定",
           "sshTunnel": "このローカルアドレスへの SSH トンネルを使用しています",
           "sshTunnelHelp": "この接続を使用している間はトンネルを維持してください。",
-          "headlessHelp": "ヘッドレスの orca serve を使う場合は、もう一方のコンピュータで orca serve --pairing-address <reachable-host> を実行してください。",
+          "headlessHelp": "ヘッドレスの amoeba serve を使う場合は、もう一方のコンピュータで amoeba serve --pairing-address <reachable-host> を実行してください。",
           "cancel": "キャンセル",
           "addWithTunnel": "トンネルを使ってホストを追加",
           "addHost": "ホストを追加",
@@ -20160,7 +20160,7 @@
       "continueButton": "CLI なしで続行",
       "title": "Amoeba CLI を利用できません",
       "message": "Amoeba はローカルコマンドの通信経路を開始できませんでした。",
-      "detail": "Amoeba は引き続き使用できますが、このセッションでは orca status や orca terminal などのコマンドとオーケストレーションを利用できません。\n\n{{guidance}}\n\n原因: {{cause}}",
+      "detail": "Amoeba は引き続き使用できますが、このセッションでは amoeba status や amoeba terminal などのコマンドとオーケストレーションを利用できません。\n\n{{guidance}}\n\n原因: {{cause}}",
       "guidance": {
         "permissionDenied": "Amoeba はランタイムファイルを書き込めませんでした。Amoeba のデータフォルダーの権限を確認してから、再起動してください。",
         "storageUnavailable": "ディスクの空き容量がないか、読み取り専用になっている可能性があります。空き容量を確保してから、Amoeba を再起動してください。",

@@ -137,7 +137,7 @@ describe('worktree mutations invalidate the WSL linked-worktree Git route', () =
   it('drops the target route after the prepared checkout is added', async () => {
     seedWslLinkedWorktreeGitRoutingForTests(PREPARED)
 
-    await prepareWorktreeCreateCheckout(REPO, PREPARED, 'origin/main', 'orca preparation')
+    await prepareWorktreeCreateCheckout(REPO, PREPARED, 'origin/main', 'amoeba preparation')
 
     expect(hasCachedHostRoute(PREPARED)).toBe(false)
   })

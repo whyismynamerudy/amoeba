@@ -1,5 +1,6 @@
 import { quotePosixShellDoubleQuotedApostrophe } from '../../shared/shell-argument-quoting'
 import { quotePowerShellLiteral } from '../../shared/powershell-native-argument'
+import { LEGACY_CLI_COMMAND_NAMES } from '../../shared/orca-cli-command-name'
 
 const MANAGED_MARKER = '# Amoeba managed WSL CLI launcher'
 const BRIDGE_MANAGED_MARKER = '# Amoeba managed WSL CLI PowerShell bridge'
@@ -15,7 +16,7 @@ fi`
 
 export function buildWslLauncher(
   windowsLauncherPath: string,
-  bridgePath = '${XDG_DATA_HOME:-$HOME/.local/share}/orca/orca-wsl-bridge.ps1'
+  bridgePath = '${XDG_DATA_HOME:-$HOME/.local/share}/amoeba/amoeba-wsl-bridge.ps1'
 ): string {
   return buildLauncher(
     windowsLauncherPath,
@@ -31,7 +32,7 @@ export function buildColocatedWslLauncher(
 ): string {
   return buildLauncher(
     windowsLauncherPath,
-    '"$(dirname -- "$0")/orca-wsl-bridge.ps1"',
+    '"$(dirname -- "$0")/amoeba-wsl-bridge.ps1"',
     `ORCA_POWERSHELL=$(wslpath -u ${quotePosixShellDoubleQuotedApostrophe(windowsPowerShellPath)})
 if [ ! -x "$ORCA_POWERSHELL" ]; then
   echo "Amoeba WSL CLI requires Windows interop and access to $ORCA_POWERSHELL." >&2
@@ -199,8 +200,8 @@ function bridgeLines(lines: readonly string[]): string {
 }
 
 export function getBridgePathFromCommandPath(commandPath: string): string {
-  // Current and legacy command names share one bridge under ~/.local/share/orca.
-  return `${commandPath.replace(/\/\.local\/bin\/(?:orca|orca-ide)$/, '/.local/share/orca')}/orca-wsl-bridge.ps1`
+  // Not ~/.local/share/orca: real Orca keeps its own bridge there.
+  return `${commandPath.replace(/\/\.local\/bin\/amoeba$/, '/.local/share/amoeba')}/amoeba-wsl-bridge.ps1`
 }
 
 export function buildSafeReplaceGuard(path: string, managedMarker: string): string {
@@ -222,7 +223,7 @@ export function buildRegistrationLockPrelude(commandPath: string): string {
   // flock serializes separate Amoeba installs; the per-distro queue covers only this process.
   return [
     `if command -v flock >/dev/null 2>&1 && mkdir -p ${quotePosixShellDoubleQuotedApostrophe(lockDir)} 2>/dev/null; then`,
-    `  exec 9>${quotePosixShellDoubleQuotedApostrophe(`${lockDir}/.orca-wsl-cli.lock`)}`,
+    `  exec 9>${quotePosixShellDoubleQuotedApostrophe(`${lockDir}/.amoeba-wsl-cli.lock`)}`,
     '  flock -x -w 30 9',
     'fi'
   ].join('\n')
@@ -233,7 +234,30 @@ export function buildManagedLegacyRemoveCommand(quotedLegacyCommandPath: string)
   return `if [ ! -L ${quotedLegacyCommandPath} ] && [ -f ${quotedLegacyCommandPath} ] && grep -Fq ${quotePosixShellDoubleQuotedApostrophe(MANAGED_MARKER)} ${quotedLegacyCommandPath}; then rm -f ${quotedLegacyCommandPath}; fi`
 }
 
-export function buildSafeRemoveCommand(commandPath: string, legacyCommandPath?: string): string {
+/** Paths earlier builds registered beside the current command (`orca`, then `orca-ide`). */
+export function getWslLegacyCommandPaths(commandPath: string): string[] {
+  const directory = getPosixDirname(commandPath)
+  return LEGACY_CLI_COMMAND_NAMES.map((name) => `${directory}/${name}`)
+}
+
+export function buildManagedLegacyRemoveCommands(commandPath: string): string[] {
+  const removals = getWslLegacyCommandPaths(commandPath).map((legacyPath) =>
+    buildManagedLegacyRemoveCommand(quotePosixShellDoubleQuotedApostrophe(legacyPath))
+  )
+  // Earlier builds kept the bridge where real Orca keeps its own; only our marked copy goes.
+  const legacyBridge = commandPath.match(/^(.*)\/\.local\/bin\/[^/]+$/)?.[1]
+  if (legacyBridge !== undefined) {
+    const quoted = quotePosixShellDoubleQuotedApostrophe(
+      `${legacyBridge}/.local/share/orca/orca-wsl-bridge.ps1`
+    )
+    removals.push(
+      `if [ ! -L ${quoted} ] && [ -f ${quoted} ] && grep -Fq ${quotePosixShellDoubleQuotedApostrophe(BRIDGE_MANAGED_MARKER)} ${quoted}; then rm -f ${quoted}; fi`
+    )
+  }
+  return removals
+}
+
+export function buildSafeRemoveCommand(commandPath: string, removeLegacy = false): string {
   const bridgePath = getBridgePathFromCommandPath(commandPath)
   return [
     // Runs under sh; Ubuntu 20.04 dash lacks pipefail, and no pipeline here needs it.
@@ -243,9 +267,7 @@ export function buildSafeRemoveCommand(commandPath: string, legacyCommandPath?: 
     buildSafeReplaceGuard(bridgePath, BRIDGE_MANAGED_MARKER),
     `rm -f ${quotePosixShellDoubleQuotedApostrophe(commandPath)} ${quotePosixShellDoubleQuotedApostrophe(bridgePath)}`,
     // A leftover managed legacy command would let startup reconciliation undo removal.
-    ...(legacyCommandPath
-      ? [buildManagedLegacyRemoveCommand(quotePosixShellDoubleQuotedApostrophe(legacyCommandPath))]
-      : [])
+    ...(removeLegacy ? buildManagedLegacyRemoveCommands(commandPath) : [])
   ].join('\n')
 }
 

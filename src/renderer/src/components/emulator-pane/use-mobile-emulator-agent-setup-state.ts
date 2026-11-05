@@ -9,7 +9,7 @@ import {
 import { useMountedRef } from '@/hooks/useMountedRef'
 import { translate } from '@/i18n/i18n'
 
-// Why: Amoeba terminals already provide the `orca` command, so agent control only needs the skill.
+// Why: Amoeba terminals already provide the `amoeba` command, so agent control only needs the skill.
 export function useMobileEmulatorAgentSetupState(enabled = true): {
   skillRuntime: ReturnType<typeof useActiveProjectSkillRuntime>
   cliSkillError: string | null

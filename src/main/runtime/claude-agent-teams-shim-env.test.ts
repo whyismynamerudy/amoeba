@@ -104,7 +104,7 @@ describe('claude agent teams shim env', () => {
       roots.push(root)
       // Why: an AppImage puts its Electron binary, named like the CLI, first on PATH.
       const electron = join(root, getOrcaCliCommandNameForPlatform(process.platform))
-      const launcher = join(root, 'cli', 'bin', 'orca')
+      const launcher = join(root, 'cli', 'bin', 'amoeba')
       await mkdir(dirname(launcher), { recursive: true })
       for (const path of [electron, launcher]) {
         await writeFile(path, '#!/usr/bin/env sh\n', 'utf8')
@@ -113,7 +113,7 @@ describe('claude agent teams shim env', () => {
       installFakeAppEnvironment({ getCliLauncherPath: () => launcher })
 
       expect(resolveClaudeAgentTeamsShimBin({ PATH: root })).toBe(launcher)
-      // An older leader pane re-running `orca claude-teams` carries its stale team env.
+      // An older leader pane re-running `amoeba claude-teams` carries its stale team env.
       expect(
         resolveClaudeAgentTeamsShimBin({
           PATH: root,
@@ -127,7 +127,7 @@ describe('claude agent teams shim env', () => {
   it('refuses to resolve a CLI through relative PATH entries or a bare override', async () => {
     const root = await mkdtemp(join(tmpdir(), 'orca-agent-teams-cli-'))
     roots.push(root)
-    for (const name of ['orca', 'orca-ide', 'orca.cmd']) {
+    for (const name of ['amoeba', 'amoeba.cmd']) {
       const path = join(root, name)
       await writeFile(path, '#!/usr/bin/env sh\n', 'utf8')
       if (process.platform !== 'win32') {
@@ -140,11 +140,11 @@ describe('claude agent teams shim env', () => {
     expect(resolveClaudeAgentTeamsShimBin({ PATH: '.' })).toBeNull()
     expect(resolveClaudeAgentTeamsShimBin({ PATH: '' })).toBeNull()
     expect(
-      resolveClaudeAgentTeamsShimBin({ PATH: '.', ORCA_AGENT_TEAMS_SHIM_BIN: 'orca' })
+      resolveClaudeAgentTeamsShimBin({ PATH: '.', ORCA_AGENT_TEAMS_SHIM_BIN: 'amoeba' })
     ).toBeNull()
-    expect(resolveClaudeAgentTeamsShimBin({ PATH: root, ORCA_AGENT_TEAMS_SHIM_BIN: 'orca' })).toBe(
-      join(root, 'orca')
-    )
+    expect(
+      resolveClaudeAgentTeamsShimBin({ PATH: root, ORCA_AGENT_TEAMS_SHIM_BIN: 'amoeba' })
+    ).toBe(join(root, 'amoeba'))
   })
 
   it.skipIf(process.platform !== 'win32')(
@@ -152,7 +152,7 @@ describe('claude agent teams shim env', () => {
     async () => {
       const root = await mkdtemp(join(tmpdir(), 'orca-agent-teams-cli-'))
       roots.push(root)
-      const cliPath = join(root, 'orca.cmd')
+      const cliPath = join(root, 'amoeba.cmd')
       await writeFile(cliPath, '@echo off\r\n', 'utf8')
 
       expect(resolveClaudeAgentTeamsShimBin({ Path: root })).toBe(cliPath)
@@ -178,7 +178,7 @@ describe('claude agent teams shim env', () => {
   })
 
   it.skipIf(process.platform === 'win32')(
-    'never runs a cwd-resolved orca when the shim bin is unqualified',
+    'never runs a cwd-resolved amoeba when the shim bin is unqualified',
     async () => {
       const root = await mkdtemp(join(tmpdir(), 'orca-agent-teams-shim-'))
       roots.push(root)
@@ -186,7 +186,7 @@ describe('claude agent teams shim env', () => {
       const cwd = await mkdtemp(join(tmpdir(), 'orca-agent-teams-cwd-'))
       roots.push(cwd)
       const marker = join(cwd, 'hijacked')
-      for (const name of ['orca', 'orca-ide']) {
+      for (const name of ['amoeba']) {
         const decoy = join(cwd, name)
         await writeFile(decoy, `#!/usr/bin/env sh\ntouch ${JSON.stringify(marker)}\n`, 'utf8')
         await chmod(decoy, 0o755)

@@ -8,7 +8,7 @@ export const ORCAD_WINDOWS_PROCESS_TREE_FILENAME = 'windows-process-tree.node'
 /** native/windows-security: secure-file ACLs without spawning icacls. */
 export const ORCAD_WINDOWS_SECURITY_FILENAME = 'windows-security.node'
 /** native/windows-cli-launcher: cmd.exe and .ps1 shims cannot carry every argv intact. */
-export const ORCAD_WINDOWS_CLI_LAUNCHER_FILENAME = 'bin/orca.exe'
+export const ORCAD_WINDOWS_CLI_LAUNCHER_FILENAME = 'bin/amoeba.exe'
 
 export function orcadBunRuntimeFilename(target: string): string {
   return isWindowsTarget(target) ? ORCAD_WINDOWS_BUN_RUNTIME_FILENAME : ORCAD_BUN_RUNTIME_FILENAME
@@ -235,7 +235,7 @@ export const ORCAD_ARTIFACTS: readonly OrcadArtifact[] = [
   // Account worker threads keep CLI probes and Claude setup off the event loop.
   { filename: 'worker-thread-child-process-entry.js' },
   { filename: 'claude-profile-setup-worker-entry.js' },
-  // Dictation loads the recognizer named by orca serve (#31174).
+  // Dictation loads the recognizer named by amoeba serve (#31174).
   { filename: 'stt-worker.js' },
   // The forked computer sidecar finds platform runtimes beside itself (#31777).
   { filename: ORCAD_COMPUTER_SIDECAR_ENTRY },

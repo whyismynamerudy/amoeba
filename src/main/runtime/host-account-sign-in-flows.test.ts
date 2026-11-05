@@ -146,7 +146,7 @@ describe('HostAccountSignInFlows', () => {
   it('refuses on a Windows host, whose logins need a console of their own', () => {
     const runner = controllableRunner()
     const flows = new HostAccountSignInFlows(runner.run, 'win32')
-    expect(() => flows.start('device-a', 'claude')).toThrow('orca account add')
+    expect(() => flows.start('device-a', 'claude')).toThrow('amoeba account add')
     expect(runner.run).not.toHaveBeenCalled()
   })
 })

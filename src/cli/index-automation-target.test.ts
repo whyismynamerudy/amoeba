@@ -51,7 +51,7 @@ import {
 } from './test-fixtures'
 import { pairRuntimeEnvironment, useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca cli worktree awareness', () => {
+describe('amoeba cli worktree awareness', () => {
   const originalExitCode = process.exitCode
 
   afterEach(() => {

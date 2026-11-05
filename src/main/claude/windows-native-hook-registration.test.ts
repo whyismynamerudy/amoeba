@@ -192,7 +192,7 @@ describe.skipIf(process.platform !== 'win32')('ClaudeHookService native hook ins
   })
 
   it('registers a spaced profile exe in exec form only for CLIs that accept it', () => {
-    const { hooksDir, settingsPath, bundle } = useTempHome('orca claude native hook ')
+    const { hooksDir, settingsPath, bundle } = useTempHome('amoeba claude native hook ')
     bundledHook.path = bundle
     const service = new ClaudeHookService()
 

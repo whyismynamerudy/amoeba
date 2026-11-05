@@ -46,17 +46,17 @@ vi.mock('./CliRegistrationDialog', () => ({
 function notInstalledStatus(overrides: Partial<CliInstallStatus> = {}): CliInstallStatus {
   return {
     platform: 'darwin',
-    commandName: 'orca',
-    commandPath: '/usr/local/bin/orca',
+    commandName: 'amoeba',
+    commandPath: '/usr/local/bin/amoeba',
     pathDirectory: '/usr/local/bin',
     pathConfigured: true,
-    launcherPath: '/Applications/Amoeba.app/Contents/Resources/bin/orca',
+    launcherPath: '/Applications/Amoeba.app/Contents/Resources/bin/amoeba',
     installMethod: 'symlink',
     supported: true,
     state: 'not_installed',
     currentTarget: null,
     unsupportedReason: null,
-    detail: 'Register /usr/local/bin/orca to use Amoeba from the terminal.',
+    detail: 'Register /usr/local/bin/amoeba to use Amoeba from the terminal.',
     ...overrides
   }
 }
@@ -93,14 +93,14 @@ describe('CliSection install failure surfacing', () => {
     await renderCliSectionAndInstall(async () => {
       throw new Error(
         "Error invoking remote method 'cli:install': Error: Refusing to replace non-Amoeba " +
-          'command at /usr/local/bin/orca. Remove it and register again if it is no longer needed.'
+          'command at /usr/local/bin/amoeba. Remove it and register again if it is no longer needed.'
       )
     })
 
     const alert = screen.getByRole('alert')
-    expect(alert.textContent).toContain('Failed to register `orca` in PATH.')
+    expect(alert.textContent).toContain('Failed to register `amoeba` in PATH.')
     expect(alert.textContent).toContain(
-      'Refusing to replace non-Amoeba command at /usr/local/bin/orca.'
+      'Refusing to replace non-Amoeba command at /usr/local/bin/amoeba.'
     )
     expect(alert.textContent).toContain('Remove it and register again if it is no longer needed.')
     expect(alert.textContent).not.toContain('invoking remote method')
@@ -112,14 +112,16 @@ describe('CliSection install failure surfacing', () => {
     await renderCliSectionAndInstall(async () =>
       notInstalledStatus({
         state: 'conflict',
-        detail: '/usr/local/bin/orca exists but is not an Amoeba symlink.'
+        detail: '/usr/local/bin/amoeba exists but is not an Amoeba symlink.'
       })
     )
 
     const alert = screen.getByRole('alert')
-    expect(alert.textContent).toContain('/usr/local/bin/orca exists but is not an Amoeba symlink.')
     expect(alert.textContent).toContain(
-      'Remove /usr/local/bin/orca and register again if it is no longer needed.'
+      '/usr/local/bin/amoeba exists but is not an Amoeba symlink.'
+    )
+    expect(alert.textContent).toContain(
+      'Remove /usr/local/bin/amoeba and register again if it is no longer needed.'
     )
     expect(toasts.success).not.toHaveBeenCalled()
   })

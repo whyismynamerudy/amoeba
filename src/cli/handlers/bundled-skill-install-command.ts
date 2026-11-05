@@ -112,8 +112,8 @@ function formatSkillSelectionHelp(verb: SkillMutationVerb, skillNames: string[])
     `Choose one or more skills to ${verb}:`,
     ...skillNames.map((name) => `  ${name}`),
     '',
-    `Usage: orca skills ${verb} --skill <name> [--skill <name> ...]`,
-    `   or: orca skills ${verb} --all`
+    `Usage: amoeba skills ${verb} --skill <name> [--skill <name> ...]`,
+    `   or: amoeba skills ${verb} --all`
   ].join('\n')
 }
 
@@ -178,8 +178,8 @@ export function createSkillMutationHandler(verb: SkillMutationVerb): CommandHand
     if (process.env.ORCA_CLI_CWD) {
       throw new RuntimeClientError(
         'invalid_environment',
-        `orca skills ${verb} writes to the machine that runs it, but this shell forwards ` +
-          `orca to the Amoeba host. Run the same orca skills ${verb} command on the machine ` +
+        `amoeba skills ${verb} writes to the machine that runs it, but this shell forwards ` +
+          `amoeba to the Amoeba host. Run the same amoeba skills ${verb} command on the machine ` +
           "you want it on, where it can detect that host's agents."
       )
     }
@@ -210,7 +210,7 @@ export function createSkillMutationHandler(verb: SkillMutationVerb): CommandHand
         : []
     const notInstalledLines = notInstalled.map(
       (name) =>
-        `${name}: not installed, so skipped. Install it with: orca skills install --skill ${name}`
+        `${name}: not installed, so skipped. Install it with: amoeba skills install --skill ${name}`
     )
     const forceHint = hasReplaceableLeave(plan)
       ? ['', 'Rerun with --force to replace a copy that was skipped; Amoeba keeps a backup of it.']

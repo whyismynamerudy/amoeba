@@ -1,7 +1,7 @@
 export const ROOT_HELP_TEXT_PRIMARY = [
-  'orca',
+  'amoeba',
   '',
-  'Usage: orca <command> [options]',
+  'Usage: amoeba <command> [options]',
   '',
   'Startup:',
   '  open                      Launch Amoeba and wait for the runtime to be reachable',

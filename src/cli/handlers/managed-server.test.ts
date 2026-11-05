@@ -189,7 +189,7 @@ describe('managed server CLI verbs', () => {
     })
     await expect(run('environment update', call, [])).rejects.toMatchObject({
       code: 'managed_server_in_progress',
-      message: expect.stringContaining('orca environment status')
+      message: expect.stringContaining('amoeba environment status')
     })
   })
 

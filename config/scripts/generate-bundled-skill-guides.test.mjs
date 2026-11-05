@@ -35,8 +35,8 @@ const GUIDE_REFERENCES = {
     'recovery-and-cleanup.md',
     'worker-contract.md'
   ],
-  'orca-cli': ['automations.md', 'browser.md', 'publishing.md'],
-  'orca-per-workspace-env': [
+  'amoeba-cli': ['automations.md', 'browser.md', 'publishing.md'],
+  'amoeba-per-workspace-env': [
     'docker-ssh.md',
     'failure-modes.md',
     'provider-vercel.md',
@@ -94,14 +94,14 @@ describe('bundled skill guide generator', () => {
     'resolves the documented cleanup path from custom, XDG, and home settings',
     async () => {
       const source = await readFile(
-        path.join(projectDir, 'skill-guides', 'orca-per-workspace-env.md'),
+        path.join(projectDir, 'skill-guides', 'amoeba-per-workspace-env.md'),
         'utf8'
       )
-      const assignments = [...source.matchAll(/`(orca_user_data_path=[^`\r\n]+)`/gu)].map(
+      const assignments = [...source.matchAll(/`(amoeba_user_data_path=[^`\r\n]+)`/gu)].map(
         (match) => match[1]
       )
       expect(assignments).toHaveLength(1)
-      const script = `${assignments[0]}\nprintf '%s' "$orca_user_data_path"`
+      const script = `${assignments[0]}\nprintf '%s' "$amoeba_user_data_path"`
       const root = await mkdtemp(path.join(tmpdir(), 'orca-guide-cleanup-precedence-'))
       temporaryDirectories.push(root)
       const home = path.join(root, 'isolated home')
@@ -139,14 +139,14 @@ describe('bundled skill guide generator', () => {
         path.join(
           projectDir,
           'skill-guides',
-          'orca-per-workspace-env',
+          'amoeba-per-workspace-env',
           'references',
           'provider-vercel.md'
         ),
         'utf8'
       )
       const startMarker = 'recipe_id="${ORCA_RECIPE_ID:-vercel-sandbox}"'
-      const endMarker = 'name="orca-${recipe_id:0:max_recipe_id_length}-${instance_id}"'
+      const endMarker = 'name="amoeba-${recipe_id:0:max_recipe_id_length}-${instance_id}"'
       const start = source.indexOf(startMarker)
       const endStart = source.indexOf(endMarker, start)
       expect(start).toBeGreaterThanOrEqual(0)
@@ -168,7 +168,7 @@ describe('bundled skill guide generator', () => {
         longInstanceId
       )
 
-      expect(dotted).toBe(`orca-provider-cloud_sandbox-${instanceId}`)
+      expect(dotted).toBe(`amoeba-provider-cloud_sandbox-${instanceId}`)
       expect(maximum).toMatch(/^[a-zA-Z0-9_-]{1,128}$/u)
       expect(capped).toHaveLength(128)
       expect(capped.endsWith(`-${longInstanceId}`)).toBe(true)
@@ -359,7 +359,7 @@ describe('bundled skill guide generator', () => {
 
   it('rejects non-Markdown and empty bundled references', async () => {
     const root = await createFixture()
-    const referenceRoot = path.join(root, 'skill-guides', 'orca-cli', 'references')
+    const referenceRoot = path.join(root, 'skill-guides', 'amoeba-cli', 'references')
 
     await writeFile(path.join(referenceRoot, 'notes.txt'), 'not a reference\n')
     await expect(buildArtifacts(root)).rejects.toThrow('Guide references must be Markdown files')
@@ -392,8 +392,8 @@ describe('guide reference routing', () => {
 
   it('routes every shipped reference from its own guide, in both directions', async () => {
     const owners = await guidesWithReferences()
-    // A vacuous loop would pass forever; orca-cli is a guide that owns references today.
-    expect(owners.map((owner) => owner.name)).toContain('orca-cli')
+    // A vacuous loop would pass forever; amoeba-cli is a guide that owns references today.
+    expect(owners.map((owner) => owner.name)).toContain('amoeba-cli')
 
     const mismatches = []
     for (const owner of owners) {

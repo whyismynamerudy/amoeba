@@ -172,7 +172,7 @@ describe.skipIf(process.platform !== 'win32')('Claude statusLine delivery on Win
   }, 60_000)
 
   it('starts no PowerShell per tick for a profile path with a space', async () => {
-    const { command, posts, run } = await installInto('orca claude statusline space ')
+    const { command, posts, run } = await installInto('amoeba claude statusline space ')
     expect(command).toBe(LEGACY_COMMAND)
 
     const result = await run(findGitBash(), ['-xc', command], 1)

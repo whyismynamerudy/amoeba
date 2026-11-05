@@ -154,7 +154,7 @@ describe('runtime RPC startup failure reporting', () => {
         title: 'Amoeba CLI unavailable',
         message: "Amoeba couldn't start its local command transport.",
         detail: expect.stringMatching(
-          /orca status.*orca terminal.*orchestration.*Cause: metadata write failed/s
+          /amoeba status.*amoeba terminal.*orchestration.*Cause: metadata write failed/s
         )
       })
     )

@@ -143,7 +143,7 @@ describe('automation run command output', () => {
           'trigger: manual',
           'scheduledFor: 1970-01-01T00:00:00.000Z',
           ...(error ? [`error: ${error}`] : []),
-          `Follow up: orca automations runs --id ${AUTOMATION_ID}`
+          `Follow up: amoeba automations runs --id ${AUTOMATION_ID}`
         ].join('\n')
       )
       expect(callMock).toHaveBeenCalledTimes(2)
@@ -176,7 +176,7 @@ describe('automation run command output', () => {
         'terminalSessionId: tab-1',
         'terminalPaneKey: tab-1:leaf-1',
         'terminalPtyId: pty-1',
-        `Follow up: orca automations runs --id ${AUTOMATION_ID}`
+        `Follow up: amoeba automations runs --id ${AUTOMATION_ID}`
       ].join('\n')
     )
   })
@@ -214,7 +214,7 @@ describe('automation run command output', () => {
         'scheduledFor: 1970-01-01T00:00:00.000Z',
         'precheck: exit 1; Not ready',
         'error: Precheck exited with code 1.',
-        `Follow up: orca automations runs --id ${AUTOMATION_ID}`
+        `Follow up: amoeba automations runs --id ${AUTOMATION_ID}`
       ].join('\n')
     )
   })
@@ -312,7 +312,7 @@ describe('automation run command output', () => {
       const quotedEnvironment = process.platform === 'win32' ? '"Build server"' : "'Build server'"
       const output = String(log.mock.calls[0]?.[0])
       expect(output.split('\n').at(-1)).toBe(
-        `Follow up: orca automations runs --id ${AUTOMATION_ID} --environment ${quotedEnvironment}`
+        `Follow up: amoeba automations runs --id ${AUTOMATION_ID} --environment ${quotedEnvironment}`
       )
       expect(output).not.toContain('wrong-host')
       expect(callMock).toHaveBeenNthCalledWith(2, 'automation.runNow', { id: AUTOMATION_ID })
@@ -328,7 +328,7 @@ describe('automation run command output', () => {
       queueRun(run())
       await main(['automations', 'run', AUTOMATION_ID, '--environment', environment], '/tmp/repo')
       expect(String(log.mock.calls[0]?.[0]).split('\n').at(-1)).toBe(
-        `Follow up on the same host and profile (preserve your connection/profile settings): orca automations runs --id ${AUTOMATION_ID}`
+        `Follow up on the same host and profile (preserve your connection/profile settings): amoeba automations runs --id ${AUTOMATION_ID}`
       )
     }
   )
@@ -339,7 +339,7 @@ describe('automation run command output', () => {
     queueRun(run())
     await main(['automations', 'run', AUTOMATION_ID, '--environment=--build'], '/tmp/repo')
     expect(String(log.mock.calls[0]?.[0]).split('\n').at(-1)).toBe(
-      `Follow up on the same host and profile (preserve your connection/profile settings): orca automations runs --id ${AUTOMATION_ID}`
+      `Follow up on the same host and profile (preserve your connection/profile settings): amoeba automations runs --id ${AUTOMATION_ID}`
     )
   })
 
@@ -350,7 +350,7 @@ describe('automation run command output', () => {
     queueRun(run())
     await main(['automations', 'run', AUTOMATION_ID, '--environment', '$box'], '/tmp/repo')
     expect(String(log.mock.calls[0]?.[0]).split('\n').at(-1)).toBe(
-      `Follow up: orca automations runs --id ${AUTOMATION_ID} --environment '$box'`
+      `Follow up: amoeba automations runs --id ${AUTOMATION_ID} --environment '$box'`
     )
   })
 
@@ -366,7 +366,7 @@ describe('automation run command output', () => {
       queueRun(run())
       await main(['automations', 'run', AUTOMATION_ID, ...flags], '/tmp/repo')
       expect(String(log.mock.calls[0]?.[0]).split('\n').at(-1)).toBe(
-        `Follow up on the same host and profile (preserve your connection/profile settings): orca automations runs --id ${AUTOMATION_ID}`
+        `Follow up on the same host and profile (preserve your connection/profile settings): amoeba automations runs --id ${AUTOMATION_ID}`
       )
       queueRun(run())
       await main(['automations', 'run', AUTOMATION_ID, ...flags, '--json'], '/tmp/repo')
@@ -389,7 +389,7 @@ describe('automation run command output', () => {
       await main(['automations', 'run', AUTOMATION_ID, ...flags], '/tmp/repo')
       const output = String(log.mock.calls[0]?.[0])
       expect(output.split('\n').at(-1)).toBe(
-        `Follow up on the same host and profile (preserve your connection/profile settings): orca automations runs --id ${AUTOMATION_ID}${withEnvironment ? ' --environment build' : ''}`
+        `Follow up on the same host and profile (preserve your connection/profile settings): amoeba automations runs --id ${AUTOMATION_ID}${withEnvironment ? ' --environment build' : ''}`
       )
       expect(output).not.toContain('/tmp/nondefault profile')
       expect(callMock).toHaveBeenCalledTimes(2)
@@ -417,12 +417,12 @@ describe('automation run command output', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {})
     await main(['automations', 'run', '--help'], '/tmp/repo')
     expect(String(log.mock.calls[0]?.[0])).toContain(
-      'Use the full automation UUID from orca automations list; shortened prefixes are not accepted.'
+      'Use the full automation UUID from amoeba automations list; shortened prefixes are not accepted.'
     )
     expect(String(log.mock.calls[0]?.[0])).toContain(
       'A queued or dispatching run has been accepted'
     )
-    expect(String(log.mock.calls[0]?.[0])).toContain(`orca automations run ${AUTOMATION_ID}`)
+    expect(String(log.mock.calls[0]?.[0])).toContain(`amoeba automations run ${AUTOMATION_ID}`)
     expect(callMock).not.toHaveBeenCalled()
   })
 })

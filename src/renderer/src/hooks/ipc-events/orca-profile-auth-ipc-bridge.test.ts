@@ -39,7 +39,7 @@ const reconnectRequiredAuthStatus: OrcaProfileAuthStatus = {
   persistence: 'encrypted'
 }
 
-describe('orca profile auth IPC bridge', () => {
+describe('amoeba profile auth IPC bridge', () => {
   let listener: (() => void) | null = null
   const unsubscribe = vi.fn()
   const authStatus = vi.fn()
@@ -90,7 +90,7 @@ describe('orca profile auth IPC bridge', () => {
   })
 })
 
-describe('orca profile sign-in progress IPC bridge', () => {
+describe('amoeba profile sign-in progress IPC bridge', () => {
   let emitProgress: (progress: OrcaCloudSignInProgress | null) => void
   const snapshots: ((progress: OrcaCloudSignInProgress | null) => void)[] = []
   const WAITING = { link: 'https://login.example/authorize?state=a' }

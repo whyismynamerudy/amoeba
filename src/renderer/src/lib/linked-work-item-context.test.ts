@@ -26,7 +26,7 @@ const LINEAR_ITEM = {
   }
 }
 const PRODUCT_WORKFLOW_PHRASES = [
-  'orca linear',
+  'amoeba linear',
   'meta.partial',
   'install',
   'enable it from Amoeba Settings',

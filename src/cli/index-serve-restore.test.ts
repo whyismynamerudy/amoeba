@@ -43,7 +43,7 @@ vi.mock('child_process', async () => {
 import { main } from './index'
 import { useWorktreeAwarenessEnvironment } from './index-test-harness'
 
-describe('orca serve restore resume', () => {
+describe('amoeba serve restore resume', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,

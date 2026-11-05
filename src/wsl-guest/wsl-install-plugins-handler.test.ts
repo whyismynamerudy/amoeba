@@ -35,7 +35,7 @@ describe.skipIf(process.platform === 'win32')('createInstallPluginsHandler (gues
         HOME: home,
         ORCA_WSL_HOOK_INSTANCE: 'inst1'
       })
-      const source = '// orca opencode status plugin\nexport const Plugin = () => ({})\n'
+      const source = '// amoeba opencode status plugin\nexport const Plugin = () => ({})\n'
       const res = install({ opencodePluginSource: source })
 
       expect(res.installed.opencode).toBe(true)

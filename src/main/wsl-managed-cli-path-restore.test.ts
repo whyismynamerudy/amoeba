@@ -7,7 +7,7 @@ import { WSL_MANAGED_CLI_PATH_RESTORE } from './wsl-managed-cli-path-restore'
 
 const posix = process.platform !== 'win32'
 const hasZsh = posix && runProcessSync({ program: 'sh', args: ['-c', 'command -v zsh'] }).code === 0
-const root = posix ? mkdtempSync(join(tmpdir(), 'orca managed cli restore ')) : ''
+const root = posix ? mkdtempSync(join(tmpdir(), 'amoeba managed cli restore ')) : ''
 if (posix) {
   writeFileSync(join(root, 'amoeba-dev'), '#!/bin/sh\n')
   chmodSync(join(root, 'amoeba-dev'), 0o755)

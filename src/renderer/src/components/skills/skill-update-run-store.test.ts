@@ -45,9 +45,9 @@ describe('skill update runs by target', () => {
         scope: 'global',
         skills: [
           {
-            name: 'orca-cli',
+            name: 'amoeba-cli',
             status: 'ran',
-            ops: [{ path: '/skills/orca-cli', kind: 'restore', status: 'done' }]
+            ops: [{ path: '/skills/amoeba-cli', kind: 'restore', status: 'done' }]
           }
         ]
       }
@@ -60,9 +60,11 @@ describe('skill update runs by target', () => {
             ops: [{ path: '/skills/orchestration', kind: 'update', status: 'done' }]
           },
           {
-            name: 'orca-linear',
+            name: 'amoeba-linear',
             status: 'ran',
-            ops: [{ path: '/skills/orca-linear', kind: 'leave', reason: 'edited', status: 'done' }]
+            ops: [
+              { path: '/skills/amoeba-linear', kind: 'leave', reason: 'edited', status: 'done' }
+            ]
           }
         ]
       }
@@ -80,13 +82,13 @@ describe('skill update runs by target', () => {
 
       const attentionRun = startSkillUpdateRun({
         target: attentionTarget,
-        names: ['orca-cli'],
+        names: ['amoeba-cli'],
         planDigest: 'a'.repeat(64),
         force: []
       })
       await startSkillUpdateRun({
         target: successTarget,
-        names: ['orchestration', 'orca-linear'],
+        names: ['orchestration', 'amoeba-linear'],
         planDigest: 'b'.repeat(64),
         force: []
       })

@@ -42,7 +42,7 @@ describe.runIf(RUN_REAL_WINDOWS)('real Windows skill workspace installation', ()
     const repository = join(root, 'repository')
     gitWorktree = join(root, 'Git worktree-é')
     folderWorkspace = join(root, 'Folder workspace-é')
-    stateDirectory = join(root, 'orca state')
+    stateDirectory = join(root, 'amoeba state')
     const source = join(root, 'Skill source-é')
     await Promise.all([
       mkdir(homeDirectory),

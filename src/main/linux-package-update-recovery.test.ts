@@ -35,7 +35,7 @@ vi.mock('node:fs', async (importOriginal) => {
 const describePosix = describe.skipIf(process.platform === 'win32')
 
 const VERSION = '1.2.3'
-const PAYLOAD = 'orca package payload'
+const PAYLOAD = 'amoeba package payload'
 const SHA512 = createHash('sha512').update(PAYLOAD).digest('base64')
 
 let recovery: typeof RecoveryModule

@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { join } from 'node:path'
 import { APP_USER_DATA_DIR_NAME } from './app-user-data-dir'
 
-/** launchd label prefix `orca serve service install` writes; only those supervisors register. */
+/** launchd label prefix `amoeba serve service install` writes; only those supervisors register. */
 export const SERVE_LAUNCHD_LABEL_PREFIX = 'com.amoeba.desktop.serve'
 export const SERVE_COORDINATION_PROTOCOL = 1
 /** orcad restarts its own browser helper; under the serve prefix so older installers park it too. */

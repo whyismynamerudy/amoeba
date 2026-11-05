@@ -190,7 +190,7 @@ export function useSourceControlAgentActionDialog({
     groupId,
     promptDelivery,
     launchPlatform,
-    // SSH uses plain orca; preview must match instead of applying the local Linux orca-ide rename.
+    // SSH runs the plain command; preview must match instead of applying this machine's override.
     isRemote: typeof connectionId === 'string',
     launchSource,
     recoveryContext,

@@ -74,7 +74,7 @@ export function getServeSuperviseValidationError(input: {
     return null
   }
   if ((input.platform ?? process.platform) === 'win32') {
-    return '--supervise is not supported on Windows yet. Run `orca serve` under your own service wrapper instead.'
+    return '--supervise is not supported on Windows yet. Run `amoeba serve` under your own service wrapper instead.'
   }
   if (input.recipeJson) {
     return '--recipe-json starts a detached server and returns; it cannot be combined with --supervise.'

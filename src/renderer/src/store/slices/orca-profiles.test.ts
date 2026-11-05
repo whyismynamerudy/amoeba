@@ -98,7 +98,7 @@ const orcaProfilesApi = {
   transferProject: vi.fn()
 }
 
-describe('orca profile slice', () => {
+describe('amoeba profile slice', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     toastErrorMock.mockReset()

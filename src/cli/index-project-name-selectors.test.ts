@@ -54,7 +54,7 @@ const ORCA_PROJECT = {
 }
 const PROJECT_LIST_FIXTURE = okFixture('req_project_list', { projects: [ORCA_PROJECT] })
 
-describe('orca cli project and host names', () => {
+describe('amoeba cli project and host names', () => {
   const priorExitCode = process.exitCode
   afterEach(() => {
     process.exitCode = priorExitCode

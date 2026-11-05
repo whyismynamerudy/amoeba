@@ -55,8 +55,8 @@ export async function resolveJiraTarget(
     throw new RuntimeClientError(
       'invalid_argument',
       candidates.length === 0
-        ? 'No matching connected Jira site. Check orca jira connection and Amoeba Jira settings.'
-        : `Multiple Jira sites match. Select one with --${siteFlag} using orca jira connection.`
+        ? 'No matching connected Jira site. Check amoeba jira connection and Amoeba Jira settings.'
+        : `Multiple Jira sites match. Select one with --${siteFlag} using amoeba jira connection.`
     )
   }
   const site = candidates[0]

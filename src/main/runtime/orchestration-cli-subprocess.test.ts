@@ -51,7 +51,7 @@ async function runBuiltCli(
   }
 }
 
-describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
+describeIfBuilt('amoeba orchestration check --wait subprocess (§3.4)', () => {
   it('emits newline-flushed JSON keepalives to stderr while waiting', async () => {
     const [{ OrcaRuntimeService }, { OrchestrationDb }, { OrcaRuntimeRpcServer }] =
       await loadRuntimeModules()
@@ -166,7 +166,7 @@ describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
   }, 30_000)
 })
 
-describeIfBuilt('orca orchestration reset subprocess', () => {
+describeIfBuilt('amoeba orchestration reset subprocess', () => {
   it('validates reset scopes against an isolated runtime through the built CLI', async () => {
     const [{ OrcaRuntimeService }, { OrchestrationDb }, { OrcaRuntimeRpcServer }] =
       await loadRuntimeModules()
@@ -293,7 +293,7 @@ describeIfBuilt('orca orchestration reset subprocess', () => {
   }, 30_000)
 })
 
-describeIfBuilt('orca orchestration task readiness subprocess', () => {
+describeIfBuilt('amoeba orchestration task readiness subprocess', () => {
   it('creates a late dependent as ready through the built CLI and runtime', async () => {
     const [{ OrcaRuntimeService }, { OrchestrationDb }, { OrcaRuntimeRpcServer }] =
       await loadRuntimeModules()

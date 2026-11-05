@@ -23,7 +23,7 @@ const options = {
   usesMacUpdateHandoff: false
 }
 
-describe('orca serve asking the app which host to run', () => {
+describe('amoeba serve asking the app which host to run', () => {
   it("requests the app's selection entry in Node mode and parses its answer", async () => {
     const selection = {
       kind: 'orcad' as const,

@@ -8,49 +8,36 @@ import {
   parseSharedStubBlocks,
   renderSharedStubBody
 } from './skill-stub-composition.mjs'
+import { GUIDE_ALIASES } from './skill-guide-aliases.mjs'
 
 const SCRIPT_DIR = import.meta.dirname
 const REPO_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 
 const CANONICAL_GUIDE_NAMES = [
+  'amoeba-cli',
+  'amoeba-emulator',
+  'amoeba-emulator-android',
+  'amoeba-jira',
+  'amoeba-linear',
+  'amoeba-per-workspace-env',
   'computer-use',
   'jira-tickets',
   'linear-tickets',
-  'orca-cli',
-  'orca-emulator',
-  'orca-emulator-android',
-  'orca-jira',
-  'orca-linear',
-  'orca-per-workspace-env',
   'orchestration'
 ]
-
-// Aliases preserve renamed discovery stubs; append ledger entries, never remove them.
-const GUIDE_ALIASES = {
-  'computer-use': [],
-  'jira-tickets': [],
-  'linear-tickets': [],
-  'orca-cli': [],
-  'orca-emulator': [],
-  'orca-emulator-android': [],
-  'orca-jira': [],
-  'orca-linear': [],
-  'orca-per-workspace-env': [],
-  orchestration: []
-}
 
 // Stubbed topics install thin projections but skills get serves full version-matched guides.
 // Migration is one-way: old fat installs need new stubs to converge, so only add STUB_TOPICS; bodies live in skill-stubs/<topic>.md.
 const STUB_TOPICS = [
+  'amoeba-cli',
+  'amoeba-emulator',
+  'amoeba-emulator-android',
+  'amoeba-jira',
+  'amoeba-linear',
+  'amoeba-per-workspace-env',
   'computer-use',
   'jira-tickets',
   'linear-tickets',
-  'orca-cli',
-  'orca-emulator',
-  'orca-emulator-android',
-  'orca-jira',
-  'orca-linear',
-  'orca-per-workspace-env',
   'orchestration'
 ]
 

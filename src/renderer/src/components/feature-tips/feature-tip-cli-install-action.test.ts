@@ -33,7 +33,7 @@ describe('feature tip CLI install action', () => {
   it('returns needs-attention when installation does not finish cleanly', async () => {
     const status = cliStatus({
       state: 'conflict',
-      detail: 'Another orca command is already on PATH.'
+      detail: 'Another amoeba command is already on PATH.'
     })
 
     await expect(installCliFromFeatureTip(async () => status)).resolves.toEqual({

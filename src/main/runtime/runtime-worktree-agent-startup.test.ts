@@ -48,7 +48,7 @@ const settings = {
   defaultTuiAgent: null
 }
 
-/** The launched CLI name is the whole decision: `orca` is the relay shim, `orca-ide` is local. */
+/** The launched CLI name is the whole decision. */
 function launchCliNameFor(repo: Repo): string {
   return buildWorktreeStartupForAgent({
     repo,
@@ -60,26 +60,13 @@ function launchCliNameFor(repo: Repo): string {
 }
 
 describe('buildWorktreeStartupForAgent host resolution', () => {
-  // Two hosts catch launch shapes resolved from another host's row (ssh:m4air to openclaw leak).
-  it('drops the Linux-only rename for both spellings of SSH ownership on two hosts', () => {
-    expect(launchCliNameFor(makeRepo({ connectionId: 'm4air' }))).toBe('orca')
-    expect(launchCliNameFor(makeRepo({ executionHostId: 'ssh:openclaw' }))).toBe('orca')
-  })
-
-  it('keeps the Linux rename for a local row carrying a stale connection', () => {
+  it('launches plain `amoeba` on Linux for SSH, local and runtime hosts alike', () => {
+    expect(launchCliNameFor(makeRepo({ connectionId: 'm4air' }))).toBe('amoeba')
+    expect(launchCliNameFor(makeRepo({ executionHostId: 'ssh:openclaw' }))).toBe('amoeba')
     expect(launchCliNameFor(makeRepo({ connectionId: 'm4air', executionHostId: 'local' }))).toBe(
-      'orca-ide'
+      'amoeba'
     )
-  })
-
-  it('drops the rename for a runtime host reaching a nested SSH target', () => {
-    expect(
-      launchCliNameFor(makeRepo({ connectionId: 'nested', executionHostId: 'runtime:vm-1' }))
-    ).toBe('orca')
-  })
-
-  it('keeps the rename for a runtime host with no nested SSH target', () => {
-    expect(launchCliNameFor(makeRepo({ executionHostId: 'runtime:vm-1' }))).toBe('orca-ide')
+    expect(launchCliNameFor(makeRepo({ executionHostId: 'runtime:vm-1' }))).toBe('amoeba')
   })
 
   it('uses per-launch arguments and preserves launch telemetry', () => {
@@ -170,7 +157,7 @@ describe('buildWorktreeStartupForAgent prompt carry', () => {
   })
 
   it('keeps folding the prompt for a caller that delivers nothing afterwards', () => {
-    // `orca worktree create --prompt` has no post-start paste of its own for an argv agent.
+    // `amoeba worktree create --prompt` has no post-start paste of its own for an argv agent.
     expect(build().startup.command).toContain('summarize the diff')
   })
 })

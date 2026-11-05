@@ -55,7 +55,7 @@ const profiles = new Set<string>()
 type AppImageInstall = { appImagePath: string; mountPath: string; cacheHome: string }
 
 function cacheRootOf(install: AppImageInstall): string {
-  return join(install.cacheHome, 'orca', 'appimage')
+  return join(install.cacheHome, 'amoeba', 'appimage')
 }
 
 async function installAppImage(name: string): Promise<AppImageInstall> {
@@ -82,8 +82,8 @@ function extractCopy(install: AppImageInstall, version: string, withNode = true)
   })!.rootPath
   const resources = join(generation, 'resources')
   mkdirSync(join(resources, 'bin'), { recursive: true })
-  writeFileSync(join(resources, 'bin', 'orca-ide'), '#!/bin/sh\n')
-  chmodSync(join(resources, 'bin', 'orca-ide'), 0o755)
+  writeFileSync(join(resources, 'bin', 'amoeba'), '#!/bin/sh\n')
+  chmodSync(join(resources, 'bin', 'amoeba'), 0o755)
   cpSync(
     join(install.mountPath, 'resources', 'app.asar.unpacked'),
     join(resources, 'app.asar.unpacked'),

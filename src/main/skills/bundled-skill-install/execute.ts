@@ -12,6 +12,7 @@ import { acquireSkillInstallLock, skillInstallLockPath } from '../skill-install-
 import type { BundledSkillSource } from './bundled-skill-sources'
 import { classifyBundledSkillPath } from './classify'
 import { filesystemErrorCode } from './filesystem'
+import { isFormerBundledSkillPath, selectBundledSkillSources } from './former-skill-names'
 import { buildBundledSkillPlan, sameBundledSkillObserved, type BundledSkillPlanInput } from './plan'
 import {
   BundledSkillChangedError,
@@ -20,6 +21,7 @@ import {
   putBundledSkillFolder,
   removeBundledSkillSibling,
   replaceBundledSkillPath,
+  retireBundledSkillFormerCopy,
   swapBundledSkillFolder
 } from './swap'
 import { bundledSkillPathKey, resolveBundledSkillTargets } from './targets'
@@ -38,7 +40,10 @@ type SkillRun = {
 /** Lock literal paths consistently with delete/cloud installs; sort to prevent deadlocks. */
 async function lockPaths(input: BundledSkillExecuteInput): Promise<string[]> {
   const roots = await resolveBundledSkillTargets(input, input.filesystem)
-  const names = input.names ?? input.sources.map((source) => source.name)
+  const names = selectBundledSkillSources(input).flatMap((source) => [
+    source.name,
+    ...(source.formerNames ?? [])
+  ])
   return [
     ...new Map(
       roots.flatMap((root) =>
@@ -105,6 +110,10 @@ function backupFor(run: SkillRun): string {
 
 async function settleCleanup(run: SkillRun, cleanup: BundledSkillCleanup) {
   await requireUnchanged(run, cleanup.path, cleanup.observed)
+  if (cleanup.action === 'delete' && isFormerBundledSkillPath(run.source, cleanup.path)) {
+    await retireBundledSkillFormerCopy(run.input.filesystem, cleanup.path, run.entry.name)
+    return
+  }
   await (cleanup.action === 'delete'
     ? removeBundledSkillSibling(run.input.filesystem, cleanup.path)
     : backUpBundledSkillPath(run.input.filesystem, cleanup.path, backupFor(run)))

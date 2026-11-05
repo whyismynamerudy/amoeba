@@ -9,15 +9,15 @@ describe('live remote freeze RPC', () => {
   it('resolves the Amoeba CLI for managed, dev, Linux, and default runtimes', () => {
     expect(resolveOrcaCliCommand({ env: { ORCA_CLI_COMMAND: 'custom-orca' } })).toBe('custom-orca')
     expect(resolveOrcaCliCommand({ env: { ORCA_DEV_REPO_ROOT: '/repo' } })).toBe('amoeba-dev')
-    expect(resolveOrcaCliCommand({ env: {}, platform: 'linux' })).toBe('orca-ide')
-    expect(resolveOrcaCliCommand({ env: {}, platform: 'win32' })).toBe('orca')
+    expect(resolveOrcaCliCommand({ env: {}, platform: 'linux' })).toBe('amoeba')
+    expect(resolveOrcaCliCommand({ env: {}, platform: 'win32' })).toBe('amoeba')
   })
 
   it('bypasses the Windows dev cmd shim with the built Node CLI', () => {
     const invocation = resolveOrcaCliInvocation({
       env: {
         APPDATA: 'C:\\Users\\dev\\AppData\\Roaming',
-        ORCA_CLI_COMMAND: 'C:\\repo\\out\\bin\\orca-dev.cmd',
+        ORCA_CLI_COMMAND: 'C:\\repo\\out\\bin\\amoeba-dev.cmd',
         ORCA_DEV_REPO_ROOT: 'C:\\repo'
       },
       platform: 'win32',

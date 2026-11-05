@@ -5,49 +5,49 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['skills', 'installed'],
     summary: 'List installed skill selectors',
-    usage: 'orca skills installed [--json]',
+    usage: 'amoeba skills installed [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [
       'Lists discovery IDs and names without reading skill contents into the CLI.',
       'Package metadata is validated when the selected skills are shared.',
-      'Use an exact ID or an unambiguous name with `orca skills share --skill <selector>`.'
+      'Use an exact ID or an unambiguous name with `amoeba skills share --skill <selector>`.'
     ]
   },
   {
     path: ['skills', 'share'],
     summary: 'Publish explicitly selected installed skills behind one unlisted link',
     usage:
-      'orca skills share --skill <selector> [--skill <selector> ...] --bundle-name <name> ' +
+      'amoeba skills share --skill <selector> [--skill <selector> ...] --bundle-name <name> ' +
       '[--release-notes <text>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'skill', 'bundle-name', 'release-notes'],
     notes: [
       'Requires the default-off permission in Settings → Share Skills.',
       'The bundle name may be human-readable; Amoeba converts it to a portable lowercase package name.',
-      'Selectors are exact discovery IDs or unambiguous names from `orca skills installed`.',
+      'Selectors are exact discovery IDs or unambiguous names from `amoeba skills installed`.',
       'Only discovered skill directories can be selected; arbitrary paths and --all are not supported.',
       'The resulting link is unlisted. Anyone with it can inspect and install the bundle.'
     ],
     examples: [
-      'orca skills share --skill frontend --bundle-name "Frontend Skills"',
-      'orca skills share --skill frontend --skill testing --bundle-name "Team Toolkit" --json'
+      'amoeba skills share --skill frontend --bundle-name "Frontend Skills"',
+      'amoeba skills share --skill frontend --skill testing --bundle-name "Team Toolkit" --json'
     ]
   },
   {
     path: ['skills', 'list'],
     summary: 'List version-matched skill guides bundled with this Amoeba CLI',
-    usage: 'orca skills list [--json]',
+    usage: 'amoeba skills list [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
     notes: [
       'Reads bundled guide metadata locally without contacting the Amoeba runtime.',
       'With --json, prints a topics array of canonical names and one-line descriptions.',
-      'Use `orca skills get <name>` for the compact guide, `--full` for its full reference package, or `orca skills install` to install skills.'
+      'Use `amoeba skills get <name>` for the compact guide, `--full` for its full reference package, or `amoeba skills install` to install skills.'
     ]
   },
   {
     path: ['skills', 'get'],
     aliases: [['skills', 'show']],
     summary: 'Print a version-matched skill guide as Markdown',
-    usage: 'orca skills get <topic> [--full | --reference <name>] [--json]',
+    usage: 'amoeba skills get <topic> [--full | --reference <name>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'topic', 'full', 'reference', 'references'],
     positionalArgs: ['topic'],
     notes: [
@@ -58,17 +58,17 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
       'Use --json for a deterministic object containing canonical topic metadata and content.'
     ],
     examples: [
-      'orca skills get orca-cli',
-      'orca skills get orchestration --full',
-      'orca skills get orchestration --references',
-      'orca skills get orchestration --reference recovery-and-cleanup'
+      'amoeba skills get amoeba-cli',
+      'amoeba skills get orchestration --full',
+      'amoeba skills get orchestration --references',
+      'amoeba skills get orchestration --reference recovery-and-cleanup'
     ]
   },
   {
     path: ['skills', 'install'],
     summary: 'Install bundled Amoeba skills on this machine',
     usage:
-      'orca skills install [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
+      'amoeba skills install [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
       '[--local] [--force] [--dry-run] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'skill', 'all', 'agent', 'local', 'force', 'dry-run'],
     notes: [
@@ -90,33 +90,33 @@ export const SKILL_COMMAND_SPECS: CommandSpec[] = [
       'Omit --skill and --all to list installable skill names.'
     ],
     examples: [
-      'orca skills install --skill orca-cli --skill orchestration',
-      'orca skills install --skill orca-cli --local',
-      'orca skills install --skill orca-cli --agent claude,codex',
-      'orca skills install --all --dry-run'
+      'amoeba skills install --skill amoeba-cli --skill orchestration',
+      'amoeba skills install --skill amoeba-cli --local',
+      'amoeba skills install --skill amoeba-cli --agent claude,codex',
+      'amoeba skills install --all --dry-run'
     ]
   },
   {
     path: ['skills', 'update'],
     summary: 'Update Amoeba skills to the version this Amoeba build ships',
     usage:
-      'orca skills update [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
+      'amoeba skills update [--skill <name>]... [--all] [--agent <name>[,<name>]] ' +
       '[--local] [--force] [--dry-run] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'skill', 'all', 'agent', 'local', 'force', 'dry-run'],
     notes: [
-      'Runs the same planner as `orca skills install`, but only at locations that already ' +
+      'Runs the same planner as `amoeba skills install`, but only at locations that already ' +
         'hold the skill; it never adds a skill, or an existing skill for another agent.',
       'Updates each untouched copy where it is; other copies are skipped unless you ' +
-        'pass --force. Use `orca skills install` to add a skill for a newly detected agent.',
+        'pass --force. Use `amoeba skills install` to add a skill for a newly detected agent.',
       'Updates the global install by default. Use --local to update the current project.',
       'Use --dry-run to print what would change and the plan digest without writing.',
       'With --json, both dry runs and real runs print the plan, and real runs the result.',
       'Omit --skill and --all to list updatable skill names.'
     ],
     examples: [
-      'orca skills update --all',
-      'orca skills update --skill orca-cli --dry-run',
-      'orca skills update --all --force'
+      'amoeba skills update --all',
+      'amoeba skills update --skill amoeba-cli --dry-run',
+      'amoeba skills update --all --force'
     ]
   }
 ]

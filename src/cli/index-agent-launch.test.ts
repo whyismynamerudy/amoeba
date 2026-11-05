@@ -68,7 +68,7 @@ function launchCalls(): unknown[][] {
   )
 }
 
-describe('orca cli agent launch', () => {
+describe('amoeba cli agent launch', () => {
   useWorktreeAwarenessEnvironment({
     callMock,
     serveOrcaAppMock,

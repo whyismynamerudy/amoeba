@@ -20,12 +20,18 @@ describe('embedded bundled skill sources', () => {
   })
 
   it('list this build’s digest and agree with the released ledger', async () => {
-    const ledger = JSON.parse(
-      await readFile(join(REPO_ROOT, 'resources', 'skills', 'released-digests.json'), 'utf8')
-    )
+    const readLedger = async (file: string) =>
+      JSON.parse(await readFile(join(REPO_ROOT, 'resources', 'skills', file), 'utf8'))
+    const ledger = await readLedger('released-digests.json')
+    const formerNameLedger = await readLedger('former-name-digests.json')
     for (const source of BUNDLED_SKILL_SOURCES) {
       expect(source.releasedDigests).toContain(bundledSkillTextDigest(Buffer.from(source.text)))
-      expect(source.releasedDigests).toEqual(ledger.skills[source.name])
+      const formerDigests = (source.formerNames ?? []).flatMap(
+        (name) => formerNameLedger.skills[name] ?? []
+      )
+      expect(source.releasedDigests).toEqual(
+        [...new Set([...ledger.skills[source.name], ...formerDigests])].sort()
+      )
     }
   })
 })

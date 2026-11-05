@@ -524,7 +524,7 @@ describe('forgetting one settled worker', () => {
           ? { sessionId, dispatchId: mailboxHandle.slice('dispatch:'.length) }
           : null
       },
-      getCliCommand: () => 'orca',
+      getCliCommand: () => 'amoeba',
       senderName: () => null,
       host: {
         readSessionFacts: async () => (attached ? { submissions: [] } : null),

@@ -22,11 +22,14 @@ import {
 const mocks = vi.hoisted(() => ({ plan: vi.fn(), execute: vi.fn(), localLoading: false }))
 const LOCAL = { kind: 'local' } as const
 const REMOTE = { kind: 'environment', environmentId: 'active-remote' } as const
-const EDITED_PATH = '/home/u/.claude/skills/orca-cli'
+const EDITED_PATH = '/home/u/.claude/skills/amoeba-cli'
 const localPlan = planOf([
-  planEntry('orca-cli', [planOp('leave', EDITED_PATH, { reason: 'edited', replaceable: true })])
+  planEntry('amoeba-cli', [planOp('leave', EDITED_PATH, { reason: 'edited', replaceable: true })])
 ])
-const forcedPlan = planOf([planEntry('orca-cli', [planOp('replace', EDITED_PATH)])], 'c'.repeat(64))
+const forcedPlan = planOf(
+  [planEntry('amoeba-cli', [planOp('replace', EDITED_PATH)])],
+  'c'.repeat(64)
+)
 const remotePlan = planOf([sharedEntry('orchestration', 'update')])
 
 vi.mock('@/hooks/useActiveProjectSkillRuntime', () => ({
@@ -80,7 +83,7 @@ function setupAndReview(): React.JSX.Element {
       <AgentSkillSetupPanel
         title="CLI Settings"
         description={null}
-        skillNames={['orca-cli']}
+        skillNames={['amoeba-cli']}
         target={LOCAL}
         installed
         loading={false}
@@ -96,14 +99,14 @@ it('reviews and replaces the setup panel host while a remote workspace is active
   const view = render(setupAndReview())
   fireEvent.click(await screen.findByRole('button', { name: 'Details' }))
   const dialog = within(screen.getByRole('dialog'))
-  expect(dialog.getByText('orca-cli')).toBeDefined()
+  expect(dialog.getByText('amoeba-cli')).toBeDefined()
   expect(dialog.queryByText('orchestration')).toBeNull()
   fireEvent.click(dialog.getByRole('button', { name: 'Show folders' }))
-  expect(dialog.getByText(/~\/.claude\/skills\/orca-cli/)).toBeDefined()
+  expect(dialog.getByText(/~\/.claude\/skills\/amoeba-cli/)).toBeDefined()
 
   mocks.localLoading = true
   view.rerender(setupAndReview())
-  expect(dialog.getByText('orca-cli')).toBeDefined()
+  expect(dialog.getByText('amoeba-cli')).toBeDefined()
   expect(dialog.queryByText('orchestration')).toBeNull()
   mocks.localLoading = false
   view.rerender(setupAndReview())
@@ -124,7 +127,7 @@ it('uses the active workspace for requests without an originating target', async
   render(<SkillFreshnessUpdateDialog />)
   const dialog = within(screen.getByRole('dialog'))
   expect(dialog.getByText('orchestration')).toBeDefined()
-  expect(dialog.queryByText('orca-cli')).toBeNull()
+  expect(dialog.queryByText('amoeba-cli')).toBeNull()
   fireEvent.click(dialog.getByRole('button', { name: 'Update 1 skill' }))
   await waitFor(() =>
     expect(mocks.execute).toHaveBeenCalledWith(REMOTE, remotePlan.planDigest, { force: [] })

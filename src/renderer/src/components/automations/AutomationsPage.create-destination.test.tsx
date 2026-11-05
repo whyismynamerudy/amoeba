@@ -86,7 +86,7 @@ function addSshProject(): void {
 function addCollidingRuntimeProject(): void {
   const repo = {
     id: REPO_ID,
-    displayName: 'orca on m4-air',
+    displayName: 'amoeba on m4-air',
     path: '/repos/orca',
     badgeColor: '#111111',
     addedAt: 1,
@@ -102,7 +102,7 @@ function addCollidingRuntimeProject(): void {
       hostId: `runtime:${RUNTIME_ID}`,
       repoId: REPO_ID,
       path: '/repos/orca',
-      displayName: 'orca on m4-air',
+      displayName: 'amoeba on m4-air',
       setupState: 'ready',
       setupMethod: 'legacy-repo',
       createdAt: 1,

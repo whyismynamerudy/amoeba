@@ -3,6 +3,7 @@ import type { CliInstallStatus } from '../../shared/cli-install-types'
 import { resolveAppImageCacheKey } from '../cli/appimage-extracted-root'
 import { CliInstaller } from '../cli/cli-installer'
 import { runKeyedSerializedOperation } from '../cli/keyed-promise-queue'
+import { migrateLegacyCliRegistration } from '../cli/legacy-cli-registration-migration'
 import {
   recordWslCliRegistrationInstalled,
   recordWslCliRegistrationRemoved
@@ -85,11 +86,21 @@ export function registerCliHandlers(): void {
     promise: Promise<CliInstallStatus | null>
     retryAfter: number
   } | null = null
+  let legacyMigrationAttempted = false
 
   ipcMain.handle('cli:getInstallStatus', async (): Promise<CliInstallStatus> => {
     await hydrateLocalShellPathForCli()
     const installer = new CliInstaller()
     const status = await installer.getStatus()
+    if (!legacyMigrationAttempted && status.state === 'not_installed') {
+      legacyMigrationAttempted = true
+      const migrated = await runLocalCliRegistrationOperation(() =>
+        migrateLegacyCliRegistration(status)
+      )
+      if (migrated) {
+        return migrated
+      }
+    }
     // AppImage updates replace the outer file while managed links can retain the old extracted payload.
     const repairKey = resolveStaleAppImageRepairKey(status)
     if (!repairKey || installer.isAppImageRegistrationOwnedBySibling(status)) {

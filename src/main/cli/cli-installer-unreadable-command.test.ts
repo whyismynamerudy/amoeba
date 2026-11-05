@@ -1,4 +1,4 @@
-import { chmod, copyFile, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
+import { chmod, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { CliInstaller } from './cli-installer'
@@ -15,14 +15,13 @@ async function createUnreadableCommandFixture() {
   const fixture = await makeFixture()
   roots.push(fixture.root)
   const resourcesPath = await createPackagedMacLauncher(fixture.root)
-  await copyFile(join(resourcesPath, 'bin', 'orca'), join(resourcesPath, 'bin', 'orca-ide'))
   const defaultBin = join(fixture.root, 'default', 'bin')
   const foreignBin = join(fixture.root, 'foreign', 'bin')
   await mkdir(defaultBin, { recursive: true })
   await mkdir(foreignBin, { recursive: true })
-  const commandPath = join(defaultBin, 'orca')
-  const foreignPath = join(foreignBin, 'orca')
-  await symlink(join(resourcesPath, 'bin', 'orca'), commandPath)
+  const commandPath = join(defaultBin, 'amoeba')
+  const foreignPath = join(foreignBin, 'amoeba')
+  await symlink(join(resourcesPath, 'bin', 'amoeba'), commandPath)
   await writeFile(foreignPath, unreadableContents, { mode: 0o111 })
   return { ...fixture, resourcesPath, defaultBin, foreignBin, commandPath, foreignPath }
 }

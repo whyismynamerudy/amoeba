@@ -24,7 +24,7 @@ describe('setup result details', () => {
     ['link', 'Linked'],
     ['keep', 'No change']
   ] as const)('uses the outcome API for a %s result without setup changes', (kind, headline) => {
-    const result = doneResult(planOf([sharedEntry('orca-cli', kind)]))
+    const result = doneResult(planOf([sharedEntry('amoeba-cli', kind)]))
     expect(skillInstallResultLine(result)).toBe(headline)
   })
 
@@ -42,9 +42,9 @@ describe('setup result details', () => {
     [undefined, 'This copy was kept as it is']
   ] as const)('names the agent for a %s copy', (reason, text) => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('write', '/home/u/.agents/skills/orca-cli'),
-        planOp('leave', '/home/u/.claude/skills/orca-cli', { reason })
+      planEntry('amoeba-cli', [
+        planOp('write', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('leave', '/home/u/.claude/skills/amoeba-cli', { reason })
       ])
     ])
     expect(resultLine(plan)).toBe(`Installed · Update skipped in Claude Code: ${text}`)
@@ -52,10 +52,13 @@ describe('setup result details', () => {
 
   it('uses the same reason text for several skipped places', () => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('write', '/home/u/.agents/skills/orca-cli'),
-        planOp('leave', '/home/u/.claude/skills/orca-cli', { reason: 'edited' }),
-        planOp('leave', '/home/u/.cursor/skills/orca-cli', { reason: 'edited', agents: ['cursor'] })
+      planEntry('amoeba-cli', [
+        planOp('write', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('leave', '/home/u/.claude/skills/amoeba-cli', { reason: 'edited' }),
+        planOp('leave', '/home/u/.cursor/skills/amoeba-cli', {
+          reason: 'edited',
+          agents: ['cursor']
+        })
       ])
     ])
     expect(resultLine(plan)).toBe(
@@ -65,10 +68,13 @@ describe('setup result details', () => {
 
   it('keeps distinct reasons for several places', () => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('write', '/home/u/.agents/skills/orca-cli'),
-        planOp('leave', '/home/u/.claude/skills/orca-cli', { reason: 'edited' }),
-        planOp('leave', '/home/u/.cursor/skills/orca-cli', { reason: 'other', agents: ['cursor'] })
+      planEntry('amoeba-cli', [
+        planOp('write', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('leave', '/home/u/.claude/skills/amoeba-cli', { reason: 'edited' }),
+        planOp('leave', '/home/u/.cursor/skills/amoeba-cli', {
+          reason: 'other',
+          agents: ['cursor']
+        })
       ])
     ])
     expect(resultLine(plan)).toBe(
@@ -77,7 +83,7 @@ describe('setup result details', () => {
   })
 
   it('reports the backup only when a replacement finished', () => {
-    const plan = planOf([sharedEntry('orca-cli', 'replace')])
+    const plan = planOf([sharedEntry('amoeba-cli', 'replace')])
     const result = doneResult(plan)
     expect(resultLine(plan)).toBe('Replaced · Your copy was saved as a backup')
     result.skills[0].ops[0].status = 'failed'
@@ -88,9 +94,9 @@ describe('setup result details', () => {
 
   it('keeps the install-for suffix after a replacement', () => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('replace', '/home/u/.agents/skills/orca-cli'),
-        planOp('link', '/home/u/.cursor/skills/orca-cli', { agents: ['cursor'] })
+      planEntry('amoeba-cli', [
+        planOp('replace', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('link', '/home/u/.cursor/skills/amoeba-cli', { agents: ['cursor'] })
       ])
     ])
     expect(resultLine(plan)).toBe(
@@ -110,15 +116,15 @@ describe('setup attention details', () => {
     [undefined, 'Needs attention']
   ] as const)('explains a %s blocker', (reason, message) => {
     const plan = planOf([
-      planEntry('orca-cli', [planOp('leave', '/home/u/.claude/skills/orca-cli', { reason })])
+      planEntry('amoeba-cli', [planOp('leave', '/home/u/.claude/skills/amoeba-cli', { reason })])
     ])
     expect(bundledSkillSetupAttentionMessage(plan)).toBe(message)
   })
 
   it('uses the owning Windows host’s home formatter', () => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('leave', 'C:\\Users\\Agent\\.claude\\skills\\orca-cli', { reason: 'unwritable' })
+      planEntry('amoeba-cli', [
+        planOp('leave', 'C:\\Users\\Agent\\.claude\\skills\\amoeba-cli', { reason: 'unwritable' })
       ])
     ])
     plan.homeDirectory = 'c:\\users\\agent'

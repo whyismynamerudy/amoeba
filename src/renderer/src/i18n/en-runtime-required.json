@@ -1517,7 +1517,7 @@
           "7b5986c8df": "Connected to {{value0}}. To create new projects there by default, choose it under Advanced > Default host for new projects.",
           "84b9b2be05": "Create a revocable access grant so a browser or another Amoeba client can connect.",
           "8cf8790697": "Saved servers route this browser through a paired Amoeba runtime.",
-          "960e901ae4": "orca serve --pairing-address <host>",
+          "960e901ae4": "amoeba serve --pairing-address <host>",
           "9a3758d983": "No saved servers.",
           "9bc9b83474": "Pairing code",
           "9bee6bbeeb": "Add Server",
@@ -1565,7 +1565,7 @@
           "connectionDetails": "Connection details",
           "endpointKind": "Endpoint kind",
           "getLink": "Get an access link from the other host",
-          "headlessHelp": "Using headless orca serve? Run orca serve --pairing-address <reachable-host> on the other computer.",
+          "headlessHelp": "Using headless amoeba serve? Run amoeba serve --pairing-address <reachable-host> on the other computer.",
           "loopbackRecovery": "On the other computer, create a new link using Another device and choose its Tailscale or LAN address.",
           "name": "Name in Amoeba",
           "nameHelp": "This only changes how the computer appears in Amoeba.",
@@ -1974,6 +1974,11 @@
           "refreshLinks": "Refresh",
           "showButton": "Show Skills button"
         },
+        "shortcuts": {
+          "search": {
+            "afda131738": "amoeba first"
+          }
+        },
         "ssh": {
           "search": {
             "62826efbe9": "Add a new remote SSH target.",
@@ -2076,7 +2081,7 @@
       "sidebar": {
         "AddRemoteHostDialog": {
           "pairingCode": "Pairing code",
-          "pairingCommand": "orca serve --pairing-address <host>",
+          "pairingCommand": "amoeba serve --pairing-address <host>",
           "pairingHelpPrefix": "Run",
           "pairingHelpSuffix": "on the server and paste the printed pairing URL.",
           "serverName": "Server name",

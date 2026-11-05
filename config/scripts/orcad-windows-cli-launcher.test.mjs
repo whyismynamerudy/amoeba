@@ -38,7 +38,7 @@ it('stages the prepared launcher for the requested machine at the slot command p
   const { root, output } = fixture()
   const source = prepare(root, 'arm64', 0xaa64)
   stageOrcadWindowsCliLauncher(root, output, 'win32-arm64', { platform: 'linux' })
-  expect(readFileSync(join(output, 'bin', 'orca.exe'))).toEqual(readFileSync(source))
+  expect(readFileSync(join(output, 'bin', 'amoeba.exe'))).toEqual(readFileSync(source))
 })
 
 it('rejects a launcher built for the wrong machine', () => {
@@ -58,7 +58,7 @@ it('refuses a missing launcher off Windows and compiles it on Windows', () => {
   })
   stageOrcadWindowsCliLauncher(root, output, 'win32-x64', { platform: 'win32' }, compile)
   expect(compile).toHaveBeenCalledWith(root, 'x64', orcadWindowsCliLauncherSource(root, 'x64'))
-  expect(readFileSync(join(output, 'bin', 'orca.exe'))).toEqual(peImage(0x8664))
+  expect(readFileSync(join(output, 'bin', 'amoeba.exe'))).toEqual(peImage(0x8664))
 })
 
 it('ignores POSIX targets', () => {

@@ -1,13 +1,13 @@
 import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { isAppImageCacheKey } from '../../shared/appimage-cache-identity'
-import { LINUX_CLI_COMMAND_NAME } from './bundled-cli-launcher-path'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../shared/orca-cli-command-name'
 
 export { isAppImageCacheKey }
 
 export function resolveCachedAppImagePayloadRoot(
   cacheRootPath: string,
   candidatePath: string,
-  launcherName = LINUX_CLI_COMMAND_NAME
+  launcherName = AMOEBA_CLI_COMMAND_NAME
 ): string | null {
   if (!isAbsolute(candidatePath)) {
     return null

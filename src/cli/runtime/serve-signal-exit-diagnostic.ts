@@ -26,8 +26,8 @@ export function serveSignalExitError(
     'Amoeba serve aborted with SIGABRT on macOS. This most often happens at application startup, when the process cannot register with Launch Services (_RegisterApplication / +[NSApplication sharedApplication]) before any Amoeba JavaScript runs. That is common in sandboxed agent environments, SSH sessions without a GUI login, and CI. Confirm the crashing frame in the crash report; this is not the Electron UTF-8 write abort (electron/electron#51871).',
     {
       nextSteps: [
-        'If a desktop Amoeba is already running, use `orca status` / `orca` against that instance instead of `orca serve`.',
-        'Re-run `orca serve` outside a sandboxed or restricted environment, with a macOS desktop login active. Later `orca serve` runs from this same environment refuse for 30 minutes; pass --force to try anyway.',
+        'If a desktop Amoeba is already running, use `amoeba status` / `amoeba` against that instance instead of `amoeba serve`.',
+        'Re-run `amoeba serve` outside a sandboxed or restricted environment, with a macOS desktop login active. Later `amoeba serve` runs from this same environment refuse for 30 minutes; pass --force to try anyway.',
         `Look for a crash report at ${MAC_CRASH_REPORT_GLOB}. If the crashing frame is _RegisterApplication, this is the startup-registration abort.`
       ]
     }

@@ -31,7 +31,7 @@ expected Dispatch settles. Heartbeat or visible activity means alive, not done.
 Use a stable Dispatch address for attempt-specific coordinator guidance:
 
 ```text
-ORCA orchestration send --to dispatch:<dispatch_id> --subject "Follow-up" --body "<guidance>" --json
+AMOEBA orchestration send --to dispatch:<dispatch_id> --subject "Follow-up" --body "<guidance>" --json
 ```
 
 Do not substitute a remote terminal handle. Omit `--from` for ordinary
@@ -62,9 +62,9 @@ same way.
 Use a gate only for a coordinator-owned Task-DAG decision:
 
 ```text
-ORCA orchestration gate-create --task <task_id> --question "<decision>" --options <json_array> --json
-ORCA orchestration gate-resolve --id <gate_id> --resolution "<choice>" --json
-ORCA orchestration gate-list --task <task_id> --json
+AMOEBA orchestration gate-create --task <task_id> --question "<decision>" --options <json_array> --json
+AMOEBA orchestration gate-resolve --id <gate_id> --resolution "<choice>" --json
+AMOEBA orchestration gate-list --task <task_id> --json
 ```
 
 Pass `json_array` using the quoting rules of the active shell; do not copy POSIX

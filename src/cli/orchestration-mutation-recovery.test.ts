@@ -13,7 +13,7 @@ describe('orchestration mutation recovery', () => {
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_1',
         dispatchId: 'dispatch_1',
-        originalCommand: ['orca', 'orchestration', 'worker-start', '--task', 'task_1']
+        originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_1']
       })
     ) as RuntimeClientError
 
@@ -22,7 +22,7 @@ describe('orchestration mutation recovery', () => {
         orchestrationRequestId: 'request_1',
         dispatchId: 'dispatch_1',
         queryCommand: [
-          'orca',
+          'amoeba',
           'orchestration',
           'worker-show',
           '--dispatch',
@@ -30,7 +30,7 @@ describe('orchestration mutation recovery', () => {
           '--json'
         ],
         retryCommand: [
-          'orca',
+          'amoeba',
           'orchestration',
           'worker-start',
           '--task',
@@ -41,12 +41,12 @@ describe('orchestration mutation recovery', () => {
         workerDeathInferred: false
       }
     })
-    expect(result.message.indexOf('orca orchestration worker-show')).toBeLessThan(
-      result.message.indexOf('orca orchestration worker-start')
+    expect(result.message.indexOf('amoeba orchestration worker-show')).toBeLessThan(
+      result.message.indexOf('amoeba orchestration worker-start')
     )
     expect((result.data as { nextSteps?: string[] }).nextSteps).toEqual([
-      'Run orca orchestration worker-show --dispatch dispatch_1 --json before retrying.',
-      'After inspecting the Dispatch, if keyed recovery is still needed, run orca orchestration worker-start --task task_1 --retry-request request_1 from this same terminal. --retry-request reuses the same operation identity so Amoeba can replay, join, or safely recover it without starting a separate duplicate.'
+      'Run amoeba orchestration worker-show --dispatch dispatch_1 --json before retrying.',
+      'After inspecting the Dispatch, if keyed recovery is still needed, run amoeba orchestration worker-start --task task_1 --retry-request request_1 from this same terminal. --retry-request reuses the same operation identity so Amoeba can replay, join, or safely recover it without starting a separate duplicate.'
     ])
   })
 
@@ -54,7 +54,7 @@ describe('orchestration mutation recovery', () => {
     const result = orchestrationMutationRecoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_2',
-        originalCommand: ['orca', 'orchestration', 'worker-start', '--task', 'task_2']
+        originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_2']
       })
     ) as RuntimeClientError
 
@@ -73,17 +73,24 @@ describe('orchestration mutation recovery', () => {
     const result = orchestrationMutationRecoveryError(
       new RuntimeClientError('runtime_unavailable', 'runtime unavailable', {
         orchestrationRequestId: 'request_4',
-        originalCommand: ['orca', 'orchestration', 'worker-start', '--task', 'task_4']
+        originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_4']
       })
     ) as RuntimeClientError
 
     expect(result.data).toMatchObject({
       recovery: {
-        queryCommand: ['orca', 'orchestration', 'request-show', '--request', 'request_4', '--json']
+        queryCommand: [
+          'amoeba',
+          'orchestration',
+          'request-show',
+          '--request',
+          'request_4',
+          '--json'
+        ]
       }
     })
     expect((result.data as { nextSteps?: string[] }).nextSteps?.[0]).toBe(
-      'Run orca orchestration request-show --request request_4 --json before retrying.'
+      'Run amoeba orchestration request-show --request request_4 --json before retrying.'
     )
   })
 
@@ -219,7 +226,7 @@ describe('orchestration mutation recovery', () => {
   it('shell-quotes a configured Windows executable when resolving portable recovery commands', () => {
     expect(
       renderResolvedOrchestrationCommand(
-        'orca orchestration worker-show --dispatch ctx_1 --json',
+        'amoeba orchestration worker-show --dispatch ctx_1 --json',
         'C:\\Program Files\\Amoeba\\orca-ide.cmd',
         'win32',
         { ComSpec: 'C:\\Windows\\System32\\cmd.exe' }

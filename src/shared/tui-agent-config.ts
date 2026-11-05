@@ -34,15 +34,14 @@ const TUI_AGENT_CONFIG_SOURCE: Record<TuiAgent, TuiAgentConfigSource> = {
   },
   'claude-agent-teams': {
     // This launch mode uses Amoeba’s CLI wrapper rather than a separate agent binary.
-    detectCmd: 'orca',
-    detectCmdAliases: ['amoeba-dev', 'orca-ide'],
+    detectCmd: 'amoeba',
+    detectCmdAliases: ['amoeba-dev'],
     // Amoeba’s always-present shim alone must not report installed Agent Teams without Claude.
     detectRequiredCommands: ['claude'],
     // Windows/WSL use Claude’s in-process fallback, not this native-pane/tmux wrapper.
     detectUnsupportedRuntimes: ['win32', 'wsl'],
-    launchCmd: 'orca claude-teams',
+    launchCmd: 'amoeba claude-teams',
     launchCmdByPlatform: {
-      linux: `${getOrcaCliCommandNameForPlatform('linux')} claude-teams`,
       win32: `${getOrcaCliCommandNameForPlatform('win32')} claude-teams`
     },
     expectedProcess: 'claude',
@@ -353,7 +352,7 @@ export function getTuiAgentLaunchCommand(
   platform: NodeJS.Platform,
   opts?: { isRemote?: boolean }
 ): string {
-  // The GNOME-conflict orca-ide rename is local-only; Linux remote shims are always orca.
+  // Platform overrides describe this machine's install; a Linux remote runs the plain command.
   if (opts?.isRemote && platform === 'linux') {
     return config.launchCmd
   }

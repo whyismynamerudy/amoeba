@@ -115,7 +115,7 @@ function assertBundledCliPlansSkillInstall() {
         'skills',
         'install',
         '--skill',
-        'orca-cli',
+        'amoeba-cli',
         '--agent',
         'universal',
         '--dry-run',
@@ -130,14 +130,14 @@ function assertBundledCliPlansSkillInstall() {
       throw new Error(`Bundled CLI skills dry-run failed: ${failure}`)
     }
     const result = JSON.parse(cli.stdout)
-    const ops = result.plan?.skills?.find((skill) => skill.name === 'orca-cli')?.ops ?? []
+    const ops = result.plan?.skills?.find((skill) => skill.name === 'amoeba-cli')?.ops ?? []
     if (
       result.executed !== false ||
       !/^[0-9a-f]{64}$/.test(result.planDigest) ||
       ops.length === 0 ||
       !ops.every((op) => op.path.startsWith(home))
     ) {
-      throw new Error(`Bundled CLI did not plan orca-cli into ${home}: ${cli.stdout}`)
+      throw new Error(`Bundled CLI did not plan amoeba-cli into ${home}: ${cli.stdout}`)
     }
     if (readdirSync(home).length > 0) {
       throw new Error(

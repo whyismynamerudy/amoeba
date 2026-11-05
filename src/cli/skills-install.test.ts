@@ -15,7 +15,7 @@ import { isAbsolute, join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BundledSkillInstallResult, BundledSkillPlan } from '../shared/bundled-skill-plan'
 
-const NAME = 'orca-cli'
+const NAME = 'amoeba-cli'
 const OLD_TEXT = `---\nname: ${NAME}\ndescription: Old\n---\n\nOld body\n`
 const NEW_TEXT = `---\nname: ${NAME}\ndescription: New\n---\n\nNew body\n`
 const EDITED_TEXT = `---\nname: ${NAME}\n---\nmine\n`
@@ -103,7 +103,7 @@ type RunJson = {
   notInstalled: string[]
 }
 
-describe('orca skills install/update', () => {
+describe('amoeba skills install/update', () => {
   beforeEach(async () => {
     paths = await makeHome()
     vi.stubEnv('HOME', paths.home)

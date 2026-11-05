@@ -91,7 +91,7 @@ it.skipIf(skip)(
         userData,
         'cli',
         'bin',
-        process.platform === 'win32' ? 'orca.exe' : 'orca'
+        process.platform === 'win32' ? 'amoeba.exe' : 'amoeba'
       )
       expect(existsSync(launcher)).toBe(true)
       installFakeAppEnvironment({

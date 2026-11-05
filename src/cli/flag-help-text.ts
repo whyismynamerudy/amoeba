@@ -119,7 +119,7 @@ export const FLAG_HELP_TEXT: Record<string, string> = {
   expression: '--expression <js>     JavaScript expression to evaluate',
   amount: '--amount <pixels>      Scroll distance in pixels',
   index: '--index <n>            Tab index to switch to',
-  page: '--page <id>            Stable browser page id from `orca tab list --json`',
+  page: '--page <id>            Stable browser page id from `amoeba tab list --json`',
   profile: '--profile <id>        Browser profile id',
   'show-profile': '--show-profile        Include tab profile in text output',
   format: '--format <png|jpeg>    Screenshot image format'

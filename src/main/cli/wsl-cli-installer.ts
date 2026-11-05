@@ -3,17 +3,16 @@ import { getDefaultWslDistro } from '../wsl'
 import { runWslProcess } from '../wsl/wsl-runner'
 import { CliInstaller } from './cli-installer'
 import {
-  buildManagedLegacyRemoveCommand,
+  buildManagedLegacyRemoveCommands,
   buildSafeRemoveCommand,
   buildWslBridgeScript,
   buildWslLauncher,
   getBridgePathFromCommandPath,
-  getPosixDirname,
   getWslBridgeMarker,
   getWslLauncherMarker,
+  getWslLegacyCommandPaths,
   parseManagedLauncherTarget
 } from './wsl-cli-scripts'
-import { quotePosixShellDoubleQuotedApostrophe } from '../../shared/shell-argument-quoting'
 import { buildWslCliInstallCommand } from './wsl-cli-registration-command'
 import {
   buildWslCliStatus,
@@ -27,7 +26,6 @@ import {
 
 const MANAGED_MARKER = getWslLauncherMarker()
 const BRIDGE_MANAGED_MARKER = getWslBridgeMarker()
-const LEGACY_WSL_COMMAND_NAME = 'orca'
 const WSL_COMMAND_TIMEOUT_MS = 10_000
 
 function normalizeManagedScriptContent(content: string): string {
@@ -176,16 +174,18 @@ export class WslCliInstaller {
       return { changed: true, managed: true, status: await this.install(status) }
     }
 
-    const legacyCommandPath = status.commandPath
-      ? `${getPosixDirname(status.commandPath)}/${LEGACY_WSL_COMMAND_NAME}`
-      : null
-    if (!legacyCommandPath || !this.distro) {
+    if (!status.commandPath || !this.distro) {
       return { changed: false, managed: status.state === 'installed', status }
     }
 
-    const legacyContent = await this.readCommandFile(this.distro, legacyCommandPath)
-    const legacyManaged =
-      typeof legacyContent === 'string' && legacyContent.includes(MANAGED_MARKER)
+    let legacyManaged = false
+    for (const legacyCommandPath of getWslLegacyCommandPaths(status.commandPath)) {
+      const legacyContent = await this.readCommandFile(this.distro, legacyCommandPath)
+      if (typeof legacyContent === 'string' && legacyContent.includes(MANAGED_MARKER)) {
+        legacyManaged = true
+        break
+      }
+    }
     if (!legacyManaged) {
       return { changed: false, managed: status.state === 'installed', status }
     }
@@ -230,15 +230,11 @@ export class WslCliInstaller {
     if (!status.supported || !status.commandPath) {
       return status
     }
-    const legacyCommandPath = `${getPosixDirname(status.commandPath)}/${LEGACY_WSL_COMMAND_NAME}`
     if (status.state === 'not_installed') {
       // A leftover managed legacy command would let startup reconciliation undo removal.
       await this.run(
         this.distro as string,
-        [
-          'set -eu',
-          buildManagedLegacyRemoveCommand(quotePosixShellDoubleQuotedApostrophe(legacyCommandPath))
-        ].join('\n')
+        ['set -eu', ...buildManagedLegacyRemoveCommands(status.commandPath)].join('\n')
       )
       return status
     }
@@ -246,10 +242,7 @@ export class WslCliInstaller {
       throw new Error(`Refusing to remove non-Amoeba command at ${status.commandPath}.`)
     }
 
-    await this.run(
-      this.distro as string,
-      buildSafeRemoveCommand(status.commandPath, legacyCommandPath)
-    )
+    await this.run(this.distro as string, buildSafeRemoveCommand(status.commandPath, true))
     return this.getStatus()
   }
 

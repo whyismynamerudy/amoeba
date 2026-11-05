@@ -94,7 +94,7 @@ function profile(): string {
   return root
 }
 
-describe.skipIf(skip)('orca serve on orcad', () => {
+describe.skipIf(skip)('amoeba serve on orcad', () => {
   it('answers the launcher native preflight with one report line', async () => {
     const result = await runProcess({
       program: runtime!,
@@ -197,7 +197,10 @@ describe.skipIf(skip)('orca serve on orcad', () => {
     roots.push(userData)
     const appRoot = profile()
     mkdirSync(join(appRoot, 'out', 'web'), { recursive: true })
-    writeFileSync(join(appRoot, 'out', 'web', WEB_CLIENT_INDEX_FILENAME), '<title>orca web</title>')
+    writeFileSync(
+      join(appRoot, 'out', 'web', WEB_CLIENT_INDEX_FILENAME),
+      '<title>amoeba web</title>'
+    )
     const args = orcadServeArgs(
       { json: true, port: '0' },
       findBundledWebClientRoot(appRoot),
@@ -209,7 +212,7 @@ describe.skipIf(skip)('orca serve on orcad', () => {
       expect(webClientUrl).toEqual(expect.stringMatching(/^http:\/\/127\.0\.0\.1:\d+\//u))
       const index = await fetch(new URL(`/${WEB_CLIENT_INDEX_FILENAME}`, String(webClientUrl)))
       expect(index.status).toBe(200)
-      expect(await index.text()).toBe('<title>orca web</title>')
+      expect(await index.text()).toBe('<title>amoeba web</title>')
       const unknown = await fetch(new URL('/no-such-page', String(webClientUrl)))
       expect(unknown.status).toBe(404)
     } finally {

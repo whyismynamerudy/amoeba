@@ -23,7 +23,7 @@ const describeWindows = process.platform === 'win32' ? describe : describe.skip
 const tempDirs: string[] = []
 
 function makeTempDir(): string {
-  const root = mkdtempSync(join(tmpdir(), 'orca shell preflight '))
+  const root = mkdtempSync(join(tmpdir(), 'amoeba shell preflight '))
   tempDirs.push(root)
   return root
 }
@@ -37,7 +37,7 @@ function linkNodeExecutable(destination: string): void {
 }
 
 function writeFailingPreflight(root: string): string {
-  const executable = join(root, 'orca preflight.exe')
+  const executable = join(root, 'amoeba preflight.exe')
   linkNodeExecutable(executable)
   writeFileSync(
     join(root, 'agent'),

@@ -34,7 +34,7 @@ describe.runIf(process.platform === 'win32')('native Windows administrator resta
       return
     }
 
-    const directory = await mkdtemp(join(tmpdir(), 'orca administrator α '))
+    const directory = await mkdtemp(join(tmpdir(), 'amoeba administrator α '))
     try {
       const output = join(directory, 'proof.json')
       const fixture = join(directory, 'restart fixture.mjs')

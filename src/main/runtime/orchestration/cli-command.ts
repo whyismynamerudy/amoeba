@@ -1,40 +1,21 @@
-import type { ProjectExecutionRuntimeResolution } from '../../../shared/project-execution-runtime'
-import { isWslUncPath } from '../../../shared/wsl-paths'
-import { splitWorktreeIdForFilesystem } from '../../../shared/worktree/id'
 import { getAppEnvironment, hasAppEnvironment } from '../../../shared/app-environment'
 
-export type OrchestrationCliCommand = 'orca' | 'amoeba-dev' | 'orca-ide'
+export type OrchestrationCliCommand = 'amoeba' | 'amoeba-dev'
 
 /** Dev builds run the CLI as `amoeba-dev`; a packaged app, or a process with no app, must not advertise it. */
 export function runtimeOrchestrationCliCommand(): OrchestrationCliCommand | undefined {
   return hasAppEnvironment() && !getAppEnvironment().isPackaged() ? 'amoeba-dev' : undefined
 }
 
-/** What a local, non-WSL terminal is told to run; a structured session is always one. */
+/** What a local terminal is told to run; a structured session is always one. */
 export function localOrchestrationCliCommand(): OrchestrationCliCommand {
-  return runtimeOrchestrationCliCommand() ?? 'orca'
+  return runtimeOrchestrationCliCommand() ?? 'amoeba'
 }
 
 export function resolveTerminalOrchestrationCliCommand(args: {
   connectionId: string | null
-  isWsl: boolean | null | undefined
-  worktreeId: string
-  projectRuntime?: ProjectExecutionRuntimeResolution
   runtimeCliCommand?: OrchestrationCliCommand
 }): OrchestrationCliCommand {
-  if (args.connectionId) {
-    return 'orca'
-  }
-  if (args.runtimeCliCommand) {
-    return args.runtimeCliCommand
-  }
-  if (args.isWsl !== null && args.isWsl !== undefined) {
-    return args.isWsl ? 'orca-ide' : 'orca'
-  }
-  if (args.projectRuntime?.status === 'resolved' && args.projectRuntime.runtime.kind === 'wsl') {
-    return 'orca-ide'
-  }
-
-  const worktreePath = splitWorktreeIdForFilesystem(args.worktreeId)?.worktreePath
-  return worktreePath && isWslUncPath(worktreePath) ? 'orca-ide' : 'orca'
+  // SSH servers run packaged slots; WSL and every local platform share the `amoeba` name.
+  return args.connectionId ? 'amoeba' : (args.runtimeCliCommand ?? 'amoeba')
 }

@@ -184,7 +184,7 @@ describe('registerWorktreeHandlers', () => {
     await expect(
       handlers['hooks:writeIssueCommand'](null, {
         repoId: 'repo-ssh',
-        content: 'orca issue command'
+        content: 'amoeba issue command'
       })
     ).rejects.toThrow('Remote filesystem unavailable')
   })

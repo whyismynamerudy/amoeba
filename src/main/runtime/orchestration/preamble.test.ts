@@ -56,7 +56,7 @@ describe('buildDispatchPreamble', () => {
     const result = buildDispatchPreamble(baseParams())
     const commandLines = result
       .split('\n')
-      .filter((line) => line.trimStart().startsWith('orca orchestration'))
+      .filter((line) => line.trimStart().startsWith('amoeba orchestration'))
 
     expect(commandLines).toHaveLength(5)
     expect(result).not.toContain('\\\n')
@@ -133,23 +133,14 @@ describe('buildDispatchPreamble', () => {
   })
 
   it('uses amoeba-dev CLI when devMode is true', () => {
-    const result = buildDispatchPreamble(baseParams({ devMode: true, cliCommand: 'orca-ide' }))
+    const result = buildDispatchPreamble(baseParams({ devMode: true, cliCommand: 'amoeba' }))
     expect(result).toContain('amoeba-dev orchestration send')
     expect(result).toContain('amoeba-dev orchestration check')
     expect(result).toContain('amoeba-dev orchestration ask')
     const fragments = result.split('amoeba-dev')
     for (const fragment of fragments) {
-      expect(fragment).not.toMatch(/orca orchestration/)
+      expect(fragment).not.toMatch(/(^|\s)amoeba orchestration/m)
     }
-  })
-
-  it('uses the exact orca-ide command for packaged WSL workers', () => {
-    const result = buildDispatchPreamble(baseParams({ cliCommand: 'orca-ide' }))
-
-    expect(result).toContain('orca-ide orchestration send')
-    expect(result).toContain('orca-ide orchestration check')
-    expect(result).toContain('orca-ide orchestration ask')
-    expect(result).not.toMatch(/(^|\s)orca orchestration/m)
   })
 
   it('appends a BASE DRIFT section when baseDrift.behind > 0', () => {

@@ -31,7 +31,7 @@ fn main() {
         "LegalCopyright",
         "Copyright (C) Stably AI. All rights reserved.",
     );
-    let filename = env::var("ORCA_LAUNCHER_FILENAME").unwrap_or_else(|_| "orca.exe".into());
+    let filename = env::var("ORCA_LAUNCHER_FILENAME").unwrap_or_else(|_| "amoeba.exe".into());
     resource.set("InternalName", &filename);
     resource.set("OriginalFilename", &filename);
     resource.set("FileVersion", &format!("{major}.{minor}.{patch}.0"));

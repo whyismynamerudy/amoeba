@@ -9,10 +9,10 @@ const { PE_MACHINE, describePeMachine, readPeMachine } = createRequire(import.me
 )
 
 export function orcadWindowsCliLauncherSource(root, arch) {
-  return join(root, '.build', 'windows-cli-launcher', arch, 'orca.exe')
+  return join(root, '.build', 'windows-cli-launcher', arch, 'amoeba.exe')
 }
 
-/** A Windows slot's `orca` command; a Windows build host compiles a missing one. */
+/** A Windows slot's `amoeba` command; a Windows build host compiles a missing one. */
 export function stageOrcadWindowsCliLauncher(
   root,
   outputDir,

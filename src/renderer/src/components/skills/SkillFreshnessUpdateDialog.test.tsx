@@ -83,13 +83,13 @@ const skillsApi = {
   )
 }
 
-const EDITED_PATH = '/home/u/.claude/skills/orca-cli'
+const EDITED_PATH = '/home/u/.claude/skills/amoeba-cli'
 
 function editedPlan(): BundledSkillPlan {
   return planOf(
     [
-      planEntry('orca-cli', [
-        planOp('update', '/home/u/.agents/skills/orca-cli'),
+      planEntry('amoeba-cli', [
+        planOp('update', '/home/u/.agents/skills/amoeba-cli'),
         planOp('leave', EDITED_PATH, { reason: 'edited', replaceable: true })
       ])
     ],
@@ -100,8 +100,8 @@ function editedPlan(): BundledSkillPlan {
 function forcedPlan(): BundledSkillPlan {
   return planOf(
     [
-      planEntry('orca-cli', [
-        planOp('update', '/home/u/.agents/skills/orca-cli'),
+      planEntry('amoeba-cli', [
+        planOp('update', '/home/u/.agents/skills/amoeba-cli'),
         planOp('replace', EDITED_PATH, { content: 'link' })
       ])
     ],
@@ -183,32 +183,32 @@ afterEach(() => {
 describe('SkillFreshnessUpdateDialog', () => {
   it('lists only skills with something to do, and every location on request', () => {
     mocks.plan = planOf([
-      planEntry('orca-cli', [
-        planOp('update', '/home/u/.agents/skills/orca-cli'),
-        planOp('keep', '/home/u/.claude/skills/orca-cli', {
-          observed: { kind: 'link', target: '../../.agents/skills/orca-cli' }
+      planEntry('amoeba-cli', [
+        planOp('update', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('keep', '/home/u/.claude/skills/amoeba-cli', {
+          observed: { kind: 'link', target: '../../.agents/skills/amoeba-cli' }
         })
       ]),
       sharedEntry('orchestration', 'keep'),
-      sharedEntry('orca-linear', 'keep')
+      sharedEntry('amoeba-linear', 'keep')
     ])
     render()
 
     expect(container.textContent).toContain('1 update available')
-    expect(container.querySelector('[data-skill-row="orca-cli"]')?.textContent).toBe(
-      'orca-cliUpdate available'
+    expect(container.querySelector('[data-skill-row="amoeba-cli"]')?.textContent).toBe(
+      'amoeba-cliUpdate available'
     )
     expect(container.querySelector('[data-skill-row="orchestration"]')).toBeNull()
     expect(container.textContent).toContain('2 skills are up to date.')
     expect(button('Update 1 skill').disabled).toBe(false)
 
     click(button('Show folders'))
-    const row = container.querySelector('[data-skill-row="orca-cli"]')?.textContent ?? ''
-    expect(row).toContain('Shared folder · ~/.agents/skills/orca-cli')
-    expect(row).toContain('Claude Code · ~/.claude/skills/orca-cli')
+    const row = container.querySelector('[data-skill-row="amoeba-cli"]')?.textContent ?? ''
+    expect(row).toContain('Shared folder · ~/.agents/skills/amoeba-cli')
+    expect(row).toContain('Claude Code · ~/.claude/skills/amoeba-cli')
     expect(container.querySelector('[data-skill-row="orchestration"]')).not.toBeNull()
     click(button('Hide folders'))
-    expect(container.textContent).not.toContain('~/.agents/skills/orca-cli')
+    expect(container.textContent).not.toContain('~/.agents/skills/amoeba-cli')
   })
 
   it.each([
@@ -224,9 +224,9 @@ describe('SkillFreshnessUpdateDialog', () => {
 
   it('labels a link-only plan as installing for the agent, not an update', () => {
     mocks.plan = planOf([
-      planEntry('orca-cli', [
-        planOp('keep', '/home/u/.agents/skills/orca-cli'),
-        planOp('link', '/home/u/.claude/skills/orca-cli')
+      planEntry('amoeba-cli', [
+        planOp('keep', '/home/u/.agents/skills/amoeba-cli'),
+        planOp('link', '/home/u/.claude/skills/amoeba-cli')
       ])
     ])
     render()
@@ -239,7 +239,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     mocks.plan = editedPlan()
     render()
 
-    const row = container.querySelector('[data-skill-row="orca-cli"]')
+    const row = container.querySelector('[data-skill-row="amoeba-cli"]')
     expect(row?.textContent).toContain('Update skipped: Skill edited outside Amoeba')
     expect(row?.textContent).toContain("Replace with Amoeba's copy (keeps a backup)")
   })
@@ -259,8 +259,8 @@ describe('SkillFreshnessUpdateDialog', () => {
       forced.resolve(forcedPlan())
       await forced.promise
     })
-    expect(container.querySelector('[data-skill-row="orca-cli"]')?.textContent).toBe(
-      "orca-cliReplaceReplace with Amoeba's copy (keeps a backup)"
+    expect(container.querySelector('[data-skill-row="amoeba-cli"]')?.textContent).toBe(
+      "amoeba-cliReplaceReplace with Amoeba's copy (keeps a backup)"
     )
     skillsApi.bundledExecute.mockResolvedValueOnce(doneResult(forcedPlan()))
     click(button('Update 1 skill'))
@@ -270,21 +270,21 @@ describe('SkillFreshnessUpdateDialog', () => {
       planDigest: '2'.repeat(64),
       request: { force: [EDITED_PATH] }
     })
-    expect(container.querySelector('[data-skill-row="orca-cli"]')?.textContent).toBe(
-      'orca-cliReplaced · Your copy was saved as a backup'
+    expect(container.querySelector('[data-skill-row="amoeba-cli"]')?.textContent).toBe(
+      'amoeba-cliReplaced · Your copy was saved as a backup'
     )
   })
 
   it('keeps an edited row in place with one Replace status when selected', async () => {
     mocks.plan = planOf([
-      planEntry('orca-cli', [
+      planEntry('amoeba-cli', [
         planOp('leave', EDITED_PATH, { reason: 'edited', replaceable: true })
       ]),
       sharedEntry('orchestration', 'update')
     ])
     skillsApi.bundledPlan.mockResolvedValueOnce(
       planOf([
-        planEntry('orca-cli', [planOp('replace', EDITED_PATH)]),
+        planEntry('amoeba-cli', [planOp('replace', EDITED_PATH)]),
         sharedEntry('orchestration', 'update')
       ])
     )
@@ -293,19 +293,19 @@ describe('SkillFreshnessUpdateDialog', () => {
       [...container.querySelectorAll('[data-skill-row]')].map((row) =>
         row.getAttribute('data-skill-row')
       )
-    expect(rowNames()).toEqual(['orchestration', 'orca-cli'])
+    expect(rowNames()).toEqual(['orchestration', 'amoeba-cli'])
 
     click(replaceCheckbox())
     await flush()
 
-    expect(rowNames()).toEqual(['orchestration', 'orca-cli'])
-    const row = container.querySelector('[data-skill-row="orca-cli"]')
-    expect(row?.textContent).toBe("orca-cliReplaceReplace with Amoeba's copy (keeps a backup)")
+    expect(rowNames()).toEqual(['orchestration', 'amoeba-cli'])
+    const row = container.querySelector('[data-skill-row="amoeba-cli"]')
+    expect(row?.textContent).toBe("amoeba-cliReplaceReplace with Amoeba's copy (keeps a backup)")
     expect(replaceCheckbox().getAttribute('aria-checked')).toBe('true')
 
     click(replaceCheckbox())
     await flush()
-    expect(rowNames()).toEqual(['orchestration', 'orca-cli'])
+    expect(rowNames()).toEqual(['orchestration', 'amoeba-cli'])
     expect(row?.textContent).toContain('Update skipped: Skill edited outside Amoeba')
   })
 
@@ -323,7 +323,7 @@ describe('SkillFreshnessUpdateDialog', () => {
       request: { force: [] }
     })
     expect(container.textContent).toContain('Updated 1 skill · 1 skipped')
-    const row = container.querySelector('[data-skill-row="orca-cli"]')?.textContent ?? ''
+    const row = container.querySelector('[data-skill-row="amoeba-cli"]')?.textContent ?? ''
     expect(row).toContain('Updated')
     expect(row).toContain('Update skipped: Skill edited outside Amoeba')
     expect(mocks.notifyChanged).toHaveBeenCalled()
@@ -332,10 +332,10 @@ describe('SkillFreshnessUpdateDialog', () => {
 
   it.each([false, true])('keeps Update available after recovery (mixed run: %s)', async (mixed) => {
     const repair = planOf([
-      sharedEntry('orca-cli', 'restore'),
+      sharedEntry('amoeba-cli', 'restore'),
       ...(mixed ? [sharedEntry('orchestration', 'update')] : [])
     ])
-    const update = planOf([sharedEntry('orca-cli', 'update')], '3'.repeat(64))
+    const update = planOf([sharedEntry('amoeba-cli', 'update')], '3'.repeat(64))
     mocks.plan = repair
     skillsApi.bundledExecute.mockResolvedValueOnce(doneResult(repair))
     render()
@@ -374,8 +374,8 @@ describe('SkillFreshnessUpdateDialog', () => {
 
   it('counts skills rather than folders in the preview and result headlines', async () => {
     const plan = planOf([
-      planEntry('orca-cli', [
-        planOp('update', '/home/u/.agents/skills/orca-cli'),
+      planEntry('amoeba-cli', [
+        planOp('update', '/home/u/.agents/skills/amoeba-cli'),
         planOp('update', EDITED_PATH)
       ]),
       sharedEntry('orchestration', 'update'),
@@ -402,7 +402,7 @@ describe('SkillFreshnessUpdateDialog', () => {
       planEntry('computer-use', [
         planOp('leave', replacementPath, { reason: 'edited', replaceable: true })
       ]),
-      sharedEntry('orca-cli', 'update'),
+      sharedEntry('amoeba-cli', 'update'),
       sharedEntry('agent-discord', 'leave', { reason: 'unwritable' }),
       sharedEntry('orchestration', 'restore')
     ])
@@ -421,7 +421,7 @@ describe('SkillFreshnessUpdateDialog', () => {
       [...container.querySelectorAll('[data-skill-row]')].map((row) =>
         row.getAttribute('data-skill-row')
       )
-    const previewOrder = ['orchestration', 'orca-cli', 'computer-use', 'agent-discord']
+    const previewOrder = ['orchestration', 'amoeba-cli', 'computer-use', 'agent-discord']
     render()
     expect(rowNames()).toEqual(previewOrder)
     click(replaceCheckbox())
@@ -441,7 +441,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     expect(rowNames()).toEqual(previewOrder)
     mocks.plan = planOf([
       sharedEntry('computer-use', 'keep'),
-      sharedEntry('orca-cli', 'keep'),
+      sharedEntry('amoeba-cli', 'keep'),
       sharedEntry('agent-discord', 'leave', { reason: 'unwritable' }),
       sharedEntry('orchestration', 'keep')
     ])
@@ -452,11 +452,11 @@ describe('SkillFreshnessUpdateDialog', () => {
   })
 
   it('reports a location that changed since review as needing attention', async () => {
-    const plan = planOf([sharedEntry('orca-cli', 'update')])
+    const plan = planOf([sharedEntry('amoeba-cli', 'update')])
     mocks.plan = plan
     skillsApi.bundledExecute.mockResolvedValueOnce({
       scope: 'global',
-      skills: [{ name: 'orca-cli', status: 'changed', ops: [] }]
+      skills: [{ name: 'amoeba-cli', status: 'changed', ops: [] }]
     })
     render()
 
@@ -471,7 +471,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   })
 
   it('drops a completion for a run that was reset while it was in flight', async () => {
-    mocks.plan = planOf([sharedEntry('orca-cli', 'update')])
+    mocks.plan = planOf([sharedEntry('amoeba-cli', 'update')])
     const execution = deferred<BundledSkillInstallResult>()
     skillsApi.bundledExecute.mockReturnValueOnce(execution.promise)
     render()
@@ -481,7 +481,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     _resetSkillUpdateRunStore()
 
     await act(async () => {
-      execution.resolve(doneResult(planOf([sharedEntry('orca-cli', 'update')])))
+      execution.resolve(doneResult(planOf([sharedEntry('amoeba-cli', 'update')])))
       await execution.promise
     })
     expect(getSkillUpdateRun(LOCAL_SKILL_UPDATE_TARGET).state).toBe('idle')
@@ -489,7 +489,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   })
 
   it('shows the error when the request itself fails', async () => {
-    mocks.plan = planOf([sharedEntry('orca-cli', 'update')])
+    mocks.plan = planOf([sharedEntry('amoeba-cli', 'update')])
     skillsApi.bundledExecute.mockRejectedValueOnce(new Error('ipc closed'))
     render()
 
@@ -501,7 +501,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   })
 
   it('acknowledges a finished run on close', async () => {
-    const plan = planOf([sharedEntry('orca-cli', 'update')])
+    const plan = planOf([sharedEntry('amoeba-cli', 'update')])
     mocks.plan = plan
     skillsApi.bundledExecute.mockResolvedValueOnce(doneResult(plan))
     render()
@@ -517,7 +517,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     'shows no available updates when only %s copies remain',
     (reason) => {
       mocks.plan = planOf([
-        planEntry('orca-cli', [planOp('leave', EDITED_PATH, { reason, replaceable: true })])
+        planEntry('amoeba-cli', [planOp('leave', EDITED_PATH, { reason, replaceable: true })])
       ])
       render()
       expect(container.textContent).toContain('No updates available')
@@ -533,8 +533,10 @@ describe('SkillFreshnessUpdateDialog', () => {
     'counts %i current skills beside skipped copies without repeating a footer',
     (count) => {
       mocks.plan = planOf([
-        planEntry('orca-cli', [planOp('leave', EDITED_PATH, { reason: 'edited' })]),
-        ...['orchestration', 'orca-linear'].slice(0, count).map((name) => sharedEntry(name, 'keep'))
+        planEntry('amoeba-cli', [planOp('leave', EDITED_PATH, { reason: 'edited' })]),
+        ...['orchestration', 'amoeba-linear']
+          .slice(0, count)
+          .map((name) => sharedEntry(name, 'keep'))
       ])
       render()
 
@@ -549,7 +551,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   )
 
   it('offers no Update when nothing would change', () => {
-    mocks.plan = planOf([sharedEntry('orca-cli', 'keep')])
+    mocks.plan = planOf([sharedEntry('amoeba-cli', 'keep')])
     render()
 
     expect(container.textContent).toContain('All installed Amoeba skills are up to date.')

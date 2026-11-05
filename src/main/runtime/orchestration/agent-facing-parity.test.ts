@@ -74,7 +74,7 @@ function runtime(prompts: string[]): OrcaRuntimeService {
     {
       orchestrationSenderNames: { nameOf: () => null },
       getNestedWorkerMaxDepth: () => 2,
-      getTerminalOrchestrationCliCommand: () => 'orca',
+      getTerminalOrchestrationCliCommand: () => 'amoeba',
       sendTerminalAgentPrompt: async (handle, text) => {
         prompts.push(text)
         return { handle, accepted: true, bytesWritten: text.length }
@@ -172,11 +172,9 @@ describe('a chat agent and a terminal agent see the same text but for how each i
       installApp(packaged)
       const terminalCli: OrchestrationCliCommand = resolveTerminalOrchestrationCliCommand({
         connectionId: null,
-        isWsl: false,
-        worktreeId: 'repo::/tmp/wt',
         runtimeCliCommand: runtimeOrchestrationCliCommand()
       })
-      expect(terminalCli).toBe(packaged ? 'orca' : 'amoeba-dev')
+      expect(terminalCli).toBe(packaged ? 'amoeba' : 'amoeba-dev')
 
       for (const mailbox of ['run:run_parity', CHAT_ADDRESS]) {
         expect(await renderChatPointer(mailbox)).toBe(

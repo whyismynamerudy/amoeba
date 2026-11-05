@@ -32,7 +32,7 @@ function request(argv: string[]) {
   return command.request
 }
 
-describe('orca search argument parsing', () => {
+describe('amoeba search argument parsing', () => {
   it('takes the query positionally without adding optional fields', () => {
     expect(parseCli(['search', 'resize race']).commandPath).toEqual(['search'])
     expect(request(['search', 'resize race'])).toEqual({ query: 'resize race' })
@@ -175,7 +175,7 @@ describe('orca search argument parsing', () => {
   })
 })
 
-describe('orca search --index-status', () => {
+describe('amoeba search --index-status', () => {
   it('asks for the index report', () => {
     expect(parseSearch(['search', '--index-status'])).toEqual({ kind: 'index-status' })
   })

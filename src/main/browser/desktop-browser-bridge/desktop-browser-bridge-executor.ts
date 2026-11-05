@@ -157,7 +157,7 @@ async function scopeRequest(
   if (request.method === 'browser.keypress' && isPasteChord(params.key)) {
     throw new BridgeRefusal(
       DESKTOP_BROWSER_BRIDGE_NOT_FORWARDED_CODE,
-      'An SSH host cannot paste from the desktop clipboard. Use orca type or orca fill instead.'
+      'An SSH host cannot paste from the desktop clipboard. Use amoeba type or amoeba fill instead.'
     )
   }
   const requestedWorkspaceId = request.workspaceId ?? null
@@ -232,7 +232,7 @@ function assertNoOptionLikeArguments(method: string, params: Record<string, unkn
     if (values.some((entry) => typeof entry === 'string' && entry.trimStart().startsWith('-'))) {
       throw new BridgeRefusal(
         'invalid_argument',
-        `An SSH host cannot send a --${name} value that starts with "-". Rephrase it, or type it with orca fill.`
+        `An SSH host cannot send a --${name} value that starts with "-". Rephrase it, or type it with amoeba fill.`
       )
     }
   }

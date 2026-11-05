@@ -32,7 +32,7 @@ class TestSocket extends EventEmitter {
 }
 
 const RESTART_OR_ABSENT_ADVICE =
-  /Restart Amoeba and try again|Amoeba is not running|Run 'orca open' first/
+  /Restart Amoeba and try again|Amoeba is not running|Run 'amoeba open' first/
 
 let socket: TestSocket
 
@@ -80,7 +80,7 @@ describe('runtime access denied', () => {
     expect(human).toContain(
       `Permission denied connecting to Amoeba (${code}). Amoeba may be running normally`
     )
-    expect(human).toContain("Next step: Do not restart Amoeba or run 'orca open'")
+    expect(human).toContain("Next step: Do not restart Amoeba or run 'amoeba open'")
     expect(human).not.toMatch(RESTART_OR_ABSENT_ADVICE)
     expect(human).not.toContain('private-runtime')
   })
@@ -114,7 +114,7 @@ describe('runtime access denied', () => {
     mockKill('ESRCH')
     const human = formatCliError(await deniedRequest('EPERM'))
 
-    expect(human).toContain("Amoeba is not running. Run 'orca open' first.")
+    expect(human).toContain("Amoeba is not running. Run 'amoeba open' first.")
     expect(human).not.toContain('Do not restart')
     const pending = getCliStatus('/test')
     failConnect('EPERM')

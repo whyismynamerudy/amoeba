@@ -179,7 +179,7 @@ describe('STA-4823 D29 — an unreadable config.toml must not become a trust-onl
       eventLabel: 'stop',
       groupIndex: 0,
       handlerIndex: 0,
-      command: 'orca hook',
+      command: 'amoeba hook',
       trustedHash: 'sha256:x',
       enabled: true
     }

@@ -5,7 +5,7 @@ import { runProcess } from '@orca/process-host'
 describe.runIf(process.platform === 'win32')('native Windows administrator status', () => {
   it('agrees with the independent Windows integrity-level report', async () => {
     const root = resolve(import.meta.dirname, '../../..')
-    const launcher = join(root, 'native', 'windows-cli-launcher', '.build', 'orca.exe')
+    const launcher = join(root, 'native', 'windows-cli-launcher', '.build', 'amoeba.exe')
     const [probe, groups] = await Promise.all([
       runProcess({ program: launcher, args: ['--orca-administrator-status'] }),
       runProcess({

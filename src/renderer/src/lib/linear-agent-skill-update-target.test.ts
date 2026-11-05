@@ -20,13 +20,13 @@ function skill(name: string): DiscoveredSkill {
 
 describe('getLinearAgentSkillUpdateTarget', () => {
   it('targets the canonical skill for missing, canonical, and dual-name installs', () => {
-    expect(getLinearAgentSkillUpdateTarget([], false)).toEqual({ skillName: 'orca-linear' })
-    expect(getLinearAgentSkillUpdateTarget([skill('orca-linear')], true)).toEqual({
-      skillName: 'orca-linear'
+    expect(getLinearAgentSkillUpdateTarget([], false)).toEqual({ skillName: 'amoeba-linear' })
+    expect(getLinearAgentSkillUpdateTarget([skill('amoeba-linear')], true)).toEqual({
+      skillName: 'amoeba-linear'
     })
     expect(
-      getLinearAgentSkillUpdateTarget([skill('orca-linear'), skill('linear-tickets')], true)
-    ).toEqual({ skillName: 'orca-linear' })
+      getLinearAgentSkillUpdateTarget([skill('amoeba-linear'), skill('linear-tickets')], true)
+    ).toEqual({ skillName: 'amoeba-linear' })
   })
 
   it('keeps the update and freshness identity on a legacy-only install', () => {

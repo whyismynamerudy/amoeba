@@ -4,6 +4,7 @@ import { FolderOpen, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 import type { CliInstallStatus } from '../../../../shared/cli-install-types'
 import type { GlobalSettings } from '../../../../shared/global-settings-types'
+import { AMOEBA_CLI_COMMAND_NAME } from '../../../../shared/orca-cli-command-name'
 import { ORCA_CLI_SKILL_NAME } from '@/lib/agent-feature-skill-names'
 import {
   GLOBAL_AGENT_SKILL_SOURCE_KINDS,
@@ -42,19 +43,15 @@ function getRevealLabel(platform: string): string {
 
 function getInstallDescription(platform: string): string {
   if (platform === 'darwin') {
-    return 'Register `orca` in /usr/local/bin.'
+    return 'Register `amoeba` in /usr/local/bin.'
   }
   if (platform === 'linux') {
-    return 'Register `orca-ide` in ~/.local/bin.'
+    return 'Register `amoeba` in ~/.local/bin.'
   }
   if (platform === 'win32') {
-    return 'Register `orca` in your user PATH.'
+    return 'Register `amoeba` in your user PATH.'
   }
   return 'CLI registration is not yet available on this platform.'
-}
-
-function getFallbackCommandName(platform: string): string {
-  return platform === 'linux' ? 'orca-ide' : 'orca'
 }
 
 export function CliSection({
@@ -102,7 +99,7 @@ export function CliSection({
   )
 
   const closeDialog = useCallback((): void => setDialogOpen(false), [])
-  const commandName = status?.commandName ?? getFallbackCommandName(currentPlatform)
+  const commandName = status?.commandName ?? AMOEBA_CLI_COMMAND_NAME
   const { busyAction, installFailure, clearInstallFailure, install, remove } =
     useCliRegistrationActions({
       commandName,
@@ -155,7 +152,7 @@ export function CliSection({
         <p className="text-xs text-muted-foreground">
           {translate(
             'auto.components.settings.CliSection.outsideOrcaDescription',
-            'Amoeba terminals already have `orca`. Turn this on to use `orca` from other terminals outside Amoeba.'
+            'Amoeba terminals already have `amoeba`. Turn this on to use `amoeba` from other terminals outside Amoeba.'
           )}
         </p>
       </div>

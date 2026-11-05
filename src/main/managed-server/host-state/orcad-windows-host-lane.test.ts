@@ -87,7 +87,7 @@ describe.runIf(RUN)('managed orcad on a Windows OpenSSH host', () => {
             await execOrcadRemote(options, orcadLivenessProbeCommand(options.host, slotDir))
           )
         expect(await liveness()).toBe('LIVE')
-        // Probe the native orca launcher installed inside the managed profile.
+        // Probe the native amoeba launcher installed inside the managed profile.
         const cli = joinRemotePath(options.host, context.userDataDir, 'cli', 'bin', 'orca.exe')
         const status = JSON.parse(
           await execOrcadRemote(options, orcadWindowsNodeCommandLine(cli, ['status', '--json']))

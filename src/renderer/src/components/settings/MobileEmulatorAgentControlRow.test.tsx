@@ -55,7 +55,7 @@ describe('MobileEmulatorAgentControlRow freshness authority', () => {
 
   it('exposes local freshness only for a resolved local non-WSL runtime', () => {
     renderToStaticMarkup(<MobileEmulatorAgentControlRow />)
-    expect(mocks.freshnessSkillName).toBe('orca-cli')
+    expect(mocks.freshnessSkillName).toBe('amoeba-cli')
 
     mocks.canUseSkillFreshness = false
     renderToStaticMarkup(<MobileEmulatorAgentControlRow />)

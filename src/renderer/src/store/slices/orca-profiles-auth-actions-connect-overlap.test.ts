@@ -58,7 +58,7 @@ const orcaProfilesApi = {
   signOutCurrent: vi.fn()
 }
 
-describe('orca profile overlapping connect actions', () => {
+describe('amoeba profile overlapping connect actions', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     toastErrorMock.mockReset()

@@ -22,7 +22,7 @@ export function runtimeAccessDeniedError(
     systemCode,
     nextSteps: [
       retryStep,
-      "Do not restart Amoeba or run 'orca open'; a restart cannot grant this command access."
+      "Do not restart Amoeba or run 'amoeba open'; a restart cannot grant this command access."
     ]
   })
 }

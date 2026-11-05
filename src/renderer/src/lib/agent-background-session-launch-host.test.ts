@@ -227,7 +227,7 @@ describe('resolveAgentBackgroundLaunchHost', () => {
       worktreePath: '/srv/repo'
     })
 
-    // Why isRemote: the SSH target runs the relay shim as `orca`, not the Linux desktop `orca-ide`.
+    // Why isRemote: the SSH target runs the relay shim as `amoeba`, not the Linux desktop `orca-ide`.
     expect(host).toMatchObject({ platform: 'linux', isLocalHost: false, isRemote: true })
   })
 

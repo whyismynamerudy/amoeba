@@ -2,77 +2,23 @@ import { describe, expect, it } from 'vitest'
 import { resolveTerminalOrchestrationCliCommand } from './cli-command'
 
 describe('resolveTerminalOrchestrationCliCommand', () => {
-  it('uses orca-ide for a pane recorded as WSL', () => {
-    expect(
-      resolveTerminalOrchestrationCliCommand({
-        connectionId: null,
-        isWsl: true,
-        worktreeId: 'repo::C:\\repo'
-      })
-    ).toBe('orca-ide')
-  })
-
-  it('uses project runtime and WSL paths when restored pane metadata is unavailable', () => {
-    expect(
-      resolveTerminalOrchestrationCliCommand({
-        connectionId: null,
-        isWsl: null,
-        worktreeId: 'repo::C:\\repo',
-        projectRuntime: {
-          status: 'resolved',
-          runtime: {
-            kind: 'wsl',
-            hostPlatform: 'wsl',
-            projectId: 'project',
-            distro: 'Ubuntu',
-            reason: 'project-override',
-            cacheKey: 'project:wsl:Ubuntu'
-          }
-        }
-      })
-    ).toBe('orca-ide')
-    expect(
-      resolveTerminalOrchestrationCliCommand({
-        connectionId: null,
-        isWsl: null,
-        worktreeId: 'repo::\\\\wsl.localhost\\Ubuntu\\home\\alice\\repo'
-      })
-    ).toBe('orca-ide')
-  })
-
-  it('preserves native and SSH bare-orca commands', () => {
-    expect(
-      resolveTerminalOrchestrationCliCommand({
-        connectionId: null,
-        isWsl: false,
-        worktreeId: 'repo::/home/alice/repo'
-      })
-    ).toBe('orca')
-    expect(
-      resolveTerminalOrchestrationCliCommand({
-        connectionId: 'ssh-1',
-        isWsl: null,
-        worktreeId: 'repo::\\\\wsl.localhost\\Ubuntu\\home\\alice\\repo'
-      })
-    ).toBe('orca')
+  it('tells local, WSL and SSH panes to run `amoeba`', () => {
+    expect(resolveTerminalOrchestrationCliCommand({ connectionId: null })).toBe('amoeba')
+    expect(resolveTerminalOrchestrationCliCommand({ connectionId: 'ssh-1' })).toBe('amoeba')
   })
 
   it('uses the runtime-provided command locally but never leaks it to SSH', () => {
     expect(
       resolveTerminalOrchestrationCliCommand({
         connectionId: null,
-        isWsl: true,
-        worktreeId: 'repo::C:\\repo',
         runtimeCliCommand: 'amoeba-dev'
       })
     ).toBe('amoeba-dev')
     expect(
       resolveTerminalOrchestrationCliCommand({
         connectionId: 'ssh-1',
-        isWsl: true,
-        worktreeId: 'repo::C:\\repo',
         runtimeCliCommand: 'amoeba-dev'
       })
-    ).toBe('orca')
+    ).toBe('amoeba')
   })
 })

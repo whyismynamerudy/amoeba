@@ -440,7 +440,7 @@ describe('ClaudeHookService.install', () => {
   it.skipIf(process.platform !== 'win32')(
     'pins the encoded-launcher fallback for a profile path the shells cannot carry bare',
     () => {
-      const tmpHome = mkdtempSync(join(tmpdir(), 'orca claude home with spaces '))
+      const tmpHome = mkdtempSync(join(tmpdir(), 'amoeba claude home with spaces '))
       vi.stubEnv('HOME', tmpHome)
       vi.stubEnv('USERPROFILE', tmpHome)
       try {

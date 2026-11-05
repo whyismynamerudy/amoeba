@@ -235,8 +235,8 @@ describe('orchestration worker-start CLI contract', () => {
           effects: [],
           residualResources: [],
           nextCommands: [
-            'orca orchestration worker-show --dispatch ctx_unknown --json',
-            'orca orchestration worker-abandon --dispatch ctx_unknown --json'
+            'amoeba orchestration worker-show --dispatch ctx_unknown --json',
+            'amoeba orchestration worker-abandon --dispatch ctx_unknown --json'
           ]
         }
       })

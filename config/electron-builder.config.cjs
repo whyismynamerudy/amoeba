@@ -289,7 +289,7 @@ module.exports = {
     '!resources/plugins/launch/**',
     // Platform extraResources selects speech natives; asar would duplicate it and ship other variants.
     '!node_modules/sherpa-onnx*{,/**/*}',
-    // CLI shim belongs beside resources/bin/orca.exe; unpacking source creates a second .cmd without its executable (#7351).
+    // CLI shim belongs beside resources/bin/amoeba.exe; unpacking source creates a second .cmd without its executable (#7351).
     '!resources/win32{,/**/*}'
   ],
   // Node-mode CLI/daemon/foreign SQLite reader/serve entries cannot read asar; unpack their shared/main dependencies too.
@@ -490,12 +490,12 @@ module.exports = {
       ...windowsRuntimeResources,
       winSpeechNativeResource,
       {
-        from: 'resources/win32/bin/orca.cmd',
-        to: 'bin/orca.cmd'
+        from: 'resources/win32/bin/amoeba.cmd',
+        to: 'bin/amoeba.cmd'
       },
       {
-        from: 'native/windows-cli-launcher/.build/orca.exe',
-        to: 'bin/orca.exe'
+        from: 'native/windows-cli-launcher/.build/amoeba.exe',
+        to: 'bin/amoeba.exe'
       },
       {
         from: 'native/windows-cli-launcher/.build/orca-administrator-restart.exe',
@@ -564,8 +564,8 @@ module.exports = {
       ...createPackagedRuntimeNodeModuleResources('darwin'),
       macSpeechNativeResource,
       {
-        from: 'resources/darwin/bin/orca',
-        to: 'bin/orca'
+        from: 'resources/darwin/bin/amoeba',
+        to: 'bin/amoeba'
       },
       {
         from: 'node_modules/agent-browser/bin/agent-browser-darwin-${arch}',
@@ -629,8 +629,8 @@ module.exports = {
         to: 'bin/orca-wayland-clipboard'
       },
       {
-        from: 'resources/linux/bin/orca-ide',
-        to: 'bin/orca-ide'
+        from: 'resources/linux/bin/amoeba',
+        to: 'bin/amoeba'
       },
       {
         from: 'node_modules/agent-browser/bin/agent-browser-linux-${arch}',
@@ -716,11 +716,8 @@ function chmodUnixCliLaunchers(resourcesDir, electronPlatformName) {
   if (electronPlatformName === 'win32') {
     return
   }
-  for (const launcherName of ['orca', 'orca-ide']) {
-    const launcherPath = join(resourcesDir, 'bin', launcherName)
-    if (!existsSync(launcherPath)) {
-      continue
-    }
+  const launcherPath = join(resourcesDir, 'bin', 'amoeba')
+  if (existsSync(launcherPath)) {
     // Public shell commands need executable extraResources modes despite source/packager drift.
     chmodSync(launcherPath, 0o755)
   }

@@ -31,9 +31,9 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI removal', () => {
       created.push(root)
       const appImagePath = join(root, 'Amoeba.AppImage')
       const cacheRootPath = join(root, 'cache')
-      const commandPath = join(root, 'home', '.local', 'bin', 'orca-ide')
+      const commandPath = join(root, 'home', '.local', 'bin', 'amoeba')
       const resourcesPath = join(root, 'mount', 'resources')
-      const liveLauncherPath = join(resourcesPath, 'bin', 'orca-ide')
+      const liveLauncherPath = join(resourcesPath, 'bin', 'amoeba')
       await mkdir(join(resourcesPath, 'bin'), { recursive: true })
       await writeFile(appImagePath, '#!/usr/bin/env bash\n', { mode: 0o755 })
       await writeFile(liveLauncherPath, '#!/usr/bin/env bash\nprintf live', { mode: 0o755 })
@@ -57,7 +57,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI removal', () => {
           const payloadDirectory = join(cwd, 'squashfs-root', 'resources', 'bin')
           await mkdir(payloadDirectory, { recursive: true })
           await writeFile(
-            join(payloadDirectory, 'orca-ide'),
+            join(payloadDirectory, 'amoeba'),
             '#!/usr/bin/env bash\nprintf installed',
             {
               mode: 0o755
@@ -91,7 +91,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI removal', () => {
     const root = await mkdtemp(join(tmpdir(), 'orca-appimage-cli-siblings-'))
     created.push(root)
     const cacheRootPath = join(root, 'cache')
-    const commandPath = join(root, 'home', '.local', 'bin', 'orca-ide')
+    const commandPath = join(root, 'home', '.local', 'bin', 'amoeba')
     const resourcesPath = join(root, 'mount', 'resources')
     const firstAppImagePath = join(root, 'Amoeba-stable.AppImage')
     const secondAppImagePath = join(root, 'Amoeba-nightly.AppImage')
@@ -115,7 +115,7 @@ describe.skipIf(process.platform === 'win32')('AppImage CLI removal', () => {
       appImageExtractRunner: async (_path, cwd) => {
         const payloadDirectory = join(cwd, 'squashfs-root', 'resources', 'bin')
         await mkdir(payloadDirectory, { recursive: true })
-        await writeFile(join(payloadDirectory, 'orca-ide'), content, { mode: 0o755 })
+        await writeFile(join(payloadDirectory, 'amoeba'), content, { mode: 0o755 })
       }
     })
     class HookedInstaller extends CliInstaller {

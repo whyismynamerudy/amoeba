@@ -9,7 +9,7 @@ export const SERVE_SUPERVISOR_BACKOFF_MAX_MS = 30_000
 export const SERVE_SUPERVISOR_STANDBY_BASE_MS = 5_000
 export const SERVE_SUPERVISOR_STANDBY_MAX_MS = 60_000
 export const SERVE_GAVE_UP_ADVICE =
-  'Fix the cause, then run `orca serve service install` again (or, outside a service, `orca serve --supervise --force` once).'
+  'Fix the cause, then run `amoeba serve service install` again (or, outside a service, `amoeba serve --supervise --force` once).'
 
 /** Persist across service-manager restarts; launchd has no start limit. */
 export type ServeSupervisorBrake = {

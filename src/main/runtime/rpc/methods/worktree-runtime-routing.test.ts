@@ -66,7 +66,7 @@ describe('worktree.create with a startup agent', () => {
     kind: 'git' as const
   }
 
-  // `orca worktree create --name agent-task --agent claude --prompt "fix the login bug" --json`
+  // `amoeba worktree create --name agent-task --agent claude --prompt "fix the login bug" --json`
   const CLI_AGENT_CREATE = {
     repo: 'id:repo-1',
     name: 'agent-task',

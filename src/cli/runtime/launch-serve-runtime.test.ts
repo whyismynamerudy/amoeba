@@ -44,7 +44,7 @@ function electronChild(): void {
   })
 }
 
-describe('orca serve host selection', () => {
+describe('amoeba serve host selection', () => {
   let stderr: string[]
 
   beforeEach(() => {

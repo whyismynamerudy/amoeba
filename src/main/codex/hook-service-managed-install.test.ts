@@ -196,7 +196,7 @@ describe('CodexHookService', () => {
   it.skipIf(process.platform !== 'win32')(
     'wraps the managed hook command when the profile path contains a space (#6078)',
     async () => {
-      const spaceHome = join(tmpdir(), 'orca home with spaces')
+      const spaceHome = join(tmpdir(), 'amoeba home with spaces')
       mkdirSync(spaceHome, { recursive: true })
       homedirMock.mockReturnValue(spaceHome)
       try {

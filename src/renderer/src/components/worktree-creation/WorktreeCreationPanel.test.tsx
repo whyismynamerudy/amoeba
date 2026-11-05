@@ -127,14 +127,14 @@ describe('WorktreeCreationPanel', () => {
     mocks.state.pendingWorktreeCreations['create-1'] = {
       ...mocks.state.pendingWorktreeCreations['create-1'],
       phase: 'provisioning-vm',
-      provisioningLog: 'creating sandbox\nstarting orca serve\n'
+      provisioningLog: 'creating sandbox\nstarting amoeba serve\n'
     }
 
     const container = await renderPanel(false)
 
     expect(container.textContent).toContain('Provisioning VM')
     expect(container.querySelector('pre')?.textContent).toBe(
-      'creating sandbox\nstarting orca serve\n'
+      'creating sandbox\nstarting amoeba serve\n'
     )
     expect(container.querySelector('pre')?.className).toContain('h-72')
     const cancel = [...container.querySelectorAll('button')].find(

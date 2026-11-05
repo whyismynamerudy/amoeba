@@ -1918,7 +1918,7 @@ jobs:
             # Verify the CLI even when a cached signed copy bypassed staging (#23383).
             # Always verify elevate.exe, even when cached signatures skipped staging; NSIS rebuild can clobber it.
             $targets = @(Get-Content 'inner-signing-list.txt')
-            foreach ($requiredTarget in @('Amoeba.exe', 'resources\bin\orca.exe', 'resources\bin\orca-agent-hook.exe')) {
+            foreach ($requiredTarget in @('Amoeba.exe', 'resources\bin\amoeba.exe', 'resources\bin\orca-agent-hook.exe')) {
               if ($targets -notcontains $requiredTarget) { $targets += $requiredTarget }
             }
             if ($targets -notcontains 'resources\elevate.exe') {

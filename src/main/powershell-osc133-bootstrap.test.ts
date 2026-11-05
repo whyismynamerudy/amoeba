@@ -16,7 +16,7 @@ describe('PowerShell OSC 133 bootstrap', () => {
       cwd,
       cwd,
       undefined,
-      `orca ${'x'.repeat(1000)}`
+      `amoeba ${'x'.repeat(1000)}`
     )
 
     expect(result.startupCommandDeliveredInShellArgs).toBe(true)
