@@ -3,6 +3,7 @@ import { getGeneralEditorSearchEntries } from './general-editor-search'
 import { translate } from '@/i18n/i18n'
 import { searchKeywords, translateSearchKeyword } from './settings-search-keywords'
 import { createLocalizedCatalog } from '@/i18n/localized-catalog'
+import { getConductorImportSearchEntries } from './conductor-import/conductor-import-search'
 import { getGeneralProjectRuntimeSearchEntries } from './general-project-runtime-search'
 
 export { getGeneralEditorSearchEntries } from './general-editor-search'
@@ -264,6 +265,7 @@ export function getGeneralPaneSearchEntries(
     ...(options.includeProjectRuntime === false ? [] : getGeneralProjectRuntimeSearchEntries()),
     ...getGeneralEditorSearchEntries(),
     ...getGeneralCliSearchEntries(),
-    ...getGeneralUpdateSearchEntries()
+    ...getGeneralUpdateSearchEntries(),
+    ...getConductorImportSearchEntries()
   ]
 }

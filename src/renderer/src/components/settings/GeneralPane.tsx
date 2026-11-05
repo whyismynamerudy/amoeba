@@ -3,6 +3,8 @@ import type { GlobalSettings } from '../../../../shared/global-settings-types'
 import { useAppStore } from '../../store'
 import { CliSection } from './CliSection'
 import { GeneralEditorSettingsSection } from './GeneralEditorSettingsSection'
+import { ConductorImportSection } from './conductor-import/ConductorImportSection'
+import { getConductorImportSearchEntries } from './conductor-import/conductor-import-search'
 import { GeneralUpdateSettingsSection } from './GeneralUpdateSettingsSection'
 import { GeneralWorkspaceSettingsSection } from './GeneralWorkspaceSettingsSection'
 import {
@@ -210,6 +212,9 @@ export function GeneralPane({
           />
         </SearchableSetting>
       </section>
+    ) : null,
+    matchesSettingsSearch(searchQuery, getConductorImportSearchEntries()) ? (
+      <ConductorImportSection key="conductor-import" />
     ) : null,
     matchesSettingsSearch(searchQuery, getGeneralWorkspaceSearchEntries()) ? (
       <GeneralWorkspaceSettingsSection

@@ -108,4 +108,43 @@ describe('buildProjectTaskGroups', () => {
 
     expect(group).toMatchObject({ projectId: 'repo-1', localWorktreeId: null, tasks: [] })
   })
+
+  it('lists imported Conductor chats under the worktree they ran in', () => {
+    const [group] = buildProjectTaskGroups({
+      repos: [makeRepo()],
+      worktreesByRepo: { 'repo-1': [linked] },
+      unifiedTabsByWorktree: {},
+      signalsByTabId: new Map(),
+      generatedTitlesEnabled: false,
+      importedChats: [
+        {
+          id: 'conductor-1',
+          workspacePath: `${linked.path}/`,
+          agent: 'codex',
+          providerSessionId: 'thread-1',
+          title: 'Resolve debug issue',
+          updatedAt: 7
+        },
+        {
+          id: 'conductor-2',
+          workspacePath: '/elsewhere',
+          agent: 'claude',
+          providerSessionId: 'session-2',
+          title: 'Not here',
+          updatedAt: 8
+        }
+      ]
+    })
+
+    expect(group?.tasks).toEqual([
+      expect.objectContaining({
+        contentType: 'imported-chat',
+        importedChatId: 'conductor-1',
+        entityId: 'thread-1',
+        title: 'Resolve debug issue',
+        branch: 'feat/sim',
+        agent: 'codex'
+      })
+    ])
+  })
 })

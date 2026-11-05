@@ -531,6 +531,27 @@
     "followSymlinkedDirectoriesDescription": "Search linked folders in Quick Open and expand local linked folders in File Explorer.",
     "accounts": {
       "claudeRemoveFolder": "Amoeba deletes this account's Claude folder and its sign-in from this computer. Chat history shared with System default stays. If it is selected, the next Claude you start uses System default."
+    },
+    "conductorImport": {
+      "found": "Found {{value0}} projects, {{value1}} workspaces and {{value2}} chats.",
+      "unresumable": "{{value0}} older chats are skipped: their agent no longer keeps their history.",
+      "howItWorks": "Workspaces stay where Conductor keeps them, and chats appear under their projects. Opening a chat resumes it. Conductor is not changed.",
+      "done": "Imported {{value0}} new projects, {{value1}} workspaces and {{value2}} chats.",
+      "projectsFailed": "Could not add: {{value0}}",
+      "title": "Import from Conductor",
+      "description": "Bring over your Conductor projects, workspaces and chats.",
+      "rowLabel": "Conductor",
+      "notFound": "Conductor is not installed on this Mac.",
+      "unreadable": "Could not read Conductor’s data: {{value0}}",
+      "importing": "Importing…",
+      "import": "Import everything",
+      "checkAgain": "Check again",
+      "check": "Check Conductor",
+      "keyword": {
+        "conductor": "conductor",
+        "import": "import",
+        "migrate": "migrate"
+      }
     }
   },
   "menu": {
@@ -21337,6 +21358,9 @@
       "terminalHint": "For sign-in and setup commands, like claude auth login.",
       "checkoutHint": "Runs in this worktree.",
       "agentCli": "{{value0}} (CLI)"
+    },
+    "conductorImport": {
+      "resumeFailed": "Could not reopen this Conductor chat."
     }
   }
 }

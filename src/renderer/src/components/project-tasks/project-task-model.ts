@@ -1,5 +1,6 @@
 import type { AgentDotState } from '@/components/AgentStateDot'
 import type { AgentType } from '../../../../shared/agent-status-types'
+import type { ConductorImportedChat } from '../../../../shared/conductor-import-types'
 import type { Repo } from '../../../../shared/repo-types'
 import type { Tab } from '../../../../shared/tab-types'
 import { resolveUnifiedTabLabel } from '../../../../shared/tab-title-resolution'
@@ -14,9 +15,12 @@ export type ProjectTask = {
   id: string
   worktreeId: string
   projectId: string
-  contentType: 'agent-session' | 'terminal'
-  /** Backing entity: structured session id for chats, terminal tab id for terminals. */
+  /** imported-chat: a Conductor chat not opened yet; opening it resumes its agent session. */
+  contentType: 'agent-session' | 'terminal' | 'imported-chat'
+  /** Backing entity: session id for chats, terminal tab id for terminals, provider session for imports. */
   entityId: string
+  /** The Conductor session an imported-chat task came from. */
+  importedChatId?: string
   title: string
   agent: AgentType | null
   location: ProjectTaskLocation
@@ -50,6 +54,7 @@ export type ProjectTaskSources = {
   unifiedTabsByWorktree: Readonly<Record<string, readonly Tab[] | undefined>>
   signalsByTabId: ReadonlyMap<string, ProjectTaskSignal>
   generatedTitlesEnabled: boolean
+  importedChats?: readonly ConductorImportedChat[]
 }
 
 function shortBranchName(branch: string): string | null {
@@ -102,8 +107,40 @@ function buildTask(
   }
 }
 
+function buildImportedChatTask(
+  chat: ConductorImportedChat,
+  worktree: Worktree,
+  repo: Repo
+): ProjectTask {
+  const isLocal = worktree.isMainWorktree || repo.kind === 'folder'
+  return {
+    id: `conductor:${chat.id}`,
+    worktreeId: worktree.id,
+    projectId: repo.id,
+    contentType: 'imported-chat',
+    entityId: chat.providerSessionId,
+    importedChatId: chat.id,
+    title: chat.title,
+    agent: chat.agent,
+    location: isLocal ? 'local' : 'worktree',
+    branch: isLocal ? null : shortBranchName(worktree.branch),
+    state: null,
+    unread: false,
+    updatedAt: chat.updatedAt
+  }
+}
+
+function normalizedPath(path: string): string {
+  return path.replace(/[\\/]+$/, '')
+}
+
 /** Projects in repo order, each with its conversations newest first. */
 export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTaskGroup[] {
+  const importedByPath = new Map<string, ConductorImportedChat[]>()
+  for (const chat of sources.importedChats ?? []) {
+    const key = normalizedPath(chat.workspacePath)
+    importedByPath.set(key, [...(importedByPath.get(key) ?? []), chat])
+  }
   return sources.repos.map((repo) => {
     const worktrees = sources.worktreesByRepo[repo.id] ?? []
     const tasks: ProjectTask[] = []
@@ -123,6 +160,9 @@ export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTask
         if (task) {
           tasks.push(task)
         }
+      }
+      for (const chat of importedByPath.get(normalizedPath(worktree.path)) ?? []) {
+        tasks.push(buildImportedChatTask(chat, worktree, repo))
       }
     }
     tasks.sort((a, b) => b.updatedAt - a.updatedAt || a.id.localeCompare(b.id))

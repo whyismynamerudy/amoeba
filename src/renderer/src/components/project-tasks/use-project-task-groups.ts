@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppStore } from '@/store'
 import { selectWorktreesByRepo } from '@/store/workspace-record-selectors'
 import { useAgentPaneThreads } from '@/components/activity/use-agent-pane-threads'
@@ -9,6 +9,7 @@ import {
   type ProjectTaskGroup,
   type ProjectTaskSignal
 } from './project-task-model'
+import { useImportedConductorChats } from './imported-conductor-chats'
 
 /** Fold a tab's agent panes into one signal: newest pane wins, any unread pane marks the task unread. */
 function signalsByTab(threads: readonly AgentPaneThread[]): Map<string, ProjectTaskSignal> {
@@ -36,6 +37,11 @@ export function useProjectTaskGroups(): ProjectTaskGroup[] {
   const worktreesByRepo = useAppStore(selectWorktreesByRepo)
   const unifiedTabsByWorktree = useAppStore((s) => s.unifiedTabsByWorktree)
   const generatedTitlesEnabled = useAppStore((s) => s.settings?.tabAutoGenerateTitle === true)
+  const importedChats = useImportedConductorChats((s) => s.chats)
+  const loadImportedChats = useImportedConductorChats((s) => s.load)
+  useEffect(() => {
+    void loadImportedChats()
+  }, [loadImportedChats])
   const { allThreads } = useAgentPaneThreads({
     query: '',
     readFilter: 'all',
@@ -51,8 +57,9 @@ export function useProjectTaskGroups(): ProjectTaskGroup[] {
         worktreesByRepo,
         unifiedTabsByWorktree,
         signalsByTabId: signals,
-        generatedTitlesEnabled
+        generatedTitlesEnabled,
+        importedChats
       }),
-    [repos, worktreesByRepo, unifiedTabsByWorktree, signals, generatedTitlesEnabled]
+    [repos, worktreesByRepo, unifiedTabsByWorktree, signals, generatedTitlesEnabled, importedChats]
   )
 }

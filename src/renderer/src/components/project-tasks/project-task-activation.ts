@@ -3,9 +3,14 @@ import { activateStructuredAgentSessionTab } from '@/lib/agent-session/structure
 import { activateAndRevealWorkspace } from '@/lib/worktree-activation'
 import { useAppStore } from '@/store'
 import type { ProjectTask } from './project-task-model'
+import { resumeImportedConductorChat } from './imported-conductor-chat-resume'
 
 /** Open the task's checkout and bring its conversation forward without seeding a sibling shell. */
 export function activateProjectTask(task: ProjectTask): void {
+  if (task.contentType === 'imported-chat') {
+    resumeImportedConductorChat(task)
+    return
+  }
   const revealed = activateAndRevealWorkspace(task.worktreeId, {
     revealInSidebar: false,
     clearSidebarFilters: false,

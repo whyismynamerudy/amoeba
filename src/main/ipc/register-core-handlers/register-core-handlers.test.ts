@@ -219,6 +219,10 @@ vi.mock('../memory', () => ({
   registerMemoryHandlers: registerMemoryHandlersMock
 }))
 
+vi.mock('../conductor-import', () => ({
+  registerConductorImportHandlers: vi.fn()
+}))
+
 vi.mock('../notebook', () => ({
   registerNotebookHandlers: registerNotebookHandlersMock
 }))
