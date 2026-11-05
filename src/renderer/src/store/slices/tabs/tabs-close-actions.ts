@@ -90,6 +90,10 @@ export function createTabsCloseActions(
               ? { reopen: reopenChatTab(worktreeId, tab.entityId, tab.agentSessionAgent) }
               : {})
           })
+          // A user's close of a real local chat can come back with Cmd+Shift+T.
+          if (!provisional && target.kind === 'local') {
+            get().rememberClosedChat(worktreeId, tab.entityId)
+          }
         } else {
           // Closing still removes the tab; no host can be named to stop its chat on.
           console.warn('[structured-agent-session] close found no owning host', tab.entityId)

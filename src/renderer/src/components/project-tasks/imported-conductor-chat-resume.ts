@@ -1,11 +1,9 @@
 import { toast } from 'sonner'
 import { translate } from '@/i18n/i18n'
 import { beginStructuredAgentSessionProvisionalLaunch } from '@/lib/agent-session/structured-agent-session-provisional-tab'
-import {
-  activateStructuredAgentSessionTab,
-  findStructuredAgentSessionTab
-} from '@/lib/agent-session/structured-agent-session-tab-activation'
-import { structuredLaunchFailure } from '@/lib/structured-agent-session-launch-failure'
+import { findStructuredAgentSessionTab } from '@/lib/agent-session/structured-agent-session-tab-activation'
+import { activateAiVaultStructuredSession } from '@/lib/activate-ai-vault-structured-session'
+import { structuredLaunchConversationOwner } from '@/lib/structured-agent-session-launch-failure'
 import { newAgentLaunchRequestId } from '@/lib/agent-launch-request-id'
 import { adoptAgentSessionLaunchVerdict } from '@/lib/agent-session-launch-plan'
 import { activateAndRevealWorkspace } from '@/lib/worktree-activation'
@@ -16,17 +14,13 @@ import type { ConductorImportedChat } from '../../../../shared/conductor-import-
 // Repeated clicks must not race a second adoption of the same conversation.
 const resumingChatIds = new Set<string>()
 
-/** If another Amoeba chat already holds the conversation, show that chat; the import row is a stale copy. */
+/** Another Amoeba chat already holds this conversation: show it, reopening it if its tab was closed. */
 function revealExistingOwner(error: unknown): boolean {
-  const failure = structuredLaunchFailure(error)
-  if (failure?.code !== 'agent_session_conflict' || !failure.owner) {
+  const owner = structuredLaunchConversationOwner(error)
+  if (!owner) {
     return false
   }
-  const state = useAppStore.getState()
-  const owner = findStructuredAgentSessionTab(state.unifiedTabsByWorktree, failure.owner)
-  if (owner) {
-    activateStructuredAgentSessionTab({ worktreeId: failure.owner.workspaceId, tabId: owner.id })
-  }
+  void activateAiVaultStructuredSession({ structuredSession: owner })
   return true
 }
 

@@ -30,7 +30,7 @@ export type ClosedTerminalTabSnapshot = {
   position?: RecentlyClosedTabPosition
 }
 
-export type RecentlyClosedTabKind = 'terminal' | 'browser' | 'editor'
+export type RecentlyClosedTabKind = 'terminal' | 'browser' | 'editor' | 'chat'
 
 const MAX_RECENT_CLOSED_TERMINAL_TABS = 10
 // Cross-type history exceeds per-type cap 10; drained snapshot kinds are skipped on pop.
@@ -100,7 +100,11 @@ export type RecentlyClosedTabsSlice = {
   /** Newest-first close order across the terminal/browser/editor reopen stacks
    *  so Cmd+Shift+T pops true cross-type MRU (Chrome/Ghostty semantics). */
   recentlyClosedTabKindsByWorktree: Record<string, RecentlyClosedTabKind[]>
+  /** Newest-first session ids of closed chats; their conversations live on and reopen from history. */
+  recentlyClosedChatSessionsByWorktree: Record<string, string[]>
+  rememberClosedChat: (worktreeId: string, sessionId: string) => void
   reopenClosedTerminalTab: (worktreeId: string) => boolean
+  reopenClosedChat: (worktreeId: string) => boolean
   reopenClosedTab: (worktreeId: string) => boolean
 }
 
@@ -112,6 +116,51 @@ export const createRecentlyClosedTabsSlice: StateCreator<
 > = (set, get) => ({
   recentlyClosedTerminalTabsByWorktree: {},
   recentlyClosedTabKindsByWorktree: {},
+  recentlyClosedChatSessionsByWorktree: {},
+
+  rememberClosedChat: (worktreeId, sessionId) => {
+    set((s) => ({
+      recentlyClosedChatSessionsByWorktree: {
+        ...s.recentlyClosedChatSessionsByWorktree,
+        [worktreeId]: [
+          sessionId,
+          ...(s.recentlyClosedChatSessionsByWorktree[worktreeId] ?? []).filter(
+            (id) => id !== sessionId
+          )
+        ].slice(0, MAX_RECENT_CLOSED_TERMINAL_TABS)
+      },
+      recentlyClosedTabKindsByWorktree: pushRecentlyClosedTabKind(
+        s.recentlyClosedTabKindsByWorktree,
+        worktreeId,
+        'chat'
+      )
+    }))
+  },
+
+  reopenClosedChat: (worktreeId) => {
+    let sessionId: string | undefined
+    set((s) => {
+      const stack = s.recentlyClosedChatSessionsByWorktree[worktreeId] ?? []
+      sessionId = stack[0]
+      return sessionId
+        ? {
+            recentlyClosedChatSessionsByWorktree: {
+              ...s.recentlyClosedChatSessionsByWorktree,
+              [worktreeId]: stack.slice(1)
+            }
+          }
+        : s
+    })
+    if (!sessionId) {
+      return false
+    }
+    const structuredSession = { sessionId, workspaceId: worktreeId }
+    // Lazy: the activation module reads the store, which would make a static import a cycle.
+    void import('@/lib/activate-ai-vault-structured-session').then((module) =>
+      module.activateAiVaultStructuredSession({ structuredSession })
+    )
+    return true
+  },
 
   reopenClosedTerminalTab: (worktreeId) => {
     // Skip local reopen for runtime-owned terminals: phantom shells race host snapshots; dispatcher falls through to browser/editor. Direct import avoids store cycle. Local/SSH are supported; remote terminal reopen remains deferred.
@@ -177,9 +226,11 @@ export const createRecentlyClosedTabsSlice: StateCreator<
       const reopened =
         kind === 'terminal'
           ? get().reopenClosedTerminalTab(worktreeId)
-          : kind === 'browser'
-            ? get().reopenClosedBrowserTab(worktreeId) !== null
-            : get().reopenClosedEditorTab(worktreeId)
+          : kind === 'chat'
+            ? get().reopenClosedChat(worktreeId)
+            : kind === 'browser'
+              ? get().reopenClosedBrowserTab(worktreeId) !== null
+              : get().reopenClosedEditorTab(worktreeId)
       if (reopened) {
         return true
       }
