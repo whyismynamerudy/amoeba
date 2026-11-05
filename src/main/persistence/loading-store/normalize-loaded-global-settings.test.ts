@@ -152,7 +152,7 @@ describe('chat appearance settings', () => {
     ).toEqual({ fontSize: 20, codeFontSize: 10, width: 'wide' })
     expect(
       normalizeLegacyProfile({
-        nativeChatAppearance: { fontSize: 14, codeFontSize: 12, width: 'comfortable' }
+        nativeChatAppearance: { fontSize: 15, codeFontSize: 12, width: 'comfortable' }
       }).nativeChatAppearance
     ).toBeUndefined()
   })
@@ -302,5 +302,15 @@ describe('terminal default shell', () => {
       normalizeLegacyProfile({ terminalDefaultShell: '  /bin/zsh  ' }).terminalDefaultShell
     ).toBe('/bin/zsh')
     expect(normalizeLegacyProfile({ terminalDefaultShell: '   ' }).terminalDefaultShell).toBe('')
+  })
+})
+
+describe('Amoeba system font default', () => {
+  it('moves the old Geist default to the system font once and keeps fonts people chose', () => {
+    expect(normalizeLegacyProfile({ appFontFamily: 'Geist' }).appFontFamily).toBe('system-ui')
+    expect(normalizeLegacyProfile({ appFontFamily: 'Inter' }).appFontFamily).toBe('Inter')
+    expect(
+      normalizeLegacyProfile({ appFontFamily: 'Geist', appFontSystemDefaulted: true }).appFontFamily
+    ).toBe('Geist')
   })
 })

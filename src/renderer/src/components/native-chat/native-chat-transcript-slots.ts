@@ -154,7 +154,10 @@ export function buildNativeChatTranscriptSlots(
   for (const [index, message] of messages.entries()) {
     sectionSlots.openBefore(pending, message, 0)
     const turnKey = turnKeys[index]
-    const receipt = receipts.get(message.id)
+    const folded = foldedRows.has(index)
+    // A collapsed turn hides its settled approvals with the rest of its work; answers to questions stay.
+    const receipt =
+      folded && receipts.get(message.id)?.kind === 'approval' ? undefined : receipts.get(message.id)
     const bar = turnKey === undefined ? undefined : bars.get(turnKey)
     // A turn's bar draws at its first row, so a message folded into it (a steer) carries none.
     const candidateStatus =
@@ -166,7 +169,6 @@ export function buildNativeChatTranscriptSlots(
     const status = candidateStatus ?? undefined
     const turnDiff =
       turnKey && lastRowByTurn.get(turnKey) === index ? turnDiffs.get(turnKey) : undefined
-    const folded = foldedRows.has(index)
     // Exclude nondrawing folded rows so virtualized estimates cannot leave empty gaps.
     const activeTurnIsWorking = isNativeChatRowInLiveWorkingTurn(
       turnKey,

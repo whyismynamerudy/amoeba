@@ -1,7 +1,7 @@
 import type { TuiAgent } from './tui-agent'
 
 export type NativeChatAppearanceSettings = {
-  /** Chat text size in px, 12–20; absent = 14. */
+  /** Chat text size in px, 12–20; absent = DEFAULT_NATIVE_CHAT_FONT_SIZE. */
   fontSize?: number
   /** Code text size in px, 10–18; absent = 12. */
   codeFontSize?: number
@@ -21,7 +21,7 @@ export type NativeChatGlobalSettings = {
   nativeChatProviders?: Partial<Record<TuiAgent, boolean>>
 }
 
-export const DEFAULT_NATIVE_CHAT_FONT_SIZE = 14
+export const DEFAULT_NATIVE_CHAT_FONT_SIZE = 15
 export const DEFAULT_NATIVE_CHAT_CODE_FONT_SIZE = 12
 export const DEFAULT_NATIVE_CHAT_CONTRAST = 100
 
@@ -37,7 +37,12 @@ export function normalizeNativeChatAppearanceSettings(
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     return undefined
   }
-  const fontSize = normalizeSize('fontSize' in value ? value.fontSize : undefined, 12, 20, 14)
+  const fontSize = normalizeSize(
+    'fontSize' in value ? value.fontSize : undefined,
+    12,
+    20,
+    DEFAULT_NATIVE_CHAT_FONT_SIZE
+  )
   const codeFontSize = normalizeSize(
     'codeFontSize' in value ? value.codeFontSize : undefined,
     10,

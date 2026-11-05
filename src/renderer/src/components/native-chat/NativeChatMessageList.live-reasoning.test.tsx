@@ -820,7 +820,7 @@ import type { NativeChatLiveSession } from './use-native-chat-live-session'
       expect(screen.getByText('Run tests?')).toBeInTheDocument()
       expect(screen.getByText('Allow once')).toBeInTheDocument()
       expect(screen.getByText('Answered on desktop')).toBeInTheDocument()
-      expect(screen.getByText('Resolved').closest('[data-native-chat-receipt]')).not.toBeNull()
+      expect(screen.getByText('Allow once').closest('[data-native-chat-receipt]')).not.toBeNull()
       expect(screen.queryByText('resolved')).toBeNull()
     })
 

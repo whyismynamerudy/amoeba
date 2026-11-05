@@ -1,6 +1,6 @@
 /* Text steps are ratios of the text size setting, so the tiers scale together. */
 .native-chat-appearance {
-  --text-sm: var(--chat-font-size, 0.875rem);
+  --text-sm: var(--chat-font-size, 0.9375rem);
   /* Labels and controls follow the chat's 12-20 range even when message text follows the terminal. */
   --chat-ui-size: var(--chat-ui-font-size, var(--text-sm));
   --text-xs: min(var(--text-sm), calc(var(--chat-ui-size) * 12 / 14));

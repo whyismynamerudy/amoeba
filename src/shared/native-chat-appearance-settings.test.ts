@@ -41,13 +41,13 @@ describe('native chat appearance normalization', () => {
   it('derives defaults without storing them', () => {
     expect(
       normalizeNativeChatAppearanceSettings({
-        fontSize: 14,
+        fontSize: 15,
         codeFontSize: 12,
         width: 'comfortable'
       })
     ).toBeUndefined()
     expect(resolveNativeChatAppearanceSettings(undefined)).toEqual({
-      fontSize: 14,
+      fontSize: 15,
       codeFontSize: 12,
       width: 'comfortable',
       contrast: 100,

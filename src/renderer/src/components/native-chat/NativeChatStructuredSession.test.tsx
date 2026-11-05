@@ -91,7 +91,7 @@ describe('NativeChatStructuredSession', () => {
     expect(root?.style.getPropertyValue('--chat-source-foreground')).toBe('')
     expect(root?.style.getPropertyValue('--chat-font-family')).toBe('')
     expect(root?.style.getPropertyValue('--chat-foreground-mix')).toBe('78%')
-    expect(root?.style.getPropertyValue('--chat-font-size')).toBe('14px')
+    expect(root?.style.getPropertyValue('--chat-font-size')).toBe('15px')
     expect(root?.style.getPropertyValue('--chat-content-max-width')).toBe('none')
     act(() => useAppStore.setState({ settings: original }))
   })

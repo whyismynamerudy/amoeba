@@ -164,7 +164,7 @@ describe('Chat settings page', () => {
     expect(screen.getByRole('heading', { name: 'Chat', level: 2 })).toBeTruthy()
     expect(screen.getByRole('heading', { name: 'Appearance', level: 3 })).toBeTruthy()
     expect(container.querySelector('button[aria-controls="appearance-section-chat"]')).toBeNull()
-    expect(screen.getByRole('spinbutton', { name: 'Text size' }).getAttribute('value')).toBe('14')
+    expect(screen.getByRole('spinbutton', { name: 'Text size' }).getAttribute('value')).toBe('15')
     expect(screen.getByRole('spinbutton', { name: 'Code text size' }).getAttribute('value')).toBe(
       '12'
     )

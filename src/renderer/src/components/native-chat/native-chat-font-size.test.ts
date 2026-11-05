@@ -17,10 +17,10 @@ function combo(overrides: Partial<Combo>): Combo {
 
 describe('chatFontSizeForAction', () => {
   it('steps by one pixel and clamps at both limits', () => {
-    expect(chatFontSizeForAction(undefined, 'increase')).toEqual({ fontSize: 15 })
+    expect(chatFontSizeForAction(undefined, 'increase')).toEqual({ fontSize: 16 })
     expect(chatFontSizeForAction({ fontSize: 20 }, 'increase')).toEqual({ fontSize: 20 })
     expect(chatFontSizeForAction({ fontSize: 12 }, 'decrease')).toEqual({ fontSize: 12 })
-    expect(chatFontSizeForAction({ fontSize: 15 }, 'decrease')).toBeUndefined()
+    expect(chatFontSizeForAction({ fontSize: 16 }, 'decrease')).toBeUndefined()
   })
   it('reset removes only text size and preserves code size and width', () => {
     expect(

@@ -5,6 +5,10 @@ import '@testing-library/jest-dom/vitest'
 import { act, cleanup, render, screen } from '@testing-library/react'
 import { createRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+vi.mock(
+  './use-native-chat-store-appearance-style',
+  () => import('./native-chat-14px-appearance.test-fixture')
+)
 import type { NativeChatMessage } from '../../../../shared/native-chat-types'
 import { NativeChatMessageList } from './NativeChatMessageList'
 import type { NativeChatMessageListHandle } from './use-native-chat-reveal-latest'

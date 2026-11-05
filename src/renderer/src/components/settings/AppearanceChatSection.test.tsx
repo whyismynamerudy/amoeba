@@ -112,7 +112,7 @@ describe('chat appearance settings controls', () => {
       />
     )
     const text = screen.getByRole('spinbutton', { name: 'Text size' })
-    expect(text.getAttribute('value')).toBe('14')
+    expect(text.getAttribute('value')).toBe('15')
     fireEvent.change(text, { target: { value: '30' } })
     fireEvent.blur(text)
     const code = screen.getByRole('spinbutton', { name: 'Code text size' })

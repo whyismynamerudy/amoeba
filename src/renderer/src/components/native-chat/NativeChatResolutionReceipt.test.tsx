@@ -70,6 +70,22 @@ describe('resolution receipts', () => {
     expect(screen.queryByRole('button')).toBeNull()
   })
 
+  it('summarizes a tool input to its command and omits this desktop as the answerer', () => {
+    render(
+      <NativeChatResolutionReceipt
+        body={{
+          ...approval,
+          title: 'Bash',
+          detail: JSON.stringify({ command: 'python3 - <<EOF\nprint(1)\nEOF', timeout: 5 }),
+          resolution: { ...approval.resolution, resolvedBy: 'desktop-renderer' }
+        }}
+      />
+    )
+
+    expect(screen.getByText('python3 - <<EOF')).toBeInTheDocument()
+    expect(screen.queryByText(/Answered on/)).toBeNull()
+  })
+
   it('uses the SDK display name in the compact resolved receipt', () => {
     render(
       <NativeChatResolutionReceipt

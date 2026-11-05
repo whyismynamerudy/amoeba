@@ -1,5 +1,6 @@
 import { normalizeNativeChatAppearanceSettings } from '../../../shared/native-chat-appearance-settings'
-import { getDefaultVoiceSettings } from '../../../shared/constants'
+import { DEFAULT_APP_FONT_FAMILY, getDefaultVoiceSettings } from '../../../shared/constants'
+import { LEGACY_DEFAULT_APP_FONT_FAMILY } from '../../../shared/project-tasks-settings'
 import { normalizePRBotAuthorOverrides } from '../../../shared/pr-bot-author-overrides'
 import { normalizeTerminalQuickCommands } from '../../../shared/terminal-quick-commands'
 import { normalizeOpenInApplications } from '../../../shared/open-in-applications'
@@ -72,6 +73,12 @@ export function normalizeLoadedGlobalSettings(
     ...(savedChatUiWithTerminalDefaultView(parsed.settings)
       ? { experimentalNativeChat: false }
       : {}),
+    // Move profiles still on the old Geist default to the system font, once.
+    ...(parsed.settings?.appFontSystemDefaulted !== true &&
+    parsed.settings?.appFontFamily === LEGACY_DEFAULT_APP_FONT_FAMILY
+      ? { appFontFamily: DEFAULT_APP_FONT_FAMILY }
+      : {}),
+    appFontSystemDefaulted: true,
     nativeChatAppearance: normalizeNativeChatAppearanceSettings(
       parsed.settings?.nativeChatAppearance
     ),

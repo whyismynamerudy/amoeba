@@ -5,6 +5,10 @@ import '@testing-library/jest-dom/vitest'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { useCallback, useMemo, useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+vi.mock(
+  './use-native-chat-store-appearance-style',
+  () => import('./native-chat-14px-appearance.test-fixture')
+)
 
 // Why: these fixtures have neither inline visual owners nor sender navigation.
 const unusedChatLeaves = vi.hoisted(() => ({

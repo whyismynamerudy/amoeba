@@ -186,7 +186,7 @@ describe('chat root appearance style', () => {
     expect(full['--chat-estimated-chars-per-line']).toBeGreaterThan(
       wide['--chat-estimated-chars-per-line']
     )
-    expect(nativeChatAppearanceStyle(undefined, 384)['--chat-estimated-chars-per-line']).toBe(50)
+    expect(nativeChatAppearanceStyle(undefined, 384)['--chat-estimated-chars-per-line']).toBe(46)
   })
 
   it.each(['light', 'dark', 'system'] as const)(

@@ -21375,6 +21375,20 @@
       "resumeFailed": "Could not reopen this Conductor chat.",
       "resumeFailedTitle": "Could not open “{{value0}}”",
       "resumeFailedStillRunning": "If this chat is still running in Conductor or Orca, stop it or close that app, then open it here again."
+    },
+    "fork": {
+      "menu": "Fork chat",
+      "toChat": "Fork to new chat",
+      "toWorkspace": "Fork to new workspace",
+      "title": "{{value0}} (fork)",
+      "untitled": "Forked chat",
+      "needsGit": "Only git projects can fork into a new workspace.",
+      "localOnly": "Forking works for local projects only.",
+      "workspaceProgress": "Forking into a new workspace…",
+      "chatProgress": "Forking the chat…",
+      "unsupported": "This chat has no saved Claude or Codex conversation to fork yet.",
+      "failed": "The fork could not be opened.",
+      "failedTitle": "Could not fork this chat"
     }
   }
 }

@@ -1,14 +1,9 @@
 import { toast } from 'sonner'
 import { translate } from '@/i18n/i18n'
-import { beginStructuredAgentSessionProvisionalLaunch } from '@/lib/agent-session/structured-agent-session-provisional-tab'
-import { findStructuredAgentSessionTab } from '@/lib/agent-session/structured-agent-session-tab-activation'
 import { activateAiVaultStructuredSession } from '@/lib/activate-ai-vault-structured-session'
 import { structuredLaunchConversationOwner } from '@/lib/structured-agent-session-launch-failure'
-import { newAgentLaunchRequestId } from '@/lib/agent-launch-request-id'
-import { adoptAgentSessionLaunchVerdict } from '@/lib/agent-session-launch-plan'
-import { activateAndRevealWorkspace } from '@/lib/worktree-activation'
-import { useAppStore } from '@/store'
 import { useImportedConductorChats } from './imported-conductor-chats'
+import { resumeConversationAsChat } from './conversation-chat-resume'
 import type { ConductorImportedChat } from '../../../../shared/conductor-import-types'
 
 // Repeated clicks must not race a second adoption of the same conversation.
@@ -29,55 +24,28 @@ export function resumeImportedConductorChat(worktreeId: string, chat: ConductorI
   if (resumingChatIds.has(chat.id)) {
     return
   }
-  const plan = adoptAgentSessionLaunchVerdict({
-    route: 'structured-native-chat',
-    requestId: newAgentLaunchRequestId(),
-    agent: chat.agent,
-    worktreeId,
-    resumeFrom: { providerSessionId: chat.providerSessionId }
-  })
-  const launch = beginStructuredAgentSessionProvisionalLaunch({
-    plan,
-    hooks: {},
-    beforeOpen: () =>
-      activateAndRevealWorkspace(worktreeId, {
-        revealInSidebar: false,
-        clearSidebarFilters: false,
-        providesInitialSurface: true
-      }) !== false
-  })
-  if (!launch) {
-    return
-  }
   resumingChatIds.add(chat.id)
-  void launch.settlement.then((settlement) => {
+  void resumeConversationAsChat({
+    worktreeId,
+    agent: chat.agent,
+    providerSessionId: chat.providerSessionId,
+    title: chat.title
+  }).then((result) => {
     resumingChatIds.delete(chat.id)
-    if (settlement.kind === 'structured') {
-      // Keep Conductor's title; the resumed chat is now an ordinary task, so the import row retires.
-      const state = useAppStore.getState()
-      const tab = findStructuredAgentSessionTab(state.unifiedTabsByWorktree, {
-        workspaceId: worktreeId,
-        sessionId: settlement.sessionId
-      })
-      if (tab) {
-        state.setTabCustomLabel(tab.id, chat.title)
-      }
-      void useImportedConductorChats.getState().forget(chat.id, { sessionId: settlement.sessionId })
+    const imported = useImportedConductorChats.getState()
+    if (result.kind === 'opened') {
+      // The resumed chat is now an ordinary task, so the import row retires.
+      void imported.forget(chat.id, { sessionId: result.sessionId })
       return
     }
-    if (settlement.kind !== 'failed') {
+    if (result.kind !== 'failed') {
       return
     }
-    // A refused resume leaves nothing worth keeping in its placeholder tab.
-    if (launch.tab) {
-      useAppStore.getState().closeUnifiedTab(launch.tab.id)
-    }
-    if (revealExistingOwner(settlement.error)) {
-      void useImportedConductorChats.getState().forget(chat.id)
+    if (revealExistingOwner(result.error)) {
+      void imported.forget(chat.id)
       return
     }
-    // The placeholder carried any in-tab error, so explain here; the usual cause is the chat still
-    // running in its original app, where two writers would fork it.
+    // The usual cause is the chat still running in its original app, where two writers would fork it.
     toast.error(
       translate('projectTasks.conductorImport.resumeFailedTitle', 'Could not open “{{value0}}”', {
         value0: chat.title

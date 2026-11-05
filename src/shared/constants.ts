@@ -35,7 +35,8 @@ export {
 } from './worktree/card-properties'
 
 export const SCHEMA_VERSION = 1
-export const DEFAULT_APP_FONT_FAMILY = 'Geist'
+// The OS UI font (SF Pro on macOS, Segoe UI on Windows) reads less dense than Geist at chat sizes.
+export const DEFAULT_APP_FONT_FAMILY = 'system-ui'
 export const DEFAULT_SHOW_SLEEPING_WORKSPACES = true
 export const DEFAULT_HIDE_SLEEPING_WORKSPACES = false
 export const DEFAULT_AGENT_ACTIVITY_DISPLAY_MODE: AgentActivityDisplayMode = 'compact'

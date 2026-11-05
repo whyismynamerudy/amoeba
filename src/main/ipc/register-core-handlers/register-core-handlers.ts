@@ -23,6 +23,7 @@ import { registerExportHandlers } from '../export'
 import { registerStatsHandlers } from '../stats'
 import { registerMemoryHandlers } from '../memory'
 import { registerConductorImportHandlers } from '../conductor-import'
+import { registerWorktreeForkHandlers } from '../worktree-fork'
 import { registerRateLimitHandlers } from '../rate-limits'
 import { registerRuntimeHandlers } from '../runtime'
 import {
@@ -206,6 +207,7 @@ export function registerCoreHandlers(
   registerStatsHandlers(stats)
   registerMemoryHandlers(store)
   registerConductorImportHandlers()
+  registerWorktreeForkHandlers(store)
   registerNotificationHandlers(store, runtime)
   registerNotebookHandlers(store)
   registerOnboardingHandlers(store)
