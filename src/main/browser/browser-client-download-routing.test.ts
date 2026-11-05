@@ -49,6 +49,7 @@ function environment(input: {
         browserPageId: (params as { browserPageId: string }).browserPageId,
         hostLabel: input.environmentId
       })
+      // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: a partial RPC reply stub; the routing under test reads only these fields.
       return {
         ok: true,
         result: {

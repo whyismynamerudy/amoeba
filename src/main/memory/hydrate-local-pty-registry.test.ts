@@ -78,6 +78,20 @@ function makeStore(
   return store as Store
 }
 
+function runningSession(sessionId: string, cwd: string): SessionInfo {
+  return {
+    sessionId,
+    pid: 4242,
+    cwd,
+    state: 'running',
+    shellState: 'ready',
+    isAlive: true,
+    cols: 80,
+    rows: 24,
+    createdAt: 0
+  }
+}
+
 function makeProvider(sessions: SessionInfo[]): Pick<DaemonPtyAdapter, 'listSessions'> {
   return {
     listSessions: vi.fn().mockResolvedValue(sessions)
@@ -559,19 +573,7 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
     const worktreeId = 'repo-a::C:/Users/Neil/Amoeba'
     const ptyId = `${worktreeId}@@cafebabe`
     getDaemonProviderMock.mockReturnValue(
-      makeProvider([
-        {
-          sessionId: ptyId,
-          pid: 4242,
-          cwd: 'C:/Users/Neil/Amoeba',
-          state: 'running',
-          shellState: 'ready',
-          isAlive: true,
-          cols: 80,
-          rows: 24,
-          createdAt: 0
-        }
-      ])
+      makeProvider([runningSession(ptyId, 'C:/Users/Neil/Amoeba')])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {
@@ -592,19 +594,7 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
     const { hydrate, listRegisteredPtys } = await loadFresh()
     const ptyId = 'repo-a::C:/Users/Neil/Amoeba@@cafebabe'
     getDaemonProviderMock.mockReturnValue(
-      makeProvider([
-        {
-          sessionId: ptyId,
-          pid: 4242,
-          cwd: 'C:/Users/Neil/Amoeba',
-          state: 'running',
-          shellState: 'ready',
-          isAlive: true,
-          cols: 80,
-          rows: 24,
-          createdAt: 0
-        }
-      ])
+      makeProvider([runningSession(ptyId, 'C:/Users/Neil/Amoeba')])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {
@@ -633,19 +623,7 @@ describe('hydrateLocalPtyRegistryAtBoot', () => {
     const worktreeId = 'repo-a::\\\\wsl$\\Ubuntu\\home\\neil\\amoeba'
     const ptyId = `${worktreeId}@@cafebabe`
     getDaemonProviderMock.mockReturnValue(
-      makeProvider([
-        {
-          sessionId: ptyId,
-          pid: 4242,
-          cwd: '\\\\wsl$\\Ubuntu\\home\\neil\\amoeba',
-          state: 'running',
-          shellState: 'ready',
-          isAlive: true,
-          cols: 80,
-          rows: 24,
-          createdAt: 0
-        }
-      ])
+      makeProvider([runningSession(ptyId, '\\\\wsl$\\Ubuntu\\home\\neil\\amoeba')])
     )
     listLocalRepoWorktreesStrictMock.mockResolvedValue([
       {

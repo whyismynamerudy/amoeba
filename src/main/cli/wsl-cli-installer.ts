@@ -215,7 +215,7 @@ export class WslCliInstaller {
     }
 
     await this.run(
-      this.distro as string,
+      this.requireDistro(),
       buildWslCliInstallCommand({
         ...status,
         commandPath: status.commandPath,
@@ -233,7 +233,7 @@ export class WslCliInstaller {
     if (status.state === 'not_installed') {
       // A leftover managed legacy command would let startup reconciliation undo removal.
       await this.run(
-        this.distro as string,
+        this.requireDistro(),
         ['set -eu', ...buildManagedLegacyRemoveCommands(status.commandPath)].join('\n')
       )
       return status
@@ -242,8 +242,16 @@ export class WslCliInstaller {
       throw new Error(`Refusing to remove non-Amoeba command at ${status.commandPath}.`)
     }
 
-    await this.run(this.distro as string, buildSafeRemoveCommand(status.commandPath, true))
+    await this.run(this.requireDistro(), buildSafeRemoveCommand(status.commandPath, true))
     return this.getStatus()
+  }
+
+  /** A supported status implies a resolved distro; guard it instead of asserting. */
+  private requireDistro(): string {
+    if (!this.distro) {
+      throw new Error('WSL CLI registration is unavailable: no WSL distro.')
+    }
+    return this.distro
   }
 
   private async readCommandFile(

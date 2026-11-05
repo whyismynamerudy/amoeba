@@ -86,15 +86,17 @@ export function scanOrcaProfile(
     }
     const repos: ConductorImportRepo[] = (Array.isArray(documents.repos) ? documents.repos : [])
       .map(asObject)
-      .flatMap((repo) => {
-        const id = str(repo?.id)
-        const path = str(repo?.path)
-        // Remote (SSH) projects belong to their host, not this machine.
-        if (!id || !path || str(repo?.connectionId) || !existsSync(path)) {
+      .flatMap((entry) => {
+        const id = str(entry?.id)
+        const path = str(entry?.path)
+        // Remote (SSH/server) projects belong to their host, whichever field Orca recorded it in.
+        const hostId = str(entry?.executionHostId)
+        const remote = Boolean(str(entry?.connectionId)) || (hostId !== null && hostId !== 'local')
+        if (!id || !path || remote || !existsSync(path)) {
           return []
         }
-        const kind = repo?.kind === 'folder' ? 'folder' : 'git'
-        return [{ id, name: str(repo?.displayName) ?? basename(path), path, kind }]
+        const kind = entry?.kind === 'folder' ? 'folder' : 'git'
+        return [{ id, name: str(entry?.displayName) ?? basename(path), path, kind }]
       })
     const repoIds = new Set(repos.map((repo) => repo.id))
     const workspaces: ConductorImportWorkspace[] = Object.entries(

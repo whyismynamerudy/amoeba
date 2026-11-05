@@ -23,19 +23,19 @@ vi.mock('../../resources/icon-dev.png?asset', () => ({
   default: 'classic-dev-icon'
 }))
 
-vi.mock('../../resources/app-icons/orca-watercolor.png?asset', () => ({
+vi.mock('../../resources/app-icons/amoeba-moss.png?asset', () => ({
   default: 'watercolor-icon'
 }))
 
-vi.mock('../../resources/app-icons/orca-watercolor.png?asset&asarUnpack', () => ({
+vi.mock('../../resources/app-icons/amoeba-moss.png?asset&asarUnpack', () => ({
   default: 'watercolor-icon-unpacked'
 }))
 
-vi.mock('../../resources/app-icons/orca-blue.png?asset', () => ({
+vi.mock('../../resources/app-icons/amoeba-sage.png?asset', () => ({
   default: 'blue-icon'
 }))
 
-vi.mock('../../resources/app-icons/orca-blue.png?asset&asarUnpack', () => ({
+vi.mock('../../resources/app-icons/amoeba-sage.png?asset&asarUnpack', () => ({
   default: 'blue-icon-unpacked'
 }))
 

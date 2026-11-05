@@ -177,6 +177,7 @@ describe('client-hosted downloads', () => {
         if (writes.length === 1) {
           await firstWrite
         }
+        // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: a partial RPC reply stub; the manager under test reads only these fields.
         return {
           ok: true,
           result: chunk.final

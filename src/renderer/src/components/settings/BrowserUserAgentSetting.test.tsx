@@ -123,6 +123,6 @@ describe('BrowserUserAgentSetting', () => {
     expect(await screen.findByText(/must be reset explicitly/i)).toBeTruthy()
     expect(screen.queryByRole('radiogroup')).toBeNull()
     // No reset control exists here; the command must provide a usable recovery route.
-    expect(screen.getByText(/orca browser identity set --mode <mode> --reset/i)).toBeTruthy()
+    expect(screen.getByText(/amoeba browser identity set --mode <mode> --reset/i)).toBeTruthy()
   })
 })

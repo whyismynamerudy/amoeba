@@ -248,7 +248,7 @@ export default function Landing(): React.JSX.Element {
         <div className="flex flex-col items-center gap-4 py-8">
           <div
             className="flex items-center justify-center size-20 rounded-2xl border border-border/80 shadow-lg shadow-black/40"
-            style={{ backgroundColor: '#12181e' }}
+            style={{ backgroundColor: '#3e3c35' }}
           >
             <img
               src={logo}
@@ -257,7 +257,7 @@ export default function Landing(): React.JSX.Element {
             />
           </div>
           <h1 className="text-4xl font-bold text-foreground tracking-tight">
-            {translate('auto.components.Landing.6ca6ff404e', 'ORCA')}
+            {translate('auto.components.Landing.6ca6ff404e', 'Amoeba')}
           </h1>
 
           {preflightIssues.length > 0 && <PreflightBanner issues={preflightIssues} repos={repos} />}

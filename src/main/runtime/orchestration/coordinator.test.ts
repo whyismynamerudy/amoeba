@@ -42,6 +42,7 @@ function createMockRuntime(): CoordinatorRuntime & {
     createdTerminalOptions: [] as { title?: string }[],
     probeDriftCalls: [] as string[],
     probeDriftResult: null as DriftResult,
+    // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: the harness reassigns this field to other CLI commands per test.
     cliCommand: 'amoeba' as OrchestrationCliCommand,
     throwProbeDrift: null as Error | null,
     setProbeDrift(result: DriftResult): void {

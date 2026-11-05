@@ -1,7 +1,7 @@
 export const APP_ICON_OPTIONS = [
   { id: 'classic', label: 'Classic Amoeba' },
-  { id: 'watercolor', label: 'Watercolor Amoeba' },
-  { id: 'blue', label: 'Blue Amoeba' }
+  { id: 'watercolor', label: 'Moss Amoeba' },
+  { id: 'blue', label: 'Sage Amoeba' }
 ] as const
 
 export type AppIconId = (typeof APP_ICON_OPTIONS)[number]['id']

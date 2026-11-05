@@ -608,6 +608,7 @@ describe('Jira client credential storage', () => {
     })
 
     // Same-host PAT accounts need verified viewer identity to avoid overwriting each other.
+    // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: the test reads back the JSON this client just wrote.
     const stored = JSON.parse(
       readFileSync(join(tempHome, '.amoeba', 'jira-sites.json'), 'utf-8')
     ) as {

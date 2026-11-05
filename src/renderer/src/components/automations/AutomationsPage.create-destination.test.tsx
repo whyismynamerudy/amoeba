@@ -84,6 +84,7 @@ function addSshProject(): void {
 
 /** A runtime project with the same host-local id as the desktop project. */
 function addCollidingRuntimeProject(): void {
+  // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: a minimal repo fixture with only the fields this page reads.
   const repo = {
     id: REPO_ID,
     displayName: 'amoeba on m4-air',

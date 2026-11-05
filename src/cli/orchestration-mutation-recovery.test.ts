@@ -7,15 +7,23 @@ import {
 } from './orchestration-mutation-recovery'
 import { RuntimeClientError } from './runtime-client'
 
+function recoveryError(error: RuntimeClientError): RuntimeClientError {
+  const result = orchestrationMutationRecoveryError(error)
+  if (!(result instanceof RuntimeClientError)) {
+    throw new Error('expected a RuntimeClientError')
+  }
+  return result
+}
+
 describe('orchestration mutation recovery', () => {
   it('queries a known dispatch before issuing the keyed retry', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_1',
         dispatchId: 'dispatch_1',
         originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_1']
       })
-    ) as RuntimeClientError
+    )
 
     expect(result.data).toMatchObject({
       recovery: {
@@ -51,12 +59,12 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('does not invent a dispatch for an old-client-shaped error', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_2',
         originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_2']
       })
-    ) as RuntimeClientError
+    )
 
     expect(result.data).toMatchObject({
       recovery: {
@@ -70,12 +78,12 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('offers a read-only request lookup when the response carried no dispatch', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_unavailable', 'runtime unavailable', {
         orchestrationRequestId: 'request_4',
         originalCommand: ['amoeba', 'orchestration', 'worker-start', '--task', 'task_4']
       })
-    ) as RuntimeClientError
+    )
 
     expect(result.data).toMatchObject({
       recovery: {
@@ -95,12 +103,12 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('describes keyed retry without overclaiming one replay outcome', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_5',
         originalCommand: ['orca', 'orchestration', 'worker-start', '--task', 'task_5']
       })
-    ) as RuntimeClientError
+    )
 
     expect((result.data as { nextSteps?: string[] }).nextSteps?.[1]).toContain(
       'replay, join, or safely recover it without starting a separate duplicate'
@@ -111,7 +119,7 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('renders the exact executable and safely quotes original arguments', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_3',
         dispatchId: 'dispatch_3',
@@ -144,7 +152,7 @@ describe('orchestration mutation recovery', () => {
         originalCommand:
           'orca-ide orchestration worker-stop --dispatch dispatch_4 --comment "quoted value"'
       })
-    ) as RuntimeClientError
+    )
 
     expect(
       (result.data as { recovery?: { retryCommand?: string[] } }).recovery?.retryCommand
@@ -171,12 +179,12 @@ describe('orchestration mutation recovery', () => {
       ['orca', 'orchestration', 'worker-retain', '--dispatch', 'dispatch_1', '--json']
     ]
   ])('replays exact %s argv with the keyed retry', (_name, originalCommand) => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_exact',
         originalCommand
       })
-    ) as RuntimeClientError
+    )
 
     expect(
       (result.data as { recovery?: { retryCommand?: string[] } }).recovery?.retryCommand
@@ -184,7 +192,7 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('reuses the request identity without duplicating an existing retry flag', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_reused',
         originalCommand: [
@@ -196,7 +204,7 @@ describe('orchestration mutation recovery', () => {
           '--retry-request=request_reused'
         ]
       })
-    ) as RuntimeClientError
+    )
 
     expect(
       (result.data as { recovery?: { retryCommand?: string[] } }).recovery?.retryCommand
@@ -305,12 +313,12 @@ describe('orchestration mutation recovery', () => {
       'equals-dispatch-secret'
     ]
   ])('blocks recovery and removes %s credentials', (_name, originalCommand, secret) => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_secret',
         originalCommand
       })
-    ) as RuntimeClientError
+    )
     const output = JSON.stringify({ message: result.message, data: result.data })
 
     expect(output).not.toContain(secret)
