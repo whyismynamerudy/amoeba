@@ -29,5 +29,12 @@ export function getSystemCliInstallDirectories(
     join(homePath, '.opencode', 'bin'),
     join(homePath, '.vite-plus', 'bin')
   )
+  if (platform === 'darwin') {
+    // Last resort: the Codex CLI ChatGPT's desktop app ships, for people with no standalone install.
+    directories.push(
+      '/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin',
+      join(homePath, 'Applications', 'ChatGPT.app', 'Contents', 'Resources', 'codex-cli', 'bin')
+    )
+  }
   return directories
 }
