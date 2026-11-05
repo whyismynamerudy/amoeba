@@ -9,6 +9,7 @@ import {
 } from '../agent-hooks/installer-utils-remote'
 import { buildInstalledGrokConfig } from './grok-hook-config'
 import { GROK_HOME_ENVELOPE_MAX_LENGTH } from './windows-grok-hook-script'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 function status(configPath: string, detail: string | null = null): AgentHookInstallStatus {
   return {
@@ -47,7 +48,7 @@ export async function installRemoteGrokHook(
 ): Promise<AgentHookInstallStatus> {
   const home = remoteHome.replace(/\/$/, '')
   const configPath = `${remoteGrokHome(home, remoteGrokHomeDir)}/hooks/orca-status.json`
-  const scriptPath = `${home}/.orca/agent-hooks/grok-hook.sh`
+  const scriptPath = getRemoteAmoebaHookScriptPath(home, 'grok-hook.sh')
   try {
     const config = await readHooksJsonRemote(sftp, configPath)
     if (!config) {

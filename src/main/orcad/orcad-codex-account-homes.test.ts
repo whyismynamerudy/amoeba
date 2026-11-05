@@ -7,9 +7,9 @@ const { prepareHooks, resolveHome, listHomes } = vi.hoisted(() => ({
     async (_home: string, _isHooksEnabled: () => boolean, _launchesCodex: boolean) => {}
   ),
   resolveHome: vi.fn((candidate: string | undefined): string | null =>
-    candidate === '/home/u/.local/share/orca/codex-accounts/a1/home' ? candidate : null
+    candidate === '/home/u/.local/share/amoeba/codex-accounts/a1/home' ? candidate : null
   ),
-  listHomes: vi.fn(() => ['/home/u/.local/share/orca/codex-accounts/a1/home'])
+  listHomes: vi.fn(() => ['/home/u/.local/share/amoeba/codex-accounts/a1/home'])
 }))
 
 vi.mock('../codex/codex-account-home-hook', () => ({
@@ -26,7 +26,7 @@ vi.mock('../codex-accounts/guest-codex-account-homes', () => ({
 import { orcadCodexAccountHomes } from './orcad-codex-account-homes'
 
 const noCleanup = (): void => {}
-const ACCOUNT_HOME = '/home/u/.local/share/orca/codex-accounts/a1/home'
+const ACCOUNT_HOME = '/home/u/.local/share/amoeba/codex-accounts/a1/home'
 
 function settings(overrides: Partial<GlobalSettings>): GlobalSettings {
   return {

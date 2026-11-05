@@ -62,7 +62,7 @@ function createRuntime(): { runtime: OrcaRuntimeService; store: Store } {
   return { runtime: new OrcaRuntimeService(store), store }
 }
 
-const CLIENT_HOME = '/home/user/.local/share/orca/codex-accounts/client-account/home'
+const CLIENT_HOME = '/home/user/.local/share/amoeba/codex-accounts/client-account/home'
 
 function create(store: Store, isWslHost: boolean): ReturnType<typeof createOrcadAccountServices> {
   const clientHome = (launchEnv?: NodeJS.ProcessEnv): string | null =>

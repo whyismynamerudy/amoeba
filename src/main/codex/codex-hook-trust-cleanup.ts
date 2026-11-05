@@ -28,6 +28,7 @@ import {
 import type { CodexTrustGrantLedgerHome } from './codex-trust-grant-ledger'
 import type { CodexHookHashes } from './codex-hook-trust-derivation'
 import type { CodexWslRuntimeHookInstallPlan } from './codex-wsl-hook-install-plan'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 export function collectManagedTrustEntries(
   sourcePath: string,
@@ -176,7 +177,9 @@ export function removeStaleWslRuntimeManagedHookTrustEntries(
     managedEventLabels: CODEX_MANAGED_EVENT_LABELS,
     timeoutSec: MANAGED_HOOK_TIMEOUT_SECONDS,
     buildManagedCommand: (linuxRuntimeHome) =>
-      wrapReadablePosixHookCommand(`${linuxRuntimeHome}/.orca/agent-hooks/codex-hook.sh`),
+      wrapReadablePosixHookCommand(
+        getRemoteAmoebaHookScriptPath(linuxRuntimeHome, 'codex-hook.sh')
+      ),
     priorLedgerHomes
   })
 }

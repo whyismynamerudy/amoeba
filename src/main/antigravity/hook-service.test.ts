@@ -95,7 +95,7 @@ describe('AntigravityHookService', () => {
     }
 
     const script = readFileSync(
-      join(homeDir, '.orca', 'agent-hooks', ANTIGRAVITY_SCRIPT_FILE_NAME),
+      join(homeDir, '.amoeba', 'hooks', ANTIGRAVITY_SCRIPT_FILE_NAME),
       'utf8'
     )
     expect(script).toContain(
@@ -105,7 +105,7 @@ describe('AntigravityHookService', () => {
       expect(script).not.toContain('powershell.exe')
       expect(script).toContain('ELECTRON_RUN_AS_NODE=1')
       expect(
-        readFileSync(join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook-post.cjs'), 'utf8')
+        readFileSync(join(homeDir, '.amoeba', 'hooks', 'antigravity-hook-post.cjs'), 'utf8')
       ).toContain('/hook/antigravity')
       expect(script).toContain('setlocal DisableDelayedExpansion')
     } else {
@@ -131,7 +131,7 @@ describe('AntigravityHookService', () => {
 
       const result = spawnSync(
         '/bin/sh',
-        [join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook.sh')],
+        [join(homeDir, '.amoeba', 'hooks', 'antigravity-hook.sh')],
         {
           env: {
             ...process.env,
@@ -155,7 +155,7 @@ describe('AntigravityHookService', () => {
     'keeps answering the PreToolUse gate when the managed script is missing',
     () => {
       new AntigravityHookService().install()
-      rmSync(join(homeDir, '.orca', 'agent-hooks'), { recursive: true, force: true })
+      rmSync(join(homeDir, '.amoeba', 'hooks'), { recursive: true, force: true })
 
       const config = JSON.parse(
         readFileSync(join(homeDir, '.gemini', 'config', 'hooks.json'), 'utf8')
@@ -167,7 +167,7 @@ describe('AntigravityHookService', () => {
         encoding: 'utf8'
       })
 
-      // Config under .gemini can outlive managed scripts under .orca.
+      // Config under .gemini can outlive managed scripts under .amoeba.
       expect(result.status).toBe(0)
       expect(result.stdout).toBe(`${PRE_TOOL_USE_DECISION}\n`)
     }
@@ -177,7 +177,7 @@ describe('AntigravityHookService', () => {
     'leaves non-gate Antigravity events silent when the managed script is missing',
     () => {
       new AntigravityHookService().install()
-      rmSync(join(homeDir, '.orca', 'agent-hooks'), { recursive: true, force: true })
+      rmSync(join(homeDir, '.amoeba', 'hooks'), { recursive: true, force: true })
 
       const config = JSON.parse(
         readFileSync(join(homeDir, '.gemini', 'config', 'hooks.json'), 'utf8')
@@ -198,12 +198,10 @@ describe('AntigravityHookService', () => {
   it('installs Windows event wrappers without nested cmd quoting and replaces stale PreToolUse hooks', () => {
     withPlatform('win32', () => {
       const configPath = join(homeDir, '.gemini', 'config', 'hooks.json')
-      const staleScriptPath = join(
-        homeDir,
-        '.orca',
-        'agent-hooks',
-        'antigravity-hook.cmd'
-      ).replaceAll('/', '\\')
+      const staleScriptPath = join(homeDir, '.amoeba', 'hooks', 'antigravity-hook.cmd').replaceAll(
+        '/',
+        '\\'
+      )
       mkdirSync(dirname(configPath), { recursive: true })
       writeFileSync(
         configPath,
@@ -261,7 +259,7 @@ describe('AntigravityHookService', () => {
         expect(command).not.toContain('cmd /d /s /c')
         expect(command).not.toContain('ORCA_ANTIGRAVITY_EVENT')
 
-        const wrapper = readFileSync(join(homeDir, '.orca', 'agent-hooks', wrapperFileName), 'utf8')
+        const wrapper = readFileSync(join(homeDir, '.amoeba', 'hooks', wrapperFileName), 'utf8')
         expect(wrapper).toContain(`set "ORCA_ANTIGRAVITY_EVENT=${eventName}"`)
         expect(wrapper).toContain('call "%ORCA_ANTIGRAVITY_CORE%"')
         if (eventName === 'PreToolUse') {
@@ -272,15 +270,12 @@ describe('AntigravityHookService', () => {
         }
       }
 
-      const script = readFileSync(
-        join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook.cmd'),
-        'utf8'
-      )
+      const script = readFileSync(join(homeDir, '.amoeba', 'hooks', 'antigravity-hook.cmd'), 'utf8')
       expect(script).toContain('antigravity-hook-post.cjs')
       expect(script).not.toContain('powershell.exe')
       expect(script).toContain('ELECTRON_RUN_AS_NODE=1')
       expect(
-        readFileSync(join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook-post.cjs'), 'utf8')
+        readFileSync(join(homeDir, '.amoeba', 'hooks', 'antigravity-hook-post.cjs'), 'utf8')
       ).toContain('/hook/antigravity')
       expect(script).toContain('setlocal DisableDelayedExpansion')
     })
@@ -290,7 +285,7 @@ describe('AntigravityHookService', () => {
     withPlatform('win32', () => {
       const service = new AntigravityHookService()
       expect(service.install().state).toBe('installed')
-      const hookDir = join(homeDir, '.orca', 'agent-hooks')
+      const hookDir = join(homeDir, '.amoeba', 'hooks')
       const readerPath = join(hookDir, 'antigravity-hook-post.cjs')
       const corePath = join(hookDir, 'antigravity-hook.cmd')
       const configPath = join(homeDir, '.gemini', 'config', 'hooks.json')
@@ -311,7 +306,7 @@ describe('AntigravityHookService', () => {
       const service = new AntigravityHookService()
       let runtimePath = 'C:\\Orca1\\Amoeba.exe'
       service.setWindowsRuntimePathProvider(() => runtimePath)
-      const readerPath = join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook-post.cjs')
+      const readerPath = join(homeDir, '.amoeba', 'hooks', 'antigravity-hook-post.cjs')
       await service.refreshManagedScripts()
       expect(existsSync(readerPath)).toBe(false)
       expect(service.install().state).toBe('installed')
@@ -320,7 +315,7 @@ describe('AntigravityHookService', () => {
       await service.refreshManagedScripts()
       expect(readFileSync(readerPath, 'utf8')).toContain("require('node:string_decoder')")
       expect(
-        readFileSync(join(homeDir, '.orca', 'agent-hooks', 'antigravity-hook.cmd'), 'utf8')
+        readFileSync(join(homeDir, '.amoeba', 'hooks', 'antigravity-hook.cmd'), 'utf8')
       ).toContain('ORCA_AGENT_HOOK_NODE=C:\\Orca2\\Amoeba.exe')
     } finally {
       vi.restoreAllMocks()
@@ -371,13 +366,13 @@ describe('AntigravityHookService', () => {
             OldEvent: [
               {
                 type: 'command',
-                command: '/tmp/old/agent-hooks/antigravity-hook.sh'
+                command: '/tmp/old/.amoeba/hooks/antigravity-hook.sh'
               }
             ],
             PreToolUse: [
               {
                 matcher: '*',
-                hooks: [{ type: 'command', command: '/tmp/old/agent-hooks/antigravity-hook.sh' }]
+                hooks: [{ type: 'command', command: '/tmp/old/.amoeba/hooks/antigravity-hook.sh' }]
               }
             ]
           }
@@ -398,15 +393,15 @@ describe('AntigravityHookService', () => {
     )
     expect(preToolCommands).toHaveLength(1)
     expect(preToolCommands[0]).toContain(
-      join(homeDir, '.orca', 'agent-hooks', ANTIGRAVITY_PRE_TOOL_USE_COMMAND).replaceAll('\\', '/')
+      join(homeDir, '.amoeba', 'hooks', ANTIGRAVITY_PRE_TOOL_USE_COMMAND).replaceAll('\\', '/')
     )
-    expect(preToolCommands[0]).not.toContain('/tmp/old/agent-hooks/antigravity-hook.sh')
+    expect(preToolCommands[0]).not.toContain('/tmp/old/.amoeba/hooks/antigravity-hook.sh')
     const commands = config['orca-status'].PostToolUse.flatMap((definition) =>
       (definition.hooks ?? []).map((hook) => hook.command)
     )
     expect(commands).toHaveLength(1)
     expect(commands[0]).toContain(
-      join(homeDir, '.orca', 'agent-hooks', ANTIGRAVITY_POST_TOOL_USE_COMMAND).replaceAll('\\', '/')
+      join(homeDir, '.amoeba', 'hooks', ANTIGRAVITY_POST_TOOL_USE_COMMAND).replaceAll('\\', '/')
     )
   })
 
@@ -414,8 +409,8 @@ describe('AntigravityHookService', () => {
     withPlatform('win32', () => {
       const configPath = join(homeDir, '.gemini', 'config', 'hooks.json')
       // Git Bash strips backslashes from legacy bare paths.
-      const legacyStop = 'C:\\Users\\ada\\.orca\\agent-hooks\\antigravity-stop.cmd'
-      const legacyPreToolUse = 'C:\\Users\\ada\\.orca\\agent-hooks\\antigravity-pre-tool-use.cmd'
+      const legacyStop = 'C:\\Users\\ada\\.amoeba\\hooks\\antigravity-stop.cmd'
+      const legacyPreToolUse = 'C:\\Users\\ada\\.amoeba\\hooks\\antigravity-pre-tool-use.cmd'
       const userHook = { type: 'command', command: 'C:\\tools\\user-hook.cmd' }
       mkdirSync(dirname(configPath), { recursive: true })
       writeFileSync(

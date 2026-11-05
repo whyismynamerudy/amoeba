@@ -64,7 +64,7 @@ function userApprovalHashes(): string[] {
 beforeEach(() => {
   root = realpathSync.native(mkdtempSync(join(tmpdir(), 'orca-account-home-hook-')))
   const home = join(root, 'home')
-  accountHome = join(home, '.local', 'share', 'orca', 'codex-accounts', 'a1', 'home')
+  accountHome = join(home, '.local', 'share', 'amoeba', 'codex-accounts', 'a1', 'home')
   mkdirSync(accountHome, { recursive: true })
   mkdirSync(join(root, 'user-data'))
   vi.stubEnv('ORCA_USER_DATA_PATH', join(root, 'user-data'))

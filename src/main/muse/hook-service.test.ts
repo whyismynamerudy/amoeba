@@ -45,14 +45,9 @@ afterEach(() => {
 })
 
 const configPath = (): string => join(home, '.config', 'muse', 'settings.json')
-const managedHooksPath = (): string => join(home, '.orca', 'agent-hooks', 'muse-hooks.json')
+const managedHooksPath = (): string => join(home, '.amoeba', 'hooks', 'muse-hooks.json')
 const scriptPath = (): string =>
-  join(
-    home,
-    '.orca',
-    'agent-hooks',
-    process.platform === 'win32' ? 'muse-hook.cmd' : 'muse-hook.sh'
-  )
+  join(home, '.amoeba', 'hooks', process.platform === 'win32' ? 'muse-hook.cmd' : 'muse-hook.sh')
 
 describe('MuseHookService', () => {
   it('reports not_installed before install', () => {
@@ -130,8 +125,8 @@ describe('MuseHookService', () => {
 
   it('treats malformed managed hook entries as absent instead of throwing', () => {
     mkdirSync(join(home, '.config', 'muse'), { recursive: true })
-    mkdirSync(join(home, '.orca', 'agent-hooks'), { recursive: true })
-    const managedPath = join(home, '.orca', 'agent-hooks', 'muse-hooks.json')
+    mkdirSync(join(home, '.amoeba', 'hooks'), { recursive: true })
+    const managedPath = join(home, '.amoeba', 'hooks', 'muse-hooks.json')
     writeFileSync(configPath(), JSON.stringify({ schema_version: 1 }))
     const service = new MuseHookService()
     expect(service.install().state).toBe('installed')
@@ -191,11 +186,11 @@ describe('MuseHookService', () => {
     const remote = createAgentHookMemorySftp()
     const service = new MuseHookService()
     expect((await service.installRemote(remote.sftp, '/home/alice smith')).state).toBe('installed')
-    const remoteHooksPath = '/home/alice smith/.orca/agent-hooks/muse-hooks.json'
+    const remoteHooksPath = '/home/alice smith/.amoeba/hooks/muse-hooks.json'
     const installed = remote.fs.files.get(remoteHooksPath)
-    expect(installed).toContain('/home/alice smith/.orca/agent-hooks/muse-hook.sh')
+    expect(installed).toContain('/home/alice smith/.amoeba/hooks/muse-hook.sh')
     expect(installed).not.toMatch(/powershell|EncodedCommand|muse-hook.cmd/)
-    expect(remote.fs.files.get('/home/alice smith/.orca/agent-hooks/muse-hook.sh')).toContain(
+    expect(remote.fs.files.get('/home/alice smith/.amoeba/hooks/muse-hook.sh')).toContain(
       '#!/bin/sh'
     )
     await service.installRemote(remote.sftp, '/home/alice smith')

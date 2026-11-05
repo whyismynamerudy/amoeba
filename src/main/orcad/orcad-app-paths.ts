@@ -4,6 +4,7 @@ import { homedir, tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import type { AppPathName } from '../../shared/app-environment'
+import { getAmoebaHomeDir } from '../amoeba-home/amoeba-home-dir'
 
 // Empty exported paths remain unset.
 function env(name: string): string | null {
@@ -17,7 +18,7 @@ export function resolveUserDataPath(): string {
     return explicit
   }
   const xdg = env('XDG_DATA_HOME')
-  return xdg ? join(xdg, 'Amoeba') : join(homedir(), '.orca')
+  return xdg ? join(xdg, 'Amoeba') : getAmoebaHomeDir()
 }
 
 function resolveAppDataPath(): string {

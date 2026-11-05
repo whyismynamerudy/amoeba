@@ -10,6 +10,7 @@ import {
   validateRemoteHome,
   type RemoteHostPlatform
 } from '../../ssh/ssh-remote-platform'
+import { AMOEBA_HOME_DIR_NAME } from '../../amoeba-home/amoeba-home-dir'
 
 export const ORCAD_MACHINE_CLAIM_FILENAME = 'orcad-machine.json'
 export const ORCAD_MACHINE_HOMES_DIRNAME = 'hosts'
@@ -19,7 +20,7 @@ const SECTION = '__ORCA_MACHINE_HOME_SECTION__'
 const CLAIM_ABSENT = 'ABSENT'
 const CLAIM_PRESENT = 'PRESENT'
 const RECORD_MAX_BYTES = 4096
-const ACCESS_ROOT = '.orca/.profile-state-access'
+const ACCESS_ROOT = `${AMOEBA_HOME_DIR_NAME}/.profile-state-access`
 const INSTALLED = 'INSTALLED'
 // Unknown filesystem types may be shared; recognize only proven local disk types.
 const LOCAL_FILESYSTEM_TYPES = new Set([
@@ -302,11 +303,11 @@ export function orcadMachineHomeDir(
   return joinRemotePath(host, loginHome, RELAY_REMOTE_DIR, ORCAD_MACHINE_HOMES_DIRNAME, machineKey)
 }
 
-/** Keep data roots shallow beside ~/.orca so long shared-home paths fit Unix socket limits. */
+/** Keep data roots shallow beside ~/.amoeba so long shared-home paths fit Unix socket limits. */
 export function orcadMachineDataRoot(
   host: RemoteHostPlatform,
   loginHome: string,
   machineKey: string
 ): string {
-  return joinRemotePath(host, loginHome, `.orca-${machineKey.slice(0, 8)}`)
+  return joinRemotePath(host, loginHome, `${AMOEBA_HOME_DIR_NAME}-${machineKey.slice(0, 8)}`)
 }

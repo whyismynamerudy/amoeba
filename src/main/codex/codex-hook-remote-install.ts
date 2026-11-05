@@ -25,6 +25,7 @@ import {
   wrapReadablePosixHookCommand
 } from './codex-hook-definition'
 import { getManagedScript } from './codex-hook-script'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 export async function installCodexHooksRemote(
   sftp: SFTPWrapper,
@@ -38,8 +39,8 @@ export async function installCodexHooksRemote(
   // WSL must match runtime script paths/commands to avoid trust-key races; SSH uses guest-home scripts.
   const redirectedCodexHome = options?.codexHomeDir?.replace(/\/$/, '')
   const remoteScriptPath = redirectedCodexHome
-    ? `${redirectedCodexHome}/.orca/agent-hooks/codex-hook.sh`
-    : `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/codex-hook.sh`
+    ? getRemoteAmoebaHookScriptPath(redirectedCodexHome, 'codex-hook.sh')
+    : getRemoteAmoebaHookScriptPath(remoteHome, 'codex-hook.sh')
   try {
     const config = await readHooksJsonRemote(sftp, remoteConfigPath)
     if (!config) {

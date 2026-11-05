@@ -46,12 +46,7 @@ afterEach(() => {
 const agentsDir = (): string => join(home, '.kiro', 'agents')
 const agentPath = (name: string): string => join(agentsDir(), `${name}.json`)
 const scriptPath = (): string =>
-  join(
-    home,
-    '.orca',
-    'agent-hooks',
-    process.platform === 'win32' ? 'kiro-hook.cmd' : 'kiro-hook.sh'
-  )
+  join(home, '.amoeba', 'hooks', process.platform === 'win32' ? 'kiro-hook.cmd' : 'kiro-hook.sh')
 
 function writeAgent(name: string, config: unknown): void {
   mkdirSync(agentsDir(), { recursive: true })

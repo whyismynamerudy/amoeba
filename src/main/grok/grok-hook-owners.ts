@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto'
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { readdir, readFile, rm } from 'node:fs/promises'
-import { homedir } from 'node:os'
 import { join } from 'node:path'
+import { getAmoebaHooksDir } from '../amoeba-home/amoeba-home-dir'
 
 const ownerToken = randomUUID()
 const OWNER_FILE_PATTERN = /^owner-([\da-f-]{36})\.json$/i
@@ -10,7 +10,7 @@ const OWNER_FILE_PATTERN = /^owner-([\da-f-]{36})\.json$/i
 type GrokHookOwner = { token: string; pid: number }
 
 function ownerDirectory(): string {
-  return join(homedir(), '.orca', 'agent-hooks', 'grok-owners')
+  return join(getAmoebaHooksDir(), 'grok-owners')
 }
 
 function ownerPath(directory = ownerDirectory()): string {

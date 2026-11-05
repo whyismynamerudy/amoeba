@@ -285,7 +285,7 @@ export type GlobalSettings = GlobalSettingsBase & {
   floatingTerminalCwdMigratedToAppWorkspace?: boolean
   /** Where the Floating Workspace toggle is shown; defaults to the floating button for discoverability. */
   floatingTerminalTriggerLocation: FloatingTerminalTriggerLocation
-  /** Legacy keyboard-shortcut overrides; new writes go to ~/.orca/keybindings.json, migrated once when present. */
+  /** Legacy keyboard-shortcut overrides; new writes go to ~/.amoeba/keybindings.json, migrated once when present. */
   keybindings?: KeybindingOverrides
   diffDefaultView: 'inline' | 'side-by-side'
   diffWordWrap: boolean

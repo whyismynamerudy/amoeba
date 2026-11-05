@@ -95,7 +95,7 @@ const orcaGroup = (command: string = frozen()): HookDefinition => ({
 })
 
 function olderBuildCommand(): string {
-  const script = join(home, '.orca', 'agent-hooks', 'codex-hook.sh')
+  const script = join(home, '.amoeba', 'hooks', 'codex-hook.sh')
   return process.platform === 'win32' ? script : wrapPosixHookCommand(script)
 }
 
@@ -244,7 +244,7 @@ describe('reconcileRealHomeCodexHookEntries', () => {
   })
 
   it('never rewrites a newer build form or appends beside it', async () => {
-    const newer = `: orca-agent-hook-form=2; /bin/sh "\${HOME-}/.orca/agent-hooks/codex-hook.sh"`
+    const newer = `: orca-agent-hook-form=3; /bin/sh "\${HOME-}/.amoeba/hooks/codex-hook.sh"`
     writeHooks({ hooks: { Stop: [orcaGroup(newer)] } })
 
     await reconcile()

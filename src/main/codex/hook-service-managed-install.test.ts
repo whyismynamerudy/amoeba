@@ -214,7 +214,7 @@ describe('CodexHookService', () => {
         for (const eventName of localManagedCodexEvents()) {
           const command = hooksConfig.hooks[eventName]?.[0]?.hooks?.[0]?.command
           expect(command).toBe(
-            getManagedCommand(join(homedir(), '.orca', 'agent-hooks', 'codex-hook.cmd'))
+            getManagedCommand(join(homedir(), '.amoeba', 'hooks', 'codex-hook.cmd'))
           )
         }
       } finally {
@@ -244,7 +244,7 @@ describe('CodexHookService', () => {
         for (const eventName of localManagedCodexEvents()) {
           const command = hooksConfig.hooks[eventName]?.[0]?.hooks?.[0]?.command
           expect(command).toBe(
-            getManagedCommand(join(homedir(), '.orca', 'agent-hooks', 'codex-hook.cmd'))
+            getManagedCommand(join(homedir(), '.amoeba', 'hooks', 'codex-hook.cmd'))
           )
         }
       } finally {
@@ -266,13 +266,13 @@ describe('CodexHookService', () => {
 
       // Runner temp paths can require the quoting fallback too.
       const command = hooksConfig.hooks.Stop?.[0]?.hooks?.[0]?.command ?? ''
-      const cmdSafe = /^[A-Za-z0-9_.:\\~-]+$/.test(join(homes.tmpHome, '.orca', 'agent-hooks'))
+      const cmdSafe = /^[A-Za-z0-9_.:\\~-]+$/.test(join(homes.tmpHome, '.amoeba', 'hooks'))
       if (cmdSafe) {
         expect(command).not.toMatch(/powershell/i)
         expect(command).toMatch(/\/agent-hooks\/codex-hook\.cmd$/)
       } else {
         expect(command).toBe(
-          getManagedCommand(join(homedir(), '.orca', 'agent-hooks', 'codex-hook.cmd'))
+          getManagedCommand(join(homedir(), '.amoeba', 'hooks', 'codex-hook.cmd'))
         )
       }
     }
@@ -282,7 +282,7 @@ describe('CodexHookService', () => {
     'posts hook payloads via the curl-based managed script preserving UTF-8 and spaced metadata',
     async () => {
       await new CodexHookService().install()
-      const scriptPath = join(homedir(), '.orca', 'agent-hooks', 'codex-hook.cmd')
+      const scriptPath = join(homedir(), '.amoeba', 'hooks', 'codex-hook.cmd')
       expect(existsSync(scriptPath)).toBe(true)
 
       // Spawn asynchronously so the same event loop can receive the hook POST.

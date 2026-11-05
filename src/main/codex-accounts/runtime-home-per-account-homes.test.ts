@@ -312,7 +312,7 @@ describe('CodexRuntimeHomeService', () => {
             managedHomePath: wslHome,
             managedHomeRuntime: 'wsl',
             wslDistro: 'Ubuntu',
-            wslLinuxHomePath: '/home/me/.local/share/orca/codex-accounts/account-1/home',
+            wslLinuxHomePath: '/home/me/.local/share/amoeba/codex-accounts/account-1/home',
             providerAccountId: null,
             workspaceLabel: null,
             workspaceAccountId: null,

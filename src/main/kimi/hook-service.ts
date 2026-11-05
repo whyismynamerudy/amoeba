@@ -42,6 +42,7 @@ import {
   readManagedKimiHookEvents,
   removeManagedKimiHooks
 } from './kimi-hook-config-toml'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 // Honor the same KIMI_CODE_HOME as the CLI and session scanner.
 function getKimiHome(): string {
@@ -227,12 +228,7 @@ export class KimiHookService {
   // Remote hooks assume POSIX sh.
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const remoteConfigPath = pathPosix.join(remoteHome, '.kimi-code', 'config.toml')
-    const remoteScriptPath = pathPosix.join(
-      remoteHome,
-      '.orca',
-      'agent-hooks',
-      POSIX_SCRIPT_FILE_NAME
-    )
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, POSIX_SCRIPT_FILE_NAME)
     try {
       // Kimi creates config lazily; a missing remote file starts empty.
       const text = (await readTextFileRemote(sftp, remoteConfigPath)) ?? ''

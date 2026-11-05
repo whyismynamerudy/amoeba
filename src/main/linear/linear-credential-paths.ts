@@ -1,11 +1,11 @@
 import { existsSync, mkdirSync } from 'node:fs'
-import { homedir } from 'node:os'
 import { join } from 'node:path'
+import { getAmoebaHomeDir } from '../amoeba-home/amoeba-home-dir'
 
 export const LEGACY_WORKSPACE_ID = 'legacy'
 
 function getOrcaDir(): string {
-  return join(homedir(), '.orca')
+  return getAmoebaHomeDir()
 }
 
 function getLegacyTokenPath(): string {

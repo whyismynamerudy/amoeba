@@ -20,6 +20,7 @@ import {
 } from '../agent-hooks/installer-utils-remote'
 import { CURSOR_EVENTS } from './hook-events'
 import { getManagedCommand, getManagedScript, getPosixManagedCommand } from './hook-script'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 function getConfigPath(): string {
   return join(homedir(), '.cursor', 'hooks.json')
@@ -148,7 +149,7 @@ export class CursorHookService {
   // Remote installs must match local hook behavior while using POSIX paths.
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const remoteConfigPath = `${remoteHome.replace(/\/$/, '')}/.cursor/hooks.json`
-    const remoteScriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/cursor-hook.sh`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(remoteHome, 'cursor-hook.sh')
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
       if (!config) {

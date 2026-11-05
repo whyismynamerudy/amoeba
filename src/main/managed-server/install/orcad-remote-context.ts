@@ -34,6 +34,7 @@ import {
 import { detectRemoteHostPlatform } from '../../ssh/ssh-remote-platform-detection'
 import { OrcadHostUnsupportedError } from '../../orcad/orcad-host-unavailable'
 import { rememberSshHostPlatform } from '../../ssh/ssh-host-platform-memo'
+import { AMOEBA_HOME_DIR_NAME } from '../../amoeba-home/amoeba-home-dir'
 
 /** Default SSH generic retains compatibility with lifecycle consumers requiring SSH-only fields. */
 export type OrcadRemoteContext<Target extends OrcadHostTarget = SshTarget> = {
@@ -113,7 +114,7 @@ export async function resolveOrcadMachineHome(
     return {
       loginHome,
       orcadHome: loginHome,
-      userDataDir: joinRemotePath(host, loginHome, '.orca')
+      userDataDir: joinRemotePath(host, loginHome, AMOEBA_HOME_DIR_NAME)
     }
   }
   const probe = parseOrcadMachineHomeProbe(
@@ -147,7 +148,7 @@ export async function resolveOrcadMachineHome(
     return {
       loginHome,
       orcadHome: loginHome,
-      userDataDir: joinRemotePath(host, loginHome, '.orca')
+      userDataDir: joinRemotePath(host, loginHome, AMOEBA_HOME_DIR_NAME)
     }
   }
   const orcadHome = orcadMachineHomeDir(host, loginHome, decision.machineKey)

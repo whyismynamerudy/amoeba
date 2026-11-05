@@ -64,23 +64,23 @@ describe('remote hook service installers', () => {
     try {
       const installers = [
         {
-          path: '/home/dev/.orca/agent-hooks/claude-hook.sh',
+          path: '/home/dev/.amoeba/hooks/claude-hook.sh',
           install: (sftp: SFTPWrapper) => new ClaudeHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/openclaude-hook.sh',
+          path: '/home/dev/.amoeba/hooks/openclaude-hook.sh',
           install: (sftp: SFTPWrapper) => openClaudeHookService.installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/codex-hook.sh',
+          path: '/home/dev/.amoeba/hooks/codex-hook.sh',
           install: (sftp: SFTPWrapper) => new CodexHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/gemini-hook.sh',
+          path: '/home/dev/.amoeba/hooks/gemini-hook.sh',
           install: (sftp: SFTPWrapper) => new GeminiHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/antigravity-hook.sh',
+          path: '/home/dev/.amoeba/hooks/antigravity-hook.sh',
           install: (sftp: SFTPWrapper) =>
             new AntigravityHookService().installRemote(sftp, '/home/dev')
         },
@@ -89,32 +89,32 @@ describe('remote hook service installers', () => {
           install: (sftp: SFTPWrapper) => new AmpHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/cursor-hook.sh',
+          path: '/home/dev/.amoeba/hooks/cursor-hook.sh',
           install: (sftp: SFTPWrapper) => new CursorHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/command-code-hook.sh',
+          path: '/home/dev/.amoeba/hooks/command-code-hook.sh',
           install: (sftp: SFTPWrapper) =>
             new CommandCodeHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/grok-hook.sh',
+          path: '/home/dev/.amoeba/hooks/grok-hook.sh',
           install: (sftp: SFTPWrapper) => new GrokHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/copilot-hook.sh',
+          path: '/home/dev/.amoeba/hooks/copilot-hook.sh',
           install: (sftp: SFTPWrapper) => new CopilotHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/devin-hook.sh',
+          path: '/home/dev/.amoeba/hooks/devin-hook.sh',
           install: (sftp: SFTPWrapper) => new DevinHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/jcode-hook.sh',
+          path: '/home/dev/.amoeba/hooks/jcode-hook.sh',
           install: (sftp: SFTPWrapper) => new JcodeHookService().installRemote(sftp, '/home/dev')
         },
         {
-          path: '/home/dev/.orca/agent-hooks/droid-hook.sh',
+          path: '/home/dev/.amoeba/hooks/droid-hook.sh',
           install: (sftp: SFTPWrapper) => new DroidHookService().installRemote(sftp, '/home/dev')
         }
       ]
@@ -170,11 +170,11 @@ describe('remote hook service installers', () => {
       'Stop'
     ]) {
       const command = hooks.hooks[eventName]?.[0]?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/codex-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/codex-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/codex-hook.sh')).toContain('#!/bin/sh')
-    expect(fs.modes.get('/home/dev/.orca/agent-hooks/codex-hook.sh')).toBe(0o755)
+    expect(fs.files.get('/home/dev/.amoeba/hooks/codex-hook.sh')).toContain('#!/bin/sh')
+    expect(fs.modes.get('/home/dev/.amoeba/hooks/codex-hook.sh')).toBe(0o755)
     const toml = fs.files.get('/home/dev/.codex/config.toml')
     expect(toml).toContain('/home/dev/.codex/hooks.json:permission_request:0:0')
     expect(toml).toContain('trusted_hash = "sha256:')
@@ -190,7 +190,7 @@ describe('remote hook service installers', () => {
     expect(status.managedHooksPresent).toBe(true)
     expect(status.detail).toContain('trust entries could not be written')
     expect(fs.files.get('/home/dev/.codex/hooks.json')).toContain('codex-hook.sh')
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/codex-hook.sh')).toContain('#!/bin/sh')
+    expect(fs.files.get('/home/dev/.amoeba/hooks/codex-hook.sh')).toContain('#!/bin/sh')
   })
 
   it('installs Codex hooks into an explicit redirected CODEX_HOME', async () => {
@@ -211,7 +211,7 @@ describe('remote hook service installers', () => {
       hooks: Record<string, { hooks: { command: string }[] }[]>
     }
     expect(hooks.hooks.Stop?.[0]?.hooks?.[0]?.command).toContain(
-      '/home/dev/.local/share/orca/codex-runtime-home/home/.orca/agent-hooks/codex-hook.sh'
+      '/home/dev/.local/share/orca/codex-runtime-home/home/.amoeba/hooks/codex-hook.sh'
     )
     expect(fs.files.get(`${runtimeHome}/config.toml`)).toContain(
       `${runtimeHome}/hooks.json:stop:0:0`
@@ -262,7 +262,7 @@ describe('remote hook service installers', () => {
     }
     for (const eventName of ['BeforeAgent', 'AfterAgent', 'AfterTool', 'BeforeTool']) {
       const command = geminiConfig.hooks[eventName]?.[0]?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/gemini-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/gemini-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
     expect(geminiConfig.hooks.PreToolUse).toBeUndefined()
@@ -279,7 +279,7 @@ describe('remote hook service installers', () => {
       const command = antigravityConfig['orca-status'][eventName]?.[0]?.command
       expect(tokenizeCommandLine(command ?? '').slice(0, 2)).toEqual(['/bin/sh', '-c'])
       expect(tokenizeCommandLine(command ?? '')[2]).toContain(
-        '/home/dev/.orca/agent-hooks/antigravity-hook.sh'
+        '/home/dev/.amoeba/hooks/antigravity-hook.sh'
       )
       expect(tokenizeCommandLine(command ?? '')[2]).toContain(
         `ORCA_ANTIGRAVITY_EVENT='${eventName}'`
@@ -290,7 +290,7 @@ describe('remote hook service installers', () => {
       const command = definition?.hooks?.[0]?.command
       expect(definition?.matcher).toBe('*')
       expect(tokenizeCommandLine(command ?? '')[2]).toContain(
-        '/home/dev/.orca/agent-hooks/antigravity-hook.sh'
+        '/home/dev/.amoeba/hooks/antigravity-hook.sh'
       )
       expect(tokenizeCommandLine(command ?? '')[2]).toContain(
         `ORCA_ANTIGRAVITY_EVENT='${eventName}'`
@@ -321,7 +321,7 @@ describe('remote hook service installers', () => {
     for (const eventName of CURSOR_EVENTS) {
       const definition = cursorConfig.hooks[eventName]?.[0]
       const command = definition?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/cursor-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/cursor-hook.sh')
       expect(definition?.hooks).toBeUndefined()
       const response = EXPECTED_CURSOR_HOOK_RESPONSES[eventName]
       expect(command).toContain(`ORCA_CURSOR_HOOK_RESPONSE='${response}'`)
@@ -336,7 +336,7 @@ describe('remote hook service installers', () => {
     for (const eventName of ['PreToolUse', 'PostToolUse', 'Stop']) {
       const definition = commandCodeConfig.hooks[eventName]?.[0]
       const command = definition?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/command-code-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/command-code-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
     expect(commandCodeConfig.hooks.PreToolUse?.[0]?.matcher).toBe('.*')
@@ -360,7 +360,7 @@ describe('remote hook service installers', () => {
     ]) {
       const definition = grokConfig.hooks[eventName]?.[0]
       const command = definition?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/grok-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/grok-hook.sh')
       expect(command).toMatch(/^if \[ -n "\$\{ORCA_PANE_KEY-\}" \] && /)
     }
     // Grok expects regex matchers; bare * is invalid.
@@ -386,17 +386,17 @@ describe('remote hook service installers', () => {
     ]) {
       const definition = devinConfig.hooks[eventName]?.[0]
       const command = definition?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/devin-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/devin-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
     for (const eventName of ['PreToolUse', 'PostToolUse', 'PermissionRequest']) {
       const definition = devinConfig.hooks[eventName]?.[0]
       const command = definition?.hooks?.[0]?.command
       expect(definition?.matcher).toBeUndefined()
-      expect(command).toContain('/home/dev/.orca/agent-hooks/devin-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/devin-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
-    expect(devin.fs.files.get('/home/dev/.orca/agent-hooks/devin-hook.sh')).toContain('/hook/devin')
+    expect(devin.fs.files.get('/home/dev/.amoeba/hooks/devin-hook.sh')).toContain('/hook/devin')
   })
 
   it('installs remote Grok config in the explicit guest GROK_HOME', async () => {
@@ -411,7 +411,7 @@ describe('remote hook service installers', () => {
     expect(status.configPath).toBe('/srv/grok profile/hooks/orca-status.json')
     expect(fs.files.has('/srv/grok profile/hooks/orca-status.json')).toBe(true)
     expect(fs.files.has('/home/dev/.grok/hooks/orca-status.json')).toBe(false)
-    const script = fs.files.get('/home/dev/.orca/agent-hooks/grok-hook.sh')!
+    const script = fs.files.get('/home/dev/.amoeba/hooks/grok-hook.sh')!
     expect(script).toContain('${#GROK_HOME}" -le 4096')
     expect(script).toContain('--data-urlencode "grokHome=${grok_home}"')
   })
@@ -449,9 +449,9 @@ describe('remote hook service installers', () => {
     ]) {
       expect(config).toContain(`event = "${eventName}"`)
     }
-    expect(config).toContain('/home/dev/.orca/agent-hooks/kimi-hook.sh')
+    expect(config).toContain('/home/dev/.amoeba/hooks/kimi-hook.sh')
     expect(config).toMatch(/command = "if \[ -f /)
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/kimi-hook.sh')).toContain('/hook/kimi')
+    expect(fs.files.get('/home/dev/.amoeba/hooks/kimi-hook.sh')).toContain('/hook/kimi')
   })
 
   it('does not overwrite malformed remote Devin JSONC', async () => {
@@ -471,7 +471,7 @@ describe('remote hook service installers', () => {
         detail: 'Could not parse remote Devin config.json'
       })
       expect(fs.files.get('/home/dev/.config/devin/config.json')).toBe(original)
-      expect(fs.files.get('/home/dev/.orca/agent-hooks/devin-hook.sh')).toBeUndefined()
+      expect(fs.files.get('/home/dev/.amoeba/hooks/devin-hook.sh')).toBeUndefined()
     } finally {
       warn.mockRestore()
     }
@@ -490,7 +490,7 @@ describe('remote hook service installers', () => {
                 hooks: [
                   {
                     type: 'command',
-                    command: '/tmp/old/agent-hooks/antigravity-hook.sh'
+                    command: '/tmp/old/.amoeba/hooks/antigravity-hook.sh'
                   }
                 ]
               }
@@ -522,8 +522,8 @@ describe('remote hook service installers', () => {
       (definition.hooks ?? []).map((hook) => hook.command)
     )
     expect(preToolCommands).toHaveLength(1)
-    expect(preToolCommands[0]).toContain('/home/dev/.orca/agent-hooks/antigravity-hook.sh')
-    expect(preToolCommands).not.toContain('/tmp/old/agent-hooks/antigravity-hook.sh')
+    expect(preToolCommands[0]).toContain('/home/dev/.amoeba/hooks/antigravity-hook.sh')
+    expect(preToolCommands).not.toContain('/tmp/old/.amoeba/hooks/antigravity-hook.sh')
     const postToolCommands = config['orca-status'].PostToolUse.flatMap((definition) =>
       (definition.hooks ?? []).map((hook) => hook.command)
     )
@@ -544,7 +544,7 @@ describe('remote hook service installers', () => {
                   {
                     type: 'command',
                     command:
-                      "if [ -x '/tmp/old/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/tmp/old/agent-hooks/gemini-hook.sh'; fi"
+                      "if [ -x '/tmp/old/.amoeba/hooks/gemini-hook.sh' ]; then /bin/sh '/tmp/old/.amoeba/hooks/gemini-hook.sh'; fi"
                   }
                 ]
               },
@@ -618,13 +618,13 @@ describe('remote hook service installers', () => {
       'Notification'
     ]) {
       const definition = config.hooks[eventName]?.[0]
-      expect(definition?.bash).toContain('/home/dev/.orca/agent-hooks/copilot-hook.sh')
+      expect(definition?.bash).toContain('/home/dev/.amoeba/hooks/copilot-hook.sh')
       expect(definition?.bash).toContain(`ORCA_COPILOT_HOOK_EVENT='${eventName}'`)
       expect(definition?.timeoutSec).toBe(5)
     }
     expect(config.disableAllHooks).toBeUndefined()
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/copilot-hook.sh')).toContain('#!/bin/sh')
-    expect(fs.modes.get('/home/dev/.orca/agent-hooks/copilot-hook.sh')).toBe(0o755)
+    expect(fs.files.get('/home/dev/.amoeba/hooks/copilot-hook.sh')).toContain('#!/bin/sh')
+    expect(fs.modes.get('/home/dev/.amoeba/hooks/copilot-hook.sh')).toBe(0o755)
   })
 
   it('installs Qoder on the execution host with its own event endpoint', async () => {
@@ -636,7 +636,7 @@ describe('remote hook service installers', () => {
     expect(settings.hooks.SessionEnd).toHaveLength(1)
     expect(settings.hooks.Notification).toHaveLength(1)
     expect(settings.hooks.TeammateIdle).toBeUndefined()
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/qoder-hook.sh')).toContain('/hook/qoder')
+    expect(fs.files.get('/home/dev/.amoeba/hooks/qoder-hook.sh')).toContain('/hook/qoder')
   })
   it('installs Droid and Copilot when running the aggregate remote installer (issue #7253)', async () => {
     const { sftp, fs } = createFakeSftp()
@@ -650,20 +650,18 @@ describe('remote hook service installers', () => {
       hooks: {
         Stop: [
           {
-            hooks: [
-              { command: expect.stringContaining('/home/dev/.orca/agent-hooks/droid-hook.sh') }
-            ]
+            hooks: [{ command: expect.stringContaining('/home/dev/.amoeba/hooks/droid-hook.sh') }]
           }
         ]
       }
     })
     expect(JSON.parse(fs.files.get('/home/dev/.copilot/hooks/orca.json') ?? '{}')).toMatchObject({
       hooks: {
-        Stop: [{ bash: expect.stringContaining('/home/dev/.orca/agent-hooks/copilot-hook.sh') }]
+        Stop: [{ bash: expect.stringContaining('/home/dev/.amoeba/hooks/copilot-hook.sh') }]
       }
     })
     for (const agent of ['droid', 'copilot']) {
-      const path = `/home/dev/.orca/agent-hooks/${agent}-hook.sh`
+      const path = `/home/dev/.amoeba/hooks/${agent}-hook.sh`
       expect(fs.files.get(path)).toContain(`/hook/${agent}`)
       expect(fs.modes.get(path)).toBe(0o755)
     }
@@ -749,17 +747,17 @@ describe('remote hook service installers', () => {
     ]) {
       const definition = config.hooks[eventName]?.[0]
       const command = definition?.hooks?.[0]?.command
-      expect(command).toContain('/home/dev/.orca/agent-hooks/droid-hook.sh')
+      expect(command).toContain('/home/dev/.amoeba/hooks/droid-hook.sh')
       expect(command).toMatch(/^if \[ -f /)
     }
     expect(config.hooks.PreToolUse?.[0]?.matcher).toBe('*')
     expect(config.hooks.PostToolUse?.[0]?.matcher).toBe('*')
     expect(config.hooks.PermissionRequest?.[0]?.matcher).toBe('*')
     expect(config.hooks.Stop?.[0]?.matcher).toBeUndefined()
-    const script = fs.files.get('/home/dev/.orca/agent-hooks/droid-hook.sh')
+    const script = fs.files.get('/home/dev/.amoeba/hooks/droid-hook.sh')
     expect(script).toContain('#!/bin/sh')
     expect(script).toContain('/hook/droid')
-    expect(fs.modes.get('/home/dev/.orca/agent-hooks/droid-hook.sh')).toBe(0o755)
+    expect(fs.modes.get('/home/dev/.amoeba/hooks/droid-hook.sh')).toBe(0o755)
   })
 
   it('does not overwrite a malformed remote Factory settings.json', async () => {
@@ -778,7 +776,7 @@ describe('remote hook service installers', () => {
       detail: 'Could not parse remote Factory settings.json'
     })
     expect(fs.files.get('/home/dev/.factory/settings.json')).toBe(original)
-    expect(fs.files.get('/home/dev/.orca/agent-hooks/droid-hook.sh')).toBeUndefined()
+    expect(fs.files.get('/home/dev/.amoeba/hooks/droid-hook.sh')).toBeUndefined()
   })
 
   it('installs remote Hermes plugin files and enables the plugin', async () => {

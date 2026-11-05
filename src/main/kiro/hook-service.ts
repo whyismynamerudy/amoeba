@@ -39,6 +39,7 @@ import {
   removeManagedKiroHooks,
   serializeKiroAgentConfig
 } from './hook-settings'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 // Kiro injects hook stdout into model context; every path must stay silent.
 function getManagedScript(target: 'local' | 'posix' = 'local'): string {
@@ -212,7 +213,7 @@ export class KiroHookService {
     kiroHomeDir?: string
   ): Promise<AgentHookInstallStatus> {
     const agentsDir = getKiroRemoteAgentsDir(remoteHome, kiroHomeDir)
-    const scriptPath = `${remoteHome.replace(/\/$/, '')}/.orca/agent-hooks/kiro-hook.sh`
+    const scriptPath = getRemoteAmoebaHookScriptPath(remoteHome, 'kiro-hook.sh')
     try {
       const fileNames = ((await listRemoteDirectory(sftp, agentsDir)) ?? [])
         .filter(isKiroAgentConfigFileName)

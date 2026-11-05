@@ -21,6 +21,7 @@ import {
   writeManagedScriptRemote
 } from '../agent-hooks/installer-utils-remote'
 import { buildCommandCodeManagedScript } from './command-code-managed-script'
+import { getRemoteAmoebaHookScriptPath } from '../amoeba-home/amoeba-home-dir'
 
 const COMMAND_CODE_EVENTS = [
   {
@@ -162,7 +163,7 @@ export class CommandCodeHookService {
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const home = remoteHome.replace(/\/$/, '')
     const remoteConfigPath = `${home}/.commandcode/settings.json`
-    const remoteScriptPath = `${home}/.orca/agent-hooks/command-code-hook.sh`
+    const remoteScriptPath = getRemoteAmoebaHookScriptPath(home, 'command-code-hook.sh')
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
       if (!config) {

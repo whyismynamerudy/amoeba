@@ -206,7 +206,7 @@ describe('both spellings of a symlinked ~/.codex', () => {
 
   it("sweeps a retired hook's approval under both keys", async () => {
     const resolvedHooks = linkCodexHomeToDotfiles()
-    const retired = `/bin/sh "${join(home, 'old-user-data', 'agent-hooks', 'codex-hook.sh')}"`
+    const retired = `/bin/sh "${join(home, 'old', '.amoeba', 'hooks', 'codex-hook.sh')}"`
     writeFileSync(
       hooksPath(),
       `${JSON.stringify({ hooks: { Stop: [{ hooks: [{ type: 'command', command: retired }] }] } })}\n`

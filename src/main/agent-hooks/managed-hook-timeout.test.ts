@@ -124,7 +124,7 @@ const JSON_INSTALLERS = [
   }
 ] as const
 
-const MANAGED_HOOKS_DIR_NEEDLE = '/.orca/agent-hooks/'
+const MANAGED_HOOKS_DIR_NEEDLE = '/.amoeba/hooks/'
 // Claude's statusLine schema has no timeout field and cannot block agent turns.
 const STATUSLINE_SCRIPT_NEEDLE = '-statusline.'
 
@@ -254,7 +254,7 @@ describe('managed agent hook timeouts', () => {
     const config = fs.files.get(`${REMOTE_HOME}/.kimi-code/config.toml`)!
     const timeoutLines = config.match(new RegExp(`timeout = ${MANAGED_HOOK_TIMEOUT_SECONDS}`, 'g'))
     expect(timeoutLines?.length ?? 0).toBeGreaterThan(0)
-    expect(config).toContain('/home/dev/.orca/agent-hooks/kimi-hook.sh')
+    expect(config).toContain('/home/dev/.amoeba/hooks/kimi-hook.sh')
   })
 
   it('writes a config-level timeout on local Droid hooks', () => {
@@ -368,7 +368,7 @@ describe('managed agent hook timeouts', () => {
       async () => {
         const { sftp, fs } = createFakeSftp()
         await new GeminiHookService().installRemote(sftp, REMOTE_HOME)
-        const wrapperBody = fs.files.get(`${REMOTE_HOME}/.orca/agent-hooks/gemini-hook.sh`)!
+        const wrapperBody = fs.files.get(`${REMOTE_HOME}/.amoeba/hooks/gemini-hook.sh`)!
 
         tempDir = mkdtempSync(join(tmpdir(), 'orca-hook-lc-numeric-'))
         const binDir = join(tempDir, 'bin')
@@ -495,7 +495,7 @@ describe('managed agent hook timeouts', () => {
       async () => {
         const { sftp, fs } = createFakeSftp()
         await new CodexHookService().installRemote(sftp, REMOTE_HOME)
-        const wrapperBody = fs.files.get(`${REMOTE_HOME}/.orca/agent-hooks/codex-hook.sh`)!
+        const wrapperBody = fs.files.get(`${REMOTE_HOME}/.amoeba/hooks/codex-hook.sh`)!
 
         tempDir = mkdtempSync(join(tmpdir(), 'orca-hook-timeout-'))
         const scriptPath = join(tempDir, 'codex-hook.sh')

@@ -21,9 +21,10 @@ export const KIMI_HOOK_EVENTS = [
   'StopFailure'
 ] as const
 
+// Orca writes the same block under orca-* markers; distinct markers let both coexist.
 const MARKERS: ManagedTomlMarkers = {
-  startMarker: '# >>> orca-managed-kimi-hooks (managed by Amoeba; do not edit) >>>',
-  endMarker: '# <<< orca-managed-kimi-hooks <<<'
+  startMarker: '# >>> amoeba-managed-kimi-hooks (managed by Amoeba; do not edit) >>>',
+  endMarker: '# <<< amoeba-managed-kimi-hooks <<<'
 }
 const HOOK_TABLE_HEADER = '[[hooks]]'
 

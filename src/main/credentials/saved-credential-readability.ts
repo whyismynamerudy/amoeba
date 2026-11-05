@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { getSecretStore } from '../../shared/secret-store'
 
 export type SavedCredentialUnreadable =
-  /** Desktop safeStorage and orcad host keys cannot decrypt each other's files in ~/.orca. */
+  /** Desktop safeStorage and orcad host keys cannot decrypt each other's files in ~/.amoeba. */
   'sealed-elsewhere' | 'unreadable'
 
 export type SavedCredentialFile = {

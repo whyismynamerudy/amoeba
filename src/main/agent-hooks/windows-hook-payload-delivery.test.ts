@@ -211,7 +211,7 @@ function readEvent(path: string, event: string): (string | undefined)[] {
 
 // The pre-forward-slash bare path: Git Bash strips its backslashes and exits 127.
 const legacyBackslashEntry = (home: string, script: string): Entry => ({
-  hooks: [{ command: join(home, '.orca', 'agent-hooks', script) }]
+  hooks: [{ command: join(home, '.amoeba', 'hooks', script) }]
 })
 
 function writeHooks(
@@ -305,7 +305,7 @@ const PROVIDERS: Provider[] = [
     stdout: '',
     install: () => new DshHookService().install(),
     commands: (home) =>
-      readEvent(join(home, '.orca', 'agent-hooks', 'dsh-hooks.json'), 'UserPromptSubmit'),
+      readEvent(join(home, '.amoeba', 'hooks', 'dsh-hooks.json'), 'UserPromptSubmit'),
     runners: [POWERSHELL_DSH]
   },
   {
@@ -415,9 +415,7 @@ function hookEnvironment(extra: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
 describe('Windows managed hook launcher', () => {
   // Keep ConPTY shape coverage on hosts that cannot execute Windows delivery tests.
   it('does not re-host the hook on a pseudoconsole', () => {
-    const hook = getWindowsManagedLifecycleHook(
-      'C:\\Users\\alice\\.orca\\agent-hooks\\claude-hook.cmd'
-    )
+    const hook = getWindowsManagedLifecycleHook('C:\\Users\\alice\\.amoeba\\hooks\\claude-hook.cmd')
     expect(hook.command).not.toMatch(/conhost/i)
     expect(hook.args).toBeUndefined()
   })
@@ -461,7 +459,7 @@ describe.skipIf(process.platform !== 'win32')('Windows managed hook payload deli
         vi.stubEnv(name, undefined)
       }
       seedCmdAutoRunTarget(home)
-      const scriptPath = join(home, '.orca', 'agent-hooks', provider.script)
+      const scriptPath = join(home, '.amoeba', 'hooks', provider.script)
       provider.seedStale?.(home, wrapWindowsHookCommand(scriptPath))
       expect(provider.install().state).toBe('installed')
 

@@ -8,6 +8,7 @@ import { getSystemCodexHomePath } from '../codex/codex-home-paths'
 import { toWindowsWslPath } from '../wsl'
 import { runWslProcess } from '../wsl/wsl-runner'
 import { assertOwnedHostCodexManagedHomePath } from './host-codex-managed-home-ownership'
+import { GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT } from './guest-codex-account-homes'
 
 const WSL_MANAGED_HOME_TIMEOUT_MS = 5_000
 
@@ -57,14 +58,16 @@ export class CodexManagedHomePath {
       })
     }
     if (
-      !wslInfo.linuxPath.includes('/.local/share/orca/codex-accounts/') ||
+      !wslInfo.linuxPath.includes(`/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}/`) ||
       !wslInfo.linuxPath.endsWith('/home')
     ) {
       throw new Error('Managed WSL Codex home is outside Amoeba account storage.')
     }
     if (
       expectedAccountId !== undefined &&
-      !wslInfo.linuxPath.endsWith(`/.local/share/orca/codex-accounts/${expectedAccountId}/home`)
+      !wslInfo.linuxPath.endsWith(
+        `/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}/${expectedAccountId}/home`
+      )
     ) {
       throw new Error('Managed WSL Codex home does not match its persisted account ID.')
     }
@@ -93,7 +96,7 @@ export class CodexManagedHomePath {
       account.managedHomeRuntime !== 'wsl' ||
       account.wslDistro !== wslInfo.distro ||
       account.wslLinuxHomePath !== wslInfo.linuxPath ||
-      !wslInfo.linuxPath.endsWith(`/.local/share/orca/codex-accounts/${account.id}/home`)
+      !wslInfo.linuxPath.endsWith(`/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}/${account.id}/home`)
     ) {
       return
     }
@@ -131,7 +134,7 @@ export class CodexManagedHomePath {
         [
           'set -euo pipefail',
           `candidate=${quotePosixShell(wslInfo.linuxPath)}`,
-          'managed_root="${HOME%/}/.local/share/orca/codex-accounts"',
+          `managed_root="\${HOME%/}/${GUEST_CODEX_ACCOUNTS_RELATIVE_ROOT}"`,
           'candidate_real=$(readlink -f -- "$candidate")',
           'managed_root_real=$(readlink -f -- "$managed_root")',
           'test -f "$candidate_real/.orca-managed-home"',

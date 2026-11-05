@@ -30,8 +30,9 @@ const homes = setupCodexHookHomes(homedirMock, getPathMock)
 
 function orcaEntryCommand(): string {
   const scriptPath = join(
-    homes.userDataDir,
-    'agent-hooks',
+    homes.tmpHome,
+    '.amoeba',
+    'hooks',
     process.platform === 'win32' ? 'codex-hook.cmd' : 'codex-hook.sh'
   )
   return process.platform === 'win32' ? scriptPath : wrapPosixHookCommand(scriptPath)

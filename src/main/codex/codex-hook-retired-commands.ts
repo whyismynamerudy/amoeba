@@ -1,6 +1,7 @@
 import { posix, win32 } from 'node:path'
 import { normalizeRuntimePathForComparison } from '../../shared/cross-platform-path'
 import { getManagedScriptPath } from './codex-hook-definition'
+import { AMOEBA_HOME_DIR_NAME, AMOEBA_HOOKS_DIR_NAME } from '../amoeba-home/amoeba-home-dir'
 
 // Enumerate retired forms to avoid deleting live hooks shared with other builds.
 // #1019: `/bin/sh "<userData>/agent-hooks/codex-hook.sh"`.
@@ -16,11 +17,14 @@ const ENCODED_POWERSHELL =
   /^\S+\/powershell\.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand ([A-Za-z0-9+/]+={0,2})$/
 const DECODED_LAUNCHER_PATH = /^if \(Test-Path -LiteralPath ('(?:[^']|'')*') -PathType Leaf\) /
 
+// Only Amoeba's own folder: Orca's agent-hooks scripts, live or retired, belong to Orca.
 function isAgentHooksScript(scriptPath: string, fileName: string): boolean {
   const pathApi = scriptPath.includes('\\') ? win32 : posix
+  const hooksDir = pathApi.dirname(scriptPath)
   return (
     pathApi.basename(scriptPath).toLowerCase() === fileName &&
-    pathApi.basename(pathApi.dirname(scriptPath)) === 'agent-hooks'
+    pathApi.basename(hooksDir) === AMOEBA_HOOKS_DIR_NAME &&
+    pathApi.basename(pathApi.dirname(hooksDir)) === AMOEBA_HOME_DIR_NAME
   )
 }
 
