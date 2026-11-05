@@ -408,7 +408,8 @@ describe('createOrFocusDashboardPopout', () => {
     expect(win.zoomLevel).toBe(5)
 
     expect(zoomDashboardPopoutIfFocused('reset')).toBe(true)
-    expect(win.zoomLevel).toBe(0)
+    // Reset returns to Amoeba's default, one step above Chromium's base.
+    expect(win.zoomLevel).toBe(0.5)
   })
 
   it('handles the zoom-in chord via before-input-event and ignores other keys', () => {

@@ -1,4 +1,5 @@
 // @vitest-environment happy-dom
+import { CHAT_ZOOM_COMPENSATION } from '../../../../shared/ui-zoom-level'
 import { useMemo, useRef } from 'react'
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -47,7 +48,7 @@ describe('memoized transcript row typography', () => {
       })
     )
     expect(rendered).toHaveBeenCalledTimes(renders + 1)
-    expect(result.current.typography.lineHeightPx).toBe((22 * 15) / 14)
+    expect(result.current.typography.lineHeightPx).toBe((22 * (15 / CHAT_ZOOM_COMPENSATION)) / 14)
     expect(resolveColors).toHaveBeenCalledTimes(2)
     act(() =>
       useAppStore.setState({
@@ -57,12 +58,14 @@ describe('memoized transcript row typography', () => {
         }
       })
     )
-    expect(result.current.typography.lineHeightPx).toBe((22 * 15) / 14)
+    expect(result.current.typography.lineHeightPx).toBe((22 * (15 / CHAT_ZOOM_COMPENSATION)) / 14)
     expect(resolveColors).toHaveBeenCalledTimes(3)
     const node = document.createElement('div')
     vi.spyOn(node, 'getBoundingClientRect').mockReturnValue(DOMRect.fromRect({ width: 384 }))
     act(() => result.current.measureContent(node))
-    expect(result.current.typography.charsPerLine).toBe(46)
+    expect(result.current.typography.charsPerLine).toBe(
+      Math.floor((((96 * 384) / 736) * 14) / (15 / CHAT_ZOOM_COMPENSATION))
+    )
     expect(resolveColors).toHaveBeenCalledTimes(4)
     const measured = result.current.typography
     vi.mocked(node.getBoundingClientRect).mockReturnValue(DOMRect.fromRect({ width: 399 }))

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { translate } from '@/i18n/i18n'
 import { useAppStore } from '@/store'
+import { isProjectTaskShellSettled } from '../../../../shared/project-tasks-settings'
 import { agentForksConversations } from '../../../../shared/agent-resume-argv'
 import type { NativeChatTabSession } from '../tab-bar/tab-session-history-switch'
 import { useSystemPrefersDark } from '../terminal-pane/use-system-prefers-dark'
@@ -28,14 +29,19 @@ export function NativeChatPaneHeader({
   nativeChat: NativeChatTabSession
   focused: boolean
   colorScheme: React.CSSProperties['colorScheme']
-}): React.JSX.Element {
+}): React.JSX.Element | null {
   const actions = useStructuredChatPaneActions(tabId, worktreeId, groupId)
+  // Amoeba's task view puts split and fork in the workspace bar; the tab's own × closes the chat.
+  const taskShell = useAppStore((state) => isProjectTaskShellSettled(state.settings))
   const theme = useAppStore((state) => state.settings?.theme)
   const systemDark = useSystemPrefersDark()
   const light = colorScheme
     ? colorScheme === 'light'
     : theme === 'light' || (theme === 'system' && !systemDark)
   const split = translate('auto.components.cmd.j.quick.actions.splitChatRight', 'Split Chat Right')
+  if (taskShell) {
+    return null
+  }
   return (
     <div
       className="pane-title-bar z-20"

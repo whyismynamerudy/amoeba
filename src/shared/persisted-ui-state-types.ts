@@ -103,6 +103,8 @@ export type PersistedUIState = {
   agentsGroupBy?: ActivityGroupBy
   collapsedGroups: string[]
   uiZoomLevel: number
+  /** Set once a profile on Chromium's base zoom moved to Amoeba's one-step-larger default. */
+  _uiZoomDefaultRaised?: boolean
   editorFontZoomLevel: number
   worktreeCardProperties: WorktreeCardProperty[]
   /** One-shot migration flag for deriving card properties from the two worktree card modes. */

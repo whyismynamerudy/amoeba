@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 import type { GlobalSettings } from '../../../../shared/global-settings-types'
 import { resolveNativeChatAppearanceSettings } from '../../../../shared/native-chat-appearance-settings'
 import { resolveConfiguredTerminalColors } from '../../../../shared/terminal-theme-selection'
+import { CHAT_ZOOM_COMPENSATION } from '../../../../shared/ui-zoom-level'
 import { buildFontFamily } from '@/lib/monospace-font-family'
 import { getSystemPrefersDark, isTerminalBackgroundLight } from '@/lib/terminal-theme'
 import { useSystemPrefersDark } from '../terminal-pane/use-system-prefers-dark'
@@ -63,16 +64,19 @@ export function nativeChatContrastMix(contrast: number, light: boolean): number 
 export function nativeChatAppearanceStyle(
   settings: Partial<GlobalSettings> | null | undefined,
   measuredColumnWidthPx?: number | null,
-  systemPrefersDark = getSystemPrefersDark()
+  systemPrefersDark = getSystemPrefersDark(),
+  zoomCompensation = CHAT_ZOOM_COMPENSATION
 ): NativeChatAppearanceStyle {
   const appearance = resolveNativeChatAppearanceSettings(settings?.nativeChatAppearance)
   const { width } = appearance
   const matching = appearance.matchTerminalInterface
   const terminalFontSize = settings?.terminalFontSize ?? 14
-  const fontSize = matching ? terminalFontSize : appearance.fontSize
-  const codeFontSize = matching ? terminalFontSize : appearance.codeFontSize
+  const settingFontSize = matching ? terminalFontSize : appearance.fontSize
+  // The chrome sits one zoom step up; the chat scales back so a 15px setting still reads as 15px.
+  const fontSize = settingFontSize / zoomCompensation
+  const codeFontSize = (matching ? terminalFontSize : appearance.codeFontSize) / zoomCompensation
   // Message text follows the terminal (10-24); labels, controls and spacing stay in the chat's 12-20.
-  const uiFontSize = Math.max(12, Math.min(20, fontSize))
+  const uiFontSize = Math.max(12, Math.min(20, settingFontSize)) / zoomCompensation
   const maxWidthPx = width === 'wide' ? 960 : width === 'full' ? Number.POSITIVE_INFINITY : 736
   const measuredWidth = nativeChatColumnWidthBucket(measuredColumnWidthPx)
   const columnWidthPx = Math.min(
@@ -159,14 +163,15 @@ export function nativeChatAppearanceStyle(
 
 export function useNativeChatAppearanceStyle(
   settings: Partial<GlobalSettings> | null | undefined,
-  measuredColumnWidthPx?: number | null
+  measuredColumnWidthPx?: number | null,
+  zoomCompensation = CHAT_ZOOM_COMPENSATION
 ): NativeChatAppearanceStyle {
   const selectInputs = useShallow(selectNativeChatAppearanceSettings)
   const inputs = selectInputs(settings)
   const systemPrefersDark = useSystemPrefersDark()
   const measuredWidth = nativeChatColumnWidthBucket(measuredColumnWidthPx)
   return useMemo(
-    () => nativeChatAppearanceStyle(inputs, measuredWidth, systemPrefersDark),
-    [inputs, measuredWidth, systemPrefersDark]
+    () => nativeChatAppearanceStyle(inputs, measuredWidth, systemPrefersDark, zoomCompensation),
+    [inputs, measuredWidth, systemPrefersDark, zoomCompensation]
   )
 }

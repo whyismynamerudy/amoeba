@@ -4,7 +4,11 @@ import { isBackgroundLaunch, showWindowWithoutStealingFocus } from './foreground
 import { installPrivilegedWindowNavigationPolicy } from './privileged-window-navigation'
 import { sendToTrustedUIRenderer } from '../ipc/ui'
 import type { Store } from '../persistence'
-import { stepUIZoomLevel, type UIZoomDirection } from '../../shared/ui-zoom-level'
+import {
+  DEFAULT_UI_ZOOM_LEVEL,
+  stepUIZoomLevel,
+  type UIZoomDirection
+} from '../../shared/ui-zoom-level'
 
 let spaceWindow: BrowserWindow | null = null
 
@@ -64,12 +68,12 @@ export function createOrFocusWorkspaceSpaceWindow(store: Store): BrowserWindow {
   window.webContents.session.setPermissionCheckHandler(() => false)
   window.webContents.on('dom-ready', () => {
     if (!window.isDestroyed()) {
-      window.webContents.setZoomLevel(store.getUI().uiZoomLevel ?? 0)
+      window.webContents.setZoomLevel(store.getUI().uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL)
     }
   })
-  let lastFollowedZoomLevel = store.getUI().uiZoomLevel ?? 0
+  let lastFollowedZoomLevel = store.getUI().uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL
   const offUIChanged = store.onUIChanged((ui) => {
-    const level = ui.uiZoomLevel ?? 0
+    const level = ui.uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL
     if (level !== lastFollowedZoomLevel && !window.isDestroyed()) {
       lastFollowedZoomLevel = level
       window.webContents.setZoomLevel(level)

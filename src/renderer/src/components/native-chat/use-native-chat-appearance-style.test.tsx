@@ -1,4 +1,5 @@
 // @vitest-environment happy-dom
+import { CHAT_ZOOM_COMPENSATION } from '../../../../shared/ui-zoom-level'
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { GlobalSettings } from '../../../../shared/global-settings-types'
@@ -64,13 +65,18 @@ describe('shared chat appearance hook', () => {
       width: 736
     })
     expect(result.current).not.toBe(style)
-    expect(result.current['--chat-font-size']).toBe(`${settings.terminalFontSize + 1}px`)
+    expect(result.current['--chat-font-size']).toBe(
+      `${(settings.terminalFontSize + 1) / CHAT_ZOOM_COMPENSATION}px`
+    )
     expect(resolveColors).toHaveBeenCalledTimes(2)
     rerender({ settings: { ...settings, terminalFontFamily: 'Menlo' }, width: 736 })
     expect(result.current['--chat-code-font-family']).toContain('Menlo')
     expect(resolveColors).toHaveBeenCalledTimes(3)
     rerender({ settings: { ...settings, terminalFontFamily: 'Menlo' }, width: 384 })
-    expect(result.current['--chat-estimated-chars-per-line']).toBe(50)
+    const fontPx = Number.parseFloat(result.current['--chat-font-size'])
+    expect(result.current['--chat-estimated-chars-per-line']).toBe(
+      Math.floor((((96 * 384) / 736) * 14) / fontPx)
+    )
     expect(resolveColors).toHaveBeenCalledTimes(4)
     const narrower = result.current
     rerender({ settings: { ...settings, terminalFontFamily: 'Menlo' }, width: 399 })

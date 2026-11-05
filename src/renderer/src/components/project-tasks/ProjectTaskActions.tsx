@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GitCompare, GitFork, Globe, SquareTerminal } from 'lucide-react'
+import { GitCompare, GitFork, Globe, SquareSplitVertical, SquareTerminal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -13,6 +13,9 @@ import { translate } from '@/i18n/i18n'
 import { useAppStore } from '@/store'
 import { openDockedTaskTerminal } from './project-task-terminal'
 import { forkChat } from './chat-fork'
+import { useStructuredChatPaneActions } from '@/components/native-chat/use-structured-chat-pane-actions'
+import { agentForksConversations } from '../../../../shared/agent-resume-argv'
+import type { Tab } from '../../../../shared/tab-types'
 
 function TaskAction({
   label,
@@ -39,8 +42,10 @@ function TaskAction({
 
 function useActiveChatTab(worktreeId: string, groupId: string) {
   return useAppStore((s) => {
-    const group = (s.groupsByWorktree[worktreeId] ?? []).find((g) => g.id === groupId)
-    const tab = (s.unifiedTabsByWorktree[worktreeId] ?? []).find((t) => t.id === group?.activeTabId)
+    const group = (s.groupsByWorktree?.[worktreeId] ?? []).find((g) => g.id === groupId)
+    const tab = (s.unifiedTabsByWorktree?.[worktreeId] ?? []).find(
+      (t) => t.id === group?.activeTabId
+    )
     return tab?.contentType === 'agent-session' ? tab : null
   })
 }
@@ -81,8 +86,35 @@ function ForkChatMenu({
         >
           {translate('projectTasks.fork.toWorkspace', 'Fork to new workspace')}
         </DropdownMenuItem>
+        {chat.agentSessionAgent && agentForksConversations(chat.agentSessionAgent) ? (
+          <DropdownMenuItem
+            onSelect={() => void forkChat({ worktreeId, tab: chat, target: 'terminal' })}
+          >
+            {translate('projectTasks.fork.toTerminal', 'Fork to terminal')}
+          </DropdownMenuItem>
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
+  )
+}
+
+function SplitChatButton({
+  worktreeId,
+  groupId,
+  chat
+}: {
+  worktreeId: string
+  groupId: string
+  chat: Tab
+}): React.JSX.Element {
+  const actions = useStructuredChatPaneActions(chat.id, worktreeId, groupId)
+  return (
+    <TaskAction
+      label={translate('auto.components.cmd.j.quick.actions.splitChatRight', 'Split Chat Right')}
+      onClick={actions.onSplitRight}
+    >
+      <SquareSplitVertical className="size-3.5" />
+    </TaskAction>
   )
 }
 
@@ -102,8 +134,10 @@ export function ProjectTaskActions({
     state.setRightSidebarTab('source-control')
     state.setRightSidebarOpen(true)
   }
+  const chat = useActiveChatTab(worktreeId, groupId)
   return (
     <>
+      {chat ? <SplitChatButton worktreeId={worktreeId} groupId={groupId} chat={chat} /> : null}
       <ForkChatMenu worktreeId={worktreeId} groupId={groupId} />
       <TaskAction
         label={translate('projectTasks.header.browser', 'Open browser')}

@@ -1,3 +1,4 @@
+import { DEFAULT_UI_ZOOM_LEVEL } from './ui-zoom-level'
 import type { GlobalSettings } from './global-settings-types'
 import type { RepoHookSettings } from './orca-yaml-hook-types'
 import type { PersistedState } from './persisted-state-types'
@@ -226,7 +227,7 @@ export function getDefaultUIState(): PersistedUIState {
     agentsReadFilter: DEFAULT_AGENTS_READ_FILTER,
     agentsGroupBy: DEFAULT_AGENTS_GROUP_BY,
     collapsedGroups: [],
-    uiZoomLevel: 0,
+    uiZoomLevel: DEFAULT_UI_ZOOM_LEVEL,
     editorFontZoomLevel: 0,
     worktreeCardProperties: [...DEFAULT_WORKTREE_CARD_PROPERTIES],
     _worktreeCardModeDefaulted: true,

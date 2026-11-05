@@ -1,9 +1,18 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createGlobalSettingsFixture } from '../../../../shared/global-settings-test-fixture'
+import { CHAT_ZOOM_COMPENSATION } from '../../../../shared/ui-zoom-level'
 import { buildFontFamily } from '@/lib/monospace-font-family'
 import * as terminalThemeSelection from '../../../../shared/terminal-theme-selection'
 import { resolveConfiguredTerminalColors } from '../../../../shared/terminal-theme-selection'
-import { nativeChatAppearanceStyle, nativeChatContrastMix } from './native-chat-appearance-style'
+import {
+  nativeChatAppearanceStyle as compensatedAppearanceStyle,
+  nativeChatContrastMix
+} from './native-chat-appearance-style'
+
+// These cases pin the sizing math itself; Amoeba's zoom compensation has its own test.
+const nativeChatAppearanceStyle = (
+  ...[settings, width, dark]: Parameters<typeof compensatedAppearanceStyle>
+) => compensatedAppearanceStyle(settings, width, dark, 1)
 
 const makeSettings = createGlobalSettingsFixture
 afterEach(() => vi.restoreAllMocks())
@@ -266,4 +275,11 @@ describe('contrast hierarchy and incomplete terminal palettes', () => {
       }
     }
   )
+})
+
+describe('Amoeba zoom compensation', () => {
+  it('scales chat text back by the default zoom step so it keeps its pre-zoom size', () => {
+    const style = compensatedAppearanceStyle({ nativeChatAppearance: { fontSize: 16 } })
+    expect(style['--chat-font-size']).toBe(`${16 / CHAT_ZOOM_COMPENSATION}px`)
+  })
 })

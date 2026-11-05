@@ -5,7 +5,11 @@ import { isBackgroundLaunch, showWindowWithoutStealingFocus } from './foreground
 import { rectHasVisibleAreaOnAnyDisplay } from './window-bounds-validation'
 import { sendToTrustedUIRenderer } from '../ipc/ui'
 import { installPrivilegedWindowNavigationPolicy } from './privileged-window-navigation'
-import { stepUIZoomLevel, type UIZoomDirection } from '../../shared/ui-zoom-level'
+import {
+  DEFAULT_UI_ZOOM_LEVEL,
+  stepUIZoomLevel,
+  type UIZoomDirection
+} from '../../shared/ui-zoom-level'
 import { nativeZoomCommandMatchesKeybindings } from '../../shared/window-shortcut-policy'
 import {
   keybindingMatchesAction,
@@ -168,13 +172,13 @@ export function createOrFocusDashboardPopout(
   // Apply persisted app zoom or the popout always opens at 100%.
   window.webContents.on('dom-ready', () => {
     if (!window.isDestroyed()) {
-      window.webContents.setZoomLevel(store?.getUI().uiZoomLevel ?? 0)
+      window.webContents.setZoomLevel(store?.getUI().uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL)
     }
   })
   // Compare against last app zoom, not live window zoom, so local changes persist until app-wide zoom actually changes.
-  let lastFollowedZoomLevel = store?.getUI().uiZoomLevel ?? 0
+  let lastFollowedZoomLevel = store?.getUI().uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL
   const unsubscribeUIChanged = store?.onUIChanged((ui) => {
-    const level = ui.uiZoomLevel ?? 0
+    const level = ui.uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL
     if (level === lastFollowedZoomLevel) {
       return
     }

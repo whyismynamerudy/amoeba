@@ -1,6 +1,6 @@
 import { app, type BrowserWindow, type Event } from 'electron'
 import type { Store } from '../persistence'
-import { uiZoomFactorFromLevel } from '../../shared/ui-zoom-level'
+import { DEFAULT_UI_ZOOM_LEVEL, uiZoomFactorFromLevel } from '../../shared/ui-zoom-level'
 import { isWindowlessLaunch, showWindowWithoutStealingFocus } from './foreground-activation-policy'
 import { MIN_HEIGHT, MIN_WIDTH, syncTrafficLightPosition } from './main-window-visual-lifecycle'
 
@@ -20,7 +20,7 @@ export function installMainWindowStateLifecycle(args: {
 }): MainWindowStateLifecycle {
   const { mainWindow, revealOnDidFinishLoad, savedMaximized, store } = args
   mainWindow.webContents.on('dom-ready', () => {
-    const level = store?.getUI().uiZoomLevel ?? 0
+    const level = store?.getUI().uiZoomLevel ?? DEFAULT_UI_ZOOM_LEVEL
     mainWindow.webContents.setZoomLevel(level)
     // Native traffic lights do not scale with CSS zoom; align them with the titlebar on startup.
     if (process.platform === 'darwin') {

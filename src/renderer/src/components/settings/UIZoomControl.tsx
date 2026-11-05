@@ -4,6 +4,7 @@ import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { applyUIZoom } from '@/lib/ui-zoom'
 import { ZOOM_STEP, ZOOM_MIN, ZOOM_MAX, zoomLevelToPercent } from './SettingsConstants'
 import { translate } from '@/i18n/i18n'
+import { DEFAULT_UI_ZOOM_LEVEL } from '../../../../shared/ui-zoom-level'
 
 export function UIZoomControl(): React.JSX.Element {
   const [zoomLevel, setZoomLevel] = useState(() => window.api.ui.getZoomLevel())
@@ -45,8 +46,8 @@ export function UIZoomControl(): React.JSX.Element {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => applyZoom(0)}
-        disabled={zoomLevel === 0}
+        onClick={() => applyZoom(DEFAULT_UI_ZOOM_LEVEL)}
+        disabled={zoomLevel === DEFAULT_UI_ZOOM_LEVEL}
         className="ml-1 gap-1.5"
       >
         <RotateCcw className="size-3" />

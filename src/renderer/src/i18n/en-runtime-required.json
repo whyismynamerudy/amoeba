@@ -3474,6 +3474,9 @@
     "conductorImport": {
       "resumeFailed": "Could not reopen this Conductor chat."
     },
+    "fork": {
+      "unsupported": "This chat has no saved Claude or Codex conversation to fork yet."
+    },
     "header": {
       "showTabs": "Show tabs"
     }

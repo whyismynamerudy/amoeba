@@ -30,7 +30,7 @@ import { linearApi } from './api/linear-bridge'
 import { jiraApi } from './api/jira-bridge'
 import { starNagApi } from './api/star-nag-bridge'
 import { conductorImportApi } from './api/conductor-import-bridge'
-import { worktreeForkApi } from './api/worktree-fork-bridge'
+import { chatForkApi } from './api/chat-fork-bridge'
 import { diagnosticsApi } from './api/diagnostics-bridge'
 import { settingsApi } from './api/settings-bridge'
 import { agentAwakeApi } from './api/agent-awake-bridge'
@@ -129,7 +129,7 @@ const api = {
   jira: jiraApi,
   starNag: starNagApi,
   conductorImport: conductorImportApi,
-  worktreeFork: worktreeForkApi,
+  chatFork: chatForkApi,
   telemetryTrack: telemetryTrackApi,
   telemetrySetOptIn: telemetrySetOptInApi,
   telemetryAcknowledgeBanner: telemetryAcknowledgeBannerApi,

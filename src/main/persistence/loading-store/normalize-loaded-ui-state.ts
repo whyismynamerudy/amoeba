@@ -1,3 +1,4 @@
+import { DEFAULT_UI_ZOOM_LEVEL } from '../../../shared/ui-zoom-level'
 import { resolveStatusBarCompactChangeNoticeDismissed } from '../../../shared/status-bar-compact-change-notice'
 import { migrateExplorerDisplayRoots } from '../../../shared/file-explorer-display-root'
 import {
@@ -200,6 +201,11 @@ export function normalizeLoadedUiState(
       loadedCompactWorktreeCards ? 'Compact' : 'Default'
     ),
     ...stripMainOwnedTelemetryMarkerFromUI(parsed.ui),
+    // Profiles still on Chromium's base zoom move to Amoeba's default once; chosen zooms stay.
+    ...(parsed.ui?._uiZoomDefaultRaised !== true && (parsed.ui?.uiZoomLevel ?? 0) === 0
+      ? { uiZoomLevel: DEFAULT_UI_ZOOM_LEVEL }
+      : {}),
+    _uiZoomDefaultRaised: true,
     // The retired Appearance setting seeds chrome only without an explicit preference.
     rightSidebarOpen,
     rightSidebarTab: normalizeRightSidebarTab(parsed.ui?.rightSidebarTab),

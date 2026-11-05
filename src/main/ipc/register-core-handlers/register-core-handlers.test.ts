@@ -219,8 +219,8 @@ vi.mock('../memory', () => ({
   registerMemoryHandlers: registerMemoryHandlersMock
 }))
 
-vi.mock('../worktree-fork', () => ({
-  registerWorktreeForkHandlers: vi.fn()
+vi.mock('../chat-fork', () => ({
+  registerChatForkHandlers: vi.fn()
 }))
 vi.mock('../conductor-import', () => ({
   registerConductorImportHandlers: vi.fn()

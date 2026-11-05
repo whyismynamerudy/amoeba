@@ -9,6 +9,7 @@ type MainOwnedUIState =
   | 'jiraSavedFilterState'
   | 'jiraQuickFilterState'
   | '_explorerDisplayRootMigrated'
+  | '_uiZoomDefaultRaised'
   | 'trayMinimizeNoticeShown'
   | 'dashboardPopoutBounds'
   | '_expandedWorktreeCardPropertiesDefaulted'

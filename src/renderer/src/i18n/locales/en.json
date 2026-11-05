@@ -21388,7 +21388,10 @@
       "chatProgress": "Forking the chat…",
       "unsupported": "This chat has no saved Claude or Codex conversation to fork yet.",
       "failed": "The fork could not be opened.",
-      "failedTitle": "Could not fork this chat"
+      "failedTitle": "Could not fork this chat",
+      "toTerminal": "Fork to terminal",
+      "terminalUnavailable": "This chat can’t open in a terminal.",
+      "noWorkspace": "This chat’s workspace is gone."
     }
   }
 }

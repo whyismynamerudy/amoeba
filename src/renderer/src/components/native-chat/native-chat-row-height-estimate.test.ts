@@ -1,4 +1,4 @@
-import { nativeChatAppearanceStyle } from './native-chat-appearance-style'
+import { nativeChatAppearanceStyle as compensatedAppearanceStyle } from './native-chat-appearance-style'
 import { describe, expect, it } from 'vitest'
 import type { NativeChatMessage } from '../../../../shared/native-chat-types'
 import {
@@ -7,6 +7,11 @@ import {
   NATIVE_CHAT_ROW_GAP_PX,
   nativeChatRowContentMetrics
 } from './native-chat-row-height-estimate'
+
+// These cases pin the sizing math itself; Amoeba's zoom compensation has its own test.
+const nativeChatAppearanceStyle = (
+  ...[settings, width, dark]: Parameters<typeof compensatedAppearanceStyle>
+) => compensatedAppearanceStyle(settings, width, dark, 1)
 
 const NO_CHROME = { hasReceipt: false, hasStatus: false, hasTurnDiff: false }
 

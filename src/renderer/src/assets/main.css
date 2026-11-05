@@ -1874,6 +1874,8 @@ html.native-shell .app-layout {
 
 .settings-view-shell {
   animation: settings-shell-enter 180ms ease-out;
+  /* Same mix as the chat's default canvas, so Settings and chats share one dark surface. */
+  background-color: color-mix(in srgb, var(--foreground) var(--chat-canvas-mix), var(--background));
 }
 
 .repo-icon-emoji-picker .EmojiPickerReact {

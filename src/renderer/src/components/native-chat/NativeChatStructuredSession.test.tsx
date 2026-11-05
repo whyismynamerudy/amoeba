@@ -1,4 +1,5 @@
 import * as terminalThemeSelection from '../../../../shared/terminal-theme-selection'
+import { CHAT_ZOOM_COMPENSATION } from '../../../../shared/ui-zoom-level'
 import { getDefaultSettings } from '../../../../shared/constants'
 // @vitest-environment happy-dom
 
@@ -72,8 +73,12 @@ describe('NativeChatStructuredSession', () => {
     expect(root?.style.getPropertyValue('--chat-code-font-family')).toContain('Consolas')
     expect(root?.style.getPropertyValue('--chat-font-family')).toContain('Consolas')
     expect(root?.style.getPropertyValue('--chat-foreground-mix')).toBe('100%')
-    expect(root?.style.getPropertyValue('--chat-font-size')).toBe('16px')
-    expect(root?.style.getPropertyValue('--chat-code-font-size')).toBe('16px')
+    expect(root?.style.getPropertyValue('--chat-font-size')).toBe(
+      `${16 / CHAT_ZOOM_COMPENSATION}px`
+    )
+    expect(root?.style.getPropertyValue('--chat-code-font-size')).toBe(
+      `${16 / CHAT_ZOOM_COMPENSATION}px`
+    )
     expect(root?.style.getPropertyValue('--chat-content-max-width')).toBe('60rem')
     act(() =>
       useAppStore.setState({
@@ -91,7 +96,9 @@ describe('NativeChatStructuredSession', () => {
     expect(root?.style.getPropertyValue('--chat-source-foreground')).toBe('')
     expect(root?.style.getPropertyValue('--chat-font-family')).toBe('')
     expect(root?.style.getPropertyValue('--chat-foreground-mix')).toBe('78%')
-    expect(root?.style.getPropertyValue('--chat-font-size')).toBe('15px')
+    expect(root?.style.getPropertyValue('--chat-font-size')).toBe(
+      `${15 / CHAT_ZOOM_COMPENSATION}px`
+    )
     expect(root?.style.getPropertyValue('--chat-content-max-width')).toBe('none')
     act(() => useAppStore.setState({ settings: original }))
   })
@@ -126,7 +133,7 @@ describe('NativeChatStructuredSession', () => {
       view.container
         .querySelector<HTMLElement>('[data-native-chat-root]')
         ?.style.getPropertyValue('--chat-font-size')
-    ).toBe(`${settings.terminalFontSize + 1}px`)
+    ).toBe(`${(settings.terminalFontSize + 1) / CHAT_ZOOM_COMPENSATION}px`)
     act(() => useAppStore.setState({ settings: { ...settings, terminalFontFamily: 'Menlo' } }))
     expect(resolveColors).toHaveBeenCalledTimes(initialResolutions + 2)
     expect(
