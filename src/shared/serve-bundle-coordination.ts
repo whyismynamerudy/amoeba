@@ -1,6 +1,7 @@
 /** Keep bundle-keyed coordination outside the macOS app being replaced so desktop installs can park supervised serve processes. */
 import { createHash } from 'node:crypto'
 import { join } from 'node:path'
+import { APP_USER_DATA_DIR_NAME } from './app-user-data-dir'
 
 /** launchd label prefix `orca serve service install` writes; only those supervisors register. */
 export const SERVE_LAUNCHD_LABEL_PREFIX = 'com.amoeba.desktop.serve'
@@ -40,7 +41,7 @@ export type ServeParkRecord = {
 
 /** Electron's default macOS userData base, shared by every profile of one user. */
 export function macCoordinationRoot(homeDir: string): string {
-  return join(homeDir, 'Library', 'Application Support', 'orca')
+  return join(homeDir, 'Library', 'Application Support', APP_USER_DATA_DIR_NAME)
 }
 
 export function bundleCoordinationDir(realBundlePath: string, macUserDataRoot: string): string {

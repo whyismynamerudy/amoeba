@@ -60,9 +60,11 @@ function realHomes(): string[] {
 function protectedRoots(): string[] {
   const folders = realHomes().flatMap((home) => [
     ...AGENT_HOME_ENTRIES.map((entry) => join(home, entry)),
-    join(home, 'Library', 'Application Support', 'orca'),
-    join(home, '.config', 'orca'),
-    join(home, 'AppData', 'Roaming', 'orca')
+    ...['amoeba', 'orca'].flatMap((appFolder) => [
+      join(home, 'Library', 'Application Support', appFolder),
+      join(home, '.config', appFolder),
+      join(home, 'AppData', 'Roaming', appFolder)
+    ])
   ])
   for (const name of INHERITED_STATE_ENV) {
     const value = process.env[name]

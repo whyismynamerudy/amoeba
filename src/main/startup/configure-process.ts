@@ -8,6 +8,8 @@ import { getMainE2EConfig } from '../e2e-config'
 import { DISABLED_CHROMIUM_FEATURES } from './disabled-chromium-features'
 import { readHttp1CompatibilityMarker } from './http1-compatibility-marker'
 import { checkServeUserDataPath } from './serve-user-data-path-guard'
+import { migrateLegacyUserDataFolder } from './legacy-user-data-migration'
+import { resolvePackagedUserDataPath } from '../../shared/app-user-data-dir'
 import { stampRuntimeSourceEnv } from '../../shared/runtime-source-env'
 import { isLinuxWaylandSession } from '../../shared/linux-wayland-session'
 import {
@@ -172,9 +174,6 @@ export function patchPackagedProcessPath(): void {
   }
 }
 
-// The CLI's runtime metadata lookup reads this folder name (src/cli/runtime/metadata.ts).
-const PACKAGED_PROFILE_DIR_NAME = 'orca'
-
 export function configureDevUserDataPath(isDev: boolean): void {
   const e2eConfig = getMainE2EConfig()
   if (e2eConfig.userDataDir) {
@@ -192,9 +191,11 @@ export function configureDevUserDataPath(isDev: boolean): void {
   }
 
   if (!isDev) {
-    // Amoeba renames the bundle; keep the packaged profile in the folder the orca CLI resolves.
+    // Pin the folder the CLI resolves (src/cli/runtime/metadata.ts), moving the Orca-era one first.
     if (process.platform !== 'win32' && !app.commandLine.hasSwitch('user-data-dir')) {
-      app.setPath('userData', join(app.getPath('appData'), PACKAGED_PROFILE_DIR_NAME))
+      const appDataRoot = app.getPath('appData')
+      migrateLegacyUserDataFolder(appDataRoot)
+      app.setPath('userData', resolvePackagedUserDataPath(appDataRoot))
     }
     return
   }
