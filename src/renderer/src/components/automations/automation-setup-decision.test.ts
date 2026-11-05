@@ -111,7 +111,7 @@ describe('automation setup decision defaults', () => {
     ).toBe('skip')
   })
 
-  it('shows setup choice for shared orca.yaml setup and default tabs', () => {
+  it('shows setup choice for shared amoeba.yaml setup and default tabs', () => {
     expect(
       getVisibleAutomationSetupDecision({
         workspaceMode: 'new_per_run',

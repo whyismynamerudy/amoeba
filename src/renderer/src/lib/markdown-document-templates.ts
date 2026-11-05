@@ -5,8 +5,9 @@ import { readRuntimeDirectory } from '@/runtime/runtime-file-mutation-client'
 import { readRuntimeFileContent } from '@/runtime/runtime-file-read-client'
 import { runtimePathExists } from '@/runtime/runtime-file-metadata-client'
 import { basename, joinPath, normalizeRelativePath } from './path'
+import { PROJECT_LOCAL_DIR_NAME } from '../../../shared/project-config-names'
 
-const MARKDOWN_TEMPLATE_ROOT = '.orca/templates'
+const MARKDOWN_TEMPLATE_ROOT = `${PROJECT_LOCAL_DIR_NAME}/templates`
 const MARKDOWN_TEMPLATE_MAX_DEPTH = 8
 const MARKDOWN_TEMPLATE_MAX_COUNT = 100
 

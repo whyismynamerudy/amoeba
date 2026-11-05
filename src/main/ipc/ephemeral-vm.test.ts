@@ -142,10 +142,10 @@ describe('registerEphemeralVmHandlers', () => {
     }
   })
 
-  it('lists recipes from local repo orca.yaml', async () => {
+  it('lists recipes from local repo amoeba.yaml', async () => {
     const repoPath = makeDir('orca-ephemeral-vm-ipc-repo-')
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -180,7 +180,7 @@ describe('registerEphemeralVmHandlers', () => {
   it('lists the recipe catalog across local git repos', async () => {
     const repoPath = makeDir('orca-ephemeral-vm-ipc-repo-')
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -215,7 +215,7 @@ describe('registerEphemeralVmHandlers', () => {
   it('merges approved plugin recipes while repository recipes shadow matching ids', async () => {
     const repoPath = makeDir('orca-ephemeral-vm-ipc-repo-')
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: shared',
@@ -356,7 +356,7 @@ describe('registerEphemeralVmHandlers', () => {
       ].join('\n')
     )
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -445,7 +445,7 @@ describe('registerEphemeralVmHandlers', () => {
       ].join('\n')
     )
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -529,7 +529,7 @@ describe('registerEphemeralVmHandlers', () => {
     )
     writeFileSync(destroyPath, 'process.exit(1)')
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -655,7 +655,7 @@ describe('registerEphemeralVmHandlers', () => {
       ].join('\n')
     )
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -733,7 +733,7 @@ describe('registerEphemeralVmHandlers', () => {
     )
     writeFileSync(cleanupPath, 'process.stdin.resume()\n')
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -781,7 +781,7 @@ describe('registerEphemeralVmHandlers', () => {
       ].join('\n')
     )
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',
@@ -832,7 +832,7 @@ describe('registerEphemeralVmHandlers', () => {
       ].join('\n')
     )
     writeFileSync(
-      join(repoPath, 'orca.yaml'),
+      join(repoPath, 'amoeba.yaml'),
       [
         'environmentRecipes:',
         '  - id: cloud-sandbox',

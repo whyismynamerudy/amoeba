@@ -108,7 +108,7 @@ describe('ensureHooksConfirmed', () => {
 
     await vi.waitFor(() => expect(pending).toHaveLength(1))
     expect(pending[0].data.scriptContent).toBe('new script')
-    // Explain re-prompting as changed orca.yaml, distinct from first-time approval.
+    // Explain re-prompting as changed amoeba.yaml, distinct from first-time approval.
     expect(pending[0].data.previouslyApproved).toBe(true)
 
     pending[0].resolve('run')
@@ -302,7 +302,7 @@ describe('ensureHooksConfirmed', () => {
     expect(pending).toHaveLength(0)
   })
 
-  it('does not prompt for orca.yaml when the repo uses local commands only', async () => {
+  it('does not prompt for amoeba.yaml when the repo uses local commands only', async () => {
     const { state, pending } = createTestState({
       repos: [
         {
@@ -332,7 +332,7 @@ describe('ensureHooksConfirmed', () => {
     expect(pending).toHaveLength(0)
   })
 
-  it('does not prompt for orca.yaml when local commands are the implicit default', async () => {
+  it('does not prompt for amoeba.yaml when local commands are the implicit default', async () => {
     const { state, pending } = createTestState({
       repos: [
         {

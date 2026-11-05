@@ -218,7 +218,7 @@ describe('registerHostedReviewHandlers', () => {
     )
   })
 
-  // Remote paths must not resolve unrelated local orca.yaml files.
+  // Remote paths must not resolve unrelated local amoeba.yaml files.
   it('does not resolve shared link paths for an SSH repo', async () => {
     store.getRepo.mockImplementation((repoId: string) =>
       repoId === repo.id ? { ...repo, symlinkPaths: ['node_modules'] } : null

@@ -83,7 +83,7 @@ function getCommandSourcePolicyOptions(): PolicyOption<HookCommandSourcePolicy>[
       policy: 'shared-only',
       label: translate(
         'auto.components.settings.RepositoryHooksSection.d88b6ff88f',
-        'orca.yaml only'
+        'amoeba.yaml only'
       ),
       description: translate(
         'auto.components.settings.RepositoryHooksSection.29397e8bbc',
@@ -95,7 +95,7 @@ function getCommandSourcePolicyOptions(): PolicyOption<HookCommandSourcePolicy>[
       label: translate('auto.components.settings.RepositoryHooksSection.83dc78202a', 'Local only'),
       description: translate(
         'auto.components.settings.RepositoryHooksSection.0e8b2a520d',
-        'Ignore orca.yaml; run only your local commands.'
+        'Ignore amoeba.yaml; run only your local commands.'
       )
     },
     {
@@ -103,7 +103,7 @@ function getCommandSourcePolicyOptions(): PolicyOption<HookCommandSourcePolicy>[
       label: translate('auto.components.settings.RepositoryHooksSection.8d6c56bff8', 'Run both'),
       description: translate(
         'auto.components.settings.RepositoryHooksSection.8561b0665f',
-        'orca.yaml first, then your local commands.'
+        'amoeba.yaml first, then your local commands.'
       )
     }
   ]
@@ -169,7 +169,10 @@ export function RepositorySetupPolicySetting({
 
 function getCommandSourceLabel(policy: HookCommandSourcePolicy): string {
   if (policy === 'shared-only') {
-    return translate('auto.components.settings.RepositoryHooksSection.d88b6ff88f', 'orca.yaml only')
+    return translate(
+      'auto.components.settings.RepositoryHooksSection.d88b6ff88f',
+      'amoeba.yaml only'
+    )
   }
   if (policy === 'local-only') {
     return translate('auto.components.settings.RepositoryHooksSection.83dc78202a', 'Local only')
@@ -204,12 +207,12 @@ export function RepositoryHookCommandSourceSetting({
       title: translate('auto.components.settings.RepositoryHooksSection.c9bc1bfd8f', 'Advanced'),
       description: translate(
         'auto.components.settings.RepositoryHooksSection.610d90fdbd',
-        'Command source and orca.yaml details.'
+        'Command source and amoeba.yaml details.'
       ),
       keywords: [
         translate('auto.components.settings.RepositoryHooksSection.c5a55a2d2e', 'advanced'),
         translate('auto.components.settings.RepositoryHooksSection.4611b78617', 'command source'),
-        translate('auto.components.settings.RepositoryHooksSection.39da2ae12f', 'orca.yaml'),
+        translate('auto.components.settings.RepositoryHooksSection.39da2ae12f', 'amoeba.yaml'),
         translate('auto.components.settings.RepositoryHooksSection.d2b3016c20', 'shared'),
         translate('auto.components.settings.RepositoryHooksSection.2d03a514db', 'local'),
         translate('auto.components.settings.RepositoryHooksSection.0518758f38', 'both'),
@@ -245,7 +248,7 @@ export function RepositoryHookCommandSourceSetting({
           <span className="text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.RepositoryHooksSection.bbbd6e0bc4',
-              'Command source & orca.yaml'
+              'Command source & amoeba.yaml'
             )}
           </span>
         </div>
@@ -267,7 +270,7 @@ export function RepositoryHookCommandSourceSetting({
                 i18n={i18n}
                 defaults={translate(
                   'auto.components.settings.RepositoryHooksSection.commandSourceDescription',
-                  'When both <yaml>orca.yaml</yaml> and local commands exist, choose which run.'
+                  'When both <yaml>amoeba.yaml</yaml> and local commands exist, choose which run.'
                 )}
                 components={{ yaml: <code className="rounded bg-muted px-1 py-0.5" /> }}
               />

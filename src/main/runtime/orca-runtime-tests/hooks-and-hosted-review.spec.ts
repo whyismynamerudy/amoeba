@@ -49,7 +49,7 @@ describe('OrcaRuntimeService', () => {
       })
     })
 
-    it('reports an SSH orca.yaml as an error without reading any filesystem', async () => {
+    it('reports an SSH amoeba.yaml as an error without reading any filesystem', async () => {
       const runtime = new OrcaRuntimeService(remoteStore as never)
 
       await expect(runtime.checkRepoHooks('id:repo-1')).resolves.toMatchObject({
@@ -85,7 +85,7 @@ describe('OrcaRuntimeService', () => {
       localContent: null,
       sharedContent: null,
       effectiveContent: null,
-      localFilePath: '/remote/repo/.orca/issue-command',
+      localFilePath: '/remote/repo/.amoeba/issue-command',
       source: 'none'
     })
     await expect(runtime.writeRepoIssueCommand('id:repo-1', '   ')).resolves.toEqual({

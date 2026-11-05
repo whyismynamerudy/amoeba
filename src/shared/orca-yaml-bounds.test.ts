@@ -11,7 +11,7 @@ import { parseOrcaYaml } from './orca-yaml'
 
 afterEach(() => vi.restoreAllMocks())
 
-describe('orca.yaml parse bounds', () => {
+describe('amoeba.yaml parse bounds', () => {
   it('admits the exact UTF-8 input boundary and rejects +1 before conversion', () => {
     const toJS = vi.spyOn(Document.prototype, 'toJS')
     const prefix = 'scripts:\n  setup: pnpm install\n#'

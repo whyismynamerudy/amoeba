@@ -3,6 +3,7 @@ import type { GitRuntimeOptions } from '../git/git-runtime-options'
 import type { Repo } from '../../shared/repo-types'
 import { readIssueCommand, writeIssueCommand } from '../issue-command-file'
 import { isFolderRepo } from '../../shared/repo-kind'
+import { PROJECT_LOCAL_DIR_NAME } from '../../shared/project-config-names'
 import { joinWorktreeRelativePath } from './runtime-relative-paths'
 import type { RuntimeStore } from './runtime-store-contract'
 import { assertWslMoveRepoWritable } from '../persistence/moving-wsl-projects/wsl-move-scope-guard'
@@ -36,7 +37,7 @@ export class RuntimeRepositoryIssueCommand {
       localContent: null,
       sharedContent: null,
       effectiveContent: null,
-      localFilePath: joinWorktreeRelativePath(repo.path, '.orca/issue-command'),
+      localFilePath: joinWorktreeRelativePath(repo.path, `${PROJECT_LOCAL_DIR_NAME}/issue-command`),
       source: 'none' as const
     }
   }

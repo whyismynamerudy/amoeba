@@ -64,7 +64,7 @@ function setupManagedSshRecipe(): { userDataPath: string; store: Store } {
   }
   const printResult = `console.log(${JSON.stringify(JSON.stringify(sshResult))})`
   writeFileSync(
-    join(repoPath, 'orca.yaml'),
+    join(repoPath, 'amoeba.yaml'),
     [
       'environmentRecipes:',
       '  - id: cloud-sandbox',

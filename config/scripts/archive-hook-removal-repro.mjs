@@ -83,13 +83,13 @@ esac
 echo "unknown mode $mode" >&2; exit 99
 `
 
-/** A throwaway git repo with one commit; optionally an orca.yaml archive hook. */
+/** A throwaway git repo with one commit; optionally an amoeba.yaml archive hook. */
 function seedGitRepo(label, withHook, githubSlug) {
   const dir = mkdtempSync(join(tmpdir(), `agh-repo-${label}-`))
   writeFileSync(join(dir, 'README.md'), `# ${label}\n`)
   if (withHook) {
     writeFileSync(
-      join(dir, 'orca.yaml'),
+      join(dir, 'amoeba.yaml'),
       `scripts:\n  archive: |\n${ARCHIVE_HOOK.split('\n')
         .map((l) => `    ${l}`)
         .join('\n')}\n`

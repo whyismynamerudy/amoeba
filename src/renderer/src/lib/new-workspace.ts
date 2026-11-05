@@ -79,7 +79,7 @@ function getSetupConfigKind(
   return 'setup'
 }
 
-/** Prefer artifact_url while retaining issue substitutions for unmigrated orca.yaml/.orca/issue-command templates. */
+/** Prefer artifact_url while retaining issue substitutions for unmigrated amoeba.yaml/issue-command templates. */
 export function renderIssueCommandTemplate(
   template: string,
   vars: { issueNumber: number | null; artifactUrl: string | null }

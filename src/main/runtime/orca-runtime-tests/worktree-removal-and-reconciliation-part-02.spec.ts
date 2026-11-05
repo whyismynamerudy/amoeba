@@ -285,7 +285,7 @@ describe('OrcaRuntimeService', () => {
 
       expect(result).toEqual({
         preservedBranch: { branchName: 'feature/foo', head: 'abc' },
-        warning: `orca.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
+        warning: `amoeba.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
       })
       expect(gitSpy).toHaveBeenCalledWith(['worktree', 'prune'], {
         cwd: TEST_REPO_PATH

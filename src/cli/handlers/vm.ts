@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import type { CommandHandler } from '../dispatch'
 import { RuntimeClientError } from '../runtime-client'
 import { parseOrcaYaml } from '../../shared/orca-yaml'
+import { PROJECT_CONFIG_FILE_NAME } from '../../shared/project-config-names'
 import {
   getEphemeralVmRecipeResultProjectRoot,
   type EphemeralVmRecipeDoctorCheck,
@@ -43,7 +44,7 @@ export const VM_HANDLERS: Record<string, CommandHandler> = {
 }
 
 function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
-  const yamlPath = join(repoPath, 'orca.yaml')
+  const yamlPath = join(repoPath, PROJECT_CONFIG_FILE_NAME)
   if (!existsSync(yamlPath)) {
     return {
       recipeId,
@@ -53,8 +54,8 @@ function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
         {
           id: 'orca_yaml.exists',
           status: 'fail',
-          message: `No orca.yaml found at ${yamlPath}`,
-          remediation: 'Add environmentRecipes to the repo orca.yaml.'
+          message: `No ${PROJECT_CONFIG_FILE_NAME} found at ${yamlPath}`,
+          remediation: `Add environmentRecipes to the repo ${PROJECT_CONFIG_FILE_NAME}.`
         }
       ]
     }
@@ -64,8 +65,12 @@ function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
   const parseCheck: EphemeralVmRecipeDoctorCheck = {
     id: 'orca_yaml.parse',
     status: hooks ? 'pass' : 'fail',
-    message: hooks ? 'orca.yaml parsed successfully.' : 'orca.yaml has no supported Amoeba config.',
-    ...(hooks ? {} : { remediation: 'Add an environmentRecipes entry to orca.yaml.' })
+    message: hooks
+      ? `${PROJECT_CONFIG_FILE_NAME} parsed successfully.`
+      : `${PROJECT_CONFIG_FILE_NAME} has no supported Amoeba config.`,
+    ...(hooks
+      ? {}
+      : { remediation: `Add an environmentRecipes entry to ${PROJECT_CONFIG_FILE_NAME}.` })
   }
   const result = doctorEphemeralVmRecipe({
     repoPath,
@@ -253,7 +258,7 @@ function buildProvisionFailureRemediation(stderr: string, stdout: string): strin
 }
 
 function loadRecipe(repoPath: string, recipeId: string): OrcaVmRecipe | null {
-  const hooks = parseOrcaYaml(readTextFile(join(repoPath, 'orca.yaml')))
+  const hooks = parseOrcaYaml(readTextFile(join(repoPath, PROJECT_CONFIG_FILE_NAME)))
   return hooks?.environmentRecipes?.find((entry) => entry.id === recipeId) ?? null
 }
 

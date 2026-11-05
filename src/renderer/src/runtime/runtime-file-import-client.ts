@@ -33,7 +33,7 @@ export async function importExternalPathsToRuntime(
     assertCurrent?: () => void
     /** Local imports only; remote destinations stay root-relative. */
     access?: LocalFileAccess
-    /** Remote `.orca/drops` uploads: name an extensionless image by its bytes. */
+    /** Remote `.amoeba/drops` uploads: name an extensionless image by its bytes. */
     nameExtensionlessImages?: boolean
   }
 ): Promise<{ results: ImportItemResult[] }> {

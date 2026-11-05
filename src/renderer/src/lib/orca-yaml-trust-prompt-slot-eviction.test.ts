@@ -33,7 +33,7 @@ async function settleOrReport<T>(promise: Promise<T>): Promise<T | 'never-settle
   ])
 }
 
-describe('orca.yaml trust prompt evicted from the modal slot', () => {
+describe('amoeba.yaml trust prompt evicted from the modal slot', () => {
   beforeEach(() => {
     hooksCheckMock.mockReset()
     readIssueCommandMock.mockReset()

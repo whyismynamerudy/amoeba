@@ -2,6 +2,7 @@ import { getLocalProjectWorktreeGitOptions } from '../../project-runtime-git-opt
 import { ipcMain } from 'electron'
 import { getRepoDialableSshTargetId, type ExecutionHostId } from '../../../shared/execution-host'
 import { isFolderRepo } from '../../../shared/repo-kind'
+import { PROJECT_LOCAL_DIR_NAME } from '../../../shared/project-config-names'
 import { joinWorktreeRelativePath } from '../../runtime/runtime-relative-paths'
 import { readIssueCommand, writeIssueCommand } from '../../issue-command-file'
 import { resolveRepoForExecutionHost } from '../worktrees/repo-host-ownership'
@@ -33,7 +34,10 @@ export function registerWorktreeHookFileHandlers(context: WorktreeIpcContext): v
           localContent: null,
           sharedContent: null,
           effectiveContent: null,
-          localFilePath: joinWorktreeRelativePath(repo.path, '.orca/issue-command'),
+          localFilePath: joinWorktreeRelativePath(
+            repo.path,
+            `${PROJECT_LOCAL_DIR_NAME}/issue-command`
+          ),
           source: 'none' as const
         }
       }

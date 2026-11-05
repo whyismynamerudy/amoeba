@@ -22,7 +22,7 @@ async function survivorsAfterDeadline(
   const dir = mkdtempSync(join(tmpdir(), 'orca-term-'))
   const pidFile = join(dir, 'pids')
   writeFileSync(
-    join(dir, 'orca.yaml'),
+    join(dir, 'amoeba.yaml'),
     `scripts:\n  archive: |\n${script.replace(/^/gm, '    ')}\n`
   )
   let pids: number[] = []

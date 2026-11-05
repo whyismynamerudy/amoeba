@@ -20,7 +20,7 @@ function runGit(cwd: string, args: string[]): void {
   execFileSync('git', args, { cwd, stdio: 'pipe' })
 }
 
-/** Repo whose shared orca.yaml carries a real setup script, plus a second worktree. */
+/** Repo whose shared amoeba.yaml carries a real setup script, plus a second worktree. */
 function createRepoWithSharedSetupScript(repoPath: string, featureWorktreePath: string): void {
   rmSync(repoPath, { recursive: true, force: true })
   rmSync(featureWorktreePath, { recursive: true, force: true })
@@ -28,14 +28,14 @@ function createRepoWithSharedSetupScript(repoPath: string, featureWorktreePath: 
   runGit(repoPath, ['init'])
   runGit(repoPath, ['config', 'user.email', 'e2e@test.local'])
   runGit(repoPath, ['config', 'user.name', 'E2E Test'])
-  writeFileSync(path.join(repoPath, 'README.md'), '# Unreadable orca.yaml E2E\n')
-  writeFileSync(path.join(repoPath, 'orca.yaml'), `scripts:\n  setup: ${SETUP_SCRIPT_COMMAND}\n`)
+  writeFileSync(path.join(repoPath, 'README.md'), '# Unreadable amoeba.yaml E2E\n')
+  writeFileSync(path.join(repoPath, 'amoeba.yaml'), `scripts:\n  setup: ${SETUP_SCRIPT_COMMAND}\n`)
   runGit(repoPath, ['add', '-A'])
   runGit(repoPath, ['commit', '-m', 'Initial commit'])
   runGit(repoPath, ['worktree', 'add', '-b', 'setup-prompt-proof', featureWorktreePath])
 }
 
-// Inject unreadable orca.yaml as status:error, not authoritative absence; retain the real handler for healing.
+// Inject unreadable amoeba.yaml as status:error, not authoritative absence; retain the real handler for healing.
 async function installUnreadableOrcaYamlFault(electronApp: ElectronApplication): Promise<void> {
   await electronApp.evaluate(({ ipcMain }) => {
     type InvokeHandler = (event: unknown, ...args: unknown[]) => unknown
@@ -145,7 +145,7 @@ test.describe('Setup script prompt', () => {
     await waitForActiveWorktree(orcaPage)
   })
 
-  test('recovers from an unreadable orca.yaml instead of pinning the failed verdict', async ({
+  test('recovers from an unreadable amoeba.yaml instead of pinning the failed verdict', async ({
     electronApp,
     orcaPage
   }, testInfo) => {
@@ -164,7 +164,7 @@ test.describe('Setup script prompt', () => {
     const inspectionError = promptCard.getByText(INSPECTION_ERROR_TEXT)
     await expect(inspectionError).toBeVisible({ timeout: 20_000 })
 
-    // orca.yaml is readable again; the card is still pinned to the failed verdict.
+    // amoeba.yaml is readable again; the card is still pinned to the failed verdict.
     await healOrcaYamlRead(electronApp)
     const healthyCheck = await orcaPage.evaluate(
       (targetRepoId) => window.api.hooks.check({ repoId: targetRepoId }),

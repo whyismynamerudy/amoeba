@@ -59,7 +59,7 @@ describe('resolveWorktreeSharedDirectories', () => {
   let warn: ReturnType<typeof vi.spyOn>
 
   const writeOrcaYaml = (body: string): void => {
-    writeFileSync(join(repo, 'orca.yaml'), body)
+    writeFileSync(join(repo, 'amoeba.yaml'), body)
   }
 
   beforeEach(() => {
@@ -88,13 +88,13 @@ describe('resolveWorktreeSharedDirectories', () => {
     expect(await resolveWorktreeSharedDirectories(repo)).toEqual(['.cache', 'node_modules'])
   })
 
-  it('returns [] when orca.yaml is absent', async () => {
+  it('returns [] when amoeba.yaml is absent', async () => {
     mkdirSync(join(repo, 'node_modules'))
 
     expect(await resolveWorktreeSharedDirectories(repo)).toEqual([])
   })
 
-  it('returns [] when orca.yaml has no worktree key', async () => {
+  it('returns [] when amoeba.yaml has no worktree key', async () => {
     mkdirSync(join(repo, 'node_modules'))
     writeOrcaYaml('scripts:\n  setup: pnpm install\n')
 
@@ -190,7 +190,7 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
   it('returns the configured names without existence or gitignore filtering', () => {
     // Removal needs configured names even after the primary directory disappears.
     writeFileSync(
-      join(repo, 'orca.yaml'),
+      join(repo, 'amoeba.yaml'),
       'worktree:\n  sharedDirectories:\n    - node_modules\n    - .cache\n'
     )
 
@@ -198,7 +198,10 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
   })
 
   it('combines live per-user paths with cached repo configuration', () => {
-    writeFileSync(join(repo, 'orca.yaml'), 'worktree:\n  sharedDirectories:\n    - node_modules\n')
+    writeFileSync(
+      join(repo, 'amoeba.yaml'),
+      'worktree:\n  sharedDirectories:\n    - node_modules\n'
+    )
 
     expect(getWorktreeSharedLinkPaths({ path: repo, symlinkPaths: ['.cache'] })).toEqual([
       '.cache',
@@ -206,10 +209,10 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
     ])
   })
 
-  it('returns [] when orca.yaml is absent or has no worktree key', () => {
+  it('returns [] when amoeba.yaml is absent or has no worktree key', () => {
     expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual([])
 
-    writeFileSync(join(repo, 'orca.yaml'), 'scripts:\n  setup: pnpm install\n')
+    writeFileSync(join(repo, 'amoeba.yaml'), 'scripts:\n  setup: pnpm install\n')
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()
     expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual([])
   })
@@ -218,12 +221,12 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
     vi.useFakeTimers()
     try {
       writeFileSync(
-        join(repo, 'orca.yaml'),
+        join(repo, 'amoeba.yaml'),
         'worktree:\n  sharedDirectories:\n    - node_modules\n'
       )
       expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual(['node_modules'])
 
-      writeFileSync(join(repo, 'orca.yaml'), 'worktree:\n  sharedDirectories:\n    - .cache\n')
+      writeFileSync(join(repo, 'amoeba.yaml'), 'worktree:\n  sharedDirectories:\n    - .cache\n')
 
       expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual(['node_modules'])
       vi.advanceTimersByTime(30_001)
@@ -250,7 +253,7 @@ describe('shared directories and worktree removal', () => {
     git(['config', 'user.name', 'Test'], primary)
     writeFileSync(join(primary, '.gitignore'), 'node_modules/\n')
     writeFileSync(
-      join(primary, 'orca.yaml'),
+      join(primary, 'amoeba.yaml'),
       'worktree:\n  sharedDirectories:\n    - node_modules\n'
     )
     git(['add', '-A'], primary)
@@ -324,7 +327,7 @@ describe('shared directories and worktree removal', () => {
     }
     writeFileSync(join(primary, '.gitignore'), `node_modules/\n${names.join('\n')}\n`)
     writeFileSync(
-      join(primary, 'orca.yaml'),
+      join(primary, 'amoeba.yaml'),
       `worktree:\n  sharedDirectories:\n${names.map((name) => `    - ${name}`).join('\n')}\n`
     )
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()

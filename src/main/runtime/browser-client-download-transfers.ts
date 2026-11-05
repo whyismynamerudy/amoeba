@@ -8,9 +8,10 @@ import {
   MAX_BROWSER_DOWNLOAD_COLLISION_ATTEMPTS,
   normalizeBrowserDownloadFilename
 } from '../../shared/browser-download-filename'
+import { PROJECT_LOCAL_DIR_NAME } from '../../shared/project-config-names'
 
 // Remote downloads need an in-workspace home reachable through containment-checked transfers.
-export const BROWSER_CLIENT_DOWNLOAD_WORKSPACE_DIRECTORY = '.orca/browser-downloads'
+export const BROWSER_CLIENT_DOWNLOAD_WORKSPACE_DIRECTORY = `${PROJECT_LOCAL_DIR_NAME}/browser-downloads`
 
 export type BrowserClientDownloadTransferDependencies = {
   writeChunk(input: {

@@ -34,7 +34,7 @@ function getYamlStateCopy(yamlState: string): { heading: string; description: st
       return {
         heading: translate(
           'auto.components.settings.RepositoryHooksSection.56f9a4a1d0',
-          'Using `orca.yaml`'
+          'Using `amoeba.yaml`'
         ),
         description: translate(
           'auto.components.settings.RepositoryHooksSection.ca424ff135',
@@ -45,7 +45,7 @@ function getYamlStateCopy(yamlState: string): { heading: string; description: st
       return {
         heading: translate(
           'auto.components.settings.RepositoryHooksSection.623e0c9f31',
-          '`orca.yaml` could not be parsed'
+          '`amoeba.yaml` could not be parsed'
         ),
         description: translate(
           'auto.components.settings.RepositoryHooksSection.aba825233f',
@@ -56,7 +56,7 @@ function getYamlStateCopy(yamlState: string): { heading: string; description: st
       return {
         heading: translate(
           'auto.components.settings.RepositoryHooksSection.623e0c9f31',
-          '`orca.yaml` could not be parsed'
+          '`amoeba.yaml` could not be parsed'
         ),
         description: translate(
           'auto.components.settings.RepositoryHooksSection.0cc712b823',
@@ -67,11 +67,11 @@ function getYamlStateCopy(yamlState: string): { heading: string; description: st
       return {
         heading: translate(
           'auto.components.settings.RepositoryHooksSection.5a67e4793d',
-          'No `orca.yaml` detected'
+          'No `amoeba.yaml` detected'
         ),
         description: translate(
           'auto.components.settings.RepositoryHooksSection.b20c5df6ca',
-          'Add an `orca.yaml` file to enable shared setup, archive, or issue-automation defaults for this repo. Example template:'
+          'Add an `amoeba.yaml` file to enable shared setup, archive, or issue-automation defaults for this repo. Example template:'
         )
       }
   }
@@ -106,7 +106,7 @@ function ExampleTemplateCard({
       <p className="text-[10px] tracking-[0.18em] text-muted-foreground">
         {translate('auto.components.settings.RepositoryHooksSection.175daba180', 'Example')}{' '}
         <code className="rounded bg-muted px-1 py-0.5">
-          {translate('auto.components.settings.RepositoryHooksSection.39da2ae12f', 'orca.yaml')}
+          {translate('auto.components.settings.RepositoryHooksSection.39da2ae12f', 'amoeba.yaml')}
         </code>{' '}
         {translate('auto.components.settings.RepositoryHooksSection.95a0411b3e', 'template')}
       </p>

@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { parseOrcaYaml } from '../shared/orca-yaml'
+import { PROJECT_CONFIG_FILE_NAME } from '../shared/project-config-names'
 import { resolveHookCommandSourcePolicy } from '../shared/hook-command-source-policy'
 import { getEffectiveHooksFromConfig } from './effective-hook-config'
 import { getHookRuntimeTarget, getHookWslContext } from './hook-runtime-target'
@@ -99,7 +100,7 @@ function getHookShell(): string | undefined {
 export { parseOrcaYaml }
 
 export function loadHooks(repoPath: string): OrcaHooks | null {
-  const yamlPath = join(repoPath, 'orca.yaml')
+  const yamlPath = join(repoPath, PROJECT_CONFIG_FILE_NAME)
   if (!existsSync(yamlPath)) {
     return null
   }
@@ -113,7 +114,7 @@ export function loadHooks(repoPath: string): OrcaHooks | null {
 }
 
 export function hasHooksFile(repoPath: string): boolean {
-  return existsSync(join(repoPath, 'orca.yaml'))
+  return existsSync(join(repoPath, PROJECT_CONFIG_FILE_NAME))
 }
 
 // Unknown keys suggest a newer config format; let the UI offer an update.
@@ -128,7 +129,7 @@ const RECOGNIZED_ORCA_YAML_KEYS = new Set([
 
 export function hasUnrecognizedOrcaYamlKeys(repoPath: string): boolean {
   try {
-    const content = readFileSync(join(repoPath, 'orca.yaml'), 'utf-8')
+    const content = readFileSync(join(repoPath, PROJECT_CONFIG_FILE_NAME), 'utf-8')
     for (const line of iterateLfScriptLines(content)) {
       // A bare key: is valid YAML when its block value follows on the next line.
       const m = line.match(/^([A-Za-z][A-Za-z0-9_-]*):(\s|$)/)
