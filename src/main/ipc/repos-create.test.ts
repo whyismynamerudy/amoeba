@@ -89,7 +89,7 @@ describe('repos:create', () => {
     webContents: { send: vi.fn() }
   }
   const tmpPath = (...segments: string[]): string => join('/tmp', ...segments)
-  const defaultProjectParent = join('/Users/alice', 'orca', 'projects')
+  const defaultProjectParent = join('/Users/alice', 'amoeba', 'projects')
   const defaultWorkspaceDir = getDefaultWorkspaceDir('/Users/alice')
 
   const callCreate = (args: CreateArgs): Promise<CreateResult> => {
@@ -154,7 +154,7 @@ describe('repos:create', () => {
   })
 
   it.each([undefined, '', '   '])(
-    'falls back to ~/orca/projects for a blank workspace directory: %p',
+    'falls back to ~/amoeba/projects for a blank workspace directory: %p',
     async (workspaceDir) => {
       mockStore.getSettings.mockReturnValue({ workspaceDir })
       await expect(callDefaultCreateProjectParent()).resolves.toBe(defaultProjectParent)
@@ -178,7 +178,7 @@ describe('repos:create', () => {
       workspaceDir: 'c:\\users\\alice\\orca\\workspaces'
     })
     await expect(callDefaultCreateProjectParent()).resolves.toBe(
-      join('C:\\Users\\alice', 'orca', 'projects')
+      join('C:\\Users\\alice', 'amoeba', 'projects')
     )
   })
 

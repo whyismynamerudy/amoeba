@@ -23,6 +23,7 @@ import {
   canonicalizePersistedFloatingWorkspaceDirectory,
   normalizeFloatingWorkspaceTrustedCwds
 } from '../restoring-sessions/floating-workspace-normalization'
+import { migrateLegacyOrcaWorkspaceDir } from './amoeba-workspace-dir-migration'
 
 export type PreparedLoadedTerminalSettings = {
   defaults: PersistedState
@@ -48,6 +49,7 @@ export type PreparedLoadedTerminalSettings = {
   >
   migratedFloatingTerminalCwd: GlobalSettings['floatingTerminalCwd']
   migratedFloatingTerminalTrustedCwds: GlobalSettings['floatingTerminalTrustedCwds']
+  migratedWorkspaceDir: Pick<GlobalSettings, 'workspaceDir' | 'workspaceDirHistory'> | null
   osc52ClipboardNoticePending: boolean
 }
 
@@ -155,6 +157,13 @@ export function prepareLoadedTerminalSettings(
   if (normalizedFloatingTerminalTrustedCwds.changed) {
     markNeedsSave()
   }
+  const migratedWorkspaceDir = migrateLegacyOrcaWorkspaceDir(
+    { ...defaults.settings, ...parsed.settings },
+    homeDir
+  )
+  if (migratedWorkspaceDir) {
+    markNeedsSave()
+  }
   return {
     defaults,
     migratedExternalVisibility,
@@ -166,6 +175,7 @@ export function prepareLoadedTerminalSettings(
     migratedOsc52Clipboard,
     migratedFloatingTerminalCwd,
     migratedFloatingTerminalTrustedCwds,
+    migratedWorkspaceDir,
     osc52ClipboardNoticePending
   }
 }

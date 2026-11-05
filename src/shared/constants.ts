@@ -91,11 +91,20 @@ export const REPO_COLORS = [
 
 export const DEFAULT_REPO_BADGE_COLOR = REPO_COLORS[0]
 
-/** Expose the stock root so callers can distinguish an untouched default from a user-selected directory. */
-export function getDefaultWorkspaceDir(homeDir: string): string {
+function homeWorkspaceRoot(homeDir: string, appFolder: string): string {
   const separator = homeDir.includes('\\') ? '\\' : '/'
   const trimmedHomeDir = homeDir.replace(/[\\/]+$/, '')
-  return [trimmedHomeDir, 'orca', 'workspaces'].join(separator)
+  return [trimmedHomeDir, appFolder, 'workspaces'].join(separator)
+}
+
+/** Expose the stock root so callers can distinguish an untouched default from a user-selected directory. */
+export function getDefaultWorkspaceDir(homeDir: string): string {
+  return homeWorkspaceRoot(homeDir, 'amoeba')
+}
+
+/** Orca's stock root; profiles still on it move to Amoeba's root on load. */
+export function getLegacyOrcaWorkspaceDir(homeDir: string): string {
+  return homeWorkspaceRoot(homeDir, 'orca')
 }
 
 export function getDefaultSettings(homedir: string): GlobalSettings {

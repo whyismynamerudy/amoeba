@@ -6,7 +6,11 @@ import { homedir } from 'node:os'
 import { isAbsolute, join } from 'node:path'
 import type { Store } from '../../persistence'
 import type { Repo } from '../../../shared/repo-types'
-import { DEFAULT_REPO_BADGE_COLOR, getDefaultWorkspaceDir } from '../../../shared/constants'
+import {
+  DEFAULT_REPO_BADGE_COLOR,
+  getDefaultWorkspaceDir,
+  getLegacyOrcaWorkspaceDir
+} from '../../../shared/constants'
 import { normalizeRuntimePathForComparison } from '../../../shared/cross-platform-path'
 import { LOCAL_EXECUTION_HOST_ID } from '../../../shared/execution-host'
 import { getEffectiveHostSetting } from '../../../shared/host-setting-overrides'
@@ -39,13 +43,14 @@ function getDefaultCreateProjectParent(store: Store): string {
     'defaultWorktreeLocation',
     settings.workspaceDir ?? ''
   ).trim()
-  const isUntouchedDefault =
-    normalizeRuntimePathForComparison(configured) ===
-    normalizeRuntimePathForComparison(getDefaultWorkspaceDir(home))
+  const isUntouchedDefault = [getDefaultWorkspaceDir(home), getLegacyOrcaWorkspaceDir(home)].some(
+    (root) =>
+      normalizeRuntimePathForComparison(configured) === normalizeRuntimePathForComparison(root)
+  )
   if (configured && !isUntouchedDefault) {
     return configured
   }
-  return join(home, 'orca', 'projects')
+  return join(home, 'amoeba', 'projects')
 }
 
 export function registerRepoCreationHandlers(mainWindow: BrowserWindow, store: Store): void {
