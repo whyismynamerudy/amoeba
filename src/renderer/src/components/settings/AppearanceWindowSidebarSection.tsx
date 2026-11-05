@@ -287,31 +287,6 @@ export function AppearanceWindowSidebarSection({
                   </SearchableSetting>
 
                   <SearchableSetting
-                    title={translate(
-                      'auto.components.settings.AppearancePane.9da1020447',
-                      'Show Amoeba Mobile Button'
-                    )}
-                    description={sidebarEntries[2]?.description}
-                    keywords={sidebarEntries[2]?.keywords ?? ['mobile', 'phone', 'sidebar']}
-                  >
-                    <SettingsSwitchRow
-                      label={translate(
-                        'auto.components.settings.AppearancePane.9da1020447',
-                        'Show Amoeba Mobile Button'
-                      )}
-                      // Explain the remaining Toolbox route so hiding the shortcut cannot imply feature removal.
-                      description={translate(
-                        'auto.components.settings.AppearancePane.61d842eca0',
-                        'Show the Amoeba Mobile shortcut in the sidebar. It remains available from Toolbox.'
-                      )}
-                      checked={settings.showMobileButton !== false}
-                      onChange={() =>
-                        updateSettings({ showMobileButton: !(settings.showMobileButton !== false) })
-                      }
-                    />
-                  </SearchableSetting>
-
-                  <SearchableSetting
                     title={getShowPinnedWorktreesInGroupsEntry().title}
                     description={getShowPinnedWorktreesInGroupsEntry().description}
                     keywords={getShowPinnedWorktreesInGroupsEntry().keywords}

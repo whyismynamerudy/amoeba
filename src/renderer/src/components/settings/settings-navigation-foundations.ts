@@ -7,18 +7,11 @@ import { getDefaultVoiceSettings } from '../../../../shared/constants'
 import type { SettingsNavSection, SettingsNavTarget } from '@/lib/settings-navigation-types'
 import type { SettingsDeepLinkTargetWatch } from './settings-deep-link-target-watcher'
 
+// Amoeba groups its essential panes as General / Agents / Workspace; the rest keep their ids for hidden panes.
 export const SETTINGS_NAV_GROUPS = [
-  {
-    id: 'capabilities',
-    titleKey: 'auto.components.settings.Settings.23c6874fdf',
-    titleDefault: 'AI Capabilities'
-  },
-  { id: 'setup', titleKey: 'auto.components.settings.Settings.9abb9be3bc', titleDefault: 'Set Up' },
-  {
-    id: 'workflows',
-    titleKey: 'auto.components.settings.Settings.e1578cd4bc',
-    titleDefault: 'Workflows'
-  },
+  { id: 'setup', titleKey: 'settings.groups.general', titleDefault: 'General' },
+  { id: 'capabilities', titleKey: 'settings.groups.agents', titleDefault: 'Agents' },
+  { id: 'workflows', titleKey: 'settings.groups.workspace', titleDefault: 'Workspace' },
   {
     id: 'interface',
     titleKey: 'auto.components.settings.Settings.8bd117d669',

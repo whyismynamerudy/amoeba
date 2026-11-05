@@ -7,6 +7,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { getDefaultSettings } from '../../../../shared/constants'
 
+// Amoeba hides the phone companion; these cases turn it back on to keep its dormant row tested.
+const companion = vi.hoisted(() => ({ enabled: true }))
+vi.mock('../../../../shared/mobile-companion', () => ({
+  get MOBILE_COMPANION_ENABLED() {
+    return companion.enabled
+  }
+}))
+
 // These cases exercise the nav rows, which Amoeba hides by default.
 function navRowSettings(): ReturnType<typeof getDefaultSettings> {
   return {
@@ -276,6 +284,15 @@ describe('SidebarNav', () => {
   it('shows the Mobile entry by default for older settings', () => {
     expect(shouldShowMobileButton(null)).toBe(true)
     expect(shouldShowMobileButton({})).toBe(true)
+  })
+
+  it('never shows the Mobile entry while Amoeba ships without the companion', () => {
+    companion.enabled = false
+    try {
+      expect(shouldShowMobileButton({ showMobileButton: true })).toBe(false)
+    } finally {
+      companion.enabled = true
+    }
   })
 
   it('hides the Artifacts entry by default for older settings', () => {

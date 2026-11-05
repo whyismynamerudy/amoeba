@@ -34,6 +34,7 @@ import { buildInterfaceSettingsSections } from './settings-navigation-interface-
 import { buildRemoteSettingsSections } from './settings-navigation-remote-sections'
 import { buildWorkflowSettingsSections } from './settings-navigation-workflow-sections'
 import { useWindowsTerminalCapabilityOwnerKey } from './useWindowsTerminalCapabilityOwnerKey'
+import { curateAmoebaSettingsSections } from './amoeba-settings-curation'
 
 export { isWebClientLocation } from '@/lib/web-client-location'
 
@@ -162,25 +163,27 @@ export function useSettingsNavigationMetadata(): SettingsNavSection[] {
 
   return useMemo(
     () =>
-      buildSettingsNavigationMetadata({
-        isMac,
-        isWindows,
-        isLocalWindowsHost,
-        isWindowsTerminalHost,
-        isWebClient,
-        nativeChatEnabled,
-        hostQueuesMessages,
-        typedChatPermissions,
-        managedBrowserCreationEnabled,
-        mobileEmulatorCreationEnabled,
-        isDev: import.meta.env.DEV,
-        isLinearConnected,
-        repos,
-        projectGrouping: {
-          projects: projectHostSetupProjection.projects,
-          projectHostSetups: projectHostSetupProjection.setups
-        }
-      }),
+      curateAmoebaSettingsSections(
+        buildSettingsNavigationMetadata({
+          isMac,
+          isWindows,
+          isLocalWindowsHost,
+          isWindowsTerminalHost,
+          isWebClient,
+          nativeChatEnabled,
+          hostQueuesMessages,
+          typedChatPermissions,
+          managedBrowserCreationEnabled,
+          mobileEmulatorCreationEnabled,
+          isDev: import.meta.env.DEV,
+          isLinearConnected,
+          repos,
+          projectGrouping: {
+            projects: projectHostSetupProjection.projects,
+            projectHostSetups: projectHostSetupProjection.setups
+          }
+        })
+      ),
     // oxlint-disable-next-line react-hooks/exhaustive-deps -- activeLocale is read implicitly by the translate() calls inside buildSettingsNavigationMetadata; without it the memo keeps the previous language's sections.
     [
       isMac,

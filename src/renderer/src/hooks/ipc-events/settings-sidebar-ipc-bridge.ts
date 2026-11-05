@@ -1,4 +1,5 @@
 import { canShowRightSidebarForView } from '@/lib/right-sidebar-visibility'
+import { MOBILE_COMPANION_ENABLED } from '../../../../shared/mobile-companion'
 import { showTerminalShortcutCaptureNotification } from '@/lib/terminal-shortcut-capture-notification'
 import { TOGGLE_FLOATING_TERMINAL_EVENT } from '@/lib/floating-terminal'
 import { subscribeToUnpairedDeviceAuthNotification } from '../unpaired-device-auth-notification'
@@ -60,6 +61,10 @@ export function registerSettingsAndSidebarIpcBridge(unsubs: (() => void)[]): voi
   // Lost-registry auth loops need a visible remedy on either end; main throttles this notice once per session.
   unsubs.push(
     subscribeToUnpairedDeviceAuthNotification(window.api.mobile, () => {
+      // Its remedy lives in the hidden Mobile settings, so Amoeba has nothing to point at.
+      if (!MOBILE_COMPANION_ENABLED) {
+        return
+      }
       toast.warning(
         translate(
           'auto.hooks.useIpcEvents.ef223fbb6b',

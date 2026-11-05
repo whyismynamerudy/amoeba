@@ -8211,7 +8211,6 @@
           "88686e6ca8": "Son de notification",
           "b6fc369244": "Un terminal en arrière-plan émet un caractère de sonnerie.",
           "ba07e60f38": "Notifier pour les espaces de travail masqués",
-          "e4b5e909ff": "Si cette option est désactivée, les espaces de travail masqués par un interrupteur Masquer du menu Filtres de la barre latérale n’affichent pas de point non lu et n’envoient aucune notification à cet ordinateur ni à votre téléphone.",
           "591fe605b9": "Sonnerie du terminal",
           "55f901a59b": "Un agent de codage termine et devient inactif.",
           "ca76d06fd2": "Tâche d'agent terminée",
@@ -11441,8 +11440,7 @@
           "a68a642835": "Affiche les états en cours, en attente et terminé dans Amoeba. Désactivez pour supprimer les hooks gérés par Amoeba et arrêter de les réinstaller."
         },
         "agent-workspace-trust-copy": {
-          "title": "Faire confiance au dossier quand Amoeba lance un agent",
-          "description": "Les agents lancés par Amoeba ignorent leur question « Do you trust this folder? » : les hooks et paramètres d'agent du projet s'exécutent donc tout de suite. Sans cette option, chaque agent pose la question la première fois qu'il s'exécute dans un dossier. Les agents qui tournent sans que vous les surveilliez, comme les workers d'orchestration, les automatisations et les agents lancés depuis votre téléphone, attendront à cette question jusqu'à ce que vous y répondiez dans leur terminal. Les dossiers déjà approuvés le restent."
+          "title": "Faire confiance au dossier quand Amoeba lance un agent"
         },
         "agent-generated-tab-title-copy": {
           "19ad21615a": "Générer automatiquement les titres des onglets",

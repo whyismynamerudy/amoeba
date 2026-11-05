@@ -1,4 +1,5 @@
 import { normalizeExplorerDisplayRootByWorktree } from '../../../../../shared/file-explorer-display-root'
+import { MOBILE_COMPANION_ENABLED } from '../../../../../shared/mobile-companion'
 import type { AppState } from '../../types'
 import type { PersistedTrustedOrcaHooks } from '../../../../../shared/orca-yaml-hook-types'
 import type { PersistedUIState } from '../../../../../shared/persisted-ui-state-types'
@@ -168,7 +169,7 @@ export function sanitizeWorkspaceCleanupDismissals(
 
 export function sanitizeHydratedActiveView(value: PersistedUIState['activeView']): TopLevelView {
   // Why: older data (pre-activeView) or a view a different build doesn't have falls back to terminal rather than rendering nothing.
-  if (!isTopLevelView(value)) {
+  if (!isTopLevelView(value) || (value === 'mobile' && !MOBILE_COMPANION_ENABLED)) {
     return 'terminal'
   }
   return value

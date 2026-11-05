@@ -1,4 +1,5 @@
 import { Suspense, useRef } from 'react'
+import { MOBILE_COMPANION_ENABLED } from '../../../shared/mobile-companion'
 import { isProjectTaskShellEnabled } from '../../../shared/project-tasks-settings'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { translate } from '@/i18n/i18n'
@@ -83,7 +84,7 @@ function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element 
       {activeView === 'automations' ? <AutomationsPage /> : null}
       {activeView === 'activity' ? <ActivityPrototypePage /> : null}
       {activeView === 'space' ? <WorkspaceSpacePage /> : null}
-      {activeView === 'mobile' ? <MobilePage /> : null}
+      {activeView === 'mobile' && MOBILE_COMPANION_ENABLED ? <MobilePage /> : null}
       {activeView === 'terminal' && creationLayoutActive && activePendingCreationId ? (
         <WorktreeCreationPanel
           creationId={activePendingCreationId}

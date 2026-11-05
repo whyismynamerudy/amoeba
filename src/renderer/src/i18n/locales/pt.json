@@ -5925,8 +5925,7 @@
           "6e6df3a09a": "Escolher Arquivo Personalizado",
           "76e02467b8": "Alterar Arquivo Personalizado",
           "d3756cf5bc": "desativado",
-          "ba07e60f38": "Notificar sobre espaços de trabalho ocultos",
-          "e4b5e909ff": "Quando desativado, os espaços de trabalho ocultos por uma opção Ocultar no menu Filtros da barra lateral não mostram o ponto de não lido nem enviam notificações para este computador ou seu celular."
+          "ba07e60f38": "Notificar sobre espaços de trabalho ocultos"
         },
         "PluginConsentDialog": {
           "workerTrust": "Worker em segundo plano — executa seu próprio processo",
@@ -8406,8 +8405,7 @@
           }
         },
         "agent-workspace-trust-copy": {
-          "title": "Confiar na pasta quando o Amoeba iniciar um agente",
-          "description": "Os agentes iniciados pelo Amoeba pulam a pergunta “Você confia nesta pasta?”, para que os hooks e configurações de agentes do projeto sejam executados imediatamente. Sem isso, cada agente pergunta na primeira vez que é executado em uma pasta. Os agentes executados sem sua supervisão, como workers de orquestração, automações e agentes iniciados pelo celular, esperarão nessa pergunta até você respondê-la no terminal deles. As pastas já confiáveis continuam confiáveis."
+          "title": "Confiar na pasta quando o Amoeba iniciar um agente"
         },
         "MachineNameField": {
           "label": "Nome da máquina",

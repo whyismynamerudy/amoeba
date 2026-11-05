@@ -1,4 +1,5 @@
 import React from 'react'
+import { MOBILE_COMPANION_ENABLED } from '../../../../shared/mobile-companion'
 import { BookOpen, CalendarClock, EyeOff, Files, Search, Smartphone, SquarePen } from 'lucide-react'
 import { openWorkspaceCreationComposerWithTourHandoff } from '../contextual-tours/workspace-creation-tour-handoff'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +21,7 @@ import type { GlobalSettings } from '../../../../shared/global-settings-types'
 export function shouldShowMobileButton(
   settings: Partial<Pick<GlobalSettings, 'showMobileButton'>> | null | undefined
 ): boolean {
-  return settings?.showMobileButton !== false
+  return MOBILE_COMPANION_ENABLED && settings?.showMobileButton !== false
 }
 
 export function shouldShowAutomationsButton(
