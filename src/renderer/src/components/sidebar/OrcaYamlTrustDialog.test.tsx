@@ -68,20 +68,20 @@ describe('OrcaYamlTrustDialog', () => {
     }
   })
 
-  it('keeps spaces around orca.yaml and the repo name in the first-run copy', async () => {
+  it('keeps spaces around amoeba.yaml and the repo name in the first-run copy', async () => {
     const { default: OrcaYamlTrustDialog } = await import('./OrcaYamlTrustDialog')
     const text = decodeHtml(renderToStaticMarkup(<OrcaYamlTrustDialog />)).replace(/<[^>]+>/g, '')
 
-    expect(text).toContain("This repository's orca.yaml runs on your machine")
+    expect(text).toContain("This repository's amoeba.yaml runs on your machine")
     expect(text).toContain('Only run if you trust orca.')
-    expect(text).toContain('Always trust orca.yaml in orca')
-    expect(text).not.toContain("repository'sorca.yaml")
+    expect(text).toContain('Always trust amoeba.yaml in orca')
+    expect(text).not.toContain("repository'samoeba.yaml")
     expect(text).not.toContain('trustorca')
-    expect(text).not.toContain('trustorca.yaml')
+    expect(text).not.toContain('trustamoeba.yaml')
     expect(text).not.toContain('inorca')
   })
 
-  it('keeps spaces around orca.yaml when the script changed since last approval', async () => {
+  it('keeps spaces around amoeba.yaml when the script changed since last approval', async () => {
     mocks.state.modalData = {
       ...mocks.state.modalData,
       previouslyApproved: true
@@ -89,9 +89,9 @@ describe('OrcaYamlTrustDialog', () => {
     const { default: OrcaYamlTrustDialog } = await import('./OrcaYamlTrustDialog')
     const text = decodeHtml(renderToStaticMarkup(<OrcaYamlTrustDialog />)).replace(/<[^>]+>/g, '')
 
-    expect(text).toContain('orca.yaml changed since you last approved')
-    expect(text).toContain('Always trust orca.yaml in orca')
-    expect(text).not.toContain('Always trustorca.yaml')
+    expect(text).toContain('amoeba.yaml changed since you last approved')
+    expect(text).toContain('Always trust amoeba.yaml in orca')
+    expect(text).not.toContain('Always trustamoeba.yaml')
     expect(text).not.toContain('inorca')
   })
 })

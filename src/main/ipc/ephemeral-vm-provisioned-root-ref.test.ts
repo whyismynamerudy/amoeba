@@ -181,7 +181,7 @@ function writeRecipe(path: string, createCountPath: string, createEnvPath?: stri
     ].join('\n')
   )
   writeFileSync(
-    join(path, 'orca.yaml'),
+    join(path, 'amoeba.yaml'),
     [
       'environmentRecipes:',
       '  - id: cloud-sandbox',

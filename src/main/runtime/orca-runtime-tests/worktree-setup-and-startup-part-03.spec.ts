@@ -284,7 +284,7 @@ describe('OrcaRuntimeService', () => {
 
     computeWorktreePathMock.mockReturnValue('/tmp/workspaces/runtime-branch-added-setup')
     ensurePathWithinWorkspaceMock.mockReturnValue('/tmp/workspaces/runtime-branch-added-setup')
-    // Only the new worktree's orca.yaml defines setup.
+    // Only the new worktree's amoeba.yaml defines setup.
     vi.mocked(getEffectiveHooks).mockImplementation((_repo, worktreePath) =>
       worktreePath ? { scripts: { setup: 'pnpm worktree:setup' } } : null
     )
@@ -318,7 +318,7 @@ describe('OrcaRuntimeService', () => {
       hookFound: true,
       state: 'skipped'
     })
-    expect(result.warning).toContain('orca.yaml setup hook skipped')
+    expect(result.warning).toContain('amoeba.yaml setup hook skipped')
     expect(createSetupRunnerScript).not.toHaveBeenCalled()
   })
 

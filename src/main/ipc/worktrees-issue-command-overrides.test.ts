@@ -121,8 +121,8 @@ describe('registerWorktreeHandlers', () => {
         badgeColor: '#000',
         addedAt: 0
       }
-      mkdirSync(join(root, '.orca'))
-      writeFileSync(join(root, '.orca', 'issue-command'), 'old command\n')
+      mkdirSync(join(root, '.amoeba'))
+      writeFileSync(join(root, '.amoeba', 'issue-command'), 'old command\n')
       store.getRepo.mockReturnValue(repo)
       store.getRepos.mockReturnValue([repo])
       const resolver = vi
@@ -133,10 +133,10 @@ describe('registerWorktreeHandlers', () => {
       try {
         await handlers['hooks:writeIssueCommand'](null, { repoId: repo.id, content })
         if (content.trim()) {
-          expect(readFileSync(join(root, '.orca', 'issue-command'), 'utf8')).toBe('command\n')
-          expect(readFileSync(join(root, '.gitignore'), 'utf8')).toBe('.orca\n')
+          expect(readFileSync(join(root, '.amoeba', 'issue-command'), 'utf8')).toBe('command\n')
+          expect(readFileSync(join(root, '.gitignore'), 'utf8')).toBe('.amoeba\n')
         } else {
-          expect(existsSync(join(root, '.orca', 'issue-command'))).toBe(false)
+          expect(existsSync(join(root, '.amoeba', 'issue-command'))).toBe(false)
           expect(existsSync(join(root, '.gitignore'))).toBe(false)
           expect(resolver).not.toHaveBeenCalled()
         }

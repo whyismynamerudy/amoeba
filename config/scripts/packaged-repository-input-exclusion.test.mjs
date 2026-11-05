@@ -27,7 +27,7 @@ describe('packaged repository input exclusion', () => {
       '.oxfmtrc.json',
       'components.json',
       'opencode.json',
-      'orca.yaml',
+      'amoeba.yaml',
       'pnpm-workspace.yaml',
       'vite.web.config.ts'
     ]

@@ -4,7 +4,7 @@ import { parseOrcaYaml } from './orca-yaml'
 
 afterEach(() => vi.restoreAllMocks())
 
-describe('orca.yaml alias expansion', () => {
+describe('amoeba.yaml alias expansion', () => {
   it('preserves an ordinary shared scalar', () => {
     expect(
       parseOrcaYaml(`

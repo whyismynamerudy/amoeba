@@ -48,7 +48,7 @@ export function getEffectiveHooksFromConfig(
     return null
   }
 
-  // The source policy arbitrates between committed orca.yaml and local Settings.
+  // The source policy arbitrates between committed amoeba.yaml and local Settings.
   return {
     scripts: {
       ...(setup ? { setup } : {}),

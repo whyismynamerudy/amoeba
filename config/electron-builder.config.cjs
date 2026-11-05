@@ -277,7 +277,7 @@ module.exports = {
     // extraResources already ships relay; duplicating it in asar added 14MB and let script-heuristic quarantine gut the whole archive (#20966/#20972).
     '!out/relay{,/**/*}',
     '!electron.vite.config.{js,ts,mjs,cjs}',
-    '!{.oxlintrc.json,.oxfmtrc.json,components.json,opencode.json,orca.yaml,pnpm-workspace.yaml,vite.web.config.ts}',
+    '!{.oxlintrc.json,.oxfmtrc.json,components.json,opencode.json,amoeba.yaml,pnpm-workspace.yaml,vite.web.config.ts}',
     '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,CHANGELOG.md,README.md}',
     '!{.env,.env.*,.npmrc,pnpm-lock.yaml}',
     '!tsconfig.json',

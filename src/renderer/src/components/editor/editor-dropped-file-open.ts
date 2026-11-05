@@ -9,6 +9,7 @@ import { importExternalPathsToRuntime } from '@/runtime/runtime-file-import-clie
 import type { RuntimeFileOperationArgs } from '@/runtime/runtime-file-client-types'
 import { runtimeTargetEnvironmentId } from '@/runtime/runtime-client-target'
 import type { RuntimeClientTarget } from '../../../../shared/runtime-client-target'
+import { PROJECT_LOCAL_DIR_NAME } from '../../../../shared/project-config-names'
 import { translate } from '@/i18n/i18n'
 import { captureWorktreeSshMutationExpectation } from '@/lib/ssh-mutation-expectation'
 import { statUserOpenedPath } from '@/lib/user-opened-local-path'
@@ -209,7 +210,7 @@ async function openEditorFileDropPaths(
     }
     try {
       // OS drops supply client paths; upload before opening them in remote/SSH workspaces.
-      const destinationDir = joinPath(worktreePath, '.orca/drops')
+      const destinationDir = joinPath(worktreePath, `${PROJECT_LOCAL_DIR_NAME}/drops`)
       const { results } = await importExternalPathsToRuntime(
         fileContext,
         [...paths],

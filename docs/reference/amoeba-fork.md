@@ -6,7 +6,9 @@ Browser pages remain workspace-owned in this slice. Conversations in the same pa
 
 Display branding, translations, documentation, desktop application identity, and development profiles use Amoeba. The CLI exposes `amoeba` and `amoeba-dev`; legacy command aliases remain available. Existing website URLs are unchanged. Automatic upstream updates are disabled for Amoeba builds so they cannot install the upstream application.
 
-Compatibility names are deliberately retained: IPC/RPC and HTTP headers, environment variables, URL schemes, stored-data keys, `orca.yaml`, package/module identifiers, native extension names, and internal source paths. Vendored patches, copyright notices, and third-party licenses retain their original bytes. Renaming these contracts requires explicit migration and mixed-version testing, rather than a branding replacement.
+Compatibility names are deliberately retained: IPC/RPC and HTTP headers, environment variables, URL schemes, stored-data keys, package/module identifiers, native extension names, and internal source paths. Vendored patches, copyright notices, and third-party licenses retain their original bytes. Renaming these contracts requires explicit migration and mixed-version testing, rather than a branding replacement.
+
+Project config is `amoeba.yaml` and repo-local files (issue-command override, drops, browser downloads, Markdown templates) live under `.amoeba/`. Amoeba and Orca coexist as separate apps, so Amoeba never reads a repo's `orca.yaml` or `.orca/`; the `.gitignore` entry Amoeba adds is `.amoeba` and an existing `.orca` line is left alone.
 
 Historical terminal recordings, case-sensitivity test inputs, upstream release manifests, and references to the unrelated GNOME Orca screen reader retain their original names. Connection-recovery and diagnostic-footer readers accept both Amoeba and Orca wording.
 

@@ -149,7 +149,7 @@ export function RepositoryPane({
   }
 
   const handleCopyTemplate = async () => {
-    // Make missing-orca.yaml migration a one-click copy of the expected shared-template shape.
+    // Make missing-amoeba.yaml migration a one-click copy of the expected shared-template shape.
     await window.api.ui.writeClipboardText(`scripts:
   setup: |
     pnpm worktree:setup

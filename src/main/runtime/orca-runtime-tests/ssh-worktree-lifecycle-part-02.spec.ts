@@ -80,7 +80,7 @@ describe('OrcaRuntimeService', () => {
     expect(getEffectiveHooks).not.toHaveBeenCalled()
   })
 
-  it('hashes only the shared orca.yaml setup script for local run-both hooks', async () => {
+  it('hashes only the shared amoeba.yaml setup script for local run-both hooks', async () => {
     vi.mocked(hasHooksFile).mockReturnValue(true)
     vi.mocked(loadHooks).mockReturnValue({ scripts: { setup: 'echo yaml setup' } })
     vi.mocked(getEffectiveHooks).mockReturnValue({

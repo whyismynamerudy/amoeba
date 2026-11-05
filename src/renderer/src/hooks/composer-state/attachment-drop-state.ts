@@ -20,6 +20,7 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { translate } from '@/i18n/i18n'
 import { joinPath } from '@/lib/path'
+import { PROJECT_LOCAL_DIR_NAME } from '../../../../shared/project-config-names'
 import { captureDirectSshMutationExpectation } from '@/lib/ssh-mutation-expectation'
 import { useAppStore } from '@/store'
 import { importExternalPathsToRuntime } from '@/runtime/runtime-file-import-client'
@@ -148,7 +149,7 @@ export function useAttachmentDropState(input: AttachmentDropStateInput) {
         }
         return { filePaths: [], folderPaths: [] }
       }
-      const destinationDir = joinPath(targetRepoPath, '.orca/drops')
+      const destinationDir = joinPath(targetRepoPath, `${PROJECT_LOCAL_DIR_NAME}/drops`)
       const sshExpectation = targetConnectionId
         ? captureDirectSshMutationExpectation(
             useAppStore.getState(),

@@ -147,7 +147,7 @@ describe('client-hosted downloads', () => {
         status: 'completed',
         savePath: null,
         remoteDestination: {
-          workspaceRelativePath: '.orca/browser-downloads/report.csv',
+          workspaceRelativePath: '.amoeba/browser-downloads/report.csv',
           hostLabel: 'build-box'
         }
       })
@@ -180,7 +180,7 @@ describe('client-hosted downloads', () => {
         return {
           ok: true,
           result: chunk.final
-            ? { accepted: true, workspaceRelativePath: '.orca/browser-downloads/report.csv' }
+            ? { accepted: true, workspaceRelativePath: '.amoeba/browser-downloads/report.csv' }
             : { accepted: true },
           _meta: {}
         } as never
@@ -244,7 +244,7 @@ describe('client-hosted downloads', () => {
         browserPageId: BROWSER_PAGE_ID,
         status: 'completed',
         remoteDestination: {
-          workspaceRelativePath: '.orca/browser-downloads/report.csv',
+          workspaceRelativePath: '.amoeba/browser-downloads/report.csv',
           hostLabel: 'build-box'
         }
       })
@@ -367,7 +367,7 @@ function stubRoute(): { route: BrowserClientDownloadRoute; completed: Promise<vo
     complete: async () => {
       resolveCompleted()
       return {
-        workspaceRelativePath: '.orca/browser-downloads/report.csv',
+        workspaceRelativePath: '.amoeba/browser-downloads/report.csv',
         hostLabel: 'build-box'
       }
     },

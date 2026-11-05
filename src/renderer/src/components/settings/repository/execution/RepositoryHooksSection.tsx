@@ -114,7 +114,7 @@ export function RepositoryHooksSection({
         <p className="text-xs text-muted-foreground">
           {translate(
             'auto.components.settings.RepositoryHooksSection.8567127a40',
-            'Scripts that run when worktrees are created or archived. Local scripts are stored on this machine; `orca.yaml` scripts are shared with your team.'
+            'Scripts that run when worktrees are created or archived. Local scripts are stored on this machine; `amoeba.yaml` scripts are shared with your team.'
           )}
         </p>
       </div>
@@ -134,8 +134,8 @@ export function RepositoryHooksSection({
           'command',
           'local',
           'local settings scripts',
-          'orca.yaml',
-          'orca.yaml hooks',
+          'amoeba.yaml',
+          'amoeba.yaml hooks',
           'hook'
         ]}
       >
@@ -187,8 +187,8 @@ export function RepositoryHooksSection({
           'command',
           'local',
           'local settings scripts',
-          'orca.yaml',
-          'orca.yaml hooks',
+          'amoeba.yaml',
+          'amoeba.yaml hooks',
           'hook'
         ]}
       >
@@ -228,13 +228,13 @@ export function RepositoryHooksSection({
         title={translate('auto.components.settings.RepositoryHooksSection.c9bc1bfd8f', 'Advanced')}
         description={translate(
           'auto.components.settings.RepositoryHooksSection.610d90fdbd',
-          'Command source and orca.yaml details.'
+          'Command source and amoeba.yaml details.'
         )}
         forceVisible={forceVisible}
         keywords={[
           'advanced',
           'command source',
-          'orca.yaml',
+          'amoeba.yaml',
           'shared',
           'local',
           'both',

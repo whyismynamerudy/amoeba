@@ -142,7 +142,7 @@ describe('registerWorktreeHandlers', () => {
     )
   })
 
-  it('launches setup even when primary and worktree orca.yaml scripts diverge', async () => {
+  it('launches setup even when primary and worktree amoeba.yaml scripts diverge', async () => {
     // Repo trust gates execution; benign primary/worktree YAML divergence must not disable setup (#1280).
     listWorktreesMock.mockResolvedValue(createdWorktreeList)
     getEffectiveHooksMock.mockImplementation((_repo, worktreePath?: string) => ({

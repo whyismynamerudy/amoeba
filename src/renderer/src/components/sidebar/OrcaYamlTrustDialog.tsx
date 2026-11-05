@@ -122,7 +122,10 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
             {previouslyApproved ? (
               <>
                 <code>
-                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+                  {translate(
+                    'auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b',
+                    'amoeba.yaml'
+                  )}
                 </code>{' '}
                 {translate(
                   'auto.components.sidebar.OrcaYamlTrustDialog.c55beddbf8',
@@ -137,7 +140,10 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
                   "This repository's"
                 )}{' '}
                 <code>
-                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+                  {translate(
+                    'auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b',
+                    'amoeba.yaml'
+                  )}
                 </code>{' '}
                 {translate(
                   'auto.components.sidebar.OrcaYamlTrustDialog.831f2cd9f0',
@@ -191,7 +197,7 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
           <span className="text-xs font-medium text-foreground">
             {translate('auto.components.sidebar.OrcaYamlTrustDialog.531689199b', 'Always trust')}{' '}
             <code>
-              {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+              {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'amoeba.yaml')}
             </code>{' '}
             {translate('auto.components.sidebar.OrcaYamlTrustDialog.c494b3ccb1', 'in')} {repoName}
           </span>

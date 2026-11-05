@@ -7,6 +7,7 @@ import {
 } from '../../../../shared/execution-host'
 import { resolveExactWorktreeRoute } from '@/lib/worktree-owner-route'
 import { isTerminalDropWindowsPathLike } from './terminal-drop-shell'
+import { PROJECT_LOCAL_DIR_NAME } from '../../../../shared/project-config-names'
 
 export function resolveTerminalDropWorktreePath(
   worktreeId: string,
@@ -41,7 +42,7 @@ export function resolveTerminalDropWorktreePath(
 
 export function joinRuntimeTerminalDropDir(worktreePath: string): string {
   if (isTerminalDropWindowsPathLike(worktreePath)) {
-    return `${worktreePath.replace(/[\\/]+$/, '').replace(/\//g, '\\')}\\.orca\\drops`
+    return `${worktreePath.replace(/[\\/]+$/, '').replace(/\//g, '\\')}\\${PROJECT_LOCAL_DIR_NAME}\\drops`
   }
-  return `${worktreePath.replace(/[\\/]+$/, '')}/.orca/drops`
+  return `${worktreePath.replace(/[\\/]+$/, '')}/${PROJECT_LOCAL_DIR_NAME}/drops`
 }

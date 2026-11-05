@@ -26,7 +26,7 @@ describe('OrcaRuntimeService', () => {
     await expect(runtime.readRepoIssueCommand('id:repo-1')).resolves.toMatchObject({
       localContent: null,
       effectiveContent: null,
-      localFilePath: 'C:\\remote\\repo\\.orca\\issue-command'
+      localFilePath: 'C:\\remote\\repo\\.amoeba\\issue-command'
     })
     await expect(runtime.writeRepoIssueCommand('id:repo-1', 'Ship it')).resolves.toEqual({
       ok: true

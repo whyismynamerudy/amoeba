@@ -252,7 +252,7 @@ export async function ensureHooksConfirmed(
     let scriptContent = ''
     try {
       if (scriptKind === 'issueCommand') {
-        // Only shared orca.yaml needs repo trust; user-owned overrides do not. Pass hostId to disambiguate same-ID repos, as checkRuntimeHooks does.
+        // Only shared amoeba.yaml needs repo trust; user-owned overrides do not. Pass hostId to disambiguate same-ID repos, as checkRuntimeHooks does.
         const result = await readRuntimeIssueCommand(
           hookRepoOwnerHostId(state, repoId, hostId, runtimeOwnerEnvironmentId),
           repoId
