@@ -1,8 +1,10 @@
-/** A Conductor repository that still exists on disk. */
+/** A project from another app (Conductor or Orca) that still exists on disk. */
 export type ConductorImportRepo = {
   id: string
   name: string
   path: string
+  /** Orca can hold plain folders; Conductor only has git repos. */
+  kind?: 'git' | 'folder'
 }
 
 /** A live (unarchived) Conductor workspace: a git worktree of one of the repos. */

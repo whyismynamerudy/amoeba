@@ -16,3 +16,18 @@ export const getConductorImportSearchEntries = createLocalizedCatalog(() => [
     ]
   }
 ])
+
+export const getOrcaImportSearchEntries = createLocalizedCatalog(() => [
+  {
+    title: translate('settings.orcaImport.title', 'Import from Orca'),
+    description: translate(
+      'settings.orcaImport.description',
+      'Bring over your Orca projects, worktrees and chats.'
+    ),
+    keywords: [
+      ...translateSearchKeyword('settings.orcaImport.keyword.orca', 'orca'),
+      ...translateSearchKeyword('settings.conductorImport.keyword.import', 'import'),
+      ...translateSearchKeyword('settings.conductorImport.keyword.migrate', 'migrate')
+    ]
+  }
+])

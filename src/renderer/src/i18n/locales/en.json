@@ -552,6 +552,18 @@
         "import": "import",
         "migrate": "migrate"
       }
+    },
+    "orcaImport": {
+      "title": "Import from Orca",
+      "description": "Bring over your Orca projects, worktrees and chats.",
+      "rowLabel": "Orca",
+      "notFound": "No Orca data found on this computer.",
+      "unreadable": "Could not read Orca’s data: {{value0}}",
+      "howItWorks": "Worktrees stay where Orca keeps them, and chats appear under their projects. Opening a chat resumes it. Orca is not changed.",
+      "check": "Check Orca",
+      "keyword": {
+        "orca": "orca"
+      }
     }
   },
   "menu": {

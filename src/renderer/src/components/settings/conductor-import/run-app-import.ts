@@ -4,44 +4,46 @@ import { useImportedConductorChats } from '@/components/project-tasks/imported-c
 import type { ConductorImportScan } from '../../../../../shared/conductor-import-types'
 import type { WorktreeVisibilityDefaults } from '../../../../../shared/global-settings-types'
 
-export type ReadyConductorScan = Extract<ConductorImportScan, { status: 'ready' }>
+export type ReadyAppImportScan = Extract<ConductorImportScan, { status: 'ready' }>
 
-export type ConductorImportSummary = {
+/** The app being imported from; also the id of its worktree source in visibility settings. */
+export type AppImportSourceId = 'conductor' | 'orca'
+
+export type AppImportSummary = {
   projectsAdded: number
   projectsFailed: string[]
   workspacesListed: number
   chatsImported: number
 }
 
-const CONDUCTOR_SOURCE_ID = 'conductor'
-
 function normalized(path: string): string {
   return path.replace(/[\\/]+$/, '')
 }
 
-/** Show worktrees under Conductor's workspace folder, which sits outside every project. */
-function withConductorSource(
+/** Show worktrees under the source app's workspace folder, which sits outside every project. */
+function withWorktreeSource(
   defaults: WorktreeVisibilityDefaults | undefined,
+  sourceId: AppImportSourceId,
   rootPath: string
 ): WorktreeVisibilityDefaults {
   const customSources = (defaults?.customSources ?? []).filter(
-    (source) =>
-      source.id !== CONDUCTOR_SOURCE_ID && normalized(source.rootPath) !== normalized(rootPath)
+    (source) => source.id !== sourceId && normalized(source.rootPath) !== normalized(rootPath)
   )
   return {
     ...defaults,
-    customSources: [...customSources, { id: CONDUCTOR_SOURCE_ID, rootPath }],
+    customSources: [...customSources, { id: sourceId, rootPath }],
     sourcePreferences: {
       ...defaults?.sourcePreferences,
-      custom: { ...defaults?.sourcePreferences?.custom, [CONDUCTOR_SOURCE_ID]: 'show' }
+      custom: { ...defaults?.sourcePreferences?.custom, [sourceId]: 'show' }
     }
   }
 }
 
-/** Bring Conductor's projects, workspaces and resumable chats into Amoeba; Conductor itself is untouched. */
-export async function runConductorImport(
-  scan: ReadyConductorScan
-): Promise<ConductorImportSummary> {
+/** Bring another app's projects, workspaces and resumable chats into Amoeba; that app is untouched. */
+export async function runAppImport(
+  scan: ReadyAppImportScan,
+  sourceId: AppImportSourceId
+): Promise<AppImportSummary> {
   const knownProjects = new Set(useAppStore.getState().repos.map((repo) => normalized(repo.path)))
   let projectsAdded = 0
   const projectsFailed: string[] = []
@@ -51,7 +53,7 @@ export async function runConductorImport(
     }
     const added = await useAppStore
       .getState()
-      .addRepoPath(repo.path, 'git', { runtimeEnvironmentId: null })
+      .addRepoPath(repo.path, repo.kind ?? 'git', { runtimeEnvironmentId: null })
     if (added) {
       projectsAdded += 1
     } else {
@@ -62,15 +64,16 @@ export async function runConductorImport(
   if (scan.workspacesRoot) {
     const settings = useAppStore.getState().settings
     await useAppStore.getState().updateSettings({
-      worktreeVisibilityDefaults: withConductorSource(
+      worktreeVisibilityDefaults: withWorktreeSource(
         settings?.worktreeVisibilityDefaults,
+        sourceId,
         scan.workspacesRoot
       )
     })
   }
   await useAppStore.getState().fetchAllWorktrees()
 
-  // Keep Conductor's names (its city names or the user's) instead of the folder-derived defaults.
+  // Keep the source app's names (Conductor's city names, or names the user set) over folder-derived ones.
   const worktreesByPath = new Map(
     Object.values(selectWorktreesByRepo(useAppStore.getState()))
       .flat()
@@ -83,7 +86,7 @@ export async function runConductorImport(
       continue
     }
     workspacesListed += 1
-    if (worktree.displayName !== workspace.name) {
+    if (workspace.name && worktree.displayName !== workspace.name) {
       await useAppStore
         .getState()
         .updateWorktreeMeta(worktree.id, { displayName: workspace.name, displayNameIsPinned: true })
