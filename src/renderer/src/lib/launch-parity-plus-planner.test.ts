@@ -4,7 +4,7 @@ import {
   perClientLoader,
   type LaunchStoreHolder
 } from '@/lib/launch-parity-renderer.test-fixture'
-import { getDefaultSettings } from '../../../shared/constants'
+import { classicShellSettings } from '@/lib/classic-shell-settings.test-fixture'
 import { WIN_PATH, WSL_PATH } from '../../../shared/launch-parity-window-cases.test-fixture'
 import { launchWorkspaceId } from '../../../shared/launch-parity-window-request.test-fixture'
 
@@ -40,7 +40,7 @@ describe('"+" saved default args at the window planner', () => {
     const workspace = { kind: 'repo', path } as const
     store.setState(
       launchWorkspaceState(workspace, {
-        ...getDefaultSettings('/home/alice'),
+        ...classicShellSettings('/home/alice'),
         agentDefaultArgs: { claude: String.raw`--x it\'s` }
       })
     )

@@ -25,6 +25,7 @@ import type { TuiAgent } from '../../../shared/tui-agent'
 import type { LaunchSource } from '../../../shared/telemetry-events'
 import { resolveAgentLaunchExecutionContext } from '@/lib/launch-agent-execution-context'
 import { launchStructuredAgentFromNewTab } from '@/lib/launch-agent-in-new-tab-structured-route'
+import { newTabLaunchSurface } from '@/lib/task-shell-chat-surface'
 import type { StructuredAgentLaunchSettlement } from '@/lib/structured-agent-launch-settlement'
 import type { StructuredLaunchTerminal } from '@/lib/structured-agent-session-launch-admission'
 import { workspaceKindForWorktreeId } from '@/lib/agent-launch-route-input'
@@ -166,7 +167,7 @@ function launchAgentInNewTabInternal(args: LaunchAgentInNewTabArgs): LaunchAgent
   // Resolve structured ownership first, including paired hosts; only terminal routes fall through to host-published PTYs.
   const route = routeNewTabLaunch(store, args, {
     agent,
-    requestedSurface: args.requestedSurface,
+    requestedSurface: newTabLaunchSurface(store, args),
     selectedExecutionHostId: args.selectedExecutionHostId,
     workspace: { kind: workspaceKindForWorktreeId(worktreeId), worktreeId },
     prompt: trimmedPrompt,

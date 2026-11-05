@@ -20,10 +20,13 @@ export type ProjectTaskLaunchResult = { ok: true } | { ok: false; message: strin
 export function startLocalTask(args: {
   worktreeId: string
   agent: TuiAgent
+  /** A picked CLI row asks for the terminal; otherwise the task shell opens the agent's chat. */
+  surface?: 'chat' | 'terminal'
   prompt: string
 }): ProjectTaskLaunchResult {
   const result = launchAgentInNewTab({
     requestId: newAgentLaunchRequestId(),
+    ...(args.surface ? { requestedSurface: args.surface } : {}),
     agent: args.agent,
     worktreeId: args.worktreeId,
     prompt: args.prompt,
@@ -43,6 +46,7 @@ export function startLocalTask(args: {
 export async function startWorktreeTask(args: {
   repo: Repo
   agent: TuiAgent
+  surface?: 'chat' | 'terminal'
   prompt: string
 }): Promise<ProjectTaskLaunchResult> {
   const name = getWorkspaceSeedName({
@@ -79,5 +83,10 @@ export async function startWorktreeTask(args: {
           : translate('projectTasks.composer.worktreeFailed', 'Could not create the worktree.')
     }
   }
-  return startLocalTask({ worktreeId, agent: args.agent, prompt: args.prompt })
+  return startLocalTask({
+    worktreeId,
+    agent: args.agent,
+    ...(args.surface ? { surface: args.surface } : {}),
+    prompt: args.prompt
+  })
 }

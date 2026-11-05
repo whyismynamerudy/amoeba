@@ -21335,7 +21335,8 @@
       "worktreeFailed": "Could not create the worktree.",
       "terminal": "Open terminal",
       "terminalHint": "For sign-in and setup commands, like claude auth login.",
-      "checkoutHint": "Runs in this worktree."
+      "checkoutHint": "Runs in this worktree.",
+      "agentCli": "{{value0}} (CLI)"
     }
   }
 }

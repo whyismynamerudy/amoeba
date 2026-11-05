@@ -26,7 +26,7 @@ function DetectedAgentItems({
   onPick
 }: {
   worktreeId: string
-  onPick: (agent: TuiAgent) => void
+  onPick: (choice: ProjectTaskAgentChoice) => void
 }): React.JSX.Element {
   const detectionTarget = useAgentDetectionTargetForWorktree(worktreeId)
   const model = useNewTabAgentMenuRows(worktreeId, true, detectionTarget)
@@ -35,7 +35,7 @@ function DetectedAgentItems({
       model={model}
       runLaunch={(row) => {
         if (row.kind !== 'chat-unavailable') {
-          onPick(row.agent)
+          onPick({ agent: row.agent, surface: row.kind === 'chat' ? 'chat' : 'terminal' })
         }
       }}
     />
@@ -43,17 +43,26 @@ function DetectedAgentItems({
 }
 
 /** Choose which agent runs the next task; the rows are the same ones a new tab offers. */
+export type ProjectTaskAgentChoice = { agent: TuiAgent; surface?: 'chat' | 'terminal' }
+
 export function ProjectTaskAgentPicker({
-  agent,
+  choice,
   detectionWorktreeId,
   onChange
 }: {
-  agent: TuiAgent
+  choice: ProjectTaskAgentChoice
   /** A checkout of the selected project, used to list the agents installed on its host. */
   detectionWorktreeId: string | null
-  onChange: (agent: TuiAgent) => void
+  onChange: (choice: ProjectTaskAgentChoice) => void
 }): React.JSX.Element {
   const [open, setOpen] = useState(false)
+  const { agent } = choice
+  const label =
+    choice.surface === 'terminal'
+      ? translate('projectTasks.composer.agentCli', '{{value0}} (CLI)', {
+          value0: agentLabel(agent)
+        })
+      : agentLabel(agent)
   return (
     <DropdownMenu modal={false} open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -62,11 +71,11 @@ export function ProjectTaskAgentPicker({
           variant="ghost"
           size="sm"
           aria-label={translate('projectTasks.composer.agent', 'Agent: {{value0}}', {
-            value0: agentLabel(agent)
+            value0: label
           })}
         >
           <AgentIcon agent={agent} size={14} />
-          {agentLabel(agent)}
+          {label}
           <ChevronDown className="size-3.5" />
         </Button>
       </DropdownMenuTrigger>
@@ -75,7 +84,11 @@ export function ProjectTaskAgentPicker({
           <DetectedAgentItems worktreeId={detectionWorktreeId} onPick={onChange} />
         ) : (
           FALLBACK_AGENTS.map((candidate) => (
-            <DropdownMenuItem key={candidate} variant="launch" onSelect={() => onChange(candidate)}>
+            <DropdownMenuItem
+              key={candidate}
+              variant="launch"
+              onSelect={() => onChange({ agent: candidate })}
+            >
               <AgentIcon agent={candidate} size={14} />
               {agentLabel(candidate)}
             </DropdownMenuItem>

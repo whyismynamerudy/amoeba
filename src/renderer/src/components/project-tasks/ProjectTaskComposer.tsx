@@ -17,7 +17,7 @@ import { getWorktreeMapFromState } from '@/store/selectors'
 import { selectWorktreesByRepo } from '@/store/workspace-record-selectors'
 import { isTuiAgent } from '../../../../shared/tui-agent-config'
 import type { TuiAgent } from '../../../../shared/tui-agent'
-import { ProjectTaskAgentPicker } from './ProjectTaskAgentPicker'
+import { ProjectTaskAgentPicker, type ProjectTaskAgentChoice } from './ProjectTaskAgentPicker'
 import { useProjectTaskComposerStore } from './project-task-composer-store'
 import { startLocalTask, startWorktreeTask } from './project-task-launch'
 import { findLocalWorktree, type ProjectTaskLocation } from './project-task-model'
@@ -63,7 +63,7 @@ export default function ProjectTaskComposer({
   const setProjectId = useProjectTaskComposerStore((s) => s.setProjectId)
   const focusRequest = useProjectTaskComposerStore((s) => s.focusRequest)
   const defaultAgent = useDefaultAgent()
-  const [agent, setAgent] = useState<TuiAgent | null>(null)
+  const [agentChoice, setAgentChoice] = useState<ProjectTaskAgentChoice | null>(null)
   const [prompt, setPrompt] = useState('')
   const targetWorktree = useAppStore((s) =>
     worktreeId ? (getWorktreeMapFromState(s).get(worktreeId) ?? null) : null
@@ -98,7 +98,7 @@ export default function ProjectTaskComposer({
       ? targetWorktree.displayName
       : translate('projectTasks.location.local', 'Local')
   const effectiveLocation: ProjectTaskLocation = canUseWorktree ? location : 'local'
-  const selectedAgent = agent ?? defaultAgent
+  const choice = agentChoice ?? { agent: defaultAgent }
   const trimmedPrompt = prompt.trim()
   const canSubmit =
     trimmedPrompt.length > 0 &&
@@ -114,11 +114,12 @@ export default function ProjectTaskComposer({
       effectiveLocation === 'local' && localWorktreeId
         ? startLocalTask({
             worktreeId: localWorktreeId,
-            agent: selectedAgent,
+            agent: choice.agent,
+            ...(choice.surface ? { surface: choice.surface } : {}),
             prompt: trimmedPrompt
           })
         : repo
-          ? await startWorktreeTask({ repo, agent: selectedAgent, prompt: trimmedPrompt })
+          ? await startWorktreeTask({ repo, ...choice, prompt: trimmedPrompt })
           : { ok: false as const, message: '' }
     setSubmitting(false)
     if (result.ok) {
@@ -184,9 +185,9 @@ export default function ProjectTaskComposer({
           />
           <div className="flex items-center gap-2 px-2.5 pt-1 pb-2.5">
             <ProjectTaskAgentPicker
-              agent={selectedAgent}
+              choice={choice}
               detectionWorktreeId={localWorktreeId}
-              onChange={setAgent}
+              onChange={setAgentChoice}
             />
             <ToggleGroup
               type="single"
