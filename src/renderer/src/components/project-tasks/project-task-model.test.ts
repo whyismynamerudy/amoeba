@@ -35,7 +35,7 @@ describe('buildProjectTaskGroups', () => {
   it('treats the main checkout as Local and linked checkouts as worktree tasks', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
-      worktreesByRepo: { 'repo-1': [main, linked] },
+      worktreesByProject: { 'repo-1': [main, linked] },
       unifiedTabsByWorktree: {
         'wt-main': [tab({ id: 'chat-local', worktreeId: 'wt-main', contentType: 'agent-session' })],
         'wt-feature': [
@@ -64,7 +64,7 @@ describe('buildProjectTaskGroups', () => {
   it('keeps agent terminals as tasks, drops plain shells, and orders by latest activity', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
-      worktreesByRepo: { 'repo-1': [linked] },
+      worktreesByProject: { 'repo-1': [linked] },
       unifiedTabsByWorktree: {
         'wt-feature': [
           tab({ id: 'chat', worktreeId: 'wt-feature', contentType: 'agent-session', createdAt: 5 }),
@@ -98,7 +98,7 @@ describe('buildProjectTaskGroups', () => {
     const archived: Worktree = { ...makeWorktreeWithId('wt-old'), isArchived: true }
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
-      worktreesByRepo: { 'repo-1': [archived] },
+      worktreesByProject: { 'repo-1': [archived] },
       unifiedTabsByWorktree: {
         'wt-old': [tab({ id: 'stale', worktreeId: 'wt-old', contentType: 'agent-session' })]
       },
@@ -112,7 +112,7 @@ describe('buildProjectTaskGroups', () => {
   it('lists imported Conductor chats under the worktree they ran in', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
-      worktreesByRepo: { 'repo-1': [linked] },
+      worktreesByProject: { 'repo-1': [linked] },
       unifiedTabsByWorktree: {},
       signalsByTabId: new Map(),
       generatedTitlesEnabled: false,

@@ -1,4 +1,5 @@
 import { useAppStore } from '@/store'
+import { selectWorktreesByRepo } from '@/store/workspace-record-selectors'
 import { useImportedConductorChats } from '@/components/project-tasks/imported-conductor-chats'
 import type { ConductorImportScan } from '../../../../../shared/conductor-import-types'
 import type { WorktreeVisibilityDefaults } from '../../../../../shared/global-settings-types'
@@ -71,7 +72,7 @@ export async function runConductorImport(
 
   // Keep Conductor's names (its city names or the user's) instead of the folder-derived defaults.
   const worktreesByPath = new Map(
-    Object.values(useAppStore.getState().worktreesByRepo)
+    Object.values(selectWorktreesByRepo(useAppStore.getState()))
       .flat()
       .map((worktree) => [normalized(worktree.path), worktree])
   )

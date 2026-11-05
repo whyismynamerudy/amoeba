@@ -54,7 +54,7 @@ export function useProjectTaskGroups(): ProjectTaskGroup[] {
     () =>
       buildProjectTaskGroups({
         repos,
-        worktreesByRepo,
+        worktreesByProject: worktreesByRepo,
         unifiedTabsByWorktree,
         signalsByTabId: signals,
         generatedTitlesEnabled,

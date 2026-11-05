@@ -50,7 +50,7 @@ export type ProjectTaskSignal = {
 
 export type ProjectTaskSources = {
   repos: readonly Repo[]
-  worktreesByRepo: Readonly<Record<string, readonly Worktree[] | undefined>>
+  worktreesByProject: Readonly<Record<string, readonly Worktree[] | undefined>>
   unifiedTabsByWorktree: Readonly<Record<string, readonly Tab[] | undefined>>
   signalsByTabId: ReadonlyMap<string, ProjectTaskSignal>
   generatedTitlesEnabled: boolean
@@ -142,7 +142,7 @@ export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTask
     importedByPath.set(key, [...(importedByPath.get(key) ?? []), chat])
   }
   return sources.repos.map((repo) => {
-    const worktrees = sources.worktreesByRepo[repo.id] ?? []
+    const worktrees = sources.worktreesByProject[repo.id] ?? []
     const tasks: ProjectTask[] = []
     for (const worktree of worktrees) {
       if (worktree.isArchived || worktree.removing) {
