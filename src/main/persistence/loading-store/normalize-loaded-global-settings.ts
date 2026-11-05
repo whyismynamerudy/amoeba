@@ -38,8 +38,7 @@ export function normalizeLoadedGlobalSettings(
     migratedFloatingTerminalEnabled,
     migratedOsc52Clipboard,
     migratedFloatingTerminalCwd,
-    migratedFloatingTerminalTrustedCwds,
-    migratedWorkspaceDir
+    migratedFloatingTerminalTrustedCwds
   } = terminal
   const {
     migratedPortugueseUiLanguage,
@@ -69,7 +68,6 @@ export function normalizeLoadedGlobalSettings(
     ...defaults.settings,
     // Legacy stored booleans cannot distinguish opt-in from the old default; retain explicit true.
     ...stripRetiredGlobalSettings(parsed.settings),
-    ...migratedWorkspaceDir,
     // Preserve terminal-first new tabs when retiring the old default-view switch.
     ...(savedChatUiWithTerminalDefaultView(parsed.settings)
       ? { experimentalNativeChat: false }

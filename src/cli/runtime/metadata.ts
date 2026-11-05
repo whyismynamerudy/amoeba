@@ -6,7 +6,7 @@ import {
   type RuntimeMetadata
 } from '../../shared/runtime-bootstrap'
 import { RuntimeClientError } from './types'
-import { getAppDataRoot, resolvePackagedUserDataPath } from '../../shared/app-user-data-dir'
+import { getAppDataRoot, getPackagedUserDataPath } from '../../shared/app-user-data-dir'
 
 export function readMetadata(userDataPath: string): RuntimeMetadata {
   const metadataPath = getRuntimeMetadataPath(userDataPath)
@@ -61,5 +61,5 @@ export function getPlatformUserDataPath(
       'APPDATA is not set, so the Amoeba runtime metadata path cannot be resolved.'
     )
   }
-  return resolvePackagedUserDataPath(appDataRoot)
+  return getPackagedUserDataPath(appDataRoot)
 }

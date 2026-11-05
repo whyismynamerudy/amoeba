@@ -175,7 +175,7 @@ describe('repos:create', () => {
   it('ignores a Windows seeded workspace directory regardless of drive-letter case', async () => {
     homedirMock.mockReturnValue('C:\\Users\\alice')
     mockStore.getSettings.mockReturnValue({
-      workspaceDir: 'c:\\users\\alice\\orca\\workspaces'
+      workspaceDir: 'c:\\users\\alice\\amoeba\\workspaces'
     })
     await expect(callDefaultCreateProjectParent()).resolves.toBe(
       join('C:\\Users\\alice', 'amoeba', 'projects')

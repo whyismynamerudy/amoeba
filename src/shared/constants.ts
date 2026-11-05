@@ -102,11 +102,6 @@ export function getDefaultWorkspaceDir(homeDir: string): string {
   return homeWorkspaceRoot(homeDir, 'amoeba')
 }
 
-/** Orca's stock root; profiles still on it move to Amoeba's root on load. */
-export function getLegacyOrcaWorkspaceDir(homeDir: string): string {
-  return homeWorkspaceRoot(homeDir, 'orca')
-}
-
 export function getDefaultSettings(homedir: string): GlobalSettings {
   return buildDefaultSettings({
     workspaceDir: getDefaultWorkspaceDir(homedir),

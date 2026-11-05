@@ -8,8 +8,7 @@ import { getMainE2EConfig } from '../e2e-config'
 import { DISABLED_CHROMIUM_FEATURES } from './disabled-chromium-features'
 import { readHttp1CompatibilityMarker } from './http1-compatibility-marker'
 import { checkServeUserDataPath } from './serve-user-data-path-guard'
-import { migrateLegacyUserDataFolder } from './legacy-user-data-migration'
-import { resolvePackagedUserDataPath } from '../../shared/app-user-data-dir'
+import { getPackagedUserDataPath } from '../../shared/app-user-data-dir'
 import { stampRuntimeSourceEnv } from '../../shared/runtime-source-env'
 import { isLinuxWaylandSession } from '../../shared/linux-wayland-session'
 import {
@@ -191,11 +190,9 @@ export function configureDevUserDataPath(isDev: boolean): void {
   }
 
   if (!isDev) {
-    // Pin the folder the CLI resolves (src/cli/runtime/metadata.ts), moving the Orca-era one first.
+    // Pin the folder the CLI resolves (src/cli/runtime/metadata.ts).
     if (process.platform !== 'win32' && !app.commandLine.hasSwitch('user-data-dir')) {
-      const appDataRoot = app.getPath('appData')
-      migrateLegacyUserDataFolder(appDataRoot)
-      app.setPath('userData', resolvePackagedUserDataPath(appDataRoot))
+      app.setPath('userData', getPackagedUserDataPath(app.getPath('appData')))
     }
     return
   }

@@ -99,15 +99,12 @@ function buildWslWorkspaceLayouts(
   if (!linuxHome) {
     return []
   }
-  // Amoeba mirrors into ~/amoeba/workspaces; Orca-era mirrors in ~/orca/workspaces stay owned.
-  const roots = ['amoeba', 'orca'].map(
-    (appFolder) => `//wsl.localhost/${parsed.distro}${linuxHome}/${appFolder}/workspaces`
-  )
+  const root = `//wsl.localhost/${parsed.distro}${linuxHome}/amoeba/workspaces`
   const historicalModes = (settings.workspaceDirHistory ?? []).map(
     (layout) => layout.nestWorkspaces
   )
-  const modes = [...new Set([settings.nestWorkspaces, ...historicalModes])]
-  return roots.flatMap((path) => modes.map((nestWorkspaces) => ({ path, nestWorkspaces })))
+  const modes = [settings.nestWorkspaces, ...historicalModes]
+  return [...new Set(modes)].map((nestWorkspaces) => ({ path: root, nestWorkspaces }))
 }
 
 export function classifyWorktreeOwnership(args: {
