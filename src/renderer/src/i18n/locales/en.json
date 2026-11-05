@@ -21372,7 +21372,9 @@
       "agentCli": "{{value0}} (CLI)"
     },
     "conductorImport": {
-      "resumeFailed": "Could not reopen this Conductor chat."
+      "resumeFailed": "Could not reopen this Conductor chat.",
+      "resumeFailedTitle": "Could not open “{{value0}}”",
+      "resumeFailedStillRunning": "If this chat is still running in Conductor or Orca, stop it or close that app, then open it here again."
     }
   }
 }

@@ -3470,6 +3470,14 @@
   "menu": {
     "quitApp": "Quit {{appName}}"
   },
+  "projectTasks": {
+    "conductorImport": {
+      "resumeFailed": "Could not reopen this Conductor chat."
+    },
+    "header": {
+      "showTabs": "Show tabs"
+    }
+  },
   "resourceManager": {
     "pty": {
       "localOwnedCount_one": "{{count}} Amoeba PTY on this computer",

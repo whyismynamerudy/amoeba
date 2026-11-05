@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo } from 'react'
 import { isProjectTaskShellEnabled } from '../../../../shared/project-tasks-settings'
 import { lazyWithRetry as lazy } from '@/lib/lazy-with-retry'
 import { useDroppable } from '@dnd-kit/core'
@@ -22,7 +22,7 @@ import { resolveClientHostedBrowserRowStripGroupId } from '../tab-bar/client-hos
 import { useEditorGroupFileDropOwner } from '../editor/use-editor-group-file-drop-owner'
 import { cn } from '@/lib/utils'
 import { UNFOCUSED_SPLIT_GROUP_OPACITY } from './split-group-dim'
-import { isProjectTaskConversationTab, ProjectTaskHeader } from '../project-tasks/ProjectTaskHeader'
+import { ProjectTaskActions } from '../project-tasks/ProjectTaskActions'
 
 const EditorPanel = lazy(() => import('../editor/EditorPanel'))
 const EMPTY_GROUPS: readonly TabGroup[] = []
@@ -73,8 +73,6 @@ export default function TabGroupPanel({
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
   const model = useTabGroupWorkspaceModel({ groupId, worktreeId })
   const projectTasksSidebar = useAppStore((state) => isProjectTaskShellEnabled(state.settings))
-  // Remember which chat asked for its tabs, so switching conversations restores the header.
-  const [tabsShownForTabId, setTabsShownForTabId] = useState<string | null>(null)
   const {
     activeTab,
     agentSessionItems,
@@ -246,13 +244,6 @@ export default function TabGroupPanel({
     />
   )
 
-  const taskHeaderTab =
-    projectTasksSidebar &&
-    isProjectTaskConversationTab(model.activeTab) &&
-    tabsShownForTabId !== model.activeTab.id
-      ? model.activeTab
-      : null
-
   const actionChromeClassName = cn(
     'ml-1.5 flex shrink-0 items-center gap-0.5 transition-opacity duration-150',
     !isFocused && 'opacity-50 hover:opacity-100 focus-within:opacity-100'
@@ -299,35 +290,27 @@ export default function TabGroupPanel({
                 }
               />
             ) : null}
-            {taskHeaderTab ? (
-              <ProjectTaskHeader
+            <div className="min-w-0 flex-1 h-full">{tabBar}</div>
+            <div
+              className={actionChromeClassName}
+              style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+            >
+              {projectTasksSidebar ? (
+                <ProjectTaskActions
+                  worktreeId={worktreeId}
+                  groupId={groupId}
+                  onNewBrowserTab={commands.newBrowserTab}
+                />
+              ) : null}
+              <TabBarQuickCommandsButton
                 worktreeId={worktreeId}
                 groupId={groupId}
-                tab={taskHeaderTab}
-                onNewBrowserTab={commands.newBrowserTab}
-                onShowTabs={() => setTabsShownForTabId(taskHeaderTab.id)}
+                isFocused={isFocused}
               />
-            ) : (
-              <>
-                <div className="min-w-0 flex-1 h-full">{tabBar}</div>
-                <div
-                  className={actionChromeClassName}
-                  style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
-                >
-                  <TabBarQuickCommandsButton
-                    worktreeId={worktreeId}
-                    groupId={groupId}
-                    isFocused={isFocused}
-                  />
-                  {hasSplitGroups ? (
-                    <TabGroupPaneActionsMenu
-                      isFocused={isFocused}
-                      onCloseGroup={commands.closeGroup}
-                    />
-                  ) : null}
-                </div>
-              </>
-            )}
+              {hasSplitGroups ? (
+                <TabGroupPaneActionsMenu isFocused={isFocused} onCloseGroup={commands.closeGroup} />
+              ) : null}
+            </div>
             {/* Why: Electron drag hit-test respects no-drag only on DOM descendants, not z-index siblings, so this no-drag spacer keeps the floating right-sidebar toggle + window controls clickable. */}
             {reserveClosedExplorerToggleSpace && !rightSidebarOpen ? (
               <div
