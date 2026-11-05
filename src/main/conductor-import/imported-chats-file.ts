@@ -19,6 +19,8 @@ function isImportedChat(value: unknown): value is ConductorImportedChat {
   )
 }
 
+type ImportedChatsState = { chats: ConductorImportedChat[]; openedIds: string[] }
+
 /** Imported chats that have not been opened yet; opening one resumes it and drops it from this list. */
 export class ImportedChatsFile {
   private readonly path: string
@@ -28,35 +30,60 @@ export class ImportedChatsFile {
   }
 
   list(): ConductorImportedChat[] {
-    try {
-      const parsed: unknown = JSON.parse(readFileSync(this.path, 'utf8'))
-      return Array.isArray(parsed) ? parsed.filter(isImportedChat) : []
-    } catch {
-      return []
-    }
+    return this.read().chats
   }
 
-  /** Merge by Conductor session id so re-running the import refreshes titles without duplicates. */
+  /** Merge by source chat id so re-running an import refreshes titles; chats already opened stay out. */
   save(incoming: unknown): ConductorImportedChat[] {
+    const state = this.read()
+    const opened = new Set(state.openedIds)
     const chats = Array.isArray(incoming) ? incoming.filter(isImportedChat) : []
-    const byId = new Map(this.list().map((chat) => [chat.id, chat]))
+    const byId = new Map(state.chats.map((chat) => [chat.id, chat]))
     for (const chat of chats) {
-      byId.set(chat.id, chat)
+      if (!opened.has(chat.id)) {
+        byId.set(chat.id, chat)
+      }
     }
     const next = [...byId.values()]
-    this.write(next)
+    this.write({ chats: next, openedIds: state.openedIds })
     return next
   }
 
+  /** Called once a chat is resumed: it now lives in Amoeba, so later imports must not bring it back. */
   forget(id: unknown): ConductorImportedChat[] {
-    const next = this.list().filter((chat) => chat.id !== id)
-    this.write(next)
+    const state = this.read()
+    const next = state.chats.filter((chat) => chat.id !== id)
+    const openedIds =
+      typeof id === 'string' && !state.openedIds.includes(id)
+        ? [...state.openedIds, id]
+        : state.openedIds
+    this.write({ chats: next, openedIds })
     return next
   }
 
-  private write(chats: readonly ConductorImportedChat[]): void {
+  private read(): ImportedChatsState {
+    try {
+      const parsed: unknown = JSON.parse(readFileSync(this.path, 'utf8'))
+      // Earlier builds wrote a bare array of pending chats.
+      if (Array.isArray(parsed)) {
+        return { chats: parsed.filter(isImportedChat), openedIds: [] }
+      }
+      const record: Record<string, unknown> =
+        typeof parsed === 'object' && parsed !== null ? { ...parsed } : {}
+      return {
+        chats: Array.isArray(record.chats) ? record.chats.filter(isImportedChat) : [],
+        openedIds: Array.isArray(record.openedIds)
+          ? record.openedIds.filter((id): id is string => typeof id === 'string')
+          : []
+      }
+    } catch {
+      return { chats: [], openedIds: [] }
+    }
+  }
+
+  private write(state: ImportedChatsState): void {
     const temporary = `${this.path}.tmp`
-    writeFileSync(temporary, `${JSON.stringify(chats, null, 2)}\n`, { mode: 0o600 })
+    writeFileSync(temporary, `${JSON.stringify(state, null, 2)}\n`, { mode: 0o600 })
     renameSync(temporary, this.path)
   }
 }

@@ -32,7 +32,7 @@ const main: Worktree = { ...makeWorktreeWithId('wt-main'), isMainWorktree: true,
 const linked: Worktree = { ...makeWorktreeWithId('wt-feature'), branch: 'refs/heads/feat/sim' }
 
 describe('buildProjectTaskGroups', () => {
-  it('treats the main checkout as Local and linked checkouts as worktree tasks', () => {
+  it('lists one row per workspace: Local for the main checkout, the branch for linked ones', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
       worktreesByProject: { 'repo-1': [main, linked] },
@@ -55,13 +55,43 @@ describe('buildProjectTaskGroups', () => {
 
     expect(group?.localWorktreeId).toBe('wt-main')
     expect(group?.tasks.map((task) => [task.id, task.location, task.branch])).toEqual([
-      ['chat-wt', 'worktree', 'feat/sim'],
-      ['chat-local', 'local', null]
+      ['wt-feature', 'worktree', 'feat/sim'],
+      ['wt-main', 'local', null]
     ])
     expect(group?.tasks[0]).toMatchObject({ title: 'Robot simulation', agent: 'claude' })
   })
 
-  it('keeps agent terminals as tasks, drops plain shells, and orders by latest activity', () => {
+  it('keeps a new tab in its workspace row, titled by the conversation that started it', () => {
+    const [group] = buildProjectTaskGroups({
+      repos: [makeRepo()],
+      worktreesByProject: { 'repo-1': [linked] },
+      unifiedTabsByWorktree: {
+        'wt-feature': [
+          tab({
+            id: 'first',
+            worktreeId: 'wt-feature',
+            contentType: 'agent-session',
+            customLabel: 'Fix login',
+            createdAt: 1
+          }),
+          tab({
+            id: 'second',
+            worktreeId: 'wt-feature',
+            contentType: 'agent-session',
+            createdAt: 5
+          })
+        ]
+      },
+      signalsByTabId: new Map(),
+      generatedTitlesEnabled: false
+    })
+
+    expect(group?.tasks).toHaveLength(1)
+    expect(group?.tasks[0]).toMatchObject({ title: 'Fix login', updatedAt: 5 })
+    expect(group?.tasks[0]?.conversations.map((c) => c.id)).toEqual(['second', 'first'])
+  })
+
+  it('counts agent terminals, drops plain shells, and surfaces the most urgent state', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
       worktreesByProject: { 'repo-1': [linked] },
@@ -80,18 +110,14 @@ describe('buildProjectTaskGroups', () => {
         ]
       },
       signalsByTabId: new Map([
-        ['term-agent', signal({ latestTimestamp: 10, unread: true, title: 'Fix controller' })]
+        ['chat', signal({ state: 'working', latestTimestamp: 6 })],
+        ['term-agent', signal({ state: 'permission', latestTimestamp: 10, unread: true })]
       ]),
       generatedTitlesEnabled: false
     })
 
-    expect(group?.tasks.map((task) => task.id)).toEqual(['unified-term', 'chat'])
-    expect(group?.tasks[0]).toMatchObject({
-      title: 'Fix controller',
-      agent: 'codex',
-      state: 'working',
-      unread: true
-    })
+    expect(group?.tasks[0]?.conversations.map((c) => c.id)).toEqual(['unified-term', 'chat'])
+    expect(group?.tasks[0]).toMatchObject({ state: 'permission', unread: true, updatedAt: 10 })
   })
 
   it('lists projects without tasks and skips archived checkouts', () => {
@@ -109,7 +135,7 @@ describe('buildProjectTaskGroups', () => {
     expect(group).toMatchObject({ projectId: 'repo-1', localWorktreeId: null, tasks: [] })
   })
 
-  it('lists imported Conductor chats under the worktree they ran in', () => {
+  it('puts imported Conductor chats in the workspace they ran in', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],
       worktreesByProject: { 'repo-1': [linked] },
@@ -136,15 +162,14 @@ describe('buildProjectTaskGroups', () => {
       ]
     })
 
-    expect(group?.tasks).toEqual([
-      expect.objectContaining({
-        contentType: 'imported-chat',
-        importedChatId: 'conductor-1',
-        entityId: 'thread-1',
-        title: 'Resolve debug issue',
-        branch: 'feat/sim',
-        agent: 'codex'
-      })
-    ])
+    expect(group?.tasks).toHaveLength(1)
+    expect(group?.tasks[0]).toMatchObject({
+      id: 'wt-feature',
+      title: 'Resolve debug issue',
+      branch: 'feat/sim',
+      agent: 'codex',
+      conversations: []
+    })
+    expect(group?.tasks[0]?.importedChats.map((chat) => chat.id)).toEqual(['conductor-1'])
   })
 })

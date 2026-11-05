@@ -86,7 +86,12 @@ export async function runAppImport(
       continue
     }
     workspacesListed += 1
-    if (workspace.name && worktree.displayName !== workspace.name) {
+    // A name already pinned (by an earlier import or a rename in Amoeba) is kept on re-import.
+    if (
+      workspace.name &&
+      worktree.displayNameMode !== 'fixed' &&
+      worktree.displayName !== workspace.name
+    ) {
       await useAppStore
         .getState()
         .updateWorktreeMeta(worktree.id, { displayName: workspace.name, displayNameIsPinned: true })

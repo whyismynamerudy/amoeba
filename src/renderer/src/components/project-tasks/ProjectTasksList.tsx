@@ -33,18 +33,8 @@ const GLYPH_STATES: ReadonlySet<AgentDotState> = new Set([
   'failed'
 ])
 
-function useActiveConversationTabId(): string | null {
-  return useAppStore((s) => {
-    const worktreeId = s.activeView === 'terminal' ? s.activeWorktreeId : null
-    if (!worktreeId) {
-      return null
-    }
-    const groupId = s.activeGroupIdByWorktree[worktreeId]
-    const group = (s.groupsByWorktree[worktreeId] ?? []).find(
-      (candidate) => candidate.id === groupId
-    )
-    return group?.activeTabId ?? null
-  })
+function useActiveTaskWorktreeId(): string | null {
+  return useAppStore((s) => (s.activeView === 'terminal' ? s.activeWorktreeId : null))
 }
 
 const ProjectTaskRow = React.memo(function ProjectTaskRow({
@@ -144,12 +134,12 @@ function NewProjectTaskButton({ group }: { group: ProjectTaskGroup }): React.JSX
 const ProjectTaskGroupSection = React.memo(function ProjectTaskGroupSection({
   group,
   collapsed,
-  activeTabId,
+  activeWorktreeId,
   onToggle
 }: {
   group: ProjectTaskGroup
   collapsed: boolean
-  activeTabId: string | null
+  activeWorktreeId: string | null
   onToggle: (projectId: string) => void
 }): React.JSX.Element {
   const FolderIcon = collapsed ? FolderClosed : FolderOpen
@@ -182,7 +172,11 @@ const ProjectTaskGroupSection = React.memo(function ProjectTaskGroupSection({
             </div>
           ) : (
             group.tasks.map((task) => (
-              <ProjectTaskRow key={task.id} task={task} active={task.id === activeTabId} />
+              <ProjectTaskRow
+                key={task.id}
+                task={task}
+                active={task.worktreeId === activeWorktreeId}
+              />
             ))
           )}
         </div>
@@ -195,7 +189,7 @@ const ProjectTaskGroupSection = React.memo(function ProjectTaskGroupSection({
 export default function ProjectTasksList(): React.JSX.Element {
   useTranslation()
   const groups = useProjectTaskGroups()
-  const activeTabId = useActiveConversationTabId()
+  const activeWorktreeId = useActiveTaskWorktreeId()
   const [collapsedProjectIds, setCollapsedProjectIds] = useState<ReadonlySet<string>>(
     () => new Set()
   )
@@ -230,7 +224,7 @@ export default function ProjectTasksList(): React.JSX.Element {
               key={group.projectId}
               group={group}
               collapsed={collapsedProjectIds.has(group.projectId)}
-              activeTabId={activeTabId}
+              activeWorktreeId={activeWorktreeId}
               onToggle={toggleProject}
             />
           ))}

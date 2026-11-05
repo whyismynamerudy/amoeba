@@ -7,26 +7,22 @@ import { adoptAgentSessionLaunchVerdict } from '@/lib/agent-session-launch-plan'
 import { activateAndRevealWorkspace } from '@/lib/worktree-activation'
 import { useAppStore } from '@/store'
 import { useImportedConductorChats } from './imported-conductor-chats'
-import type { ProjectTask } from './project-task-model'
+import type { ConductorImportedChat } from '../../../../shared/conductor-import-types'
 
-/** Open an imported Conductor chat by resuming its agent session as a chat in its worktree. */
-export function resumeImportedConductorChat(task: ProjectTask): void {
-  const agent = task.agent === 'claude' ? 'claude' : task.agent === 'codex' ? 'codex' : null
-  if (!agent) {
-    return
-  }
+/** Open an imported chat by resuming its agent session as a chat tab in its workspace. */
+export function resumeImportedConductorChat(worktreeId: string, chat: ConductorImportedChat): void {
   const plan = adoptAgentSessionLaunchVerdict({
     route: 'structured-native-chat',
     requestId: newAgentLaunchRequestId(),
-    agent,
-    worktreeId: task.worktreeId,
-    resumeFrom: { providerSessionId: task.entityId }
+    agent: chat.agent,
+    worktreeId,
+    resumeFrom: { providerSessionId: chat.providerSessionId }
   })
   const launch = beginStructuredAgentSessionProvisionalLaunch({
     plan,
     hooks: {},
     beforeOpen: () =>
-      activateAndRevealWorkspace(task.worktreeId, {
+      activateAndRevealWorkspace(worktreeId, {
         revealInSidebar: false,
         clearSidebarFilters: false,
         providesInitialSurface: true
@@ -40,15 +36,13 @@ export function resumeImportedConductorChat(task: ProjectTask): void {
       // Keep Conductor's title; the resumed chat is now an ordinary task, so the import row retires.
       const state = useAppStore.getState()
       const tab = findStructuredAgentSessionTab(state.unifiedTabsByWorktree, {
-        workspaceId: task.worktreeId,
+        workspaceId: worktreeId,
         sessionId: settlement.sessionId
       })
       if (tab) {
-        state.setTabCustomLabel(tab.id, task.title)
+        state.setTabCustomLabel(tab.id, chat.title)
       }
-      if (task.importedChatId) {
-        void useImportedConductorChats.getState().forget(task.importedChatId)
-      }
+      void useImportedConductorChats.getState().forget(chat.id)
       return
     }
     if (settlement.kind === 'failed' && !settlement.notified) {

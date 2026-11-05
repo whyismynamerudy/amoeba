@@ -9,26 +9,40 @@ import type { Worktree } from '../../../../shared/worktree/types'
 /** Local runs in the project's own checkout; worktree runs in an isolated linked checkout. */
 export type ProjectTaskLocation = 'local' | 'worktree'
 
-/** One conversation (a chat tab, or a terminal tab running a detected agent) and the checkout it runs in. */
-export type ProjectTask = {
+/** A chat tab, or a terminal tab running a detected agent, open in a workspace. */
+export type ProjectTaskConversation = {
   /** The conversation's unified tab id. */
+  id: string
+  contentType: 'agent-session' | 'terminal'
+  /** Session id for chats, terminal tab id for terminals. */
+  entityId: string
+  title: string
+  agent: AgentType | null
+  state: AgentDotState | null
+  unread: boolean
+  createdAt: number
+  updatedAt: number
+}
+
+/** One workspace (checkout) and its conversations; new tabs join their workspace's row. */
+export type ProjectTask = {
+  /** The workspace's worktree id. */
   id: string
   worktreeId: string
   projectId: string
-  /** imported-chat: a Conductor chat not opened yet; opening it resumes its agent session. */
-  contentType: 'agent-session' | 'terminal' | 'imported-chat'
-  /** Backing entity: session id for chats, terminal tab id for terminals, provider session for imports. */
-  entityId: string
-  /** The Conductor session an imported-chat task came from. */
-  importedChatId?: string
   title: string
   agent: AgentType | null
   location: ProjectTaskLocation
   /** Short branch name of a worktree task; null for Local tasks and detached checkouts. */
   branch: string | null
+  /** The most urgent live state across the workspace's conversations. */
   state: AgentDotState | null
   unread: boolean
   updatedAt: number
+  /** Open conversations, newest activity first. */
+  conversations: ProjectTaskConversation[]
+  /** Conductor chats in this workspace not opened yet, newest first; opening the row resumes them. */
+  importedChats: ConductorImportedChat[]
 }
 
 export type ProjectTaskGroup = {
@@ -75,13 +89,11 @@ export function findLocalWorktree(repo: Repo, worktrees: readonly Worktree[]): W
   return repo.kind === 'folder' ? (worktrees[0] ?? null) : null
 }
 
-function buildTask(
+function buildConversation(
   tab: Tab,
-  worktree: Worktree,
-  repo: Repo,
   signal: ProjectTaskSignal | undefined,
   generatedTitlesEnabled: boolean
-): ProjectTask | null {
+): ProjectTaskConversation | null {
   if (tab.contentType !== 'agent-session' && tab.contentType !== 'terminal') {
     return null
   }
@@ -89,44 +101,74 @@ function buildTask(
   if (tab.contentType === 'terminal' && !signal) {
     return null
   }
-  const isLocal = worktree.isMainWorktree || repo.kind === 'folder'
   return {
     id: tab.id,
-    worktreeId: worktree.id,
-    projectId: repo.id,
     contentType: tab.contentType,
     entityId: tab.entityId,
     title: resolveUnifiedTabLabel(tab, generatedTitlesEnabled) || signal?.title || '',
     agent: tab.agentSessionAgent ?? signal?.agent ?? null,
-    location: isLocal ? 'local' : 'worktree',
-    branch: isLocal ? null : shortBranchName(worktree.branch),
     state: signal?.state ?? null,
     unread: signal?.unread ?? false,
+    createdAt: tab.createdAt,
     // A reopened tab is new, but its conversation is as recent as its last agent activity.
     updatedAt: signal?.latestTimestamp || tab.createdAt
   }
 }
 
-function buildImportedChatTask(
-  chat: ConductorImportedChat,
+// Attention first: a row surfaces whichever of its conversations most needs the user.
+const STATE_PRIORITY: readonly AgentDotState[] = [
+  'permission',
+  'blocked',
+  'waiting',
+  'failed',
+  'working',
+  'monitoring'
+]
+
+function mostUrgentState(states: readonly (AgentDotState | null)[]): AgentDotState | null {
+  return (
+    STATE_PRIORITY.find((state) => states.includes(state)) ??
+    states.find((state) => state !== null) ??
+    null
+  )
+}
+
+function buildWorkspaceTask(
   worktree: Worktree,
-  repo: Repo
-): ProjectTask {
+  repo: Repo,
+  conversations: ProjectTaskConversation[],
+  importedChats: ConductorImportedChat[]
+): ProjectTask | null {
+  if (conversations.length === 0 && importedChats.length === 0) {
+    return null
+  }
+  conversations.sort((a, b) => b.updatedAt - a.updatedAt || a.id.localeCompare(b.id))
+  importedChats.sort((a, b) => b.updatedAt - a.updatedAt || a.id.localeCompare(b.id))
   const isLocal = worktree.isMainWorktree || repo.kind === 'folder'
+  const titled = [
+    ...conversations.map((c) => ({ title: c.title, at: c.createdAt })),
+    ...importedChats.map((chat) => ({ title: chat.title, at: chat.updatedAt }))
+  ].filter((entry) => entry.title)
+  // A worktree keeps the name of the conversation that started it; Local shows its latest chat.
+  titled.sort((a, b) => (isLocal ? b.at - a.at : a.at - b.at))
+  const newest = conversations[0]
   return {
-    id: `conductor:${chat.id}`,
+    id: worktree.id,
     worktreeId: worktree.id,
     projectId: repo.id,
-    contentType: 'imported-chat',
-    entityId: chat.providerSessionId,
-    importedChatId: chat.id,
-    title: chat.title,
-    agent: chat.agent,
+    title: titled[0]?.title ?? worktree.displayName,
+    agent: newest?.agent ?? importedChats[0]?.agent ?? null,
     location: isLocal ? 'local' : 'worktree',
     branch: isLocal ? null : shortBranchName(worktree.branch),
-    state: null,
-    unread: false,
-    updatedAt: chat.updatedAt
+    state: mostUrgentState(conversations.map((c) => c.state)),
+    unread: conversations.some((c) => c.unread),
+    updatedAt: Math.max(
+      0,
+      ...conversations.map((c) => c.updatedAt),
+      ...importedChats.map((c) => c.updatedAt)
+    ),
+    conversations,
+    importedChats
   }
 }
 
@@ -134,7 +176,7 @@ function normalizedPath(path: string): string {
   return path.replace(/[\\/]+$/, '')
 }
 
-/** Projects in repo order, each with its conversations newest first. */
+/** Projects in repo order, each with its workspaces newest activity first. */
 export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTaskGroup[] {
   const importedByPath = new Map<string, ConductorImportedChat[]>()
   for (const chat of sources.importedChats ?? []) {
@@ -148,21 +190,17 @@ export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTask
       if (worktree.isArchived || worktree.removing) {
         continue
       }
-      for (const tab of sources.unifiedTabsByWorktree[worktree.id] ?? []) {
-        const task = buildTask(
-          tab,
-          worktree,
-          repo,
-          // Agent panes key terminals by their terminal tab id, which is the unified tab's entity.
-          sources.signalsByTabId.get(tab.id) ?? sources.signalsByTabId.get(tab.entityId),
-          sources.generatedTitlesEnabled
-        )
-        if (task) {
-          tasks.push(task)
-        }
-      }
-      for (const chat of importedByPath.get(normalizedPath(worktree.path)) ?? []) {
-        tasks.push(buildImportedChatTask(chat, worktree, repo))
+      const conversations = (sources.unifiedTabsByWorktree[worktree.id] ?? []).flatMap((tab) => {
+        // Agent panes key terminals by their terminal tab id, which is the unified tab's entity.
+        const signal =
+          sources.signalsByTabId.get(tab.id) ?? sources.signalsByTabId.get(tab.entityId)
+        const conversation = buildConversation(tab, signal, sources.generatedTitlesEnabled)
+        return conversation ? [conversation] : []
+      })
+      const imported = [...(importedByPath.get(normalizedPath(worktree.path)) ?? [])]
+      const task = buildWorkspaceTask(worktree, repo, conversations, imported)
+      if (task) {
+        tasks.push(task)
       }
     }
     tasks.sort((a, b) => b.updatedAt - a.updatedAt || a.id.localeCompare(b.id))
