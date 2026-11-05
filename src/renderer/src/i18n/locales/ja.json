@@ -8064,7 +8064,7 @@
         "OpenAiTranscriptionKeyDialog": {
           "fa83512e48": "キーの保存",
           "07b26f2742": "クリアキー",
-          "d246b2bdb3": "ローカルランタイムキーは、利用可能な場合は Electron 暗号化ストレージを使用して ~/.orca に保存されます。",
+          "d246b2bdb3": "ローカルランタイムキーは、利用可能な場合は Electron 暗号化ストレージを使用して ~/.amoeba に保存されます。",
           "c3380e4ca5": "sk-...",
           "2f797018f0": "APIキーが設定されました",
           "16015322f9": "APIキー",
@@ -8766,7 +8766,7 @@
           "25b0004fbf": "ターミナルがアクティブです",
           "781cb74d22": "ターミナルペインから実行します。",
           "cb02e00202": "ターミナル",
-          "d8c988dab4": "~/.orca/keybindings.json",
+          "d8c988dab4": "~/.amoeba/keybindings.json",
           "shortcutUnavailable": "ショートカットは利用できなくなりました。"
         },
         "SourceControlAiActionRecipeDefaults": {
@@ -12816,7 +12816,7 @@
           "behindCheckFailed": "Amoeba サーバーを実行しています。Amoeba はこのアプリより古いかどうかを確認できませんでした。",
           "refusedBlockedReason": "このホストにはまだ Amoeba がセットアップされていません。{{reason}}",
           "setupContactLost": "Amoeba はサーバーのセットアップ中にこのホストとの接続を失いました。ホスト上では何も停止されませんでした。続行するには再度接続してください。",
-          "runtimeNoexec": "このホストでは ~/.orca-remote からのプログラムの実行が許可されていないため、Amoeba はそこでサーバーを起動できません。これは通常、ホームフォルダーが noexec でマウントされていることを意味します。ホストの管理者にそこでプログラムの実行を許可するよう依頼してから、再度接続してください。"
+          "runtimeNoexec": "このホストでは ~/.amoeba-remote からのプログラムの実行が許可されていないため、Amoeba はそこでサーバーを起動できません。これは通常、ホームフォルダーが noexec でマウントされていることを意味します。ホストの管理者にそこでプログラムの実行を許可するよう依頼してから、再度接続してください。"
         },
         "deltaMove": {
           "action": "新規プロジェクトを移動…",

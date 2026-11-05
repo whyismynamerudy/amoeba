@@ -8027,7 +8027,7 @@
         "OpenAiTranscriptionKeyDialog": {
           "fa83512e48": "保存密钥",
           "07b26f2742": "清除键",
-          "d246b2bdb3": "本地运行时密钥使用 Electron 加密存储（如果可用）存储在 ~/.orca 中。",
+          "d246b2bdb3": "本地运行时密钥使用 Electron 加密存储（如果可用）存储在 ~/.amoeba 中。",
           "c3380e4ca5": "sk-...",
           "2f797018f0": "API 密钥已配置",
           "16015322f9": "API密钥",
@@ -8729,7 +8729,7 @@
           "25b0004fbf": "终端活跃",
           "781cb74d22": "从终端窗格运行。",
           "cb02e00202": "终端",
-          "d8c988dab4": "~/.orca/keybindings.json",
+          "d8c988dab4": "~/.amoeba/keybindings.json",
           "shortcutUnavailable": "此快捷键已不再可用。"
         },
         "SourceControlAiActionRecipeDefaults": {
@@ -12829,7 +12829,7 @@
           "behindMigrating": "运行 Amoeba 服务器，它会在项目迁移完成后更新。",
           "behindCheckFailed": "运行 Amoeba 服务器；Amoeba 无法检查它是否落后于此应用。",
           "refusedBlockedReason": "此主机尚未设置 Amoeba。{{reason}}",
-          "runtimeNoexec": "此主机不允许执行 ~/.orca-remote 中的程序，因此 Amoeba 无法在那里启动服务器。这通常是因为主目录以 noexec 选项挂载。请联系主机管理员，允许在该目录中执行程序，然后重新连接。",
+          "runtimeNoexec": "此主机不允许执行 ~/.amoeba-remote 中的程序，因此 Amoeba 无法在那里启动服务器。这通常是因为主目录以 noexec 选项挂载。请联系主机管理员，允许在该目录中执行程序，然后重新连接。",
           "setupContactLost": "Amoeba 在设置服务器时失去了与此主机的联系。主机上没有任何进程被停止。请重新连接以继续。"
         },
         "deltaMove": {

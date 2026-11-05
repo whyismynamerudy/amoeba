@@ -1989,7 +1989,8 @@
           "linkedProjects_one": "This host’s Amoeba server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs and {{count}} automation there were not moved, and worktrees it created there show as external worktrees.",
           "linkedProjects_other": "This host’s Amoeba server already had {{paths}}, so this desktop now uses the server’s copy. This desktop’s tabs and {{count}} automations there were not moved, and worktrees it created there show as external worktrees.",
           "olderTerminals_one": "{{count}} terminal started by an older version of Amoeba is still running on this host, and it doesn’t stop on its own. Close it in that version of Amoeba or end it on the host, then reconnect.",
-          "olderTerminals_other": "{{count}} terminals started by an older version of Amoeba are still running on this host, and they don’t stop on their own. Close them in that version of Amoeba or end them on the host, then reconnect."
+          "olderTerminals_other": "{{count}} terminals started by an older version of Amoeba are still running on this host, and they don’t stop on their own. Close them in that version of Amoeba or end them on the host, then reconnect.",
+          "runtimeNoexec": "This host doesn’t allow running programs from ~/.amoeba-remote, so Amoeba can’t start its server there. This usually means the home folder is mounted with noexec. Ask the host’s administrator to allow running programs there, then connect again."
         },
         "sshManagedHostRemove": {
           "description": "Amoeba runs on {{label}}. Under Amoeba on your SSH hosts, use Stop… to remove Amoeba from the host, or Forget… if the host is gone. Then you can remove this SSH host.",

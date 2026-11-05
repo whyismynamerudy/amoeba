@@ -7381,7 +7381,7 @@
           "25b0004fbf": "Terminal ativo",
           "781cb74d22": "Executado a partir de painéis de terminal.",
           "cb02e00202": "Terminal",
-          "d8c988dab4": "~/.orca/keybindings.json",
+          "d8c988dab4": "~/.amoeba/keybindings.json",
           "shortcutUnavailable": "O atalho não está mais disponível."
         },
         "WorktreeSymlinksSection": {
@@ -7884,7 +7884,7 @@
         "OpenAiTranscriptionKeyDialog": {
           "fa83512e48": "Salvar Chave",
           "07b26f2742": "Limpar Chave",
-          "d246b2bdb3": "As chaves do runtime local são armazenadas em ~/.orca usando armazenamento criptografado do Electron quando disponível.",
+          "d246b2bdb3": "As chaves do runtime local são armazenadas em ~/.amoeba usando armazenamento criptografado do Electron quando disponível.",
           "c3380e4ca5": "sk-...",
           "2f797018f0": "Chave de API configurada",
           "16015322f9": "Chave de API",
@@ -8600,7 +8600,7 @@
           "behindNoTemplate": "Executa uma versão do servidor Amoeba que este aplicativo não consegue atualizar; esta compilação não tem um servidor para este host.",
           "behindMigrating": "Executa o servidor Amoeba, que será atualizado após a movimentação dos projetos terminar.",
           "behindCheckFailed": "Executa o servidor Amoeba; o Amoeba não conseguiu verificar se a versão está desatualizada em relação a este aplicativo.",
-          "runtimeNoexec": "Este host não permite executar programas em ~/.orca-remote, então o Amoeba não consegue iniciar o servidor lá. Isso geralmente significa que a pasta pessoal está montada com noexec. Peça ao administrador do host para permitir a execução de programas lá e conecte novamente.",
+          "runtimeNoexec": "Este host não permite executar programas em ~/.amoeba-remote, então o Amoeba não consegue iniciar o servidor lá. Isso geralmente significa que a pasta pessoal está montada com noexec. Peça ao administrador do host para permitir a execução de programas lá e conecte novamente.",
           "setupContactLost": "O Amoeba perdeu contato com este host ao configurar o servidor. Nada foi interrompido no host. Conecte novamente para continuar.",
           "nodeDownloadBlocked": "Nem este computador nem este host conseguiram baixar o Node.js, necessário para o servidor Amoeba. Use um espelho do Node.js ou verifique a rede nas duas máquinas.",
           "nodeDownloadBlockedNoMirror": "Nem este computador nem este host conseguiram baixar o Node.js, necessário para o servidor Amoeba. Verifique a rede ou o proxy nas duas máquinas e conecte novamente.",

@@ -8027,7 +8027,7 @@
         "OpenAiTranscriptionKeyDialog": {
           "fa83512e48": "키 저장",
           "07b26f2742": "키 지우기",
-          "d246b2bdb3": "로컬 런타임 키는 가능한 경우 Electron 암호화 저장소를 사용하여 ~/.orca에 저장됩니다.",
+          "d246b2bdb3": "로컬 런타임 키는 가능한 경우 Electron 암호화 저장소를 사용하여 ~/.amoeba에 저장됩니다.",
           "c3380e4ca5": "sk-...",
           "2f797018f0": "API 키가 구성됨",
           "16015322f9": "API 키",
@@ -8729,7 +8729,7 @@
           "25b0004fbf": "터미널 활성",
           "781cb74d22": "터미널 패널에서 실행됩니다.",
           "cb02e00202": "터미널",
-          "d8c988dab4": "~/.orca/keybindings.json",
+          "d8c988dab4": "~/.amoeba/keybindings.json",
           "shortcutUnavailable": "단축키를 더 이상 사용할 수 없습니다."
         },
         "SourceControlAiActionRecipeDefaults": {
@@ -12815,7 +12815,7 @@
           "behindMigrating": "Amoeba 서버를 실행합니다. 프로젝트 이동이 끝나면 업데이트됩니다.",
           "behindCheckFailed": "Amoeba 서버를 실행합니다. Amoeba가 이 앱보다 뒤처졌는지 확인하지 못했습니다.",
           "refusedBlockedReason": "아직 이 호스트에 Amoeba가 설정되지 않았습니다. {{reason}}",
-          "runtimeNoexec": "이 호스트는 ~/.orca-remote에서 프로그램 실행을 허용하지 않아 Amoeba 서버를 시작할 수 없습니다. 보통 홈 폴더가 noexec로 마운트되어 있을 때 발생합니다. 호스트 관리자에게 이 위치에서 프로그램 실행을 허용하도록 요청한 후 다시 연결하세요.",
+          "runtimeNoexec": "이 호스트는 ~/.amoeba-remote에서 프로그램 실행을 허용하지 않아 Amoeba 서버를 시작할 수 없습니다. 보통 홈 폴더가 noexec로 마운트되어 있을 때 발생합니다. 호스트 관리자에게 이 위치에서 프로그램 실행을 허용하도록 요청한 후 다시 연결하세요.",
           "setupContactLost": "서버를 설정하는 동안 Amoeba와 이 호스트의 연결이 끊겼습니다. 호스트의 어떤 프로세스도 중지되지 않았습니다. 계속하려면 다시 연결하세요."
         },
         "deltaMove": {
