@@ -119,7 +119,7 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('renders the exact executable and safely quotes original arguments', () => {
-    const result = recoveryError(
+    const result = orchestrationMutationRecoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_3',
         dispatchId: 'dispatch_3',
@@ -146,7 +146,7 @@ describe('orchestration mutation recovery', () => {
   })
 
   it('parses legacy command text without losing quoted arguments', () => {
-    const result = orchestrationMutationRecoveryError(
+    const result = recoveryError(
       new RuntimeClientError('runtime_timeout', 'request timed out', {
         orchestrationRequestId: 'request_4',
         originalCommand:
