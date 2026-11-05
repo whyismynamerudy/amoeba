@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
+import { AMOEBA_REPO_URL } from '../../../shared/amoeba-web-links'
 import { AlertTriangle, ExternalLink, FolderPlus, GitBranchPlus, Star, X } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { useAppStore } from '../store'
@@ -25,7 +26,7 @@ type ShortcutItem = {
 }
 
 // Do not deep-link to /stargazers: GitHub 404s that page for users without repo write access.
-const ORCA_GITHUB_URL = 'https://github.com/stablyai/orca'
+const ORCA_GITHUB_URL = AMOEBA_REPO_URL
 
 type StarButtonProps = {
   hasRepos: boolean

@@ -1,5 +1,6 @@
 import { ghExecFileAsync, acquire, release } from '../../gh-utils'
-export const ORCA_REPO = 'stablyai/orca'
+import { AMOEBA_REPO_SLUG } from '../../../../shared/amoeba-web-links'
+export const ORCA_REPO = AMOEBA_REPO_SLUG
 
 // Bound optional star prompts more tightly than user work; failures can fall back to the browser.
 const STAR_GH_TIMEOUT_MS = 15_000

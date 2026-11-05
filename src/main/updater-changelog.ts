@@ -1,4 +1,5 @@
 import { net } from 'electron'
+import { AMOEBA_CHANGELOG_URL } from '../shared/amoeba-web-links'
 import type { ChangelogData } from '../shared/update-status-types'
 import { compareVersions } from './updater-fallback'
 
@@ -10,7 +11,7 @@ type ChangelogEntry = {
   releaseNotesUrl: string
 }
 
-const CHANGELOG_URL = 'https://onorca.dev/changelog'
+const CHANGELOG_URL = AMOEBA_CHANGELOG_URL
 
 function isValidEntry(entry: ChangelogEntry): boolean {
   return (

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import { AMOEBA_REPO_URL } from '../../../../shared/amoeba-web-links'
 import { Check, ExternalLink, Loader2, Star, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { translate } from '@/i18n/i18n'
 
-const ORCA_REPO_URL = 'https://github.com/stablyai/orca'
+const ORCA_REPO_URL = AMOEBA_REPO_URL
 type StarNagMode = 'gh' | 'web'
 type StarNagToastStatus = 'idle' | 'busy' | 'starred' | 'opened'
 

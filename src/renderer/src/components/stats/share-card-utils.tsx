@@ -218,10 +218,7 @@ export function CardFooter(props: {
             marginLeft: 5
           }}
         >
-          {translate(
-            'auto.components.stats.share.card.utils.19f4b4dc75',
-            'github.com/stablyai/orca'
-          )}
+          {translate('auto.components.stats.share.card.utils.19f4b4dc75', 'amoeba.sh')}
         </span>
       </div>
     </div>

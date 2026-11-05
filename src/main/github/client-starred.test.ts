@@ -53,7 +53,7 @@ describe('checkOrcaStarred', () => {
     await expect(checkOrcaStarred()).resolves.toBe(true)
 
     expect(ghExecFileAsyncMock).toHaveBeenCalledWith(
-      ['api', '--include', 'user/starred/stablyai/orca'],
+      ['api', '--include', 'user/starred/whyismynamerudy/amoeba'],
       expect.objectContaining({ encoding: 'utf-8' })
     )
   })
@@ -146,7 +146,7 @@ describe('starOrca', () => {
 
     expect(execFileAsyncMock).not.toHaveBeenCalled()
     const [args, options] = ghExecFileAsyncMock.mock.calls[0]
-    expect(args).toEqual(['api', '-X', 'PUT', 'user/starred/stablyai/orca'])
+    expect(args).toEqual(['api', '-X', 'PUT', 'user/starred/whyismynamerudy/amoeba'])
     expect(options.timeout).toBeGreaterThan(0)
     expect(releaseMock).toHaveBeenCalledTimes(1)
   })

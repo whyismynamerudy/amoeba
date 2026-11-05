@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { amoebaWebsiteUrl } from '../../../../shared/amoeba-web-links'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import {
@@ -238,7 +239,7 @@ export function TerminalWindowsAdministratorSection(): React.JSX.Element {
                 size="sm"
                 onClick={() =>
                   void window.api.shell.openUrl(
-                    'https://www.onorca.dev/docs/terminal#windows-administrator-mode'
+                    amoebaWebsiteUrl('/docs/terminal#windows-administrator-mode')
                   )
                 }
               >

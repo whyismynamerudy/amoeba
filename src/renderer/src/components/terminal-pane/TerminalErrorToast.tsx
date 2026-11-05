@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { AMOEBA_ISSUES_URL } from '../../../../shared/amoeba-web-links'
 import { translate } from '@/i18n/i18n'
 import { resolveClientEnvironmentFooter } from '@/lib/client-environment-info'
 import {
@@ -340,10 +341,7 @@ export function TerminalErrorToast({
                 'auto.components.terminal.pane.TerminalErrorToast.5c8ce20be6',
                 'If this persists, please'
               )}{' '}
-              <a
-                href="https://github.com/stablyai/orca/issues"
-                style={{ color: 'inherit', textDecoration: 'underline' }}
-              >
+              <a href={AMOEBA_ISSUES_URL} style={{ color: 'inherit', textDecoration: 'underline' }}>
                 {translate(
                   'auto.components.terminal.pane.TerminalErrorToast.a7e2fd2699',
                   'file an issue'

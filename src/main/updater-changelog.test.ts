@@ -73,7 +73,7 @@ describe('fetchChangelog', () => {
     expect(result).not.toBeNull()
     expect(result!.release.title).toBe('Release 1.1.17')
     expect(result!.release.description).toBe('Cool feature')
-    expect(result!.release.releaseNotesUrl).toBe('https://onorca.dev/changelog')
+    expect(result!.release.releaseNotesUrl).toBe('https://www.amoeba.sh/changelog')
     expect(result!.releasesBehind).toBe(2)
   })
 
@@ -93,7 +93,7 @@ describe('fetchChangelog', () => {
 
     expect(result).not.toBeNull()
     expect(result!.release.title).toBe('Release 1.1.17')
-    expect(result!.release.releaseNotesUrl).toBe('https://onorca.dev/changelog')
+    expect(result!.release.releaseNotesUrl).toBe('https://www.amoeba.sh/changelog')
     expect(result!.releasesBehind).toBe(2)
   })
 
@@ -156,7 +156,7 @@ describe('fetchChangelog', () => {
 
     expect(result).not.toBeNull()
     expect(result!.release.title).toBe('Release 1.1.18')
-    expect(result!.release.releaseNotesUrl).toBe('https://onorca.dev/changelog')
+    expect(result!.release.releaseNotesUrl).toBe('https://www.amoeba.sh/changelog')
   })
 
   it('shows rich entry when local version is not in JSON (very old user)', async () => {
@@ -174,7 +174,7 @@ describe('fetchChangelog', () => {
 
     expect(result).not.toBeNull()
     expect(result!.release.title).toBe('Release 1.1.17')
-    expect(result!.release.releaseNotesUrl).toBe('https://onorca.dev/changelog')
+    expect(result!.release.releaseNotesUrl).toBe('https://www.amoeba.sh/changelog')
     expect(result!.releasesBehind).toBeNull()
   })
 
