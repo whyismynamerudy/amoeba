@@ -40,7 +40,12 @@ export function registerConductorImportHandlers(): void {
   ipcMain.handle('conductorImport:saveChats', (_event, chats: unknown): ConductorImportedChat[] =>
     importedChats.save(chats)
   )
-  ipcMain.handle('conductorImport:forgetChat', (_event, id: unknown): ConductorImportedChat[] =>
-    importedChats.forget(id)
+  ipcMain.handle(
+    'conductorImport:forgetChat',
+    (_event, id: unknown, opened: unknown): ConductorImportedChat[] =>
+      importedChats.forget(id, opened)
+  )
+  ipcMain.handle('conductorImport:openedTimes', (): Record<string, number> =>
+    importedChats.openedTimes()
   )
 }

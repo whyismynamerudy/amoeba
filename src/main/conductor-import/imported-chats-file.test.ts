@@ -42,6 +42,14 @@ describe('ImportedChatsFile', () => {
     ])
   })
 
+  it('remembers an opened chat’s original activity under its new Amoeba session', () => {
+    const file = new ImportedChatsFile(userData())
+    file.save([{ ...chat('a', 'A'), updatedAt: 42 }])
+    file.forget('a', { sessionId: 'claude_1' })
+
+    expect(file.openedTimes()).toEqual({ claude_1: 42 })
+  })
+
   it('reads the bare array earlier builds wrote', () => {
     const root = userData()
     writeFileSync(join(root, 'conductor-imported-chats.json'), JSON.stringify([chat('a', 'A')]))

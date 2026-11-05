@@ -69,6 +69,8 @@ export type ProjectTaskSources = {
   signalsByTabId: ReadonlyMap<string, ProjectTaskSignal>
   generatedTitlesEnabled: boolean
   importedChats?: readonly ConductorImportedChat[]
+  /** Amoeba session id → an opened import's original last activity; opening a chat is not activity. */
+  importedChatTimes?: Readonly<Record<string, number>>
 }
 
 function shortBranchName(branch: string): string | null {
@@ -92,7 +94,8 @@ export function findLocalWorktree(repo: Repo, worktrees: readonly Worktree[]): W
 function buildConversation(
   tab: Tab,
   signal: ProjectTaskSignal | undefined,
-  generatedTitlesEnabled: boolean
+  generatedTitlesEnabled: boolean,
+  importedTime: number | undefined
 ): ProjectTaskConversation | null {
   if (tab.contentType !== 'agent-session' && tab.contentType !== 'terminal') {
     return null
@@ -111,7 +114,7 @@ function buildConversation(
     unread: signal?.unread ?? false,
     createdAt: tab.createdAt,
     // A reopened tab is new, but its conversation is as recent as its last agent activity.
-    updatedAt: signal?.latestTimestamp || tab.createdAt
+    updatedAt: signal?.latestTimestamp || importedTime || tab.createdAt
   }
 }
 
@@ -194,7 +197,12 @@ export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTask
         // Agent panes key terminals by their terminal tab id, which is the unified tab's entity.
         const signal =
           sources.signalsByTabId.get(tab.id) ?? sources.signalsByTabId.get(tab.entityId)
-        const conversation = buildConversation(tab, signal, sources.generatedTitlesEnabled)
+        const conversation = buildConversation(
+          tab,
+          signal,
+          sources.generatedTitlesEnabled,
+          sources.importedChatTimes?.[tab.entityId]
+        )
         return conversation ? [conversation] : []
       })
       const imported = [...(importedByPath.get(normalizedPath(worktree.path)) ?? [])]

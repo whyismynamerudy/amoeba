@@ -91,6 +91,29 @@ describe('buildProjectTaskGroups', () => {
     expect(group?.tasks[0]?.conversations.map((c) => c.id)).toEqual(['second', 'first'])
   })
 
+  it('keeps an opened import at its original activity time instead of jumping to now', () => {
+    const [group] = buildProjectTaskGroups({
+      repos: [makeRepo()],
+      worktreesByProject: { 'repo-1': [linked] },
+      unifiedTabsByWorktree: {
+        'wt-feature': [
+          tab({
+            id: 'resumed',
+            entityId: 'session-1',
+            worktreeId: 'wt-feature',
+            contentType: 'agent-session',
+            createdAt: 9_000
+          })
+        ]
+      },
+      signalsByTabId: new Map(),
+      generatedTitlesEnabled: false,
+      importedChatTimes: { 'session-1': 40 }
+    })
+
+    expect(group?.tasks[0]?.updatedAt).toBe(40)
+  })
+
   it('counts agent terminals, drops plain shells, and surfaces the most urgent state', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],

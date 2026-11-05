@@ -19,7 +19,21 @@ function isImportedChat(value: unknown): value is ConductorImportedChat {
   )
 }
 
-type ImportedChatsState = { chats: ConductorImportedChat[]; openedIds: string[] }
+type ImportedChatsState = {
+  chats: ConductorImportedChat[]
+  openedIds: string[]
+  /** Amoeba session id → the source chat's last activity, so opening one is not new activity. */
+  openedTimes: Record<string, number>
+}
+
+function readOpenedTimes(value: unknown): Record<string, number> {
+  if (typeof value !== 'object' || value === null) {
+    return {}
+  }
+  return Object.fromEntries(
+    Object.entries(value).filter((entry): entry is [string, number] => typeof entry[1] === 'number')
+  )
+}
 
 /** Imported chats that have not been opened yet; opening one resumes it and drops it from this list. */
 export class ImportedChatsFile {
@@ -45,19 +59,32 @@ export class ImportedChatsFile {
       }
     }
     const next = [...byId.values()]
-    this.write({ chats: next, openedIds: state.openedIds })
+    this.write({ ...state, chats: next })
     return next
   }
 
+  openedTimes(): Record<string, number> {
+    return this.read().openedTimes
+  }
+
   /** Called once a chat is resumed: it now lives in Amoeba, so later imports must not bring it back. */
-  forget(id: unknown): ConductorImportedChat[] {
+  forget(id: unknown, opened?: unknown): ConductorImportedChat[] {
     const state = this.read()
+    const forgotten = state.chats.find((chat) => chat.id === id)
     const next = state.chats.filter((chat) => chat.id !== id)
     const openedIds =
       typeof id === 'string' && !state.openedIds.includes(id)
         ? [...state.openedIds, id]
         : state.openedIds
-    this.write({ chats: next, openedIds })
+    const sessionId =
+      typeof opened === 'object' && opened !== null && 'sessionId' in opened
+        ? opened.sessionId
+        : null
+    const openedTimes =
+      forgotten && typeof sessionId === 'string'
+        ? { ...state.openedTimes, [sessionId]: forgotten.updatedAt }
+        : state.openedTimes
+    this.write({ chats: next, openedIds, openedTimes })
     return next
   }
 
@@ -66,7 +93,7 @@ export class ImportedChatsFile {
       const parsed: unknown = JSON.parse(readFileSync(this.path, 'utf8'))
       // Earlier builds wrote a bare array of pending chats.
       if (Array.isArray(parsed)) {
-        return { chats: parsed.filter(isImportedChat), openedIds: [] }
+        return { chats: parsed.filter(isImportedChat), openedIds: [], openedTimes: {} }
       }
       const record: Record<string, unknown> =
         typeof parsed === 'object' && parsed !== null ? { ...parsed } : {}
@@ -74,10 +101,11 @@ export class ImportedChatsFile {
         chats: Array.isArray(record.chats) ? record.chats.filter(isImportedChat) : [],
         openedIds: Array.isArray(record.openedIds)
           ? record.openedIds.filter((id): id is string => typeof id === 'string')
-          : []
+          : [],
+        openedTimes: readOpenedTimes(record.openedTimes)
       }
     } catch {
-      return { chats: [], openedIds: [] }
+      return { chats: [], openedIds: [], openedTimes: {} }
     }
   }
 

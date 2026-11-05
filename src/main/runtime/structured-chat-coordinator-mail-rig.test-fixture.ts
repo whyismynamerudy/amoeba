@@ -290,7 +290,7 @@ afterEach(async () => {
 export const WAIT = { timeout: 10_000, interval: 10 }
 
 export const POINTER =
-  /You have 1 orchestration message\. Run `orca(-dev)? orchestration check --run run_\w+`\./
+  /You have 1 orchestration message\. Run `amoeba(-dev)? orchestration check --run run_\w+`\./
 
 /** Exact PTY mailbox pointer, including CLI spelling. */
 export function ptyPointer(mailboxHandle: string): string {

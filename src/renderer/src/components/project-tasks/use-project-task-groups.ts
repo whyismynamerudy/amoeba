@@ -38,6 +38,7 @@ export function useProjectTaskGroups(): ProjectTaskGroup[] {
   const unifiedTabsByWorktree = useAppStore((s) => s.unifiedTabsByWorktree)
   const generatedTitlesEnabled = useAppStore((s) => s.settings?.tabAutoGenerateTitle === true)
   const importedChats = useImportedConductorChats((s) => s.chats)
+  const importedChatTimes = useImportedConductorChats((s) => s.openedTimes)
   const loadImportedChats = useImportedConductorChats((s) => s.load)
   useEffect(() => {
     void loadImportedChats()
@@ -58,8 +59,17 @@ export function useProjectTaskGroups(): ProjectTaskGroup[] {
         unifiedTabsByWorktree,
         signalsByTabId: signals,
         generatedTitlesEnabled,
-        importedChats
+        importedChats,
+        importedChatTimes
       }),
-    [repos, worktreesByRepo, unifiedTabsByWorktree, signals, generatedTitlesEnabled, importedChats]
+    [
+      repos,
+      worktreesByRepo,
+      unifiedTabsByWorktree,
+      signals,
+      generatedTitlesEnabled,
+      importedChats,
+      importedChatTimes
+    ]
   )
 }

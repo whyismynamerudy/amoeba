@@ -62,7 +62,7 @@ export function resumeImportedConductorChat(worktreeId: string, chat: ConductorI
       if (tab) {
         state.setTabCustomLabel(tab.id, chat.title)
       }
-      void useImportedConductorChats.getState().forget(chat.id)
+      void useImportedConductorChats.getState().forget(chat.id, { sessionId: settlement.sessionId })
       return
     }
     if (settlement.kind !== 'failed') {

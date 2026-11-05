@@ -159,6 +159,8 @@ function seedWorkspace(options: { helper?: boolean } = {}): void {
     settings: {
       ...getDefaultSettings(''),
       ...initialAppStoreState.settings,
+      // Orca's classic shell: activating an empty workspace seeds a fresh terminal.
+      projectTasksSidebar: false,
       agentCmdOverrides: {},
       agentDefaultArgs: { codex: '--dangerously-bypass-approvals-and-sandbox' }
     },

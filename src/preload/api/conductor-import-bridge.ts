@@ -9,7 +9,8 @@ export type ConductorImportApi = {
   scanOrca: () => Promise<ConductorImportScan>
   listChats: () => Promise<ConductorImportedChat[]>
   saveChats: (chats: ConductorImportedChat[]) => Promise<ConductorImportedChat[]>
-  forgetChat: (id: string) => Promise<ConductorImportedChat[]>
+  forgetChat: (id: string, opened?: { sessionId: string }) => Promise<ConductorImportedChat[]>
+  openedTimes: () => Promise<Record<string, number>>
 }
 
 export const conductorImportApi: ConductorImportApi = {
@@ -17,5 +18,6 @@ export const conductorImportApi: ConductorImportApi = {
   scanOrca: () => ipcRenderer.invoke('conductorImport:scanOrca'),
   listChats: () => ipcRenderer.invoke('conductorImport:listChats'),
   saveChats: (chats) => ipcRenderer.invoke('conductorImport:saveChats', chats),
-  forgetChat: (id) => ipcRenderer.invoke('conductorImport:forgetChat', id)
+  forgetChat: (id, opened) => ipcRenderer.invoke('conductorImport:forgetChat', id, opened),
+  openedTimes: () => ipcRenderer.invoke('conductorImport:openedTimes')
 }
