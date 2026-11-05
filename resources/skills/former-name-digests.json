@@ -1,11 +1,23 @@
 {
   "schemaVersion": 1,
   "skills": {
-    "orca-cli": ["2270f40e80507e2791f556a8c3decb2c557b4b7979b6700c145f91c8ff2cf75e"],
-    "orca-emulator": ["1ce72b14efe3e24b0ddce4cad7e07d17c7d3178a8851ae03904b42f5f0993c1e"],
-    "orca-emulator-android": ["abaa3df00b91b4eb0595873e5753eb83ca2639a91fa2ffcfb671f8b652aba2bc"],
-    "orca-jira": ["80d966cb12b0c5eb9e32cd9ab535338b0513ab214ebe10f51fb6e5b91bb919a9"],
-    "orca-linear": ["57b1e6b3416f05fe02db549f0c11c26810189e7b8489adf3fd6ff15be5507403"],
-    "orca-per-workspace-env": ["d3005e3d580a25619865f1691f605f345cf4e125e7ada44538808331b5d1ed08"]
+    "orca-cli": [
+      "2270f40e80507e2791f556a8c3decb2c557b4b7979b6700c145f91c8ff2cf75e"
+    ],
+    "orca-emulator": [
+      "1ce72b14efe3e24b0ddce4cad7e07d17c7d3178a8851ae03904b42f5f0993c1e"
+    ],
+    "orca-emulator-android": [
+      "abaa3df00b91b4eb0595873e5753eb83ca2639a91fa2ffcfb671f8b652aba2bc"
+    ],
+    "orca-jira": [
+      "80d966cb12b0c5eb9e32cd9ab535338b0513ab214ebe10f51fb6e5b91bb919a9"
+    ],
+    "orca-linear": [
+      "57b1e6b3416f05fe02db549f0c11c26810189e7b8489adf3fd6ff15be5507403"
+    ],
+    "orca-per-workspace-env": [
+      "d3005e3d580a25619865f1691f605f345cf4e125e7ada44538808331b5d1ed08"
+    ]
   }
 }
