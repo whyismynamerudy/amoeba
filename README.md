@@ -15,6 +15,24 @@
   <img src="docs/assets/amoeba/home.png" alt="Amoeba's home screen: a projects and tasks sidebar beside the 'What should we build?' composer" width="960" />
 </p>
 
+## Install
+
+On a Mac with Apple Silicon, install with [Homebrew](https://brew.sh):
+
+```bash
+brew install --cask whyismynamerudy/amoeba/amoeba
+```
+
+This installs `Amoeba.app` and puts the `amoeba` command on your PATH. To update:
+
+```bash
+brew update && brew upgrade --cask amoeba
+```
+
+Amoeba isn't signed with an Apple Developer ID yet, so the cask clears macOS's quarantine flag to let it open without a Gatekeeper warning. macOS may ask you to grant folder and accessibility permissions again after an update.
+
+On Intel Macs, Linux and Windows, [build from source](#build-and-run).
+
 ## What it does
 
 - **Projects and tasks.** The sidebar lists your projects and, under each, its tasks: one row per workspace, newest activity first.
