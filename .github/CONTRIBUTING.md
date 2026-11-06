@@ -14,6 +14,50 @@ Thanks for contributing to Amoeba.
 - Keep changes well-engineered and performant: follow existing architecture, avoid unnecessary work in hot paths, clean up owned resources, and use concrete module names.
 - For UI work, follow [`docs/STYLEGUIDE.md`](../docs/STYLEGUIDE.md), use the tokens and shadcn primitives it specifies, and verify polished behavior across platforms, light/dark mode, and SSH latency.
 
+## Fork, Branch, and Open a Pull Request
+
+Anyone can contribute through a fork; you do not need collaborator access. Open an issue
+for a bug or proposed change before starting substantial work so scope can be discussed.
+
+1. Fork [whyismynamerudy/amoeba](https://github.com/whyismynamerudy/amoeba) on GitHub.
+2. Clone your fork and add the original repository as `upstream` (replace `YOUR_USERNAME`):
+
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/amoeba.git
+   cd amoeba
+   git remote add upstream https://github.com/whyismynamerudy/amoeba.git
+   git fetch upstream
+   git switch -c fix/describe-your-change upstream/main
+   ```
+
+3. Follow the local setup below, make your changes, and run the relevant checks.
+4. Commit the files belonging to your change and push your branch to your fork:
+
+   ```bash
+   git add <changed-files>
+   git commit -m "Describe the change"
+   git push -u origin fix/describe-your-change
+   ```
+
+5. Open a pull request with **base repository `whyismynamerudy/amoeba`, base branch
+   `main`**, and your fork's feature branch as the head. Fill out the PR template,
+   link the relevant issue, and describe what you tested. Draft PRs are welcome for
+   work that is not ready for review.
+6. Respond to review feedback and push follow-up commits to the same branch; the
+   pull request updates automatically.
+
+To bring newer upstream changes into your feature branch, run `git fetch upstream`
+and `git merge upstream/main`, resolve any conflicts, then rerun the relevant checks.
+
+### Who Can Merge?
+
+The repository owner, **@whyismynamerudy**, reviews and merges contributions into
+`main`. Opening a PR or receiving approval does not grant merge access.
+The active `Owner-only main` ruleset restricts updates to repository admins through
+pull requests only. The owner is currently the sole admin; granting another person
+admin access would also grant them this permission. Direct pushes to `main` are
+blocked, including the owner's. Maintainers must also use a branch and pull request.
+
 ## Local Setup
 
 Install Node 24, pnpm, and the Bun version in [`config/.bun-version`](../config/.bun-version).
@@ -166,14 +210,20 @@ Avoid vague names like `test`, `misc`, or `changes`.
 
 ## Before Opening a PR
 
-Run the same checks that CI runs:
+Run the changed-file checks before requesting review:
 
 ```bash
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm build
+pnpm check:changed --maxWorkers=2
 ```
+
+For a fork checkout, `origin/main` belongs to your fork. Keep it current with
+`upstream/main` so checks that compare against `origin/main` use a recent baseline.
+Run focused tests for the behavior you changed (see [Targeting Local Tests](#targeting-local-tests)).
+Broader checks are available with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and
+`pnpm build` when the scope warrants them. Report the commands you ran and any
+failures or checks you could not run; do not describe unrun checks as passing.
+When running tests or launching the app through automation, set
+`ORCA_BACKGROUND_LAUNCH=1` as required by [`AGENTS.md`](../AGENTS.md).
 
 For repeated local typechecks, use `pnpm tc` (or `pnpm tc:node`, `pnpm tc:web`,
 and `pnpm tc:cli`). On Apple Silicon macOS and x64/arm64 Linux, these use the pinned
@@ -206,9 +256,9 @@ Each pull request should follow [`.github/pull_request_template.md`](./pull_requ
 - explain what changed and why, and stay focused on a single topic when possible
 - for any UI or interaction change, attach **before and after** screenshots (or short videos); if there is no visual or interaction change, write `N/A` and briefly explain why
 - include high-quality tests when behavior changes or bug fixes warrant them
-- include a brief code review summary from your AI coding agent that explicitly checks cross-platform compatibility, SSH/remote/local compatibility, supported agent and integration compatibility, performance risk, UI quality when applicable, and basic security risk
+- include a brief self-review (or AI-assisted review, if used) that explicitly checks cross-platform compatibility, SSH/remote/local compatibility, supported agent and integration compatibility, performance risk, UI quality when applicable, and basic security risk
 - mention any platform-specific, remote/SSH-specific, agent-specific, integration-specific, or git-provider-specific behavior and testing notes
-- **Include your X (Twitter) handle** in the PR template Author section — we shout out contributors when we merge features on [@orca_build](https://x.com/orca_build).
+- social media handles are optional; they are not required to contribute.
 
 ## Release Process
 
