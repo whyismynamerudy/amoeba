@@ -22,14 +22,34 @@ function parseTranscriptEntry(line: string): SessionStoreEntry | undefined {
   }
 }
 
+/** Move a `cwd` at or under `from` to the same place under `to`; other folders stay as recorded. */
+function retargetTranscriptCwd(
+  entry: SessionStoreEntry,
+  from: string,
+  to: string
+): SessionStoreEntry {
+  const cwd = entry.cwd
+  if (typeof cwd !== 'string') {
+    return entry
+  }
+  if (cwd === from) {
+    return { ...entry, cwd: to }
+  }
+  return cwd.startsWith(`${from}/`) || cwd.startsWith(`${from}\\`)
+    ? { ...entry, cwd: `${to}${cwd.slice(from.length)}` }
+    : entry
+}
+
 /** Use Claude's fork implementation for branch selection, compaction and UUID remapping.
- *  Without `upToMessageId` the whole conversation is copied. */
+ *  Without `upToMessageId` the whole conversation is copied. With `cwd`, the copy is re-homed
+ *  there: entries recorded in the source folder now record `cwd`. */
 export async function forkClaudeTranscriptFile(
   sourcePath: string,
-  options: { sourceSessionId: string; upToMessageId?: string; destinationDir: string }
+  options: { sourceSessionId: string; upToMessageId?: string; destinationDir: string; cwd?: string }
 ): Promise<{ sessionId: string; resumeCursor: string }> {
   const { forkSession } = await loadClaudeAgentSdk()
   let resumeCursor: string | undefined
+  let sourceCwd: string | undefined
   const result = await forkSession(options.sourceSessionId, {
     ...(options.upToMessageId ? { upToMessageId: options.upToMessageId } : {}),
     // Pin reads and writes to the resolved account without mutating process.env.
@@ -44,11 +64,19 @@ export async function forkClaudeTranscriptFile(
           // Tolerate crash-torn lines like the SDK reader.
           if (entry) {
             entries.push(entry)
+            sourceCwd ??= typeof entry.cwd === 'string' ? entry.cwd : undefined
           }
         }
         return entries
       },
-      append: async (key, entries) => {
+      append: async (key, forkedEntries) => {
+        // Adoption checks a transcript's first cwd against the folder it resumes in.
+        const target = options.cwd
+        const from = sourceCwd
+        const entries =
+          target && from && from !== target
+            ? forkedEntries.map((entry) => retargetTranscriptCwd(entry, from, target))
+            : forkedEntries
         resumeCursor = entries.findLast(
           (entry) => entry.type === 'assistant' || entry.type === 'user'
         )?.uuid

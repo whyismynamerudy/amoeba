@@ -9,6 +9,7 @@ import type { Tab } from '../../../../shared/tab-types'
 import { resumeConversationAsChat } from './conversation-chat-resume'
 import { runNativeChatCliFork } from '@/components/tab-bar/native-chat-cli-fork-run'
 import { resolveTabSessionHistorySubject } from '@/components/tab-bar/tab-session-history-switch'
+import { runWorktreeDelete } from '@/components/sidebar/delete-worktree-flow'
 import { AI_VAULT_AGENTS } from '../../../../shared/ai-vault-types'
 
 export type ChatForkTarget = 'chat' | 'workspace' | 'terminal'
@@ -103,6 +104,7 @@ export async function forkChat(args: {
       ? translate('projectTasks.fork.workspaceProgress', 'Forking into a new workspace…')
       : translate('projectTasks.fork.chatProgress', 'Forking the chat…')
   )
+  let createdWorkspaceId: string | null = null
   try {
     const source = getWorktreeMapFromState(state).get(args.worktreeId)
     if (!source) {
@@ -112,6 +114,9 @@ export async function forkChat(args: {
       args.target === 'workspace'
         ? await createForkWorkspace(args.worktreeId, title)
         : { id: args.worktreeId, path: source.path }
+    if (args.target === 'workspace') {
+      createdWorkspaceId = target.id
+    }
     const copy = await window.api.chatFork.copyConversation({
       sessionId: args.tab.entityId,
       workspaceId: args.worktreeId,
@@ -130,9 +135,19 @@ export async function forkChat(args: {
     }
     toast.dismiss(progress)
   } catch (error) {
+    const workspaceId = createdWorkspaceId
     toast.error(translate('projectTasks.fork.failedTitle', 'Could not fork this chat'), {
       id: progress,
-      description: error instanceof Error ? error.message : undefined
+      description: error instanceof Error ? error.message : undefined,
+      // The new workspace holds a copy of the source's work; the standard delete flow confirms before removing it.
+      ...(workspaceId
+        ? {
+            action: {
+              label: translate('projectTasks.fork.removeWorkspace', 'Remove workspace'),
+              onClick: () => runWorktreeDelete(workspaceId)
+            }
+          }
+        : {})
     })
   }
 }
