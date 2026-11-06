@@ -1,4 +1,5 @@
 import { inspectCodexEnvironmentConfig } from './setup-script-import-codex-environment'
+import { inspectConductorConfig } from './setup-script-import-conductor'
 import { inspectPackageManagerSetupCandidate } from './setup-script-package-manager-suggestion'
 import type { SetupScriptImportProvider } from './setup-script-import-providers'
 import {
@@ -28,7 +29,6 @@ export type SetupScriptImportFileExists = (relativePath: string) => Promise<bool
 
 const SUPERSET_CONFIG_PATH = '.superset/config.json'
 const SUPERSET_LOCAL_CONFIG_PATH = '.superset/config.local.json'
-const CONDUCTOR_CONFIG_PATH = 'conductor.json'
 const CMUX_CONFIG_PATHS = ['.cmux/cmux.json', 'cmux.json'] as const
 
 export async function inspectSetupScriptImportCandidates(
@@ -97,40 +97,6 @@ async function inspectSupersetConfig(
         'teardown',
         unsupportedFields
       ) || undefined,
-    unsupportedFields
-  }
-}
-
-async function inspectConductorConfig(
-  readFile: SetupScriptImportFileRead
-): Promise<SetupScriptImportCandidate | null> {
-  const config = parseJsonObject(await readFile(CONDUCTOR_CONFIG_PATH))
-  const scripts = asRecord(config?.scripts)
-  if (!config || !scripts) {
-    return null
-  }
-
-  const setup = normalizeSetupScriptImportCommand(scripts.setup)
-  if (!setup) {
-    return null
-  }
-
-  const unsupportedFields = collectUnsupportedFields(config, [
-    'enterpriseDataPrivacy',
-    'runScriptMode'
-  ])
-  for (const field of ['run', 'teardown'] as const) {
-    if (normalizeSetupScriptImportCommand(scripts[field])) {
-      unsupportedFields.push(`scripts.${field}`)
-    }
-  }
-
-  return {
-    provider: 'conductor',
-    label: 'Conductor',
-    files: [CONDUCTOR_CONFIG_PATH],
-    setup,
-    archive: normalizeSetupScriptImportCommand(scripts.archive) || undefined,
     unsupportedFields
   }
 }

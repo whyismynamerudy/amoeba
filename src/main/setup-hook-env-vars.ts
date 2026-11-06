@@ -7,6 +7,7 @@ export const SETUP_RUNNER_PATH_ENV_KEYS = [
   'ORCA_ROOT_PATH',
   'ORCA_WORKTREE_PATH',
   'CONDUCTOR_ROOT_PATH',
+  'CONDUCTOR_WORKSPACE_PATH',
   'GHOSTX_ROOT_PATH'
 ] as const
 
@@ -15,8 +16,10 @@ export function getSetupEnvVars(repo: Repo, worktreePath: string): Record<string
     ORCA_ROOT_PATH: repo.path,
     ORCA_WORKTREE_PATH: worktreePath,
     ORCA_WORKSPACE_NAME: getRuntimePathBasename(worktreePath),
-    // Legacy conductor.json compatibility.
+    // Setup scripts imported from Conductor read its variable names.
     CONDUCTOR_ROOT_PATH: repo.path,
+    CONDUCTOR_WORKSPACE_PATH: worktreePath,
+    CONDUCTOR_WORKSPACE_NAME: getRuntimePathBasename(worktreePath),
     GHOSTX_ROOT_PATH: repo.path
   }
 }

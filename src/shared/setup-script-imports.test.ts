@@ -289,6 +289,60 @@ describe('inspectSetupScriptImportCandidates', () => {
     ])
   })
 
+  it('imports Conductor settings.toml ahead of the legacy conductor.json', async () => {
+    const candidates = await inspectSetupScriptImportCandidates(
+      makeReader({
+        '.conductor/settings.toml': `
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+file_include_globs = """
+.env*
+"""
+
+[scripts]
+setup = "uv tool install graphifyy 2>/dev/null || true; pnpm install"
+archive = "pnpm clean"
+run_mode = "concurrent"
+
+[scripts.run.dev]
+command = "pnpm dev --port \${CONDUCTOR_PORT:-3000}"
+default = true
+`,
+        'conductor.json': JSON.stringify({ scripts: { setup: 'npm install' } })
+      })
+    )
+
+    expect(candidates).toEqual([
+      {
+        provider: 'conductor',
+        label: 'Conductor',
+        files: ['.conductor/settings.toml'],
+        setup: 'uv tool install graphifyy 2>/dev/null || true; pnpm install',
+        archive: 'pnpm clean',
+        unsupportedFields: ['file_include_globs', 'scripts.run', 'scripts.run_mode']
+      }
+    ])
+  })
+
+  it("lets Conductor's machine-local settings override the shared setup", async () => {
+    const candidates = await inspectSetupScriptImportCandidates(
+      makeReader({
+        '.conductor/settings.toml': '[scripts]\nsetup = "pnpm install"\narchive = "pnpm clean"',
+        '.conductor/settings.local.toml': '[scripts]\nsetup = "pnpm install --offline"'
+      })
+    )
+
+    expect(candidates).toEqual([
+      {
+        provider: 'conductor',
+        label: 'Conductor',
+        files: ['.conductor/settings.toml', '.conductor/settings.local.toml'],
+        setup: 'pnpm install --offline',
+        archive: 'pnpm clean',
+        unsupportedFields: []
+      }
+    ])
+  })
+
   it('imports setup and cleanup scripts from Codex environment config', async () => {
     const candidates = await inspectSetupScriptImportCandidates(
       makeReader({

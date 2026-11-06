@@ -54,11 +54,16 @@ function applyWslenvPassthrough(
 function worktreeSetupWslenvEntries(env: Record<string, string | undefined>): string[] {
   return [
     // Hooks need raw host paths translated (/p) and already-Linux paths unchanged (/u) (#9206).
-    ...['ORCA_ROOT_PATH', 'ORCA_WORKTREE_PATH', 'CONDUCTOR_ROOT_PATH', 'GHOSTX_ROOT_PATH'].map(
-      (name) => `${name}/${env[name]?.startsWith('/') ? 'u' : 'p'}`
-    ),
-    // A display name, never a path.
-    'ORCA_WORKSPACE_NAME/u'
+    ...[
+      'ORCA_ROOT_PATH',
+      'ORCA_WORKTREE_PATH',
+      'CONDUCTOR_ROOT_PATH',
+      'CONDUCTOR_WORKSPACE_PATH',
+      'GHOSTX_ROOT_PATH'
+    ].map((name) => `${name}/${env[name]?.startsWith('/') ? 'u' : 'p'}`),
+    // Display names, never paths.
+    'ORCA_WORKSPACE_NAME/u',
+    'CONDUCTOR_WORKSPACE_NAME/u'
   ]
 }
 
