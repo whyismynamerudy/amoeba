@@ -20,6 +20,14 @@ tag="v$version"
 [[ "$(uname -s)" == Darwin && "$(uname -m)" == arm64 ]] || die "run this on an Apple Silicon Mac"
 cd "$(git rev-parse --show-toplevel)"
 gh auth status >/dev/null 2>&1 || die "gh is not logged in"
+# Without user.email git guesses from the hostname, which fails on a bare name like "Mac".
+if ! git var GIT_COMMITTER_IDENT >/dev/null 2>&1; then
+  read -r gh_id gh_login < <(gh api user --jq '"\(.id) \(.login)"')
+  GIT_AUTHOR_NAME="$(gh api user --jq '.name // .login')"
+  GIT_AUTHOR_EMAIL="$gh_id+$gh_login@users.noreply.github.com"
+  export GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
+  export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME" GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+fi
 [[ -z "$(git status --porcelain)" ]] || die "commit or discard local changes first"
 git fetch -q origin main
 [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]] || die "HEAD must match origin/main"
