@@ -78,7 +78,8 @@ export async function forkStructuredChatConversation(args: {
   const copy = await forkClaudeTranscriptFile(sourcePath, {
     sourceSessionId: providerSessionId,
     // Claude resumes from the bucket named after the folder it runs in.
-    destinationDir: join(store, encodeClaudeProjectPath(args.targetCwd))
+    destinationDir: join(store, encodeClaudeProjectPath(args.targetCwd)),
+    cwd: args.targetCwd
   })
   return { agent: 'claude', providerSessionId: copy.sessionId }
 }

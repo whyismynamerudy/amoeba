@@ -4,7 +4,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { claudeProviderHandle } from '../../shared/agent-session-provider-handle-encoding'
+import { adoptedTranscriptSourceObserver } from '../native-chat/agent-session-journal/adopted-transcript-source'
 import { resolveClaudeRewindFork } from './claude-rewind-fork'
+import { forkClaudeTranscriptFile } from './claude-rewind-transcript'
 
 let root: string
 let home: string
@@ -105,6 +107,35 @@ describe('durable Claude rewind transcripts', () => {
     expect(await forkBefore(firstPrompt)).toMatchObject({ materialized: true })
     expect(await readdir(project)).toEqual([`${source}.jsonl`])
     expect(await readFile(path, 'utf8')).toBe(original)
+  })
+
+  it('re-homes a workspace fork so it opens in the new folder', async () => {
+    const sourceCwd = join(root, 'source-workspace')
+    const forkCwd = join(root, 'fork-workspace')
+    const recorded = [join(sourceCwd), join(sourceCwd, 'web'), join(root, 'elsewhere')]
+    const lines = original.trimEnd().split('\n')
+    await writeFile(
+      path,
+      `${lines.map((line, index) => JSON.stringify({ ...JSON.parse(line), cwd: recorded[index] })).join('\n')}\n`
+    )
+    const destinationDir = join(home, 'projects', 'fork-workspace')
+    const fork = await forkClaudeTranscriptFile(path, {
+      sourceSessionId: source,
+      destinationDir,
+      cwd: forkCwd
+    })
+    const forkPath = join(destinationDir, `${fork.sessionId}.jsonl`)
+    const forkLines = (await readFile(forkPath, 'utf8')).trimEnd().split('\n')
+    const cwds = forkLines.map((line) => JSON.parse(line).cwd).filter(Boolean)
+    expect(cwds).toEqual([forkCwd, join(forkCwd, 'web'), join(root, 'elsewhere')])
+    const observer = adoptedTranscriptSourceObserver({
+      agent: 'claude',
+      filePath: forkPath,
+      source: { providerSessionId: fork.sessionId, workspaceCwd: forkCwd },
+      maxSourceBytes: 1_000_000
+    })
+    forkLines.forEach((line) => observer.observe(line))
+    await expect(observer.validate()).resolves.toBeUndefined()
   })
 
   it('skips a torn transcript line instead of failing the rewind', async () => {
