@@ -32,6 +32,8 @@ export type WorktreeMeta = {
   displayName: string
   /** True when a user-authored label must survive branch changes. */
   displayNameIsPinned?: boolean
+  /** The label was typed by the user, not seeded from a prompt, branch or generated title. */
+  displayNameChosenByUser?: boolean
   comment: string
   linkedIssue: number | null
   linkedPR: number | null

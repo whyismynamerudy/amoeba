@@ -106,15 +106,13 @@ test.describe('Tab Rename (Inline)', () => {
     await expect(tabLocatorByTitle(orcaPage, 'My Custom Title')).toBeVisible()
   })
 
-  test('context-menu Change Title opens a focused select-all rename input', async ({
-    orcaPage
-  }) => {
+  test('context-menu Rename opens a focused select-all rename input', async ({ orcaPage }) => {
     const worktreeId = (await getActiveWorktreeId(orcaPage))!
     const originalTitle = await getActiveTabTitle(orcaPage, worktreeId)
     expect(originalTitle.length).toBeGreaterThan(0)
 
     await tabLocatorByTitle(orcaPage, originalTitle).click({ button: 'right' })
-    await orcaPage.getByRole('menuitem', { name: /^Change Title(?:\s|$)/ }).click()
+    await orcaPage.getByRole('menuitem', { name: /^Rename(?:\s|$)/ }).click()
 
     const renameInput = orcaPage.getByRole('textbox', {
       name: `Rename tab ${originalTitle}`,

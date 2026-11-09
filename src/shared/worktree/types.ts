@@ -109,6 +109,8 @@ export type Worktree = {
   displayName: string
   /** Projection of persisted display-name provenance. */
   displayNameMode?: 'fixed' | 'automatic'
+  /** A user-typed label, which outranks conversation titles in the task sidebar. */
+  displayNameChosenByUser?: boolean
   comment: string
   linkedIssue: number | null
   linkedPR: number | null

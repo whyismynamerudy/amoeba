@@ -46,7 +46,7 @@ async function beginRename(
 ): Promise<Locator> {
   if (entry === 'menu') {
     await tab.click({ button: 'right' })
-    await page.getByRole('menuitem', { name: /^Change Title(?:\s|$)/ }).click()
+    await page.getByRole('menuitem', { name: /^Rename(?:\s|$)/ }).click()
     await expect(page.getByRole('menu')).toHaveCount(0)
   } else {
     await tab.dblclick()

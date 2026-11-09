@@ -2216,6 +2216,9 @@
           "copyLink": "Copy link",
           "reviewHeader": "{{value0}} #{{value1}}"
         },
+        "WorktreeContextMenu": {
+          "439fa94d53": "Update"
+        },
         "WorktreeIssueLinkField": {
           "0a7a2c6efd": "Not a GitHub issue number or issue URL.",
           "161b2d053a": "Open linked issue",
@@ -2653,6 +2656,7 @@
           "SortableTabContextMenu": {
             "0ce4bae39d": "Split Left",
             "21132389e9": "Split Right",
+            "2f697b3c31": "Change Title",
             "591f9b12c1": "Split Up",
             "af80ed83c1": "Split Down"
           },

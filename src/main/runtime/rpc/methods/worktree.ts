@@ -7,7 +7,7 @@ import { getLocalWorktreeCatalogVersion } from '../../../local-worktree-scan-gen
 import { getExplicitWorktreeIdSelector } from '../../runtime-worktree-selection'
 import { splitWorktreeId } from '../../../../shared/worktree/id'
 import { buildCliWorkspaceProvenance } from '../../../../shared/cli-workspace-provenance'
-import { displayNameUpdatePinsLabel } from '../../../../shared/worktree/display-name-provenance'
+import { displayNameUpdateProvenance } from '../../../../shared/worktree/display-name-provenance'
 import { getWorkspaceStatusWarning } from '../../../../shared/workspace-status-warning'
 import { createWorktreeWithStartupAgent } from '../../../agent-launch/startup-agent-worktree-create'
 import { defineMethod } from '../core'
@@ -149,9 +149,7 @@ export const WORKTREE_METHODS = [
     handler: async (params, { runtime }) => {
       const worktree = await runtime.updateManagedWorktreeMeta(params.worktree, {
         displayName: params.displayName,
-        ...(params.displayName !== undefined
-          ? { displayNameIsPinned: displayNameUpdatePinsLabel(params.displayName) }
-          : {}),
+        ...(params.displayName !== undefined ? displayNameUpdateProvenance(params) : {}),
         linkedIssue: params.linkedIssue,
         linkedPR: params.linkedPR,
         suppressedGitHubPR: params.suppressedGitHubPR,

@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import Database from '../sqlite/sync-database'
+import type { WorkspaceStatus } from '../../shared/worktree/types'
 import type {
   ConductorImportedChat,
   ConductorImportRepo,
@@ -24,6 +25,23 @@ export function conductorDatabasePath(appDataPath: string): string {
 function parseConductorTimestamp(value: string | null): number {
   const parsed = value ? Date.parse(`${value.replace(' ', 'T')}Z`) : Number.NaN
   return Number.isFinite(parsed) ? parsed : 0
+}
+
+// Amoeba has no Canceled status; a canceled workspace needs no more work, like a done one.
+const CONDUCTOR_STATUSES: Readonly<Record<string, WorkspaceStatus>> = {
+  backlog: 'todo',
+  'in-progress': 'in-progress',
+  'in-review': 'in-review',
+  done: 'completed',
+  canceled: 'completed'
+}
+
+// Older Conductor builds predate workflow statuses and user-set names.
+const OPTIONAL_WORKSPACE_COLUMNS = ['manual_status', 'derived_status', 'user_set_workspace_name']
+
+function readWorkspaceStatus(row: Row): WorkspaceStatus | undefined {
+  const status = text(row, 'manual_status') || text(row, 'derived_status')
+  return status ? CONDUCTOR_STATUSES[status] : undefined
 }
 
 function mostCommon(values: readonly string[]): string | null {
@@ -60,10 +78,19 @@ export function scanConductorDatabase(
         return id && path && existsSync(path) ? [{ id, name: text(row, 'name') ?? path, path }] : []
       })
     const repoIds = new Set(repos.map((repo) => repo.id))
+    const workspaceColumns = new Set(
+      db
+        .prepare('PRAGMA table_info(workspaces)')
+        .all()
+        .map((row) => text(row, 'name'))
+    )
+    const optionalColumns = OPTIONAL_WORKSPACE_COLUMNS.filter((column) =>
+      workspaceColumns.has(column)
+    )
     // Archived workspaces lose their folders; only checkouts still on disk can be opened.
     const workspaces: ConductorImportWorkspace[] = db
       .prepare(
-        `SELECT id, repository_id, workspace_path, branch, workspace_name, directory_name
+        `SELECT ${['id', 'repository_id', 'workspace_path', 'branch', 'workspace_name', 'directory_name', ...optionalColumns].join(', ')}
          FROM workspaces WHERE COALESCE(state, '') != 'archived'`
       )
       .all()
@@ -74,8 +101,21 @@ export function scanConductorDatabase(
         if (!id || !repoId || !path || !repoIds.has(repoId) || !existsSync(path)) {
           return []
         }
-        const name = text(row, 'workspace_name')?.trim() || text(row, 'directory_name') || path
-        return [{ id, repoId, path, branch: text(row, 'branch'), name }]
+        const userName = text(row, 'workspace_name')?.trim()
+        const status = readWorkspaceStatus(row)
+        return [
+          {
+            id,
+            repoId,
+            path,
+            branch: text(row, 'branch'),
+            name: userName || text(row, 'directory_name') || path,
+            ...(userName && Number(row.user_set_workspace_name) === 1
+              ? { nameChosenByUser: true }
+              : {}),
+            ...(status ? { status } : {})
+          }
+        ]
       })
     const workspacePathById = new Map(workspaces.map((ws) => [ws.id, ws.path]))
     const chats: ConductorImportedChat[] = db

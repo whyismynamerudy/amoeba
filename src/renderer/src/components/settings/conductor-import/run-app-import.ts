@@ -1,6 +1,9 @@
 import { useAppStore } from '@/store'
 import { selectWorktreesByRepo } from '@/store/workspace-record-selectors'
 import { useImportedConductorChats } from '@/components/project-tasks/imported-conductor-chats'
+import { isWorkspaceStatusId } from '../../../../../shared/workspace-statuses'
+import type { Worktree } from '../../../../../shared/worktree/types'
+import type { WorktreeMeta } from '../../../../../shared/worktree/meta-types'
 import type { ConductorImportScan } from '../../../../../shared/conductor-import-types'
 import type { WorktreeVisibilityDefaults } from '../../../../../shared/global-settings-types'
 
@@ -36,6 +39,30 @@ function withWorktreeSource(
       ...defaults?.sourcePreferences,
       custom: { ...defaults?.sourcePreferences?.custom, [sourceId]: 'show' }
     }
+  }
+}
+
+/** What an import adds to a workspace; anything already set in Amoeba is kept on re-import. */
+function importedWorkspaceMeta(
+  worktree: Worktree,
+  workspace: ReadyAppImportScan['workspaces'][number]
+): Partial<WorktreeMeta> {
+  const chosenByUser = workspace.nameChosenByUser === true
+  const takesName =
+    workspace.name &&
+    (worktree.displayNameMode !== 'fixed'
+      ? worktree.displayName !== workspace.name
+      : // An earlier import pinned this name without knowing the user typed it.
+        chosenByUser &&
+        !worktree.displayNameChosenByUser &&
+        worktree.displayName === workspace.name)
+  const takesStatus =
+    workspace.status !== undefined &&
+    worktree.workspaceStatus === undefined &&
+    isWorkspaceStatusId(workspace.status, useAppStore.getState().workspaceStatuses)
+  return {
+    ...(takesName ? { displayName: workspace.name, displayNameChosenByUser: chosenByUser } : {}),
+    ...(takesStatus ? { workspaceStatus: workspace.status } : {})
   }
 }
 
@@ -86,15 +113,9 @@ export async function runAppImport(
       continue
     }
     workspacesListed += 1
-    // A name already pinned (by an earlier import or a rename in Amoeba) is kept on re-import.
-    if (
-      workspace.name &&
-      worktree.displayNameMode !== 'fixed' &&
-      worktree.displayName !== workspace.name
-    ) {
-      await useAppStore
-        .getState()
-        .updateWorktreeMeta(worktree.id, { displayName: workspace.name, displayNameIsPinned: true })
+    const updates = importedWorkspaceMeta(worktree, workspace)
+    if (Object.keys(updates).length > 0) {
+      await useAppStore.getState().updateWorktreeMeta(worktree.id, updates)
     }
   }
 

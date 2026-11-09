@@ -91,6 +91,30 @@ describe('buildProjectTaskGroups', () => {
     expect(group?.tasks[0]?.conversations.map((c) => c.id)).toEqual(['second', 'first'])
   })
 
+  it('titles a row by the name the user gave its workspace, but not by a seeded name', () => {
+    const titleFor = (worktree: Worktree): string | undefined =>
+      buildProjectTaskGroups({
+        repos: [makeRepo()],
+        worktreesByProject: { 'repo-1': [worktree] },
+        unifiedTabsByWorktree: {
+          'wt-feature': [
+            tab({
+              id: 'chat',
+              worktreeId: 'wt-feature',
+              contentType: 'agent-session',
+              customLabel: 'Fix login'
+            })
+          ]
+        },
+        signalsByTabId: new Map(),
+        generatedTitlesEnabled: false
+      })[0]?.tasks[0]?.title
+    const named = { ...linked, displayName: 'Auth rewrite', displayNameMode: 'fixed' as const }
+
+    expect(titleFor(named)).toBe('Fix login')
+    expect(titleFor({ ...named, displayNameChosenByUser: true })).toBe('Auth rewrite')
+  })
+
   it('keeps an opened import at its original activity time instead of jumping to now', () => {
     const [group] = buildProjectTaskGroups({
       repos: [makeRepo()],

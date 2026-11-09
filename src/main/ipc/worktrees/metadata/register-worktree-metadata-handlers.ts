@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import type { WorktreeMeta } from '../../../../shared/worktree/meta-types'
-import { displayNameUpdatePinsLabel } from '../../../../shared/worktree/display-name-provenance'
+import { displayNameUpdateProvenance } from '../../../../shared/worktree/display-name-provenance'
 import { parseExecutionHostId } from '../../../../shared/execution-host'
 import { stripOrcaProvenanceMetaUpdates } from '../../../worktree-removal-safety'
 import { getRepoIdFromWorktreeId } from '../../../../shared/worktree/id'
@@ -58,7 +58,7 @@ export function registerWorktreeMetadataHandlers(context: WorktreeIpcContext): v
           ? {
               ...validatedUpdates,
               // Persist label provenance on the host rather than trusting renderer metadata.
-              displayNameIsPinned: displayNameUpdatePinsLabel(validatedUpdates.displayName),
+              ...displayNameUpdateProvenance(validatedUpdates),
               pendingFirstAgentMessageRename: false,
               firstAgentMessageRenameError: null
             }

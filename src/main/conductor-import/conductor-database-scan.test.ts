@@ -85,6 +85,25 @@ describe('scanConductorDatabase', () => {
     ])
   })
 
+  it('maps Conductor workflow statuses and keeps names the user typed', () => {
+    const { databasePath } = conductorFixture()
+    const db = new SyncDatabase(databasePath)
+    db.exec(`
+      ALTER TABLE workspaces ADD COLUMN manual_status TEXT;
+      ALTER TABLE workspaces ADD COLUMN derived_status TEXT DEFAULT 'in-progress';
+      ALTER TABLE workspaces ADD COLUMN user_set_workspace_name INTEGER;
+      UPDATE workspaces SET derived_status = 'in-review', manual_status = 'done',
+        workspace_name = 'Login fix', user_set_workspace_name = 1 WHERE id = 'w1';
+    `)
+    db.close()
+
+    const scan = scanConductorDatabase(databasePath, { claude: new Set(), codex: new Set() })
+
+    expect(scan.status === 'ready' ? scan.workspaces : []).toEqual([
+      expect.objectContaining({ name: 'Login fix', nameChosenByUser: true, status: 'completed' })
+    ])
+  })
+
   it('reports a missing database as nothing to import', () => {
     expect(
       scanConductorDatabase(join(tmpdir(), 'no-conductor.db'), {
