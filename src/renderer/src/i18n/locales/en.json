@@ -21395,6 +21395,7 @@
       "toTerminal": "Fork to terminal",
       "terminalUnavailable": "This chat can’t open in a terminal.",
       "noWorkspace": "This chat’s workspace is gone."
-    }
+    },
+    "done": "Done ({{value0}})"
   }
 }

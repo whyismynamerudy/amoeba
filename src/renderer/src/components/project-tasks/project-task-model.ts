@@ -48,6 +48,7 @@ export type ProjectTask = {
 
 export type ProjectTaskGroup = {
   projectId: string
+  repo: Repo
   name: string
   /** The checkout new Local tasks start in; null until the repo's listing arrives. */
   localWorktreeId: string | null
@@ -219,6 +220,7 @@ export function buildProjectTaskGroups(sources: ProjectTaskSources): ProjectTask
     tasks.sort((a, b) => b.updatedAt - a.updatedAt || a.id.localeCompare(b.id))
     return {
       projectId: repo.id,
+      repo,
       name: repo.displayName,
       localWorktreeId: findLocalWorktree(repo, worktrees)?.id ?? null,
       tasks

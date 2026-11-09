@@ -8,11 +8,7 @@ import {
   useWorktreeMap
 } from '@/store/selectors'
 import type { ProjectGroup } from '../../../../shared/project-group-types'
-import type { Repo } from '../../../../shared/repo-types'
-import {
-  getRepoExecutionHostId,
-  getSettingsFocusedExecutionHostId
-} from '../../../../shared/execution-host'
+import { getSettingsFocusedExecutionHostId } from '../../../../shared/execution-host'
 import { getActiveSidebarWorkspaceId } from '../../../../shared/workspace-scope'
 import { getPinnedWorktreeDisplayPolicy } from '../../../../shared/sidebar-list/row-types'
 import { selectWorktreeListReviewCacheInputs } from './worktree-list/listing/review-cache-inputs'
@@ -25,6 +21,7 @@ import { EMPTY_PROJECT_GROUPS } from './worktree-list/viewport/viewport-props'
 import { NOOP_WORKSPACE_BOARD_DRAG_PREVIEW_CALLBACK } from './worktree-list/drag/drop-commit-context'
 import { useAgentSendTargetWorktreeId } from './worktree-list/listing/use-agent-send-target'
 import { useProjectGroupDialogs } from './worktree-list/rows/use-project-group-dialogs'
+import { useRepoHeaderProjectCommands } from './use-repo-header-project-commands'
 import { useSidebarRevealRequests } from './worktree-list/navigation/use-reveal-requests'
 import { useSidebarWorktreeFilters } from './worktree-list/listing/use-filters'
 import { useSidebarWorktreeSelection } from './worktree-list/navigation/use-selection'
@@ -84,8 +81,6 @@ const WorktreeList = React.memo(function WorktreeList({
   const sortBy = useAppStore((s) => s.sortBy)
   const projectOrderBy = useAppStore((s) => s.projectOrderBy)
   const openModal = useAppStore((s) => s.openModal)
-  const openSettingsPage = useAppStore((s) => s.openSettingsPage)
-  const openSettingsTarget = useAppStore((s) => s.openSettingsTarget)
   const activeView = useAppStore((s) => s.activeView)
   const activeModal = useAppStore((s) => s.activeModal)
   const pendingRevealWorktree = useAppStore((s) => s.pendingRevealWorktree)
@@ -168,29 +163,11 @@ const WorktreeList = React.memo(function WorktreeList({
     },
     [openModal]
   )
-  const handleOpenRepoSettings = useCallback(
-    (projectId: string, sectionId?: string) => {
-      openSettingsTarget({ pane: 'repo', repoId: projectId, ...(sectionId ? { sectionId } : {}) })
-      openSettingsPage()
-    },
-    [openSettingsPage, openSettingsTarget]
-  )
-  const handleOpenWorktreeVisibility = useCallback(
-    (repo: Repo) => {
-      openModal('worktree-visibility', { repoId: repo.id, hostId: getRepoExecutionHostId(repo) })
-    },
-    [openModal]
-  )
-  const handleRemoveProject = useCallback(
-    (repo: Repo) => {
-      openModal('confirm-remove-folder', {
-        repoId: repo.id,
-        displayName: repo.displayName,
-        hostId: getRepoExecutionHostId(repo)
-      })
-    },
-    [openModal]
-  )
+  const {
+    onOpenRepoSettings: handleOpenRepoSettings,
+    onOpenWorktreeVisibility: handleOpenWorktreeVisibility,
+    onRemoveProject: handleRemoveProject
+  } = useRepoHeaderProjectCommands()
   const handleCreateFolderWorkspace = useCallback(
     (projectGroup: ProjectGroup) => {
       if (!projectGroup.parentPath) {
