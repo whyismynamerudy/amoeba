@@ -84,12 +84,12 @@ describe.skipIf(process.platform === 'win32')('Amoeba install helper script', ()
 
   it('waits for the app to exit, swaps bundles, relaunches, and drops the backup', async () => {
     await installFakeOpen(false)
-    const app = spawnProcess({ program: '/bin/sleep', args: ['0.5'], stdio: 'ignore' })
+    const app = spawnProcess({ program: '/bin/sleep', args: ['30'], stdio: 'ignore' })
     const exited = new Promise((resolve) => app.once('exit', resolve))
     const helper = runHelper({ appPid: app.pid ?? 0 })
     // The swap must not start while the app is still running.
-    await new Promise((resolve) => setTimeout(resolve, 200))
     expect(await bundleVersion(target)).toBe('old')
+    app.kill()
     await exited
     expect(await helper).toBe(0)
     expect(await bundleVersion(target)).toBe('new')
