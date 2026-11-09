@@ -160,7 +160,7 @@ export default function WorktreeContextMenuView({ model }: { model: WorktreeCont
           {!isMultiContext && (
             <DropdownMenuItem onSelect={handleRename} disabled={isDeleting}>
               <Pencil className="size-3.5" />
-              {translate('auto.components.sidebar.WorktreeContextMenu.439fa94d53', 'Update')}
+              {translate('auto.components.sidebar.WorktreeContextMenu.rename', 'Rename')}
             </DropdownMenuItem>
           )}
           <WorktreeStatusMenuItems

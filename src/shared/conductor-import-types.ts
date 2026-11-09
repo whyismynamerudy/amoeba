@@ -1,3 +1,5 @@
+import type { WorkspaceStatus } from './worktree/types'
+
 /** A project from another app (Conductor or Orca) that still exists on disk. */
 export type ConductorImportRepo = {
   id: string
@@ -15,6 +17,10 @@ export type ConductorImportWorkspace = {
   branch: string | null
   /** The name Conductor shows: the user-set name, else its directory (city) name. */
   name: string
+  /** The user typed `name`, so it outranks chat titles. */
+  nameChosenByUser?: boolean
+  /** The workspace's place in the source app's workflow, as an Amoeba status id. */
+  status?: WorkspaceStatus
 }
 
 /** A Conductor chat Amoeba can resume: the provider session behind it, keyed by its workspace path. */

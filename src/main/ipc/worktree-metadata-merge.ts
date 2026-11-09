@@ -19,6 +19,14 @@ export function mergeWorktree(
   // CLI-created labels predate displayNameIsPinned but are still explicit names.
   const legacyCliDisplayNameIsPinned =
     meta?.displayNameIsPinned === undefined && meta?.cliProvenance?.kind === 'created-by-cli'
+  const displayNameMode =
+    meta?.displayNameIsPinned === true || legacyCliDisplayNameIsPinned
+      ? 'fixed'
+      : meta?.displayNameIsPinned === false
+        ? 'automatic'
+        : meta?.displayName && meta.displayName.trim() !== branchShort
+          ? 'fixed'
+          : 'automatic'
   return {
     id: worktreeId,
     ...(meta?.instanceId && meta.hostId
@@ -53,14 +61,10 @@ export function mergeWorktree(
       meta?.displayNameIsPinned === false
         ? automaticDisplayName
         : meta?.displayName || automaticDisplayName,
-    displayNameMode:
-      meta?.displayNameIsPinned === true || legacyCliDisplayNameIsPinned
-        ? 'fixed'
-        : meta?.displayNameIsPinned === false
-          ? 'automatic'
-          : meta?.displayName && meta.displayName.trim() !== branchShort
-            ? 'fixed'
-            : 'automatic',
+    displayNameMode,
+    ...(displayNameMode === 'fixed' && meta?.displayNameChosenByUser === true
+      ? { displayNameChosenByUser: true }
+      : {}),
     comment: meta?.comment || '',
     linkedIssue: meta?.linkedIssue ?? null,
     linkedPR: meta?.linkedPR ?? null,

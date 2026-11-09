@@ -108,7 +108,7 @@ const WorktreeMetaDialogDraft = React.memo(function WorktreeMetaDialogDraft() {
     try {
       const updates = {
         ...(displayNameInput.trim() !== initial.displayName
-          ? { displayName: displayNameInput.trim() }
+          ? { displayName: displayNameInput.trim(), displayNameChosenByUser: true }
           : {}),
         ...(commentInput.trim() !== initial.comment ? { comment: commentInput.trim() } : {}),
         ...buildWorkspaceAttachmentEdits({

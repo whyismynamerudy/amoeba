@@ -29,6 +29,7 @@ export type ProjectTask = {
   /** The workspace's worktree id. */
   id: string
   worktreeId: string
+  worktree: Worktree
   projectId: string
   title: string
   agent: AgentType | null
@@ -158,8 +159,12 @@ function buildWorkspaceTask(
   return {
     id: worktree.id,
     worktreeId: worktree.id,
+    worktree,
     projectId: repo.id,
-    title: titled[0]?.title ?? worktree.displayName,
+    // A name the user gave the workspace outranks its chats' titles.
+    title: worktree.displayNameChosenByUser
+      ? worktree.displayName
+      : (titled[0]?.title ?? worktree.displayName),
     agent: newest?.agent ?? importedChats[0]?.agent ?? null,
     location: isLocal ? 'local' : 'worktree',
     branch: isLocal ? null : shortBranchName(worktree.branch),

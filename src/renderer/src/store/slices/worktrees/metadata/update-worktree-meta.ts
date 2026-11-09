@@ -12,7 +12,7 @@ import type { WorktreeSlice } from '../../worktree-helpers'
 import type { WorktreeSliceGet, WorktreeSliceSet } from '../listing/worktree-slice-types'
 import { translate } from '@/i18n/i18n'
 import { isPositiveHostedReviewNumber } from '../../../../../../shared/hosted-review'
-import { displayNameUpdatePinsLabel } from '../../../../../../shared/worktree/display-name-provenance'
+import { displayNameUpdateProvenance } from '../../../../../../shared/worktree/display-name-provenance'
 import { parseWorkspaceKey } from '../../../../../../shared/workspace-scope'
 import { ORCA_SIDEBAR_INPUTS_IS_MAIN } from '../../../../../../shared/sidebar-inputs-switch'
 import { applyWorktreeUpdates, getRepoIdFromWorktreeId } from '../../worktree-helpers'
@@ -150,9 +150,7 @@ export function createUpdateWorktreeMeta(
 
     // Why: bump lastActivityAt on comment edits so the time-decay sort doesn't drop a just-touched worktree.
     const displayNameProvenance =
-      'displayName' in normalizedUpdates
-        ? { displayNameIsPinned: displayNameUpdatePinsLabel(normalizedUpdates.displayName) }
-        : {}
+      'displayName' in normalizedUpdates ? displayNameUpdateProvenance(normalizedUpdates) : {}
     const targetEnriched = currentResolvedPushTarget
       ? { ...normalizedUpdates, ...displayNameProvenance, pushTarget: currentResolvedPushTarget }
       : shouldClearStaleHostedReviewPushTarget

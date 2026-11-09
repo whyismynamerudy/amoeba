@@ -213,7 +213,7 @@ export function SortableTabContextMenu({
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={onRenameOpen}>
           <Pencil className="size-3.5" />
-          {translate('auto.components.tab.bar.SortableTabContextMenu.2f697b3c31', 'Change Title')}
+          {translate('auto.components.tab.bar.SortableTabContextMenu.rename', 'Rename')}
           {renameShortcut ? <DropdownMenuShortcut>{renameShortcut}</DropdownMenuShortcut> : null}
         </DropdownMenuItem>
         <div className="px-2 pt-1.5 pb-1">

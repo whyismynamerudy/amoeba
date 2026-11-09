@@ -107,13 +107,15 @@ export function scanOrcaProfile(
       if (!path || !repoIds.has(repoId) || !existsSync(path)) {
         return []
       }
+      const status = str(asObject(meta)?.workspaceStatus)
       return [
         {
           id: workspaceId,
           repoId,
           path,
           branch: null,
-          name: str(asObject(meta)?.displayName) ?? ''
+          name: str(asObject(meta)?.displayName) ?? '',
+          ...(status ? { status } : {})
         }
       ]
     })
