@@ -1,6 +1,6 @@
 import type { NativeChatAppearanceSettings } from '../../../shared/native-chat-appearance-settings'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { UI_ZOOM_MAX } from '../../../shared/ui-zoom-level'
+import { DEFAULT_UI_ZOOM_LEVEL, UI_ZOOM_MAX } from '../../../shared/ui-zoom-level'
 import { resolveZoomTarget } from './resolve-zoom-target'
 
 function makeTarget(args: {
@@ -295,7 +295,8 @@ describe('registerZoomIpcBridge', () => {
 
     expect(zoom.applyUIZoom).toHaveBeenCalledWith(0.5)
     expect(zoom.setUI).toHaveBeenCalledWith({ uiZoomLevel: 0.5 })
-    expect(zoom.dispatchZoomLevelChanged).toHaveBeenCalledWith('ui', 110)
+    // Amoeba's 100% is zoom level 0.5.
+    expect(zoom.dispatchZoomLevelChanged).toHaveBeenCalledWith('ui', 100)
   })
 
   it('leaves zoom to the terminal while terminal input holds focus', async () => {
@@ -364,8 +365,8 @@ describe('registerZoomIpcBridge', () => {
 
     zoom.fire('reset')
 
-    expect(zoom.applyUIZoom).toHaveBeenCalledWith(0)
-    expect(zoom.setUI).toHaveBeenCalledWith({ uiZoomLevel: 0 })
+    expect(zoom.applyUIZoom).toHaveBeenCalledWith(DEFAULT_UI_ZOOM_LEVEL)
+    expect(zoom.setUI).toHaveBeenCalledWith({ uiZoomLevel: DEFAULT_UI_ZOOM_LEVEL })
     expect(zoom.dispatchZoomLevelChanged).toHaveBeenCalledWith('ui', 100)
   })
 })
