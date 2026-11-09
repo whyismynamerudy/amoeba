@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
-import type { ChangelogData } from '../../../shared/update-status-types'
+import type { ChangelogData, ScheduledUpdateInstall } from '../../../shared/update-status-types'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { useAppStore } from '../store'
 import { Card } from './ui/card'
@@ -193,6 +193,12 @@ export function UpdateCard(): React.JSX.Element | null {
       setExiting(false)
     }, 150)
   }
+  const handleScheduleInstall = (timing: ScheduledUpdateInstall): void => {
+    void window.api.updater.scheduleInstall(timing)
+    if (timing === 'on-quit') {
+      handleCollapseWithAnimation()
+    }
+  }
   const handleKeyDown = (event: React.KeyboardEvent): void => {
     if (event.key !== 'Escape') {
       return
@@ -224,6 +230,7 @@ export function UpdateCard(): React.JSX.Element | null {
       onMediaLoad={() => setMediaLoaded(true)}
       onUpdate={handleUpdate}
       onInstallRetry={handleInstallRetry}
+      onScheduleInstall={handleScheduleInstall}
       onDismiss={handleDismissWithAnimation}
       onCollapse={handleCollapseWithAnimation}
     />

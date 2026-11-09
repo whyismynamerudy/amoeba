@@ -11,6 +11,7 @@ export function createUpdaterApi(): NonNullable<Partial<PreloadApi>['updater']> 
     check: () => Promise.resolve(),
     download: () => Promise.resolve(),
     quitAndInstall: () => Promise.resolve(),
+    scheduleInstall: () => Promise.resolve(),
     dismissNudge: () => Promise.resolve(),
     dismissAvailableUpdate: () => Promise.resolve(),
     getLinuxPackageInstallInstructions: () => Promise.reject(new Error(desktopOnlyMessage)),

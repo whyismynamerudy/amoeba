@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { useAppStore } from '../../store'
 import { translate } from '@/i18n/i18n'
 import { getUpdateInstallBlockGuidance } from '../maintenance/update-card/update-install-block-guidance'
+import { busyAgentsSummary } from '../maintenance/update-card/update-install-timing-copy'
 
 // Always expose the collapsed update card so pending downloads and installs remain reachable.
 export function UpdateStatusSegment({
@@ -64,6 +65,32 @@ export function UpdateStatusSegment({
         ariaLabel: translate(
           'updates.installBlock.preparingAriaLabel',
           'Preparing update. Click to expand.'
+        )
+      }
+    }
+    if (status.state === 'downloaded' && status.scheduledInstall === 'agents-idle') {
+      return {
+        icon: <Clock3 className="size-3 text-muted-foreground" />,
+        label: translate('updates.schedule.waitingLabel', 'Waiting for agents'),
+        tooltip: busyAgentsSummary(status.busyAgentCount ?? 0),
+        ariaLabel: translate(
+          'updates.schedule.waitingAriaLabel',
+          'Update waiting for agents to finish. Click to expand.'
+        )
+      }
+    }
+    if (status.state === 'downloaded' && status.scheduledInstall === 'on-quit') {
+      return {
+        icon: <Clock3 className="size-3 text-muted-foreground" />,
+        label: translate('updates.schedule.onQuitLabel', 'Updates on quit'),
+        tooltip: translate(
+          'updates.schedule.onQuitSummary',
+          'Amoeba v{{value0}} installs the next time you quit.',
+          { value0: status.version }
+        ),
+        ariaLabel: translate(
+          'updates.schedule.onQuitAriaLabel',
+          'Update installs when you quit. Click to expand.'
         )
       }
     }

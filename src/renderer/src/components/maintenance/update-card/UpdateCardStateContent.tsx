@@ -2,6 +2,7 @@ import { Loader2 } from 'lucide-react'
 import type {
   ChangelogData,
   LinuxPackageInstallRecovery,
+  ScheduledUpdateInstall,
   UpdateStatus
 } from '../../../../../shared/update-status-types'
 import { getReleaseNotesUrlForVersion } from '../../../../../shared/release-channel'
@@ -14,6 +15,7 @@ import {
   UpdateAvailableSimpleContent
 } from './UpdateAvailableCardContent'
 import { UpdateDownloadingContent, UpdateReadyToInstallContent } from './UpdateDownloadCardContent'
+import { UpdateScheduledInstallContent } from './UpdateInstallTimingContent'
 
 export function UpdateCardStateContent({
   status,
@@ -29,6 +31,7 @@ export function UpdateCardStateContent({
   onMediaLoad,
   onUpdate,
   onInstallRetry,
+  onScheduleInstall,
   onDismiss,
   onCollapse
 }: {
@@ -48,6 +51,7 @@ export function UpdateCardStateContent({
   onMediaLoad: () => void
   onUpdate: () => void
   onInstallRetry: () => void
+  onScheduleInstall: (timing: ScheduledUpdateInstall) => void
   onDismiss: () => void
   onCollapse: () => void
 }): React.JSX.Element | null {
@@ -104,6 +108,17 @@ export function UpdateCardStateContent({
         </div>
       )
     }
+    if (status.scheduledInstall) {
+      return (
+        <UpdateScheduledInstallContent
+          version={status.version}
+          scheduledInstall={status.scheduledInstall}
+          busyAgentCount={status.busyAgentCount ?? 0}
+          onUpdateNow={onInstallRetry}
+          onCollapse={onCollapse}
+        />
+      )
+    }
     return hasStartedDownload ? (
       <div className="p-4">
         <p className="text-sm">
@@ -115,6 +130,11 @@ export function UpdateCardStateContent({
         version={status.version}
         onRestart={onInstallRetry}
         onClose={onCollapse}
+        installTiming={
+          status.supportsScheduledInstall
+            ? { onUpdateNow: onInstallRetry, onSchedule: onScheduleInstall }
+            : undefined
+        }
       />
     )
   }
@@ -122,6 +142,7 @@ export function UpdateCardStateContent({
     return (
       <UpdateDownloadingContent
         version={status.version}
+        releaseUrl={status.releaseUrl}
         percent={status.percent}
         changelog={changelog}
         prefersReducedMotion={prefersReducedMotion}
@@ -140,6 +161,9 @@ export function UpdateCardStateContent({
   const releaseUrl = isLocalBuild
     ? undefined
     : (status.releaseUrl ?? getReleaseNotesUrlForVersion(status.version))
+  const installTiming = status.supportsScheduledInstall
+    ? { onUpdateNow: onUpdate, onSchedule: onScheduleInstall }
+    : undefined
   return changelog?.release ? (
     <UpdateAvailableRichContent
       release={changelog.release}
@@ -152,6 +176,7 @@ export function UpdateCardStateContent({
       onUpdate={onUpdate}
       onClose={onDismiss}
       externallyManaged={status.externallyManaged}
+      installTiming={installTiming}
     />
   ) : (
     <UpdateAvailableSimpleContent
@@ -160,6 +185,7 @@ export function UpdateCardStateContent({
       onUpdate={onUpdate}
       onClose={onDismiss}
       externallyManaged={status.externallyManaged}
+      installTiming={installTiming}
     />
   )
 }

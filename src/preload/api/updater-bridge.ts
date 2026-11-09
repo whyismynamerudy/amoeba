@@ -22,6 +22,7 @@ export const updaterApi = {
       () => ipcRenderer.invoke('updater:quitAndInstall'),
       awaitBeforeUnloadCheckpoint
     ),
+  scheduleInstall: (timing) => ipcRenderer.invoke('updater:scheduleInstall', timing),
 
   onStatus: (callback) => {
     const listener = (_event: Electron.IpcRendererEvent, status: UpdateStatus) => callback(status)
@@ -34,3 +35,10 @@ export const updaterApi = {
     return () => ipcRenderer.removeListener('updater:clearDismissal', listener)
   }
 } satisfies PreloadApi['updater']
+
+// Main asks once agents go idle; reuse the install path so renderer state is checkpointed first.
+ipcRenderer.on('updater:runScheduledInstall', () => {
+  void updaterApi.quitAndInstall().catch((error: unknown) => {
+    console.error('[updater] scheduled install could not start', error)
+  })
+})

@@ -34,14 +34,17 @@ export function statusesEqual(left: UpdateStatus, right: UpdateStatus): boolean 
         right.state === 'downloading' &&
         left.version === right.version &&
         left.activeNudgeId === right.activeNudgeId &&
-        left.percent === right.percent
+        left.percent === right.percent &&
+        left.scheduledInstall === right.scheduledInstall
       )
     case 'downloaded':
       return (
         right.state === 'downloaded' &&
         left.version === right.version &&
         left.activeNudgeId === right.activeNudgeId &&
-        left.releaseUrl === right.releaseUrl
+        left.releaseUrl === right.releaseUrl &&
+        left.scheduledInstall === right.scheduledInstall &&
+        left.busyAgentCount === right.busyAgentCount
       )
     case 'error':
       return (

@@ -14,6 +14,7 @@ import {
   getUpdateStatus,
   listAvailableReleaseBuilds,
   quitAndInstall,
+  scheduleUpdateInstall,
   setupAutoUpdater,
   showLinuxPackage,
   type PreQuitCleanupFailureMode,
@@ -132,6 +133,7 @@ export function registerUpdaterHandlers(_store: Store): void {
   ipcMain.removeHandler('updater:quitAndInstall')
   ipcMain.removeHandler('updater:dismissNudge')
   ipcMain.removeHandler('updater:dismissAvailableUpdate')
+  ipcMain.removeHandler('updater:scheduleInstall')
   ipcMain.removeHandler('updater:getLinuxPackageInstallInstructions')
   ipcMain.removeHandler('updater:showLinuxPackage')
   ipcMain.removeHandler('updater:listBuilds')
@@ -146,6 +148,11 @@ export function registerUpdaterHandlers(_store: Store): void {
   ipcMain.handle('updater:quitAndInstall', () => quitAndInstall())
   ipcMain.handle('updater:dismissNudge', () => dismissNudge())
   ipcMain.handle('updater:dismissAvailableUpdate', () => dismissAvailableUpdate())
+  ipcMain.handle('updater:scheduleInstall', (_event, timing: unknown) => {
+    if (timing === 'agents-idle' || timing === 'on-quit') {
+      scheduleUpdateInstall(timing)
+    }
+  })
   // Package paths/native reveal belong only to the current trusted main renderer; refuse guests, popouts and stale/utility windows.
   ipcMain.handle('updater:getLinuxPackageInstallInstructions', (event) => {
     assertTrustedUpdaterRecoverySender(event)
