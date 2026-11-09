@@ -15,12 +15,14 @@ import {
 import { resolveAgentSessionLaunchDirectory } from './agent-session-launch-directory'
 import type { AgentSessionRecordStore } from './agent-session-record-store'
 import type { StructuredAgentAdapterContext } from './structured-agent-runtime-registrations'
+import type { StructuredAgentSessionRuntimeDeps } from './structured-agent-session-runtime'
 import { sealStructuredSessionChild } from './structured-session-child-env'
 
 /** Where a launch's shared inputs come from. */
 export type StructuredAgentLaunchSources = {
   store: Pick<AgentSessionRecordStore, 'getRecord' | 'pinLaunchDirectory'>
   resolveWorkspacePath: (workspaceId: string) => Promise<string>
+  resolveWorkspaceInstructions?: StructuredAgentSessionRuntimeDeps['resolveWorkspaceInstructions']
   resolveBaseEnvironment: () => Promise<Record<string, string>>
   /** The base environment with the user's overlay for `agent` laid over it. */
   resolveAgentEnvironment: (agent: string) => Promise<Record<string, string>>
@@ -45,6 +47,8 @@ export type StructuredAgentLaunchBasis = {
   environment(): Promise<Record<string, string>>
   /** Null when the chat gets no visuals. */
   visuals(): Promise<NativeChatVisualsLaunch | null>
+  /** Amoeba's instructions for the launch directory's workspace; null adds none. */
+  workspaceInstructions(): Promise<string | null>
   commandSettings(): StructuredAgentCommandSettings
   /** After a missing program, refresh both environment reads together; absent means no retry. */
   refreshAfterMissingProgram?: (askedAt: number) => Promise<void>
@@ -135,8 +139,10 @@ async function composedPart<L>(
   sources: StructuredAgentLaunchSources,
   part: StructuredAgentLaunchPartResolver<L>,
   identity: AgentSessionJournalIdentity,
-  permissionMode?: AgentChatPermissionMode
+  /** A read starts no agent, so it neither prepares nor receives workspace instructions. */
+  spawn: { permissionMode?: AgentChatPermissionMode } | null
 ): Promise<StructuredAgentLaunchPart<L> & { cwd: string }> {
+  const permissionMode = spawn?.permissionMode
   const record = admittedRecord(definition, sources.store, identity.sessionId)
   const launchEnv = once(() => sources.resolveAgentLaunchEnv?.(definition.agent) ?? {})
   const readEnvironments = () => ({
@@ -145,9 +151,15 @@ async function composedPart<L>(
   })
   let environments = readEnvironments()
   const refresh = sources.refreshAfterMissingProgram
+  const launchDirectory = once(() => resolveAgentSessionLaunchDirectory(sources, record))
   const basis: StructuredAgentLaunchBasis = {
     record,
-    launchDirectory: once(() => resolveAgentSessionLaunchDirectory(sources, record)),
+    launchDirectory,
+    workspaceInstructions: once(async () =>
+      spawn && sources.resolveWorkspaceInstructions
+        ? sources.resolveWorkspaceInstructions(record.location.workspaceId, await launchDirectory())
+        : null
+    ),
     baseEnvironment: () => environments.base(),
     launchEnv,
     environment: () => environments.agent(),
@@ -178,7 +190,7 @@ export function composeStructuredLaunch<L>(
       sources,
       part,
       identity,
-      permissionMode
+      permissionMode ? { permissionMode } : {}
     )
     const child = sealStructuredSessionChild({
       sessionId: identity.sessionId,
@@ -207,7 +219,8 @@ export function composeStructuredLaunchRead<L>(
       definition,
       sources,
       part,
-      identity
+      identity,
+      null
     )
     return { ...launch, cwd, env, envToDelete: [...inheritedEnvToDelete] }
   }
@@ -221,6 +234,9 @@ export function structuredAgentLaunchSources(
   return {
     store: context.store,
     resolveWorkspacePath: deps.resolveWorkspacePath,
+    ...(deps.resolveWorkspaceInstructions
+      ? { resolveWorkspaceInstructions: deps.resolveWorkspaceInstructions }
+      : {}),
     resolveBaseEnvironment: context.environment.resolveBaseEnvironment,
     resolveAgentEnvironment: context.environment.resolveAgentEnvironment,
     refreshAfterMissingProgram: context.environment.refreshAfterMissingProgram,

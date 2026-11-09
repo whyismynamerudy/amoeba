@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getDefaultSettings } from '../../../shared/constants'
+import { DEFAULT_NATIVE_CHAT_FONT_SIZE } from '../../../shared/native-chat-appearance-settings'
 import { mergeSettings } from './preload-api/web-preference-normalization'
 
 describe('browser-local chat appearance settings', () => {
@@ -17,7 +18,11 @@ describe('browser-local chat appearance settings', () => {
     ).toBeUndefined()
     expect(
       mergeSettings(saved, {
-        nativeChatAppearance: { fontSize: 14, codeFontSize: 12, width: 'comfortable' }
+        nativeChatAppearance: {
+          fontSize: DEFAULT_NATIVE_CHAT_FONT_SIZE,
+          codeFontSize: 12,
+          width: 'comfortable'
+        }
       }).nativeChatAppearance
     ).toBeUndefined()
   })

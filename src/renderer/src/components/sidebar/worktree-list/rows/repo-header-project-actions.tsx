@@ -61,9 +61,10 @@ export type RepoHeaderProjectActions = {
   getWorktreeVisibilityDefaults: (repo: Repo) => WorktreeVisibilityDefaults | undefined
   onOpenRepoSettings: (projectId: string, sectionId?: string) => void
   onOpenWorktreeVisibility: (repo: Repo) => void
-  onCreateGroupFromRepo: (repo: Repo) => void
-  onMoveProjectToGroup: (repo: Repo, groupId: string) => void
-  onRemoveProjectFromGroup: (repo: Repo) => void
+  /** Absent where project groups aren't shown, which hides the group items. */
+  onCreateGroupFromRepo?: (repo: Repo) => void
+  onMoveProjectToGroup?: (repo: Repo, groupId: string) => void
+  onRemoveProjectFromGroup?: (repo: Repo) => void
   onRemoveProject: (repo: Repo) => void
   onCreateForRepo: (projectId: string) => void
 }
@@ -72,15 +73,21 @@ export function RepoHeaderProjectActionsMenu({
   repo,
   label,
   projectGroups,
-  actions
+  actions,
+  open,
+  onOpenChange
 }: {
   repo: Repo
   label: string
   projectGroups: readonly ProjectGroup[]
   actions: RepoHeaderProjectActions
+  /** Lets a header open the menu on right-click. */
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }): React.JSX.Element {
+  const { onCreateGroupFromRepo, onMoveProjectToGroup, onRemoveProjectFromGroup } = actions
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu modal={false} open={open} onOpenChange={onOpenChange}>
       <Tooltip>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
@@ -135,12 +142,14 @@ export function RepoHeaderProjectActionsMenu({
             {getWorktreeVisibilityMenuLabel(repo, actions.getWorktreeVisibilityDefaults(repo))}
           </DropdownMenuItem>
         ) : null}
-        <DropdownMenuItem onSelect={() => actions.onCreateGroupFromRepo(repo)}>
-          {/* Not FolderPlus: that now means "Add project" in the sidebar header above. */}
-          <FolderTree className="size-3.5" />
-          {translate('auto.components.sidebar.WorktreeList.cbfd565f83', 'New group from project')}
-        </DropdownMenuItem>
-        {projectGroups.length > 0 ? (
+        {onCreateGroupFromRepo ? (
+          <DropdownMenuItem onSelect={() => onCreateGroupFromRepo(repo)}>
+            {/* Not FolderPlus: that now means "Add project" in the sidebar header above. */}
+            <FolderTree className="size-3.5" />
+            {translate('auto.components.sidebar.WorktreeList.cbfd565f83', 'New group from project')}
+          </DropdownMenuItem>
+        ) : null}
+        {onMoveProjectToGroup && projectGroups.length > 0 ? (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <FolderInput className="size-3.5" />
@@ -151,7 +160,7 @@ export function RepoHeaderProjectActionsMenu({
                 <DropdownMenuItem
                   key={group.id}
                   disabled={repo.projectGroupId === group.id}
-                  onSelect={() => actions.onMoveProjectToGroup(repo, group.id)}
+                  onSelect={() => onMoveProjectToGroup(repo, group.id)}
                 >
                   <span className="max-w-48 truncate">{group.name}</span>
                 </DropdownMenuItem>
@@ -159,8 +168,8 @@ export function RepoHeaderProjectActionsMenu({
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         ) : null}
-        {repo.projectGroupId ? (
-          <DropdownMenuItem onSelect={() => actions.onRemoveProjectFromGroup(repo)}>
+        {onRemoveProjectFromGroup && repo.projectGroupId ? (
+          <DropdownMenuItem onSelect={() => onRemoveProjectFromGroup(repo)}>
             <CircleX className="size-3.5" />
             {translate('auto.components.sidebar.WorktreeList.64e55f7f01', 'Remove from group')}
           </DropdownMenuItem>

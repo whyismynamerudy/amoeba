@@ -36,6 +36,7 @@ import { resolveQoderTerminalCommand } from './qoder-terminal-command-resolution
 import { resolveStartupShell } from '../../shared/tui-agent-startup-shell'
 import { resolveWslSessionContext } from '../daemon/wsl-session-context'
 import { isTuiAgentEnabled } from '../../shared/tui-agent-selection'
+import { withWorkspaceInstructionsInLaunchPrompt } from '../workspace-agent-instructions-preparation'
 
 /** No launch command could be built for a requested `startupAgent`. */
 export class AgentLaunchUnbuildableError extends Error {}
@@ -176,7 +177,17 @@ async function buildRuntimeAgentTerminalStartupOptions(
       sessionOptions: host.toSessionOptions(opts.launchPreferences),
       ...(opts.suppressStartupUpdatePrompt ? { suppressStartupUpdatePrompt: true } : {})
     }),
-    prompt: opts.startupPrompt ?? '',
+    prompt:
+      // Drafts are the user's; a forced line cannot grow; SSH relays run where .context cannot be made.
+      opts.startupPromptDelivery === 'draft' || forceLine || isRemote || !host.store
+        ? (opts.startupPrompt ?? '')
+        : withWorkspaceInstructionsInLaunchPrompt({
+            store: host.store,
+            workspaceId: workspace.id,
+            workspacePath: workspace.path,
+            agent,
+            prompt: opts.startupPrompt ?? ''
+          }),
     cwd: resolveTerminalStartupCwd(workspace.path, opts.cwd) ?? workspace.path,
     hostIdentity: host.hostIdentity,
     signal: opts.signal

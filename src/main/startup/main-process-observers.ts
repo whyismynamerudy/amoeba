@@ -26,6 +26,7 @@ import { CodexUsageStore } from '../codex-usage/store'
 import { OpenCodeUsageStore } from '../opencode-usage/store'
 import { MuseUsageStore } from '../muse-usage/store'
 import { installRepoMaintenanceIdleGate } from '../repo-maintenance-idle-gate'
+import { setUpdateAgentActivitySource } from '../updater'
 import { mainProcessState as state } from './main-process-state'
 
 export function initializeMainProcessObservers(): void {
@@ -62,6 +63,10 @@ export function initializeMainProcessObservers(): void {
   state.uninstallRepoMaintenanceIdleGate = installRepoMaintenanceIdleGate({
     isQuitting: () => state.isQuitting,
     getWorkingAgentCount: () => state.agentAwakeService?.getWorkingAgentCount() ?? 0
+  })
+  setUpdateAgentActivitySource({
+    getStatuses: () => agentHookServer.getStatusChangeSnapshot(),
+    subscribe: (listener) => agentHookServer.subscribeStatusChanges(listener)
   })
   const unsubscribeStatusChanges = agentHookServer.subscribeStatusChanges((statuses) => {
     state.agentAwakeService?.setStatuses(statuses)

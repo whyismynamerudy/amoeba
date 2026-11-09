@@ -52,6 +52,9 @@ export type LinuxPackageInstallInstructions =
   | { ok: true; command: string; packageFileName: string }
   | { ok: false; reason: LinuxPackageCommandUnavailableReason; message: string }
 
+/** Amoeba self-update: install once agent chats go idle, or when the user quits. */
+export type ScheduledUpdateInstall = 'agents-idle' | 'on-quit'
+
 export type UpdateInstallBlocker = {
   pid: number
   kind: 'window' | 'server' | 'browser' | 'unknown'
@@ -76,9 +79,18 @@ export type UpdateStatus = (
       /** Linux only: a package manager owns this install, so Amoeba cannot apply the update itself.
        *  Additive and optional — older clients simply keep offering their own download. */
       externallyManaged?: boolean
+      /** The host can defer installing until agents finish or the app quits; older hosts omit it. */
+      supportsScheduledInstall?: boolean
     }
   | { state: 'not-available'; userInitiated?: boolean }
-  | { state: 'downloading'; percent: number; version: string; activeNudgeId?: string }
+  | {
+      state: 'downloading'
+      percent: number
+      version: string
+      activeNudgeId?: string
+      releaseUrl?: string
+      scheduledInstall?: ScheduledUpdateInstall
+    }
   | {
       state: 'downloaded'
       version: string
@@ -86,6 +98,10 @@ export type UpdateStatus = (
       activeNudgeId?: string
       /** Install preparation is in progress; older clients can still render downloaded. */
       installing?: boolean
+      supportsScheduledInstall?: boolean
+      scheduledInstall?: ScheduledUpdateInstall
+      /** Agent chats still working or awaiting approval while an `agents-idle` install waits. */
+      busyAgentCount?: number
     }
   | {
       state: 'error'
@@ -101,6 +117,8 @@ export type UpdateStatus = (
       recovery?: LinuxPackageInstallRecovery
       /** Optional so older paired clients retain the diagnostic and install retry. */
       installBlock?: UpdateInstallBlock
+      /** Release page for hosts whose feed differs from the upstream release repo. */
+      releaseUrl?: string
     }
 ) & { source?: UpdateSource }
 

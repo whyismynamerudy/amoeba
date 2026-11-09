@@ -119,6 +119,10 @@ sed -i '' -E \
   -e "s/^  version \"[^\"]+\"/  version \"$version\"/" \
   -e "s/^  sha256 \"[0-9a-f]+\"/  sha256 \"$sha\"/" \
   "$tap_dir/Casks/amoeba.rb"
+# Amoeba updates itself in place; tell brew so `brew upgrade` doesn't fight it.
+if ! grep -q '^  auto_updates true' "$tap_dir/Casks/amoeba.rb"; then
+  perl -0pi -e 's/(\n  depends_on arch:)/\n  auto_updates true\n$1/' "$tap_dir/Casks/amoeba.rb"
+fi
 git -C "$tap_dir" commit -q -am "amoeba $version"
 git -C "$tap_dir" push -q origin main
 rm -rf "$tap_dir"

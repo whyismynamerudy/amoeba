@@ -1,6 +1,7 @@
 import type {
   LinuxPackageInstallInstructions,
   ReleaseBuildListResult,
+  ScheduledUpdateInstall,
   UpdateCheckOptions,
   UpdateStatus
 } from '../../shared/update-status-types'
@@ -12,6 +13,8 @@ export type UpdaterApi = {
   check: (options?: UpdateCheckOptions) => Promise<void>
   download: () => Promise<void>
   quitAndInstall: () => Promise<void>
+  /** Hosts without `supportsScheduledInstall` ignore this. */
+  scheduleInstall: (timing: ScheduledUpdateInstall) => Promise<void>
   dismissNudge: () => Promise<void>
   dismissAvailableUpdate: () => Promise<void>
   /** Desktop-only. Rejects unless the current status carries `linux-package-install` recovery. */
