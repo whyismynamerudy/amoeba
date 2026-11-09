@@ -4,6 +4,10 @@ import { getReleaseNotesUrlForVersion } from '../../../../../shared/release-chan
 import { Button } from '../../ui/button'
 import { Progress } from '../../ui/progress'
 import { translate } from '@/i18n/i18n'
+import {
+  UpdateInstallTimingButtons,
+  type UpdateInstallTimingHandlers
+} from './UpdateInstallTimingContent'
 
 function isAnimatedGif(url: string | undefined): boolean {
   return typeof url === 'string' && url.toLowerCase().endsWith('.gif')
@@ -19,9 +23,11 @@ export function UpdateDownloadingContent({
   onMediaError,
   onMediaLoad,
   onCollapse,
-  showReleaseNotes
+  showReleaseNotes,
+  releaseUrl
 }: {
   version: string
+  releaseUrl?: string
   percent: number
   changelog: ChangelogData | null
   prefersReducedMotion: boolean
@@ -92,7 +98,9 @@ export function UpdateDownloadingContent({
           className="text-xs text-muted-foreground underline hover:text-foreground self-start"
           onClick={() =>
             void window.api.shell.openUrl(
-              release ? release.releaseNotesUrl : getReleaseNotesUrlForVersion(version)
+              release
+                ? release.releaseNotesUrl
+                : (releaseUrl ?? getReleaseNotesUrlForVersion(version))
             )
           }
         >
@@ -114,11 +122,13 @@ export function UpdateDownloadingContent({
 export function UpdateReadyToInstallContent({
   version,
   onRestart,
-  onClose
+  onClose,
+  installTiming
 }: {
   version: string
   onRestart: () => void
   onClose: () => void
+  installTiming?: UpdateInstallTimingHandlers
 }): React.JSX.Element {
   return (
     <div className="flex flex-col gap-3 p-4">
@@ -143,9 +153,13 @@ export function UpdateReadyToInstallContent({
           { value0: version }
         )}
       </p>
-      <Button variant="default" size="sm" onClick={onRestart} className="w-full">
-        {translate('auto.components.UpdateCard.68b235d264', 'Restart to Update')}
-      </Button>
+      {installTiming ? (
+        <UpdateInstallTimingButtons {...installTiming} />
+      ) : (
+        <Button variant="default" size="sm" onClick={onRestart} className="w-full">
+          {translate('auto.components.UpdateCard.68b235d264', 'Restart to Update')}
+        </Button>
+      )}
     </div>
   )
 }

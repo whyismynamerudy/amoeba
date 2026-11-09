@@ -24,6 +24,10 @@ vi.mock('./update-install-exit-watchdog', () => moduleFactories.updateInstallExi
 vi.mock('./updater-prerelease-feed', () => moduleFactories.updaterPrereleaseFeed())
 vi.mock('./local-builds/local-build-switch', () => moduleFactories.localBuildSwitch())
 vi.mock('./local-builds/local-build-feed-server', () => moduleFactories.localBuildFeedServer())
+const amoebaReleaseFetchMock = vi.hoisted(() => vi.fn<(url: string) => Promise<Response>>())
+vi.mock('./network/http-client', () => ({
+  getMainHttpClient: () => ({ fetch: amoebaReleaseFetchMock })
+}))
 
 warmUpdaterModule()
 
@@ -34,6 +38,7 @@ describe('updater', () => {
 
   it('keeps Amoeba off the upstream feed, including manual download and install requests', async () => {
     Object.assign(appMock, { name: 'Amoeba' })
+    amoebaReleaseFetchMock.mockResolvedValue(new Response(null, { status: 404 }))
     try {
       const updater = await loadUpdaterModule()
       updater.setupAutoUpdater(updaterMainWindow(vi.fn()))
@@ -41,10 +46,20 @@ describe('updater', () => {
       updater.checkForUpdatesFromMenu()
       updater.downloadUpdate()
       updater.quitAndInstall()
-      expect(updater.getUpdateStatus()).toMatchObject({
-        state: 'error',
-        message: 'Automatic updates are not configured for Amoeba yet.'
-      })
+      // macOS routes Amoeba to its own GitHub release feed; other platforms stay unconfigured.
+      if (process.platform === 'darwin') {
+        await vi.waitFor(() =>
+          expect(updater.getUpdateStatus()).toEqual({ state: 'not-available', userInitiated: true })
+        )
+        expect(amoebaReleaseFetchMock.mock.calls[0]?.[0]).toBe(
+          'https://api.github.com/repos/whyismynamerudy/amoeba/releases/latest'
+        )
+      } else {
+        expect(updater.getUpdateStatus()).toMatchObject({
+          state: 'error',
+          message: 'Automatic updates are not configured for Amoeba yet.'
+        })
+      }
       expect(autoUpdaterMock.checkForUpdates).not.toHaveBeenCalled()
       expect(autoUpdaterMock.downloadUpdate).not.toHaveBeenCalled()
       expect(autoUpdaterMock.quitAndInstall).not.toHaveBeenCalled()

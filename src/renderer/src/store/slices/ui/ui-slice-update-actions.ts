@@ -43,14 +43,16 @@ export function createUiUpdateActions(set: UISliceSet, get: UISliceGet): Partial
           (status.recovery?.kind === 'linux-package-install' &&
             previousStatus.recovery?.kind !== 'linux-package-install'))
       if (status.state !== previousStatus.state || errorBecameActionable) {
-        // Quiet check failures start collapsed so the status bar can still disclose them.
+        // Quiet check failures start collapsed so the status bar can still disclose them; "Later" stays there too.
         update.updateCardCollapsed =
-          status.state === 'error' &&
-          !status.userInitiated &&
-          !updateUserInitiatedCycle &&
-          status.version === undefined &&
-          status.recovery?.kind !== 'linux-package-install' &&
-          !('version' in previousStatus && previousStatus.version !== undefined)
+          ((status.state === 'downloading' || status.state === 'downloaded') &&
+            status.scheduledInstall === 'on-quit') ||
+          (status.state === 'error' &&
+            !status.userInitiated &&
+            !updateUserInitiatedCycle &&
+            status.version === undefined &&
+            status.recovery?.kind !== 'linux-package-install' &&
+            !('version' in previousStatus && previousStatus.version !== undefined))
       }
       set(update)
     },

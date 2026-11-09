@@ -21079,6 +21079,25 @@
       "waitingAriaLabel": "Update waiting for other Amoeba instances. Click to expand.",
       "preparingLabel": "Preparing update",
       "preparingAriaLabel": "Preparing update. Click to expand."
+    },
+    "schedule": {
+      "updateNow": "Update now",
+      "whenAgentsFinish": "Update when agents finish",
+      "later": "Later",
+      "laterHint": "Later installs the update when you quit Amoeba.",
+      "onQuitTitle": "Update scheduled",
+      "onQuitSummary": "Amoeba v{{value0}} installs the next time you quit.",
+      "onQuitExplainer": "Amoeba reopens on the new version the next time you launch it.",
+      "waitingTitle": "Update waiting for agents",
+      "waitingExplainer": "Amoeba restarts into v{{value0}} once no chat is working or waiting for your approval.",
+      "updateNowAnyway": "Update now anyway",
+      "agentsIdle": "Agents are idle. Restarting to update…",
+      "waitingOne": "Waiting for 1 chat to finish…",
+      "waitingMany": "Waiting for {{value0}} chats to finish…",
+      "waitingLabel": "Waiting for agents",
+      "waitingAriaLabel": "Update waiting for agents to finish. Click to expand.",
+      "onQuitLabel": "Updates on quit",
+      "onQuitAriaLabel": "Update installs when you quit. Click to expand."
     }
   },
   "jira": {
