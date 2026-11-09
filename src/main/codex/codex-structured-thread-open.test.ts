@@ -57,6 +57,29 @@ describe('openCodexThread', () => {
     )
   })
 
+  it('sends workspace instructions as developer instructions on start and resume', async () => {
+    const request = vi.fn(async (method: string, _params: unknown) => ({
+      thread: { id: method === 'thread/start' ? 'thread-created' : 'thread-existing' }
+    }))
+    const developerInstructions = 'Work in /workspace.'
+
+    await openCodexThread(
+      connectionFor(request),
+      { cwd: '/workspace', resumeThreadId: null, developerInstructions },
+      null
+    )
+    await openCodexThread(
+      connectionFor(request),
+      { cwd: '/workspace', resumeThreadId: 'thread-existing', developerInstructions },
+      null
+    )
+
+    expect(request.mock.calls.map(([method, params]) => [method, params])).toEqual([
+      ['thread/start', expect.objectContaining({ developerInstructions })],
+      ['thread/resume', expect.objectContaining({ developerInstructions })]
+    ])
+  })
+
   // Omitting policy can inherit approval_policy = never and suppress Ask prompts.
   it('sends Ask as an explicit policy on resume, not as absent fields', async () => {
     const request = vi.fn(async (_method: string, _params?: Record<string, unknown>) => ({

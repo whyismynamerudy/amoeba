@@ -54,6 +54,8 @@ export type CodexStructuredLaunch = {
   /** Command values that must survive the user's shell environment policy. */
   commandEnv?: Record<string, string>
   visuals?: NativeChatVisualsLaunch
+  /** Amoeba's workspace instructions, sent on every thread start and resume. */
+  developerInstructions?: string
 }
 
 /** Boundaries retain host receipt time through buffering and retries. */

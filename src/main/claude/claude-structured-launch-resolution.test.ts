@@ -630,3 +630,32 @@ describe('readable Claude thinking', () => {
     })
   })
 })
+
+describe('Claude workspace instructions', () => {
+  const resolverWithInstructions = createClaudeStructuredLaunchResolver({
+    store: { getRecord: () => record(), pinLaunchDirectory: vi.fn() },
+    resolveWorkspacePath: async (id) => `/repos/${id}`,
+    resolveWorkspaceInstructions: (_workspaceId, launchDirectory) => `Work in ${launchDirectory}.`,
+    resolveLaunchArgs: () => ['--append-system-prompt', 'user text'],
+    resolveCommand: () => '/usr/local/bin/claude',
+    resolveAuthPolicy: () => ({ account: 'system' }),
+    hasTranscript: async () => false
+  })
+
+  it("appends Amoeba's instructions to the preset prompt, never the user's own append", async () => {
+    const launch = await resolverWithInstructions({ identity: IDENTITY })
+
+    expect(launch.options.systemPrompt).toEqual({
+      type: 'preset',
+      preset: 'claude_code',
+      append: 'Work in /repos/workspace-1.'
+    })
+    expect(launch.options.extraArgs).not.toHaveProperty('append-system-prompt')
+  })
+
+  it('adds none to a read that starts no agent', async () => {
+    const read = await resolverWithInstructions({ identity: IDENTITY, spawnToken: null })
+
+    expect(read.options.systemPrompt).toEqual({ type: 'preset', preset: 'claude_code' })
+  })
+})

@@ -78,14 +78,14 @@ export type StructuredAgentSessionRuntimeDeps = StructuredAgentSessionTransportO
   hostId: string
   claimKeyId: string
   resolveWorkspacePath: (workspaceId: string) => Promise<string>
+  /** Amoeba's instructions for a chat launching in `cwd`, this workspace's folder; absent adds none. */
+  resolveWorkspaceInstructions?: (workspaceId: string, cwd: string) => string | null
   resolveCodexCommand?: (options?: { pathEnv?: string | null; homePath?: string }) => string
   resolveClaudeCommand?: (options?: { pathEnv?: string | null; homePath?: string }) => string
   /** Which version-gated flags a Claude CLI takes; absent never passes one. */
   claudeCliFlags?: ClaudeCliFlagSupport
   /** Create per-chat visuals/scratch folders and sweep retired chats; only real hosts load the bundled skill. */
-  nativeChatVisuals?: {
-    isEnabled: () => boolean
-  }
+  nativeChatVisuals?: { isEnabled: () => boolean }
   /** Required at installation so saved Arguments cannot be silently omitted. */
   resolveLaunchArgs: (provider: AgentSessionRecord['provider']) => Promise<string[]> | string[]
   /** Required at installation so authentication policy is never guessed. */

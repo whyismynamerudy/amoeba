@@ -191,6 +191,7 @@ export function claudeStructuredLaunchPart(
     )
     const configured = claudeStructuredLaunchArgs(await deps.resolveLaunchArgs())
     const { thinkingDisplayArgs, visuals } = await launchFlags
+    const instructions = await basis.workspaceInstructions()
     const additionalDirectories = [
       ...configured.additionalDirectories,
       ...(deps.attachmentDirectory ? [deps.attachmentDirectory] : []),
@@ -243,6 +244,10 @@ export function claudeStructuredLaunchPart(
         account,
         options: {
           ...CLAUDE_STRUCTURED_BASE_OPTIONS,
+          // Amoeba owns the append: user-supplied system-prompt flags are stripped above.
+          ...(instructions
+            ? { systemPrompt: { type: 'preset', preset: 'claude_code', append: instructions } }
+            : {}),
           ...permission,
           ...(additionalDirectories.length ? { additionalDirectories } : {}),
           ...(visuals?.pluginDir ? { plugins: [{ type: 'local', path: visuals.pluginDir }] } : {}),
