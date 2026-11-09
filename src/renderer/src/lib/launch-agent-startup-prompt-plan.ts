@@ -3,6 +3,9 @@ import {
   buildAgentStartupPlan,
   type AgentStartupPlan
 } from '@/lib/tui-agent-startup'
+import { useAppStore } from '@/store'
+import { terminalWorkspaceInstructions } from '@/lib/workspace-agent-launch-prompt'
+import { withInstructionsInLaunchPrompt } from '../../../shared/workspace-agent-instructions-delivery'
 
 type StartupPlanBase = Omit<
   Parameters<typeof buildAgentStartupPlan>[0],
@@ -20,11 +23,23 @@ export type LaunchAgentStartupPromptPlan = {
 export function planLaunchAgentStartupPrompt(args: {
   base: StartupPlanBase
   prompt: string
+  /** Its workspace instructions ride only a prompt Amoeba submits, for agents without a channel. */
+  worktreeId?: string
   promptDelivery: 'auto-submit' | 'draft' | 'submit-after-ready'
   isFollowupPath: boolean
 }): LaunchAgentStartupPromptPlan {
   const { base, prompt, promptDelivery, isFollowupPath } = args
   const hasPrompt = prompt.length > 0
+  const submitted = withInstructionsInLaunchPrompt({
+    agent: base.agent,
+    prompt,
+    instructions: args.worktreeId
+      ? terminalWorkspaceInstructions(useAppStore.getState(), {
+          worktreeId: args.worktreeId,
+          isRemote: Boolean(base.isRemote)
+        })
+      : null
+  })
   const pasteAfterReady = (submit: boolean): LaunchAgentStartupPromptPlan => ({
     startupPlan: buildAgentStartupPlan({
       ...base,
@@ -33,7 +48,7 @@ export function planLaunchAgentStartupPrompt(args: {
       // Why: Amoeba's own Enter must not answer a startup update prompt.
       suppressStartupUpdatePrompt: submit
     }),
-    pasteDraftAfterLaunch: prompt,
+    pasteDraftAfterLaunch: submit ? submitted : prompt,
     submitPastedPrompt: submit
   })
 
@@ -67,6 +82,10 @@ export function planLaunchAgentStartupPrompt(args: {
   }
   if (hasPrompt && isFollowupPath) {
     return pasteAfterReady(false)
+  }
+  if (submitted !== prompt) {
+    // Why: instructions make the line too long to type intact, so paste and submit after ready.
+    return pasteAfterReady(true)
   }
   return {
     startupPlan: buildAgentStartupPlan({

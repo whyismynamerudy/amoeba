@@ -10,6 +10,8 @@ import {
   worktreeId
 } from '../pty-pane-owner-swap.test-fixture'
 
+// Owner replacement is about routing; workspace instructions have their own spawn tests.
+vi.mock('./spawn-workspace-instructions', () => ({ withSpawnWorkspaceInstructions: () => null }))
 vi.mock('electron', () => import('../pty-ipc-mock-registry').then((m) => m.electronModuleMock()))
 vi.mock('fs', () => import('../pty-ipc-mock-registry').then((m) => m.fsModuleMock()))
 vi.mock('node-pty', () => import('../pty-ipc-mock-registry').then((m) => m.nodePtyModuleMock()))

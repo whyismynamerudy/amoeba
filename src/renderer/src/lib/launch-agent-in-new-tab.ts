@@ -154,6 +154,7 @@ function launchAgentInNewTabInternal(args: LaunchAgentInNewTabArgs): LaunchAgent
   const { startupPlan, pasteDraftAfterLaunch, submitPastedPrompt } = planLaunchAgentStartupPrompt({
     base: startupPlanBase,
     prompt: trimmedPrompt,
+    worktreeId,
     promptDelivery,
     isFollowupPath
   })

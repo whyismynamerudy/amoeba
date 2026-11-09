@@ -79,6 +79,7 @@ export function codexStructuredLaunchPart(
     const model = record.options?.model
     const visuals = await basis.visuals()
     await basis.launchDirectory()
+    const developerInstructions = await basis.workspaceInstructions()
     return {
       launch: {
         command,
@@ -90,7 +91,8 @@ export function codexStructuredLaunchPart(
         // Omitted policy fields would inherit the resumed thread's previous permissions.
         permissionPolicy: codexStructuredPermissionPolicy(basis.permissionMode ?? 'ask'),
         ...(model ? { model } : {}),
-        ...(visuals ? { visuals } : {})
+        ...(visuals ? { visuals } : {}),
+        ...(developerInstructions ? { developerInstructions } : {})
       },
       env: withNativeChatVisualsEnv(
         { ...environment, ...(accountHome.path ? { CODEX_HOME: accountHome.path } : {}) },

@@ -8,6 +8,10 @@ import { LEGACY_TERMINAL_SHIM_REMOTE_ENV_KEYS } from '../../pty/legacy-terminal-
 import { PI_PROCESS_OWNER_ENV_KEYS } from '../../pty/pi-process-owner-env'
 import { planCodexNoDaemonLaunch } from '../../pty/codex-no-daemon-launch-command'
 import { applyAgentWorkspaceTrustToSpawn } from '../../agent-workspace-trust-spawn'
+import {
+  withSpawnWorkspaceInstructions,
+  type SpawnWorkspaceInstructionsStore
+} from './spawn-workspace-instructions'
 import type { PtySpawnOptions } from '../../providers/pty-provider-contract'
 import type { CodexAccountSelectionTarget } from '../../codex-accounts/runtime-selection'
 import { getStartupTerminalIngressIntent } from '../terminal-startup-color-query-replies'
@@ -102,7 +106,7 @@ export type PtySpawnLaunchOptionsInput = {
   /** Host history is sampled before preparation; otherwise read it after OpenCode preparation. */
   historyIsolationEnabled?: boolean
   getSettings?: () => GlobalSettings | undefined
-  store: TrustInput['store']
+  store: (TrustInput['store'] & SpawnWorkspaceInstructionsStore) | undefined
   claudeAuth: TrustInput['claudeAuth']
 }
 
@@ -126,7 +130,7 @@ export async function assemblePtySpawnLaunchOptions(input: PtySpawnLaunchOptions
       ? { wsl: { distro: input.expectedWslDistro ?? undefined } }
       : {})
   })
-  const env = openCodeLaunch.env
+  let env = openCodeLaunch.env
   const launchCommand = openCodeLaunch.command
   promoteAgentTeamsShimPath(env, input.requestedAgentTeamsPath)
   const spawnOptions: PtySpawnOptions = {
@@ -155,7 +159,22 @@ export async function assemblePtySpawnLaunchOptions(input: PtySpawnLaunchOptions
     envToDelete: input.envToDelete,
     cwd: input.cwd
   })
-  const command = noDaemonLaunch ? await noDaemonLaunch : launchCommand
+  const daemonlessCommand = noDaemonLaunch ? await noDaemonLaunch : launchCommand
+  const instructedCommand = withSpawnWorkspaceInstructions({
+    command: daemonlessCommand,
+    launchAgent,
+    worktreeId: args.worktreeId,
+    connectionId,
+    isFreshLaunch: !input.preAdoptedStablePane && launchCommand !== undefined,
+    shellOverride: input.shellOverride,
+    wslDistro: input.expectedWslDistro,
+    store: input.store
+  })
+  const command = instructedCommand?.command ?? daemonlessCommand
+  if (instructedCommand) {
+    env = { ...env, ...instructedCommand.env }
+    spawnOptions.env = env
+  }
   if (command !== undefined) {
     spawnOptions.command = command
   }

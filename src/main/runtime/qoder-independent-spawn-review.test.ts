@@ -6,6 +6,12 @@ import { join } from 'node:path'
 import { buildAgentResumeStartupPlan } from '../../shared/tui-agent-startup'
 import { buildAiVaultResumeShellCommand } from '../../shared/ai-vault-resume-command'
 
+// Executable selection is under review here; the instructions fallback has its own tests.
+vi.mock('../workspace-agent-instructions-preparation', async (importOriginal) => ({
+  ...(await importOriginal<Record<string, unknown>>()),
+  withWorkspaceInstructionsInLaunchPrompt: ({ prompt }: { prompt: string }) => prompt
+}))
+
 await import('./orca-runtime-test-mocks.spec')
 await import('./orca-runtime-test-lifecycle.spec')
 const { OrcaRuntimeService } = await import('./orca-runtime-test-mocks.spec')

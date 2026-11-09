@@ -60,6 +60,7 @@ import {
   withoutHiddenHosts
 } from '../runtime-visible-catalog'
 import { isWorkspaceNotificationMuted } from '../workspace-notification-mute'
+import { chatWorkspaceInstructionsResolver } from '../../workspace-agent-instructions-preparation'
 
 export abstract class OrcaRuntimeWithGetWorktreePs extends OrcaRuntimeWithWorktreePsDependencies {
   async getWorktreePs(
@@ -247,6 +248,7 @@ export abstract class OrcaRuntimeWithGetWorktreePs extends OrcaRuntimeWithWorktr
       // Resolve plain folder workspaces as well as git worktrees.
       resolveWorkspacePath: async (workspaceId) =>
         (await this.resolveRuntimeFileTarget(`id:${workspaceId}`)).worktree.path,
+      resolveWorkspaceInstructions: chatWorkspaceInstructionsResolver(() => this.requireStore()),
       resolveClaudeCommand: (options) =>
         resolveStructuredAgentCommand('claude', this.requireStore().getSettings(), options),
       resolveCodexCommand: (options) =>

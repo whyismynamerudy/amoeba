@@ -33,7 +33,10 @@ import {
 
 export const TEST_SPAWN_TOKEN = 'test-spawn-token'
 
-export type LaunchTestSources = Pick<StructuredAgentLaunchSources, 'store'> & {
+export type LaunchTestSources = Pick<
+  StructuredAgentLaunchSources,
+  'store' | 'resolveWorkspaceInstructions'
+> & {
   resolveWorkspacePath?: (workspaceId: string) => Promise<string>
   /** The base env; none is an empty one. */
   resolveEnvironment?: () => Promise<NodeJS.ProcessEnv>
@@ -63,6 +66,9 @@ function launchSources(deps: LaunchTestSources): StructuredAgentLaunchSources {
     ...(deps.resolveLaunchEnv ? { resolveAgentLaunchEnv: deps.resolveLaunchEnv } : {}),
     ...(deps.resolveCommandSettings ? { resolveCommandSettings: deps.resolveCommandSettings } : {}),
     ...(deps.prepareVisuals ? { prepareVisuals: deps.prepareVisuals } : {}),
+    ...(deps.resolveWorkspaceInstructions
+      ? { resolveWorkspaceInstructions: deps.resolveWorkspaceInstructions }
+      : {}),
     ...(deps.refreshAfterMissingProgram
       ? { refreshAfterMissingProgram: deps.refreshAfterMissingProgram }
       : {})
